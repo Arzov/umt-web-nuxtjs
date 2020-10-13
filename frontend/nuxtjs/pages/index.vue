@@ -5,6 +5,7 @@
       <h1 class="title">
         umt-web
       </h1>
+      <GoogleLogin />
       <div class="links">
         <a
           href="https://nuxtjs.org/"
@@ -28,7 +29,12 @@
 </template>
 
 <script>
-export default {}
+import GoogleLogin from '@/components/googleLogin'
+
+export default {
+  middleware: 'auth',
+  components: { GoogleLogin }
+}
 </script>
 
 <style>
