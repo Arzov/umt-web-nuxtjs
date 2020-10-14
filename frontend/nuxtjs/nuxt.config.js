@@ -42,6 +42,18 @@ export default {
   modules: [
   ],
 
+  // Router
+  router: {
+    middleware: ['auth', 'mobile'],
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'custom',
+        path: '*',
+        redirect: '/start'
+      })
+    }
+  },
+
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
   }

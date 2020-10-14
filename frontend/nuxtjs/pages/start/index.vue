@@ -32,7 +32,7 @@
 import GoogleLogin from '@/components/googleLogin'
 
 export default {
-  middleware: 'auth',
+  layout: ({ isMobile }) => isMobile ? 'mobile' : 'default',
   components: { GoogleLogin }
 }
 </script>

@@ -53,7 +53,7 @@ aws cloudformation describe-stacks \
 
 # aws cloudformation describe-stacks \
 #     --stack-name umt \
-# 	--query 'Stacks[0].Outputs[?OutputKey==`CFDistributionUMTPWAId`].OutputValue' \
+# 	--query 'Stacks[0].Outputs[?OutputKey==`CFDistributionUMTWebId`].OutputValue' \
 # 	--output text > tmp; export NUXT_ENV_AWS_CLOUDFRONT_ID=$(cat tmp); rm tmp
 
 # export NUXT_ENV_AWS_APPSYNC_AUTH_TYPE=AMAZON_COGNITO_USER_POOLS
