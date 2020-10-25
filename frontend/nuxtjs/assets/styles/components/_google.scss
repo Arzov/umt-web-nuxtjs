@@ -1,0 +1,14 @@
+.google {
+    body[data-theme='light'] & {
+        content: url('../icons/lm-google.svg');
+    }
+
+    body[data-theme='dark'] & {
+        content: url('../icons/dm-google.svg');
+    }
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    width: 42px;
+}

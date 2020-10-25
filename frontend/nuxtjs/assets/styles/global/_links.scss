@@ -1,0 +1,15 @@
+@import 'colors';
+
+[class|="nuxt-link"],
+[class|="nuxt-link"]:hover,
+[class|="nuxt-link"]:active {
+    font-weight: 700;
+    
+    body[data-theme='light'] & {
+        color: $color-pink;
+    }
+
+    body[data-theme='dark'] & {
+        color: $color-cian;
+    }
+}

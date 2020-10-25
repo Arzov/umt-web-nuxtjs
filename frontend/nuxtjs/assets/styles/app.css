@@ -1,0 +1,197 @@
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 100;
+  src: url("../fonts/PublicSans-Thin.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 100;
+  src: url("../fonts/PublicSans-ThinItalic.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 200;
+  src: url("../fonts/PublicSans-ExtraLight.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 200;
+  src: url("../fonts/PublicSans-ExtraLightItalic.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/PublicSans-Light.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 300;
+  src: url("../fonts/PublicSans-LightItalic.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/PublicSans-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/PublicSans-Italic.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/PublicSans-Medium.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 500;
+  src: url("../fonts/PublicSans-MediumItalic.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 600;
+  src: url("../fonts/PublicSans-SemiBold.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 600;
+  src: url("../fonts/PublicSans-SemiBoldItalic.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/PublicSans-Bold.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 700;
+  src: url("../fonts/PublicSans-BoldItalic.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 800;
+  src: url("../fonts/PublicSans-ExtraBold.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 800;
+  src: url("../fonts/PublicSans-ExtraBoldItalic.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: normal;
+  font-weight: 900;
+  src: url("../fonts/PublicSans-Black.ttf") format("truetype"); }
+@font-face {
+  font-family: "PublicSans";
+  font-style: italic;
+  font-weight: 900;
+  src: url("../fonts/PublicSans-BlackItalic.ttf") format("truetype"); }
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: none;
+  margin-bottom: 0; }
+  body[data-theme='light'] h1 {
+    color: #161C27; }
+  body[data-theme='dark'] h1 {
+    color: white; }
+
+h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0; }
+  body[data-theme='light'] h2 {
+    color: #161C27; }
+  body[data-theme='dark'] h2 {
+    color: white; }
+
+h3 {
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 0; }
+  body[data-theme='light'] h3 {
+    color: #161C27; }
+  body[data-theme='dark'] h3 {
+    color: white; }
+
+h4 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0; }
+  body[data-theme='light'] h4 {
+    color: #161C27; }
+  body[data-theme='dark'] h4 {
+    color: white; }
+
+body[data-theme="dark"], body, body[data-theme="light"] {
+  font-size: 16px;
+  font-family: 'PublicSans', sans-serif;
+  font-weight: 400;
+  font-style: normal; }
+
+body[data-theme="dark"], body, body[data-theme="light"] {
+  transition: background-color 0.2s linear; }
+
+body[data-theme="dark"] {
+  background-color: #161C27;
+  color: white; }
+
+body, body[data-theme="light"] {
+  background-color: #f1f3ff;
+  color: #161C27; }
+
+[class|="nuxt-link"], [class|="nuxt-link"]:hover, [class|="nuxt-link"]:active {
+  font-weight: 700; }
+  body[data-theme='light'] [class|="nuxt-link"],
+  body[data-theme='light'] [class|="nuxt-link"]:hover,
+  body[data-theme='light'] [class|="nuxt-link"]:active {
+    color: #ad64e6; }
+  body[data-theme='dark'] [class|="nuxt-link"], body[data-theme='dark'] [class|="nuxt-link"]:hover, body[data-theme='dark'] [class|="nuxt-link"]:active {
+    color: #0cecf2; }
+
+.logo {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  max-width: 450px; }
+  body[data-theme='light'] .logo {
+    content: url("../../static/lm-logo.svg"); }
+  body[data-theme='dark'] .logo {
+    content: url("../../static/dm-logo.svg"); }
+
+.facebook {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  width: 42px; }
+  body[data-theme='light'] .facebook {
+    content: url("../icons/lm-facebook.svg"); }
+  body[data-theme='dark'] .facebook {
+    content: url("../icons/dm-facebook.svg"); }
+
+.google {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  width: 42px; }
+  body[data-theme='light'] .google {
+    content: url("../icons/lm-google.svg"); }
+  body[data-theme='dark'] .google {
+    content: url("../icons/dm-google.svg"); }
+
+.themeToggle {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  width: 42px; }
+  body[data-theme='light'] .themeToggle {
+    content: url("../icons/lm-theme.svg"); }
+  body[data-theme='dark'] .themeToggle {
+    content: url("../icons/dm-theme.svg"); }
+
+/*# sourceMappingURL=app.css.map */

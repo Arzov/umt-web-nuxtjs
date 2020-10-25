@@ -1,39 +1,35 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        umt-web
-      </h1>
-      <GoogleLogin />
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div>
+    <a-row type="flex" justify="space-around" align="middle">
+      <a-col :span="12">
+        <ThemeToggle />
+        <Logo />
+      </a-col>
+      <a-col :span="12">
+        <h1>Inicio de sesión</h1>
+        <b>¿Olvidaste tu contraseña?</b> <nuxt-link to="/">
+          Recupérala.
+        </nuxt-link>
+        <br>
+        - O ingresa con tus redes sociales -
+        <GoogleLogin />
+        <FacebookLogin />
+        <b>No tienes cuenta?</b> <nuxt-link to="/">
+          Regístrate.
+        </nuxt-link>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script>
-import GoogleLogin from '@/components/googleLogin'
+import GoogleLogin from '@/components/google'
+import FacebookLogin from '@/components/facebook'
+import ThemeToggle from '@/components/themeToggle'
 
 export default {
   layout: ({ isMobile }) => isMobile ? 'mobile' : 'default',
-  components: { GoogleLogin }
+  components: { GoogleLogin, FacebookLogin, ThemeToggle }
 }
 </script>
 

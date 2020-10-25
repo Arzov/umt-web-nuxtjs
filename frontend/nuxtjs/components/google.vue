@@ -1,14 +1,9 @@
 <template>
-  <a-button block @click="toGoogleLogin">
-    <span>
-      Iniciar con Google
-    </span>
-  </a-button>
+  <a class="google" block @click="toGoogleLogin" />
 </template>
 
 <script>
 export default {
-  name: 'GoogleLogin',
   methods: {
     toGoogleLogin () {
       this.$AWS.Auth.federatedSignIn({ provider: 'Google' })
@@ -16,7 +11,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

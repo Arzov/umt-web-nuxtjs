@@ -1,0 +1,30 @@
+@import 'colors';
+
+$h-sizes: (
+  1: (size: 2.5rem, weight: 700, text-transform: none),
+  2: (size: 1rem, weight: 700, text-transform: uppercase),
+  3: (size: 1rem, weight: 900, text-transform: uppercase),
+  4: (size: 0.75rem, weight: 700, text-transform: uppercase)
+);
+$p-size: 16px;
+
+@mixin h-sizes {
+    @each $key, $value in $h-sizes {
+        h#{$key} {
+            font-size: map-get($value, 'size');
+            font-weight: map-get($value, 'weight');
+            text-transform: map-get($value, 'text-transform');
+            margin-bottom: 0;
+
+            body[data-theme='light'] & {
+                color: $color-black;
+            }
+
+            body[data-theme='dark'] & {
+                color: $color-white;
+            }
+        }
+    }
+}
+
+@include h-sizes;
