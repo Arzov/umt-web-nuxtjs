@@ -3,13 +3,26 @@
     <a-row type="flex" justify="space-around" align="middle">
       <a-col :span="12">
         <ThemeToggle />
-        <Logo />
+        <img class="logo">
+        <img class="football-shoes" src="../../assets/images/football-shoes.svg">
+        <img class="points">
       </a-col>
-      <a-col :span="12">
+      <a-col class="right-content" :span="12">
         <h1>Inicio de sesión</h1>
         <b>¿Olvidaste tu contraseña?</b> <nuxt-link to="/">
           Recupérala.
         </nuxt-link>
+        <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules" v-bind="layout">
+          <a-form-model-item ref="name" prop="name">
+            <a-input v-model="ruleForm.name" @blur="() => { $refs.name.onFieldBlur(); }" />
+          </a-form-model-item>
+          <a-form-model-item has-feedback prop="pass">
+            <a-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+          </a-form-model-item>
+          <a-form-model-item>
+            <PrincipalBtn text="INICIAR SESIÓN" @click.native="submitForm('ruleForm')" />
+          </a-form-model-item>
+        </a-form-model>
         <br>
         - O ingresa con tus redes sociales -
         <GoogleLogin />
@@ -26,50 +39,46 @@
 import GoogleLogin from '@/components/google'
 import FacebookLogin from '@/components/facebook'
 import ThemeToggle from '@/components/themeToggle'
+import PrincipalBtn from '@/components/principalBtn'
 
 export default {
-  layout: ({ isMobile }) => isMobile ? 'mobile' : 'default',
-  components: { GoogleLogin, FacebookLogin, ThemeToggle }
+  components: { GoogleLogin, FacebookLogin, ThemeToggle, PrincipalBtn },
+  data () {
+    const validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input the password'))
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass')
+        }
+        callback()
+      }
+    }
+    return {
+      ruleForm: {
+        pass: '',
+        name: ''
+      },
+      rules: {
+        pass: [{ validator: validatePass, trigger: 'change' }],
+        name: [
+          { required: true, message: 'Please input Activity name', trigger: 'blur' },
+          { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  methods: {
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    }
+  }
 }
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>

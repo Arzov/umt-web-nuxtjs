@@ -158,17 +158,37 @@ body, body[data-theme="light"] {
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
-  max-width: 450px; }
+  margin-left: 30px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  max-width: 50%; }
   body[data-theme='light'] .logo {
     content: url("../../static/lm-logo.svg"); }
   body[data-theme='dark'] .logo {
     content: url("../../static/dm-logo.svg"); }
 
+.football-shoes {
+  margin-bottom: 30px;
+  margin-top: 30px;
+  width: 75%; }
+
+.points {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  max-width: 45%;
+  margin-bottom: 30px;
+  margin-top: 30px; }
+  body[data-theme='light'] .points {
+    content: url("../images/lm-points.svg"); }
+  body[data-theme='dark'] .points {
+    content: url("../images/dm-points.svg"); }
+
 .facebook {
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
-  width: 42px; }
+  width: 38px; }
   body[data-theme='light'] .facebook {
     content: url("../icons/lm-facebook.svg"); }
   body[data-theme='dark'] .facebook {
@@ -178,20 +198,84 @@ body, body[data-theme="light"] {
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
-  width: 42px; }
+  width: 38px; }
   body[data-theme='light'] .google {
     content: url("../icons/lm-google.svg"); }
   body[data-theme='dark'] .google {
     content: url("../icons/dm-google.svg"); }
 
+.logo {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  margin-left: 30px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  max-width: 50%; }
+  body[data-theme='light'] .logo {
+    content: url("../../static/lm-logo.svg"); }
+  body[data-theme='dark'] .logo {
+    content: url("../../static/dm-logo.svg"); }
+
+.football-shoes {
+  margin-bottom: 30px;
+  margin-top: 30px;
+  width: 75%; }
+
+.points {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  max-width: 45%;
+  margin-bottom: 30px;
+  margin-top: 30px; }
+  body[data-theme='light'] .points {
+    content: url("../images/lm-points.svg"); }
+  body[data-theme='dark'] .points {
+    content: url("../images/dm-points.svg"); }
+
 .themeToggle {
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
-  width: 42px; }
+  width: 32px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  margin-left: 30px; }
   body[data-theme='light'] .themeToggle {
     content: url("../icons/lm-theme.svg"); }
   body[data-theme='dark'] .themeToggle {
     content: url("../icons/dm-theme.svg"); }
+
+.principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active {
+  border-radius: 0;
+  color: white;
+  border-color: transparent;
+  --antd-wave-shadow-color: transparent; }
+
+.principalBtn, .principalBtn:focus {
+  background: #6457e3;
+  background: -moz-linear-gradient(90deg, #6457e3 0%, #ad64e6 100%);
+  background: -webkit-linear-gradient(90deg, #6457e3 0%, #ad64e6 100%);
+  background: linear-gradient(90deg, #6457e3 0%, #ad64e6 100%);
+  height: 38px;
+  width: 100%;
+  border: none; }
+
+.principalBtn:hover {
+  background: #6457e3;
+  background: -moz-linear-gradient(90deg, #6457e3 0%, #6457e3 100%);
+  background: -webkit-linear-gradient(90deg, #6457e3 0%, #6457e3 100%);
+  background: linear-gradient(90deg, #6457e3 0%, #6457e3 100%); }
+
+.principalBtn::after, .principalBtn:active {
+  background: #ac9ff9;
+  background: -moz-linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%);
+  background: -webkit-linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%);
+  background: linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%); }
+
+.right-content {
+  padding-left: 10%;
+  padding-right: 10%; }
 
 /*# sourceMappingURL=app.css.map */

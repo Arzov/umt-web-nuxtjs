@@ -1,0 +1,33 @@
+@import '../global/colors';
+
+%aspects {
+    border-radius: 0;
+    color: $color-white;
+    border-color: transparent;
+    --antd-wave-shadow-color: transparent;
+}
+
+@mixin background($color-ini, $color-end) {
+    background: $color-ini;
+    background: -moz-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+    background: -webkit-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+    background: linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+}
+
+.principalBtn, .principalBtn:focus {
+    @extend %aspects;
+    @include background($color-purple, $color-pink);
+    height: 38px;
+    width: 100%;
+    border: none;
+}
+
+.principalBtn:hover {
+    @extend %aspects;
+    @include background($color-purple, $color-purple);
+}
+
+.principalBtn::after, .principalBtn:active {
+    @extend %aspects;
+    @include background($color-violet, $color-violet);
+}

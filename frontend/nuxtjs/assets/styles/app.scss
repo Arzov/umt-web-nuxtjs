@@ -1,6 +1,10 @@
 @import 'global/dom';
 @import 'global/links';
-@import 'components/logo';
+@import 'global/images';
+
 @import 'components/facebook';
 @import 'components/google';
 @import 'components/themeToggle';
+@import 'components/principalBtn';
+
+@import 'layouts/rightContent';
