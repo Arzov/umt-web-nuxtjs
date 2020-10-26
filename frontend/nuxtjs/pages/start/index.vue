@@ -12,12 +12,20 @@
         <b>¿Olvidaste tu contraseña?</b> <nuxt-link to="/">
           Recupérala.
         </nuxt-link>
-        <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules" v-bind="layout">
-          <a-form-model-item ref="name" prop="name">
-            <a-input v-model="ruleForm.name" @blur="() => { $refs.name.onFieldBlur(); }" />
+        <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+          <a-form-model-item :prop="this.$RULES.email.name">
+            <a-input
+              v-model="ruleForm.email"
+              :placeholder="this.$RULES.email.placeholder"
+            />
           </a-form-model-item>
-          <a-form-model-item has-feedback prop="pass">
-            <a-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+          <a-form-model-item :prop="this.$RULES.password.name">
+            <a-input
+              v-model="ruleForm.password"
+              :placeholder="this.$RULES.password.placeholder"
+              type="password"
+              autocomplete="off"
+            />
           </a-form-model-item>
           <a-form-model-item>
             <PrincipalBtn text="INICIAR SESIÓN" @click.native="submitForm('ruleForm')" />
@@ -44,27 +52,14 @@ import PrincipalBtn from '@/components/principalBtn'
 export default {
   components: { GoogleLogin, FacebookLogin, ThemeToggle, PrincipalBtn },
   data () {
-    const validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please input the password'))
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass')
-        }
-        callback()
-      }
-    }
     return {
       ruleForm: {
-        pass: '',
-        name: ''
+        email: this.$RULES.email.initialValue,
+        password: this.$RULES.password.initialValue
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: 'change' }],
-        name: [
-          { required: true, message: 'Please input Activity name', trigger: 'blur' },
-          { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
-        ]
+        email: this.$RULES.email.rules,
+        password: this.$RULES.password.rules
       }
     }
   },
