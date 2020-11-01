@@ -1,0 +1,32 @@
+@import '../global/colors';
+
+%input-aspects {
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    height: 42px;
+    width: 100%;
+}
+
+.principalInput,
+.principalInput:focus {
+    body[data-theme='light'] & {
+        color: $color-black;
+        background: $color-white;
+    }
+
+    body[data-theme='dark'] & {
+        color: $color-white;
+        background: $color-dark-grey;
+    }
+
+    .has-error & {
+        box-shadow: 0 0 0 2px $color-purple;
+    }
+    
+    @extend %input-aspects;
+}
+
+.ant-form-explain {
+    color: $color-purple !important;
+}

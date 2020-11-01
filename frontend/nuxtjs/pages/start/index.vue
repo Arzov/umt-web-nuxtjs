@@ -12,16 +12,20 @@
         <b>¿Olvidaste tu contraseña?</b> <nuxt-link to="/">
           Recupérala.
         </nuxt-link>
+        <br>
+        <br>
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
           <a-form-model-item :prop="this.$RULES.email.name">
             <a-input
               v-model="ruleForm.email"
+              class="principalInput"
               :placeholder="this.$RULES.email.placeholder"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.password.name">
             <a-input
               v-model="ruleForm.password"
+              class="principalInput"
               :placeholder="this.$RULES.password.placeholder"
               type="password"
               autocomplete="off"
@@ -31,13 +35,25 @@
             <PrincipalBtn text="INICIAR SESIÓN" @click.native="submitForm('ruleForm')" />
           </a-form-model-item>
         </a-form-model>
-        <br>
-        - O ingresa con tus redes sociales -
-        <GoogleLogin />
-        <FacebookLogin />
-        <b>No tienes cuenta?</b> <nuxt-link to="/">
-          Regístrate.
-        </nuxt-link>
+        <center>
+          - O ingresa con tus redes sociales -
+          <br>
+          <br>
+          <a-row>
+            <a-col :span="6" />
+            <a-col :span="6">
+              <GoogleLogin />
+            </a-col>
+            <a-col :span="6">
+              <FacebookLogin />
+            </a-col>
+            <a-col :span="6" />
+          </a-row>
+          <br>
+          <b>No tienes cuenta?</b> <nuxt-link to="/">
+            Regístrate.
+          </nuxt-link>
+        </center>
       </a-col>
     </a-row>
   </div>

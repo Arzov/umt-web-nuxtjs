@@ -1,6 +1,6 @@
 @import '../global/colors';
 
-%aspects {
+%btn-aspects {
     border-radius: 0;
     color: $color-white;
     border-color: transparent;
@@ -15,19 +15,19 @@
 }
 
 .principalBtn, .principalBtn:focus {
-    @extend %aspects;
+    @extend %btn-aspects;
     @include background($color-purple, $color-pink);
-    height: 38px;
+    height: 42px;
     width: 100%;
     border: none;
 }
 
 .principalBtn:hover {
-    @extend %aspects;
+    @extend %btn-aspects;
     @include background($color-purple, $color-purple);
 }
 
 .principalBtn::after, .principalBtn:active {
-    @extend %aspects;
+    @extend %btn-aspects;
     @include background($color-violet, $color-violet);
 }
