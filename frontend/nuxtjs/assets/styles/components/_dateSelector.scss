@@ -1,0 +1,77 @@
+%selector-aspects {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 0;
+    height: 42px;
+    width: 100%;
+    padding-top: 0.4em;
+}
+
+.dateSelector,
+.dateSelector:hover {
+    @extend %font-props;
+
+    .ant-select-selection {
+        body[data-theme='light'] & {
+            color: $color-black;
+            background: $color-white;
+
+            svg {
+                color: $color-black;
+            }
+        }
+
+        body[data-theme='dark'] & {
+            color: $color-white;
+            background: $color-dark-grey;
+
+            svg {
+                color: $color-white;
+            }
+        }
+
+        .has-error & {
+            box-shadow: 0 0 0 2px $color-purple;
+        }
+        
+        @extend %selector-aspects;
+    }
+
+    label {
+        font-size: 12px;
+
+        body[data-theme='light'] & {
+            color: $color-black;
+        }
+
+        body[data-theme='dark'] & {
+            color: $color-white;
+        }
+    }
+}
+
+.ant-form-explain {
+    color: $color-purple !important;
+}
+
+.ant-select-arrow {
+    right: 11px !important;
+}
+
+.ant-select-dropdown-content, .ant-select-dropdown {
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.ant-select-dropdown-menu-item-active:hover {
+    background: $color-violet !important;
+}
+
+.ant-select-dropdown-menu-item-active {
+    background: transparent !important;
+}
+
+.ant-select-dropdown-menu-item-selected {
+    font-weight: 900 !important;
+    background: transparent !important;
+}

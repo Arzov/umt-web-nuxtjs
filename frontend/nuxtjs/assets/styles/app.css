@@ -128,11 +128,15 @@ h4 {
   body[data-theme='dark'] h4 {
     color: white; }
 
-body[data-theme="dark"], body, body[data-theme="light"] {
+body[data-theme="dark"], body, body[data-theme="light"], .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .principalInput, .principalInput:hover, .principalInput:focus, .dateSelector,
+.dateSelector:hover {
   font-size: 16px;
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
   font-style: normal; }
+  body[data-theme="dark"] b, body b, body[data-theme="light"] b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .principalInput b, .principalInput:hover b, .principalInput:focus b, .dateSelector b,
+  .dateSelector:hover b {
+    font-weight: 700; }
 
 body[data-theme="dark"], body, body[data-theme="light"] {
   transition: background-color 0.2s linear; }
@@ -144,6 +148,19 @@ body[data-theme="dark"] {
 body, body[data-theme="light"] {
   background-color: #f1f3ff;
   color: #161C27; }
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px; }
+
+::-webkit-scrollbar-track {
+  background: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background: #6457e3; }
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ac9ff9; }
 
 [class|="nuxt-link"], [class|="nuxt-link"]:hover, [class|="nuxt-link"]:active {
   font-weight: 700; }
@@ -278,25 +295,77 @@ body, body[data-theme="light"] {
   background: -webkit-linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%);
   background: linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%); }
 
-.principalInput, .principalInput:focus {
-  box-shadow: none;
+.principalInput, .principalInput:hover, .principalInput:focus {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 0;
   height: 42px;
   width: 100%; }
 
 body[data-theme='light'] .principalInput,
+body[data-theme='light'] .principalInput:hover,
 body[data-theme='light'] .principalInput:focus {
   color: #161C27;
   background: white; }
-body[data-theme='dark'] .principalInput, body[data-theme='dark'] .principalInput:focus {
+body[data-theme='dark'] .principalInput, body[data-theme='dark'] .principalInput:hover, body[data-theme='dark'] .principalInput:focus {
   color: white;
   background: #1F2835; }
-.has-error .principalInput, .has-error .principalInput:focus {
+.has-error .principalInput, .has-error .principalInput:hover, .has-error .principalInput:focus {
+  border-color: #6457e3;
   box-shadow: 0 0 0 2px #6457e3; }
 
 .ant-form-explain {
   color: #6457e3 !important; }
+
+.dateSelector .ant-select-selection, .dateSelector:hover .ant-select-selection {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 0;
+  height: 42px;
+  width: 100%;
+  padding-top: 0.4em; }
+
+body[data-theme='light'] .dateSelector .ant-select-selection,
+body[data-theme='light'] .dateSelector:hover .ant-select-selection {
+  color: #161C27;
+  background: white; }
+  body[data-theme='light'] .dateSelector .ant-select-selection svg,
+  body[data-theme='light'] .dateSelector:hover .ant-select-selection svg {
+    color: #161C27; }
+body[data-theme='dark'] .dateSelector .ant-select-selection, body[data-theme='dark'] .dateSelector:hover .ant-select-selection {
+  color: white;
+  background: #1F2835; }
+  body[data-theme='dark'] .dateSelector .ant-select-selection svg, body[data-theme='dark'] .dateSelector:hover .ant-select-selection svg {
+    color: white; }
+.has-error .dateSelector .ant-select-selection, .has-error .dateSelector:hover .ant-select-selection {
+  box-shadow: 0 0 0 2px #6457e3; }
+.dateSelector label, .dateSelector:hover label {
+  font-size: 12px; }
+  body[data-theme='light'] .dateSelector label,
+  body[data-theme='light'] .dateSelector:hover label {
+    color: #161C27; }
+  body[data-theme='dark'] .dateSelector label, body[data-theme='dark'] .dateSelector:hover label {
+    color: white; }
+
+.ant-form-explain {
+  color: #6457e3 !important; }
+
+.ant-select-arrow {
+  right: 11px !important; }
+
+.ant-select-dropdown-content, .ant-select-dropdown {
+  border: none !important;
+  border-radius: 0 !important; }
+
+.ant-select-dropdown-menu-item-active:hover {
+  background: #ac9ff9 !important; }
+
+.ant-select-dropdown-menu-item-active {
+  background: transparent !important; }
+
+.ant-select-dropdown-menu-item-selected {
+  font-weight: 900 !important;
+  background: transparent !important; }
 
 .right-content {
   padding-left: 10%;

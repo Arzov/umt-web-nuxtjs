@@ -1,7 +1,6 @@
-@import '../global/colors';
-
 %input-aspects {
-    box-shadow: none;
+    @extend %font-props;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     border: none;
     border-radius: 0;
     height: 42px;
@@ -9,6 +8,7 @@
 }
 
 .principalInput,
+.principalInput:hover,
 .principalInput:focus {
     body[data-theme='light'] & {
         color: $color-black;
@@ -21,6 +21,7 @@
     }
 
     .has-error & {
+        border-color: $color-purple;
         box-shadow: 0 0 0 2px $color-purple;
     }
     

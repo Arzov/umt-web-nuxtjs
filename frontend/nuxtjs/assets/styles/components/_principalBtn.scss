@@ -1,6 +1,5 @@
-@import '../global/colors';
-
 %btn-aspects {
+    @extend %font-props;
     border-radius: 0;
     color: $color-white;
     border-color: transparent;

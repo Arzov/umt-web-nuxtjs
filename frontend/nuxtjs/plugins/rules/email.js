@@ -1,6 +1,6 @@
 export const emailRules = [
-  { required: true, message: 'Ingrese un correo electrónico.', trigger: 'blur' },
-  { type: 'email', message: 'Ingrese un correo válido.', trigger: 'change' }
+  { required: true, message: 'Ingresa un correo electrónico.', trigger: 'change' },
+  { type: 'email', message: 'Ingresa un correo válido.', trigger: 'change' }
 ]
 
 export default {
