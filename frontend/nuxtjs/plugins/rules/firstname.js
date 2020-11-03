@@ -1,5 +1,5 @@
 export const firstnameRules = [
-  { required: true, message: 'Ingrese un nombre.', trigger: 'change' }
+  { required: true, message: 'Ingresa un nombre.', trigger: 'change' }
 ]
 
 export default {

@@ -10,6 +10,11 @@ body[data-theme="dark"] {
     @extend %effects;
     background-color: $color-black;
     color: $color-white;
+
+    .ant-form, .ant-form-item {
+        @extend %font-props;
+        color: $color-white;
+    }
 }
 
 body, body[data-theme="light"] {
@@ -17,6 +22,11 @@ body, body[data-theme="light"] {
     @extend %effects;
     background-color: $color-light-grey;
     color: $color-black;
+
+    .ant-form, .ant-form-item {
+        @extend %font-props;
+        color: $color-black;
+    }
 }
 
 // Scroll

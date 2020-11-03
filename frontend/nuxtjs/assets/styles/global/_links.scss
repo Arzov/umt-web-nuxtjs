@@ -2,7 +2,10 @@
 
 [class|="nuxt-link"],
 [class|="nuxt-link"]:hover,
-[class|="nuxt-link"]:active {
+[class|="nuxt-link"]:active,
+a,
+a:hover,
+a:active {
     font-weight: 700;
     
     body[data-theme='light'] & {

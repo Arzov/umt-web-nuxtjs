@@ -1,5 +1,5 @@
-%selector-aspects {
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+%date-selector-aspects {
+    box-shadow: 0 0 10px 0 rgba($color-black, 0.1);
     border: none;
     border-radius: 0;
     height: 42px;
@@ -34,7 +34,7 @@
             box-shadow: 0 0 0 2px $color-purple;
         }
         
-        @extend %selector-aspects;
+        @extend %date-selector-aspects;
     }
 
     label {
@@ -48,6 +48,10 @@
             color: $color-white;
         }
     }
+}
+
+.ant-select {
+    @extend %font-props;
 }
 
 .ant-form-explain {

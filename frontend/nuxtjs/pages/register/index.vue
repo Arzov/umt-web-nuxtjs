@@ -8,6 +8,7 @@
         <img class="points">
       </a-col>
       <a-col class="right-content" :span="12">
+        <nuxt-link class="backBtn" to="/" />
         <h1>Registro</h1>
         <br>
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
@@ -41,6 +42,16 @@
             />
           </a-form-model-item>
           <a-form-model-item>
+            <GenderSelector
+              v-model="ruleForm.gender"
+              :values="ruleForm.gender"
+            />
+          </a-form-model-item>
+          <center>
+            *Tu edad y sexo permitirán a otros rivales encontrarte y desafiarte en un match.
+          </center>
+          <br>
+          <a-form-model-item>
             <PrincipalBtn
               text="REGISTRAR"
               @click.native="submitForm('ruleForm')"
@@ -48,9 +59,8 @@
           </a-form-model-item>
         </a-form-model>
         <center>
-          <br>
-          <b>No tienes cuenta?</b> <nuxt-link to="/">
-            Regístrate.
+          <nuxt-link to="/">
+            Términos y condiciones.
           </nuxt-link>
         </center>
       </a-col>
@@ -62,9 +72,10 @@
 import ThemeToggle from '@/components/themeToggle'
 import PrincipalBtn from '@/components/principalBtn'
 import DateSelector from '@/components/dateSelector'
+import GenderSelector from '@/components/genderSelector'
 
 export default {
-  components: { ThemeToggle, PrincipalBtn, DateSelector },
+  components: { ThemeToggle, PrincipalBtn, DateSelector, GenderSelector },
   data () {
     return {
       ruleForm: {
@@ -76,6 +87,10 @@ export default {
           day: undefined,
           month: undefined,
           year: undefined
+        },
+        gender: {
+          label: 'SEXO*',
+          gender: 'M'
         }
       },
       rules: {
@@ -91,6 +106,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           alert('submit!')
+          console.log(this.ruleForm.password)
         } else {
           console.log('error submit!!')
           return false

@@ -1,0 +1,14 @@
+.backBtn {
+    body[data-theme='light'] & {
+        content: url('../icons/lm-arrow-left.svg');
+    }
+
+    body[data-theme='dark'] & {
+        content: url('../icons/dm-arrow-left.svg');
+    }
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    width: 38px;
+}

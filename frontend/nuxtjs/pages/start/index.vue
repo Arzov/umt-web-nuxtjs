@@ -50,7 +50,7 @@
             <a-col :span="6" />
           </a-row>
           <br>
-          <b>No tienes cuenta?</b> <nuxt-link to="/">
+          <b>No tienes cuenta?</b> <nuxt-link to="/register">
             Regístrate.
           </nuxt-link>
         </center>
