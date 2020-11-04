@@ -3,7 +3,7 @@ export const firstnameRules = [
 ]
 
 export default {
-  name: 'firstname',
+  name: 'firstName',
   placeholder: 'Ingresa tu nombre',
   initialValue: '',
   rules: firstnameRules

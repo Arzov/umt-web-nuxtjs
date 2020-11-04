@@ -12,11 +12,11 @@
         <h1>Registro</h1>
         <br>
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
-          <a-form-model-item :prop="this.$RULES.firstname.name">
+          <a-form-model-item :prop="this.$RULES.firstName.name">
             <a-input
-              v-model="ruleForm.firstname"
+              v-model="ruleForm.firstName"
               class="principalInput"
-              :placeholder="this.$RULES.firstname.placeholder"
+              :placeholder="this.$RULES.firstName.placeholder"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.email.name">
@@ -79,7 +79,7 @@ export default {
   data () {
     return {
       ruleForm: {
-        firstname: this.$RULES.firstname.initialValue,
+        firstName: this.$RULES.firstName.initialValue,
         email: this.$RULES.email.initialValue,
         password: this.$RULES.password.initialValue,
         birthdate: {
@@ -94,23 +94,24 @@ export default {
         }
       },
       rules: {
-        firstname: this.$RULES.firstname.rules,
+        firstName: this.$RULES.firstName.rules,
         email: this.$RULES.email.rules,
         password: this.$RULES.password.rules,
         birthdate: this.$RULES.birthdate.rules
       }
     }
   },
+  computed: {
+    _email () {
+      return this.ruleForm.email.toLowerCase()
+    }
+  },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
           console.log(this.ruleForm.password)
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+        } else { return false }
       })
     }
   }

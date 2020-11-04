@@ -79,15 +79,20 @@ export default {
       }
     }
   },
+  computed: {
+    _email () {
+      return this.ruleForm.email.toLowerCase()
+    }
+  },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+          this.$store.dispatch('start/signIn', {
+            email: this._email,
+            password: this.ruleForm.password
+          })
+        } else { return false }
       })
     }
   }
