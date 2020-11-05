@@ -1,16 +1,6 @@
 @import '../global/images';
 
 .themeToggle {
-    body[data-theme='light'] & {
-        content: url('../icons/lm-theme.svg');
-    }
-
-    body[data-theme='dark'] & {
-        content: url('../icons/dm-theme.svg');
-    }
-
-    background-repeat: no-repeat;
-    background-size: cover;
     display: block;
     width: 32px;
     margin-bottom: $margin-bottom;

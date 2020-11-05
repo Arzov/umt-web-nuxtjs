@@ -73,18 +73,23 @@ $p-size: 16px;
 
 @mixin h-sizes {
     @each $key, $value in $h-sizes {
-        h#{$key} {
-            font-size: map-get($value, 'size');
-            font-weight: map-get($value, 'weight');
-            text-transform: map-get($value, 'text-transform');
-            margin-bottom: 0;
-
-            body[data-theme='light'] & {
-                color: $color-black;
-            }
-
-            body[data-theme='dark'] & {
+        .dmBody {
+            h#{$key} {
+                font-size: map-get($value, 'size');
+                font-weight: map-get($value, 'weight');
+                text-transform: map-get($value, 'text-transform');
+                margin-bottom: 0;
                 color: $color-white;
+            }
+        }
+
+        .lmBody {
+            h#{$key} {
+                font-size: map-get($value, 'size');
+                font-weight: map-get($value, 'weight');
+                text-transform: map-get($value, 'text-transform');
+                margin-bottom: 0;
+                color: $color-black;
             }
         }
     }

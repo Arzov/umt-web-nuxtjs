@@ -1,16 +1,4 @@
 .facebook {
-    body[data-theme='light'] & {
-        content: url('../icons/lm-facebook.svg');
-    }
-
-    body[data-theme='dark'] & {
-        content: url('../icons/dm-facebook.svg');
-    }
-
-    background-repeat: no-repeat;
-    background-size: cover;
     display: block;
     width: 38px;
-    margin-left: auto;
-    margin-right: auto;
 }

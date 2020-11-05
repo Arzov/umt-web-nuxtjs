@@ -28,7 +28,9 @@ export default {
   plugins: [
     '@/plugins/antd-ui',
     '@/plugins/aws',
-    '@/plugins/rules'
+    '@/plugins/rules',
+    '@/plugins/filters',
+    '@/plugins/mixins'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

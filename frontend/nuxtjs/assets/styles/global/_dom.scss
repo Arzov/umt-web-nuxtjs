@@ -5,7 +5,7 @@
     transition: background-color 0.2s linear;
 }
 
-body[data-theme="dark"] {
+.dmBody {
     @extend %font-props;
     @extend %effects;
     background-color: $color-black;
@@ -17,7 +17,11 @@ body[data-theme="dark"] {
     }
 }
 
-body, body[data-theme="light"] {
+body:has(.dmBody) {
+    background-color: $color-black;
+}
+
+.lmBody {
     @extend %font-props;
     @extend %effects;
     background-color: $color-light-grey;

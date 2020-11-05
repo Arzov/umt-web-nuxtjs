@@ -8,7 +8,6 @@
     <a-row>
       <a-col :span="24">
         <a-radio-group
-          v-model="values.gender"
           :default-value="values.gender"
           @change="setGender"
         >
@@ -27,11 +26,6 @@
 
 <script>
 export default {
-  filters: {
-    uppercase (value) {
-      return value.toUpperCase()
-    }
-  },
   props: {
     values: {
       type: Object,

@@ -3,17 +3,6 @@ $margin-top: 30px;
 $margin-bottom: 30px;
 
 .logo {
-    body[data-theme='light'] & {
-        content: url('../../static/lm-logo.svg');
-    }
-
-    body[data-theme='dark'] & {
-        content: url('../../static/dm-logo.svg');
-    }
-
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: block;
     margin-left: $margin-left;
     margin-bottom: $margin-bottom;
     margin-top: $margin-top;
@@ -27,17 +16,6 @@ $margin-bottom: 30px;
 }
 
 .points {
-    body[data-theme='light'] & {
-        content: url('../images/lm-points.svg');
-    }
-
-    body[data-theme='dark'] & {
-        content: url('../images/dm-points.svg');
-    }
-
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: block;
     max-width: 45%;
     margin-bottom: $margin-bottom;
     margin-top: $margin-top;

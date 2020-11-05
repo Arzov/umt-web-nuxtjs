@@ -1,20 +1,15 @@
 <template>
-  <a class="themeToggle" block @click="switchTheme" />
+  <a class="themeToggle" block @click="switchTheme">
+    <img v-if="_themePreference === 'light'" :src="require('../assets/icons/lm-theme.svg')">
+    <img v-else :src="require('../assets/icons/dm-theme.svg')">
+  </a>
 </template>
 
 <script>
 export default {
   methods: {
     switchTheme () {
-      const currentMode = document.body.getAttribute('data-theme')
-
-      if (currentMode === 'dark') {
-        document.body.setAttribute('data-theme', 'light')
-        window.localStorage.setItem('theme', 'light')
-      } else {
-        document.body.setAttribute('data-theme', 'dark')
-        window.localStorage.setItem('theme', 'dark')
-      }
+      this.$store.dispatch('global/setTheme')
     }
   }
 }

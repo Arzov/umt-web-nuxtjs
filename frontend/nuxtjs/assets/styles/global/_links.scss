@@ -1,18 +1,23 @@
-@import 'colors';
-
-[class|="nuxt-link"],
-[class|="nuxt-link"]:hover,
-[class|="nuxt-link"]:active,
-a,
-a:hover,
-a:active {
-    font-weight: 700;
-    
-    body[data-theme='light'] & {
-        color: $color-pink;
-    }
-
-    body[data-theme='dark'] & {
+.dmBody {
+    [class|="nuxt-link"],
+    [class|="nuxt-link"]:hover,
+    [class|="nuxt-link"]:active,
+    a,
+    a:hover,
+    a:active {
+        font-weight: 700;
         color: $color-cian;
+    }
+}
+
+.lmBody {
+    [class|="nuxt-link"],
+    [class|="nuxt-link"]:hover,
+    [class|="nuxt-link"]:active,
+    a,
+    a:hover,
+    a:active {
+        font-weight: 700;
+        color: $color-pink;
     }
 }

@@ -8,7 +8,6 @@
     <a-row>
       <a-col :span="7">
         <a-select
-          v-model="values.day"
           placeholder="Día"
           :default-value="values.day"
           @change="setDay"
@@ -21,7 +20,6 @@
       <a-col :span="1" />
       <a-col :span="8">
         <a-select
-          v-model="values.month"
           placeholder="Mes"
           :default-value="values.month"
           @change="setMonth"
@@ -34,7 +32,6 @@
       <a-col :span="1" />
       <a-col :span="7">
         <a-select
-          v-model="values.year"
           placeholder="Año"
           :default-value="values.year"
           @change="setYear"
@@ -50,11 +47,6 @@
 
 <script>
 export default {
-  filters: {
-    uppercase (value) {
-      return value.toUpperCase()
-    }
-  },
   props: {
     values: {
       type: Object,

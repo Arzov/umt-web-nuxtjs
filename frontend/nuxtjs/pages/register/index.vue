@@ -110,7 +110,8 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.ruleForm.password)
+          console.log(this.ruleForm.birthdate)
+          console.log(this.ruleForm.gender)
         } else { return false }
       })
     }
