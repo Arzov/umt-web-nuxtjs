@@ -168,6 +168,20 @@ h4 {
 ::-webkit-scrollbar-thumb:hover {
   background: #ac9ff9; }
 
+html {
+  height: 100%; }
+  html body {
+    margin: 0; }
+    html body,
+    html body #__nuxt,
+    html body #__layout {
+      height: 100%; }
+
+.layout {
+  height: 100%; }
+  .layout .page {
+    height: 100%; }
+
 [class|="nuxt-link"], [class|="nuxt-link"]:hover, [class|="nuxt-link"]:active, a, a:hover, a:active {
   font-weight: 700; }
   .dmBody [class|="nuxt-link"],

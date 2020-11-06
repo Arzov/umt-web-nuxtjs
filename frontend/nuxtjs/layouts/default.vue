@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Nuxt v-if="_themePreference === 'light'" class="lmBody" />
-    <Nuxt v-else class="dmBody" />
+  <div class="layout">
+    <Nuxt :class="_themePreference === 'light' ? 'lmBody' : 'dmBody'" />
   </div>
 </template>

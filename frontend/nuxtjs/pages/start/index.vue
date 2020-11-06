@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <a-row type="flex" justify="space-around" align="middle">
       <a-col :span="12">
         <ThemeToggle />
