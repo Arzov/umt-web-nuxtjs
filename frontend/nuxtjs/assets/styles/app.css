@@ -168,6 +168,10 @@ h4 {
 ::-webkit-scrollbar-thumb:hover {
   background: #ac9ff9; }
 
+.pageStart, .pageRegister {
+  display: flex;
+  align-items: center; }
+
 html {
   height: 100%; }
   html body {
@@ -275,6 +279,13 @@ html {
 
 .ant-form-explain {
   color: #6457e3 !important; }
+
+.principalInput:-webkit-autofill,
+.principalInput:-webkit-autofill:hover,
+.principalInput:-webkit-autofill:focus,
+.principalInput:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1) !important;
+  -webkit-transition-delay: 5000s !important; }
 
 .dmBody .dateSelector .ant-select-selection,
 .dmBody .dateSelector:hover .ant-select-selection, .lmBody .dateSelector .ant-select-selection, .lmBody .dateSelector:hover .ant-select-selection {

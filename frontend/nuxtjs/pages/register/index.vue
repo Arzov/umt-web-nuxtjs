@@ -24,12 +24,17 @@
             <PrincipalInput
               v-model="ruleForm.firstName"
               :placeholder="this.$RULES.firstName.placeholder"
+              name="fname"
+              autocomplete="given-name"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.email.name">
             <PrincipalInput
               v-model="ruleForm.email"
               :placeholder="this.$RULES.email.placeholder"
+              name="email"
+              type="email"
+              autocomplete="email"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.password.name">
@@ -107,10 +112,14 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.ruleForm.birthdate)
-          console.log(this.ruleForm.gender)
+          this.$store.dispatch('register/signUp', {
+            firstName: this.ruleForm.firstName,
+            email: this.ruleForm.email.toLowerCase(),
+            password: this.ruleForm.password,
+            birthdate: this.ruleForm.birthdate,
+            gender: this.ruleForm.gender
+          })
         } else {
-          console.log(this.ruleForm)
           return false
         }
       })

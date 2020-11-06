@@ -32,3 +32,51 @@
 .ant-form-explain {
     color: $color-purple !important;
 }
+
+// .principalInput:-webkit-autofill,
+// .principalInput:-webkit-autofill:hover,
+// .principalInput:-webkit-autofill:focus {
+//     .dmBody & {
+//         -webkit-box-shadow: 0 0 0 50px $color-dark-grey inset !important;
+//         -webkit-text-fill-color: $color-white !important;
+//     }
+
+//     .lmBody & {
+//         -webkit-box-shadow: 0 0 0 50px $color-white inset !important;
+//         -webkit-text-fill-color: $color-black !important;
+//     }
+// }
+
+// .principalInput:-webkit-autofill {
+//     -webkit-background-clip: text !important;
+// }
+
+.principalInput:-webkit-autofill,
+.principalInput:-webkit-autofill:hover,
+.principalInput:-webkit-autofill:focus,
+.principalInput:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 10px 0 rgba($color-black, 0.1) !important;
+    -webkit-transition-delay: 5000s !important;
+}
+
+// input:-webkit-autofill,
+// input:-webkit-autofill:hover, 
+// input:-webkit-autofill:focus,
+// textarea:-webkit-autofill,
+// textarea:-webkit-autofill:hover,
+// textarea:-webkit-autofill:focus,
+// select:-webkit-autofill,
+// select:-webkit-autofill:hover,
+// select:-webkit-autofill:focus {
+//     .dmBody & {
+//         transition: background-color 5000s ease-in-out 0s;
+//         -webkit-box-shadow: 0 0 10px 0 rgba($color-black, 0.1);
+//         -webkit-text-fill-color: $color-white;
+//     }
+
+//     .lmBody & {
+//         transition: background-color 5000s ease-in-out 0s;
+//         -webkit-box-shadow: 0 0 10px 0 rgba($color-black, 0.1);
+//         -webkit-text-fill-color: $color-black;
+//     }
+// }

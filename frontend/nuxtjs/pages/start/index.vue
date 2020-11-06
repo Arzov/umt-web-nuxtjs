@@ -27,6 +27,9 @@
             <PrincipalInput
               v-model="ruleForm.email"
               :placeholder="this.$RULES.email.placeholder"
+              name="email"
+              type="email"
+              autocomplete="email"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.password.name">
@@ -91,7 +94,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$store.dispatch('start/signIn', {
-            email: this.ruleForm.email.toUpperCase(),
+            email: this.ruleForm.email.toLowerCase(),
             password: this.ruleForm.password
           })
         } else {

@@ -10,7 +10,7 @@ const actions = {
       })
       .catch((err) => {
         switch (err.code) {
-          // Email invalido
+          // Email invalido o no registrado
           case 'UserNotFoundException':
             console.log(err.message)
             break

@@ -4,6 +4,7 @@
     :placeholder="placeholder"
     :type="type"
     :autocomplete="autocomplete"
+    :name="name"
     :value="value"
     @input="triggerInput"
   />
@@ -15,6 +16,7 @@ export default {
     placeholder: { type: String, default: 'Ingresa' },
     type: { type: String, default: 'text' },
     autocomplete: { type: String, default: 'on' },
+    name: { type: String, default: '' },
     value: { type: String, default: '' }
   },
   methods: {
