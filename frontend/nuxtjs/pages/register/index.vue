@@ -1,32 +1,22 @@
 <template>
-  <div class="page pageRegister">
-    <a-row class="mainRow" type="flex" justify="space-around" align="middle">
+  <div class="page">
+    <a-row type="flex" justify="space-around" align="middle">
       <a-col :span="12">
         <ThemeToggle />
         <img
-          v-if="_themePreference === 'light'"
-          src="../../static/lm-logo.svg"
-          class="logo"
-        >
-        <img
-          v-else
-          src="../../static/dm-logo.svg"
+          :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
+            require('../../static/dm-logo.svg')"
           class="logo"
         >
         <img class="football-shoes" src="../../assets/images/football-shoes.svg">
         <img
-          v-if="_themePreference === 'light'"
-          src="../../assets/images/lm-points.svg"
-          class="points"
-        >
-        <img
-          v-else
-          src="../../assets/images/dm-points.svg"
+          :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
+            require('../../assets/images/dm-points.svg')"
           class="points"
         >
       </a-col>
-      <a-col class="right-content" :span="12">
-        <nuxt-link class="backBtn" to="/" />
+      <a-col class="rightContent" :span="12">
+        <BackBtn />
         <h1>Registro</h1>
         <br>
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
@@ -52,14 +42,14 @@
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.birthdate.name">
             <DateSelector
-              :values="ruleForm.birthdate"
+              v-model="ruleForm.birthdate"
               label="FECHA DE NACIMIENTO*"
             />
           </a-form-model-item>
           <a-form-model-item>
             <GenderSelector
               v-model="ruleForm.gender"
-              :values="ruleForm.gender"
+              label="SEXO*"
             />
           </a-form-model-item>
           <center>
@@ -88,9 +78,10 @@ import ThemeToggle from '@/components/themeToggle'
 import PrincipalBtn from '@/components/principalBtn'
 import DateSelector from '@/components/dateSelector'
 import GenderSelector from '@/components/genderSelector'
+import BackBtn from '@/components/backBtn'
 
 export default {
-  components: { ThemeToggle, PrincipalBtn, DateSelector, GenderSelector },
+  components: { ThemeToggle, PrincipalBtn, DateSelector, GenderSelector, BackBtn },
   data () {
     return {
       ruleForm: {
@@ -102,10 +93,7 @@ export default {
           month: undefined,
           year: undefined
         },
-        gender: {
-          label: 'SEXO*',
-          gender: 'M'
-        }
+        gender: 'M'
       },
       rules: {
         firstName: this.$RULES.firstName.rules,
@@ -122,8 +110,7 @@ export default {
           console.log(this.ruleForm.birthdate)
           console.log(this.ruleForm.gender)
         } else {
-          console.log(this.ruleForm.birthdate)
-          console.log(this.ruleForm.gender)
+          console.log(this.ruleForm)
           return false
         }
       })

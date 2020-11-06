@@ -1,31 +1,21 @@
 <template>
-  <div class="page pageStart">
-    <a-row class="mainRow" type="flex" justify="space-around" align="middle">
+  <div class="page">
+    <a-row type="flex" justify="space-around" align="middle">
       <a-col :span="12">
         <ThemeToggle />
         <img
-          v-if="_themePreference === 'light'"
-          src="../../static/lm-logo.svg"
-          class="logo"
-        >
-        <img
-          v-else
-          src="../../static/dm-logo.svg"
+          :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
+            require('../../static/dm-logo.svg')"
           class="logo"
         >
         <img class="football-shoes" src="../../assets/images/football-shoes.svg">
         <img
-          v-if="_themePreference === 'light'"
-          src="../../assets/images/lm-points.svg"
-          class="points"
-        >
-        <img
-          v-else
-          src="../../assets/images/dm-points.svg"
+          :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
+            require('../../assets/images/dm-points.svg')"
           class="points"
         >
       </a-col>
-      <a-col class="right-content" :span="12">
+      <a-col class="rightContent" :span="12">
         <h1>Inicio de sesión</h1>
         <b>¿Olvidaste tu contraseña?</b> <nuxt-link to="/">
           Recupérala.
@@ -101,7 +91,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$store.dispatch('start/signIn', {
-            email: this.ruleForm.email.toLowerCase(),
+            email: this.ruleForm.email.toUpperCase(),
             password: this.ruleForm.password
           })
         } else {

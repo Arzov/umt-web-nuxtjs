@@ -1,7 +1,9 @@
 <template>
   <a class="themeToggle" block @click="switchTheme">
-    <img v-if="_themePreference === 'light'" :src="require('../assets/icons/lm-theme.svg')">
-    <img v-else :src="require('../assets/icons/dm-theme.svg')">
+    <img
+      :src="_themePreference === 'light' ? require('../assets/icons/lm-theme.svg') :
+        require('../assets/icons/dm-theme.svg')"
+    >
   </a>
 </template>
 

@@ -6,11 +6,6 @@
 
 <script>
 export default {
-  filters: {
-    uppercase (value) {
-      return value.toUpperCase()
-    }
-  },
   props: {
     text: { type: String, default: '' }
   }

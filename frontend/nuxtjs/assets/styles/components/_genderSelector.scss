@@ -64,28 +64,28 @@
         grid-template-columns: 1fr auto;
         grid-template-areas: "label radio";
 
-        body[data-theme='light'] & {
-            color: $color-black;
-            background: $color-white;
-            @include radio($color-black, $color-black);
-        }
-    
-        body[data-theme='dark'] & {
+        .dmBody & {
             color: $color-white;
             background: $color-dark-grey;
             @include radio($color-white, $color-white);
+        }
+
+        .lmBody & {
+            color: $color-black;
+            background: $color-white;
+            @include radio($color-black, $color-black);
         }
     }
 
     label {
         font-size: 12px;
 
-        body[data-theme='light'] & {
-            color: $color-black;
+        .dmBody & {
+            color: $color-white;
         }
 
-        body[data-theme='dark'] & {
-            color: $color-white;
+        .lmBody & {
+            color: $color-black;
         }
     }
 }

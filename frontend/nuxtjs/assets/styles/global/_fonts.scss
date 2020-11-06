@@ -73,22 +73,17 @@ $p-size: 16px;
 
 @mixin h-sizes {
     @each $key, $value in $h-sizes {
-        .dmBody {
-            h#{$key} {
-                font-size: map-get($value, 'size');
-                font-weight: map-get($value, 'weight');
-                text-transform: map-get($value, 'text-transform');
-                margin-bottom: 0;
+        h#{$key} {
+            font-size: map-get($value, 'size');
+            font-weight: map-get($value, 'weight');
+            text-transform: map-get($value, 'text-transform');
+            margin-bottom: 0;
+
+            .dmBody & {
                 color: $color-white;
             }
-        }
 
-        .lmBody {
-            h#{$key} {
-                font-size: map-get($value, 'size');
-                font-weight: map-get($value, 'weight');
-                text-transform: map-get($value, 'text-transform');
-                margin-bottom: 0;
+            .lmBody & {
                 color: $color-black;
             }
         }

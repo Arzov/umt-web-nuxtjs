@@ -47,13 +47,14 @@
 	background: $color-violet; 
 }
 
+// HTML
 %pages-props {
     display: flex;
     align-items: center;
 
-    .mainRow {
-        width: 100%;
-    }
+    // .mainRow {
+    //     width: 100%;
+    // }
 }
 
 html {
@@ -67,9 +68,9 @@ html {
         #__layout {
             height: 100%;
 
-            & > div {
-                height: 100%;
-            }
+            // & > div {
+            //     height: 100%;
+            // }
         }
     }
 }

@@ -9,8 +9,8 @@
       <a-col :span="8">
         <a-select
           placeholder="Día"
-          :default-value="values.day"
-          @change="setDay"
+          :value="value.day"
+          @change="triggerChange('day', $event)"
         >
           <a-select-option v-for="d in dayOptions" :key="`d${d}`" :value="d">
             {{ d }}
@@ -20,8 +20,8 @@
       <a-col :span="8">
         <a-select
           placeholder="Mes"
-          :default-value="values.month"
-          @change="setMonth"
+          :value="value.month"
+          @change="triggerChange('month', $event)"
         >
           <a-select-option v-for="m in monthOptions" :key="`m${m.value}`" :value="m.value">
             {{ m.key }}
@@ -31,8 +31,8 @@
       <a-col :span="8">
         <a-select
           placeholder="Año"
-          :default-value="values.year"
-          @change="setYear"
+          :value="value.year"
+          @change="triggerChange('year', $event)"
         >
           <a-select-option v-for="y in yearOptions" :key="`y${y}`" :value="y">
             {{ y }}
@@ -47,7 +47,7 @@
 export default {
   props: {
     label: { type: String, default: 'Fecha' },
-    values: {
+    value: {
       type: Object,
       default: () => {
         return {
@@ -90,20 +90,10 @@ export default {
     }
   },
   methods: {
-    setDay (day) {
-      this.values.day = day
-      this.triggerChange()
-    },
-    setMonth (month) {
-      this.values.month = month
-      this.triggerChange()
-    },
-    setYear (year) {
-      this.values.year = year
-      this.triggerChange()
-    },
-    triggerChange () {
-      this.$emit('change', this.values)
+    triggerChange (key, value) {
+      const out = { ...this.value, [key]: value }
+      this.$emit('input', out)
+      this.$emit('change', out)
     }
   }
 }
