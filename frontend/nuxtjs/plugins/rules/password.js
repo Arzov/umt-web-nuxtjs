@@ -1,10 +1,7 @@
 export const passwordRules = [
   {
     required: true,
-    message: 'Ingresa una contraseña.',
-    transform (v) {
-      return v.text
-    }
+    message: 'Ingresa una contraseña.'
   },
   {
     min: 6,

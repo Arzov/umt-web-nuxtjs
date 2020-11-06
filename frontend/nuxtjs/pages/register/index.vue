@@ -38,7 +38,7 @@
           <a-form-model-item :prop="this.$RULES.birthdate.name">
             <DateSelector
               v-model="ruleForm.birthdate"
-              :values="ruleForm.birthdate"
+              label="FECHA DE NACIMIENTO*"
             />
           </a-form-model-item>
           <a-form-model-item>
@@ -83,7 +83,6 @@ export default {
         email: this.$RULES.email.initialValue,
         password: this.$RULES.password.initialValue,
         birthdate: {
-          label: 'FECHA DE NACIMIENTO*',
           day: undefined,
           month: undefined,
           year: undefined
@@ -112,7 +111,10 @@ export default {
         if (valid) {
           console.log(this.ruleForm.birthdate)
           console.log(this.ruleForm.gender)
-        } else { return false }
+        } else {
+          console.log(this.ruleForm.birthdate)
+          return false
+        }
       })
     }
   }

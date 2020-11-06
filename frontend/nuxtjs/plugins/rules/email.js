@@ -1,10 +1,7 @@
 export const emailRules = [
   {
     required: true,
-    message: 'Ingresa un correo electrónico.',
-    transform (v) {
-      return v.text
-    }
+    message: 'Ingresa un correo electrónico.'
   },
   {
     type: 'email',

@@ -5,8 +5,8 @@
     :placeholder="placeholder"
     :type="type"
     :autocomplete="autocomplete"
-    :value="values.text"
-    @change="setText"
+    :value="value"
+    @input="triggerInput"
   />
   <a-input
     v-else
@@ -14,8 +14,8 @@
     :placeholder="placeholder"
     :type="type"
     :autocomplete="autocomplete"
-    :value="values.text"
-    @change="setText"
+    :value="value"
+    @input="triggerInput"
   />
 </template>
 
@@ -25,25 +25,12 @@ export default {
     placeholder: { type: String, default: 'Ingresa' },
     type: { type: String, default: 'text' },
     autocomplete: { type: String, default: 'on' },
-    values: {
-      type: Object,
-      default: () => {
-        return {
-          text: ''
-        }
-      }
-    }
+    value: { type: String, default: 'on' }
   },
   methods: {
-    setText (e) {
-      this.values.text = e.target.value
-      this.triggerChange()
-    },
-    // triggerInput (e) {
-    //   this.$emit('update:text', e.target.value)
-    // },
-    triggerChange () {
-      this.$emit('change', this.values)
+    triggerInput (e) {
+      this.$emit('input', e.target.value)
+      this.$emit('change', e.target.value)
     }
   }
 }
