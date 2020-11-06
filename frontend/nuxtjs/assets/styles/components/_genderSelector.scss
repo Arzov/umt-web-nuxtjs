@@ -52,7 +52,7 @@
         line-height: 0;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-        grid-gap: 1 / 24 * 100%;
+        grid-gap: 16px;
     }
 
     .ant-radio-wrapper {

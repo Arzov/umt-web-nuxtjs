@@ -144,14 +144,16 @@
   margin-bottom: 0;
   color: #161C27; }
 
-.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .lmPrincipalInput, .lmPrincipalInput:hover, .lmPrincipalInput:focus, .dmPrincipalInput, .dmPrincipalInput:hover, .dmPrincipalInput:focus, .dateSelector,
-.dateSelector:hover, .ant-select, .genderSelector .ant-radio-wrapper {
+.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .lmPrincipalInput, .lmPrincipalInput:hover, .lmPrincipalInput:focus, .dmPrincipalInput, .dmPrincipalInput:hover, .dmPrincipalInput:focus, .lmBody .dateSelector,
+.lmBody .dateSelector:hover, .dmBody .dateSelector,
+.dmBody .dateSelector:hover, .ant-select, .genderSelector .ant-radio-wrapper {
   font-size: 16px;
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
   font-style: normal; }
-  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .lmPrincipalInput b, .lmPrincipalInput:hover b, .lmPrincipalInput:focus b, .dmPrincipalInput b, .dmPrincipalInput:hover b, .dmPrincipalInput:focus b, .dateSelector b,
-  .dateSelector:hover b, .ant-select b, .genderSelector .ant-radio-wrapper b {
+  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .lmPrincipalInput b, .lmPrincipalInput:hover b, .lmPrincipalInput:focus b, .dmPrincipalInput b, .dmPrincipalInput:hover b, .dmPrincipalInput:focus b, .lmBody .dateSelector b,
+  .lmBody .dateSelector:hover b, .dmBody .dateSelector b,
+  .dmBody .dateSelector:hover b, .ant-select b, .genderSelector .ant-radio-wrapper b {
     font-weight: 700; }
 
 .dmBody, .lmBody {
@@ -162,9 +164,6 @@
   color: white; }
   .dmBody .ant-form, .dmBody .ant-form-item {
     color: white; }
-
-body:has(.dmBody) {
-  background-color: #161C27; }
 
 .lmBody {
   background-color: #f1f3ff;
@@ -184,6 +183,30 @@ body:has(.dmBody) {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #ac9ff9; }
+
+.pageStart, .pageRegister {
+  display: flex;
+  align-items: center; }
+  .pageStart .mainRow, .pageRegister .mainRow {
+    width: 100%; }
+
+html {
+  height: 100%; }
+  html body {
+    margin: 0; }
+    html body,
+    html body #__nuxt,
+    html body #__layout {
+      height: 100%; }
+      html body > div,
+      html body #__nuxt > div,
+      html body #__layout > div {
+        height: 100%; }
+
+.layout {
+  height: 100%; }
+  .layout .page {
+    height: 100%; }
 
 .dmBody [class|="nuxt-link"],
 .dmBody [class|="nuxt-link"]:hover,
@@ -307,7 +330,7 @@ body:has(.dmBody) {
 .ant-form-explain {
   color: #6457e3 !important; }
 
-.dateSelector .ant-select-selection, .dateSelector:hover .ant-select-selection {
+.lmBody .dateSelector .ant-select-selection, .lmBody .dateSelector:hover .ant-select-selection, .dmBody .dateSelector .ant-select-selection, .dmBody .dateSelector:hover .ant-select-selection {
   box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
   border: none;
   border-radius: 0;
@@ -315,27 +338,33 @@ body:has(.dmBody) {
   width: 100%;
   padding-top: 0.4em; }
 
-body[data-theme='light'] .dateSelector .ant-select-selection,
-body[data-theme='light'] .dateSelector:hover .ant-select-selection {
+.lmBody .dateSelector .ant-select-selection, .lmBody .dateSelector:hover .ant-select-selection {
   color: #161C27;
   background: white; }
-  body[data-theme='light'] .dateSelector .ant-select-selection svg,
-  body[data-theme='light'] .dateSelector:hover .ant-select-selection svg {
+  .lmBody .dateSelector .ant-select-selection svg,
+  .lmBody .dateSelector:hover .ant-select-selection svg {
     color: #161C27; }
-body[data-theme='dark'] .dateSelector .ant-select-selection, body[data-theme='dark'] .dateSelector:hover .ant-select-selection {
+  .has-error .lmBody .dateSelector .ant-select-selection,
+  .has-error .lmBody .dateSelector:hover .ant-select-selection {
+    box-shadow: 0 0 0 2px #6457e3; }
+.lmBody .dateSelector label,
+.lmBody .dateSelector:hover label {
+  font-size: 12px;
+  color: #161C27; }
+
+.dmBody .dateSelector .ant-select-selection, .dmBody .dateSelector:hover .ant-select-selection {
   color: white;
   background: #1F2835; }
-  body[data-theme='dark'] .dateSelector .ant-select-selection svg, body[data-theme='dark'] .dateSelector:hover .ant-select-selection svg {
+  .dmBody .dateSelector .ant-select-selection svg,
+  .dmBody .dateSelector:hover .ant-select-selection svg {
     color: white; }
-.has-error .dateSelector .ant-select-selection, .has-error .dateSelector:hover .ant-select-selection {
-  box-shadow: 0 0 0 2px #6457e3; }
-.dateSelector label, .dateSelector:hover label {
-  font-size: 12px; }
-  body[data-theme='light'] .dateSelector label,
-  body[data-theme='light'] .dateSelector:hover label {
-    color: #161C27; }
-  body[data-theme='dark'] .dateSelector label, body[data-theme='dark'] .dateSelector:hover label {
-    color: white; }
+  .has-error .dmBody .dateSelector .ant-select-selection,
+  .has-error .dmBody .dateSelector:hover .ant-select-selection {
+    box-shadow: 0 0 0 2px #6457e3 !important; }
+.dmBody .dateSelector label,
+.dmBody .dateSelector:hover label {
+  font-size: 12px;
+  color: white; }
 
 .ant-form-explain {
   color: #6457e3 !important; }
@@ -370,7 +399,7 @@ body[data-theme='dark'] .dateSelector .ant-select-selection, body[data-theme='da
   line-height: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  grid-gap: 4.1666666667%; }
+  grid-gap: 16px; }
 .genderSelector .ant-radio-wrapper {
   display: grid;
   cursor: pointer;

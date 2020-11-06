@@ -12,11 +12,5 @@ export const birthdateRules = [
 
 export default {
   name: 'birthdate',
-  rules: birthdateRules,
-  initialValue: {
-    label: 'FECHA DE NACIMIENTO',
-    day: undefined,
-    month: undefined,
-    year: undefined
-  }
+  rules: birthdateRules
 }

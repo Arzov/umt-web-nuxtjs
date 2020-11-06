@@ -1,10 +1,9 @@
 export const firstnameRules = [
-  { required: true, message: 'Ingresa un nombre.', trigger: 'change' }
+  { required: true, message: 'Ingresa un nombre.' }
 ]
 
 export default {
   name: 'firstName',
   placeholder: 'Ingresa tu nombre',
-  initialValue: '',
   rules: firstnameRules
 }

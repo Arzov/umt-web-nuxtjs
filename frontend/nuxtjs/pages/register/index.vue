@@ -1,11 +1,29 @@
 <template>
-  <div>
-    <a-row type="flex" justify="space-around" align="middle">
+  <div class="page pageRegister">
+    <a-row class="mainRow" type="flex" justify="space-around" align="middle">
       <a-col :span="12">
         <ThemeToggle />
-        <img class="logo">
+        <img
+          v-if="_themePreference === 'light'"
+          src="../../static/lm-logo.svg"
+          class="logo"
+        >
+        <img
+          v-else
+          src="../../static/dm-logo.svg"
+          class="logo"
+        >
         <img class="football-shoes" src="../../assets/images/football-shoes.svg">
-        <img class="points">
+        <img
+          v-if="_themePreference === 'light'"
+          src="../../assets/images/lm-points.svg"
+          class="points"
+        >
+        <img
+          v-else
+          src="../../assets/images/dm-points.svg"
+          class="points"
+        >
       </a-col>
       <a-col class="right-content" :span="12">
         <nuxt-link class="backBtn" to="/" />
@@ -13,32 +31,29 @@
         <br>
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
           <a-form-model-item :prop="this.$RULES.firstName.name">
-            <a-input
+            <PrincipalInput
               v-model="ruleForm.firstName"
-              class="principalInput"
               :placeholder="this.$RULES.firstName.placeholder"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.email.name">
-            <a-input
+            <PrincipalInput
               v-model="ruleForm.email"
-              class="principalInput"
               :placeholder="this.$RULES.email.placeholder"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.password.name">
-            <a-input
+            <PrincipalInput
               v-model="ruleForm.password"
-              class="principalInput"
               :placeholder="this.$RULES.password.placeholder"
-              type="password"
-              autocomplete="off"
+              :type="this.$RULES.password.type"
+              :autocomplete="this.$RULES.password.autocomplete"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.birthdate.name">
             <DateSelector
-              v-model="ruleForm.birthdate"
               :values="ruleForm.birthdate"
+              label="FECHA DE NACIMIENTO*"
             />
           </a-form-model-item>
           <a-form-model-item>
@@ -79,11 +94,10 @@ export default {
   data () {
     return {
       ruleForm: {
-        firstName: this.$RULES.firstName.initialValue,
-        email: this.$RULES.email.initialValue,
-        password: this.$RULES.password.initialValue,
+        firstName: '',
+        email: '',
+        password: '',
         birthdate: {
-          label: 'FECHA DE NACIMIENTO*',
           day: undefined,
           month: undefined,
           year: undefined
@@ -101,18 +115,17 @@ export default {
       }
     }
   },
-  computed: {
-    _email () {
-      return this.ruleForm.email.toLowerCase()
-    }
-  },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.ruleForm.birthdate)
           console.log(this.ruleForm.gender)
-        } else { return false }
+        } else {
+          console.log(this.ruleForm.birthdate)
+          console.log(this.ruleForm.gender)
+          return false
+        }
       })
     }
   }

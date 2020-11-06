@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a-row type="flex" justify="space-around" align="middle">
+  <div class="page pageStart">
+    <a-row class="mainRow" type="flex" justify="space-around" align="middle">
       <a-col :span="12">
         <ThemeToggle />
         <img
@@ -35,13 +35,13 @@
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
           <a-form-model-item :prop="this.$RULES.email.name">
             <PrincipalInput
-              :values="ruleForm.email"
+              v-model="ruleForm.email"
               :placeholder="this.$RULES.email.placeholder"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.password.name">
             <PrincipalInput
-              :values="ruleForm.password"
+              v-model="ruleForm.password"
               :placeholder="this.$RULES.password.placeholder"
               :type="this.$RULES.password.type"
               :autocomplete="this.$RULES.password.autocomplete"
@@ -87,8 +87,8 @@ export default {
   data () {
     return {
       ruleForm: {
-        email: { text: '' },
-        password: { text: '' }
+        email: '',
+        password: ''
       },
       rules: {
         email: this.$RULES.email.rules,
@@ -96,20 +96,17 @@ export default {
       }
     }
   },
-  computed: {
-    _email () {
-      return this.ruleForm.email.text.toLowerCase()
-    }
-  },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$store.dispatch('start/signIn', {
-            email: this._email,
+            email: this.ruleForm.email.toLowerCase(),
             password: this.ruleForm.password
           })
-        } else { return false }
+        } else {
+          return false
+        }
       })
     }
   }

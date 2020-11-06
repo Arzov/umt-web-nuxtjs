@@ -2,11 +2,11 @@
   <div class="dateSelector">
     <a-row>
       <label>
-        <b>{{ values.label | uppercase }}</b>
+        <b>{{ label | uppercase }}</b>
       </label>
     </a-row>
-    <a-row>
-      <a-col :span="7">
+    <a-row :gutter="16">
+      <a-col :span="8">
         <a-select
           placeholder="Día"
           :default-value="values.day"
@@ -17,7 +17,6 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :span="1" />
       <a-col :span="8">
         <a-select
           placeholder="Mes"
@@ -29,8 +28,7 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :span="1" />
-      <a-col :span="7">
+      <a-col :span="8">
         <a-select
           placeholder="Año"
           :default-value="values.year"
@@ -48,11 +46,11 @@
 <script>
 export default {
   props: {
+    label: { type: String, default: 'Fecha' },
     values: {
       type: Object,
       default: () => {
         return {
-          label: 'fecha',
           day: undefined,
           month: undefined,
           year: undefined
