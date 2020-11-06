@@ -4,24 +4,14 @@
       <a-col :span="12">
         <ThemeToggle />
         <img
-          v-if="_themePreference === 'light'"
-          src="../../static/lm-logo.svg"
-          class="logo"
-        >
-        <img
-          v-else
-          src="../../static/dm-logo.svg"
+          :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
+            require('../../static/dm-logo.svg')"
           class="logo"
         >
         <img class="football-shoes" src="../../assets/images/football-shoes.svg">
         <img
-          v-if="_themePreference === 'light'"
-          src="../../assets/images/lm-points.svg"
-          class="points"
-        >
-        <img
-          v-else
-          src="../../assets/images/dm-points.svg"
+          :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
+            require('../../assets/images/dm-points.svg')"
           class="points"
         >
       </a-col>

@@ -1,16 +1,6 @@
 <template>
   <a-input
-    v-if="_themePreference === 'light'"
-    class="lmPrincipalInput"
-    :placeholder="placeholder"
-    :type="type"
-    :autocomplete="autocomplete"
-    :value="value"
-    @input="triggerInput"
-  />
-  <a-input
-    v-else
-    class="dmPrincipalInput"
+    :class="_themePreference === 'light' ? 'lmPrincipalInput' : 'dmPrincipalInput'"
     :placeholder="placeholder"
     :type="type"
     :autocomplete="autocomplete"

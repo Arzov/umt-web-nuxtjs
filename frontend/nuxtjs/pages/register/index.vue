@@ -3,36 +3,41 @@
     <a-row type="flex" justify="space-around" align="middle">
       <a-col :span="12">
         <ThemeToggle />
-        <img class="logo">
+        <img
+          :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
+            require('../../static/dm-logo.svg')"
+          class="logo"
+        >
         <img class="football-shoes" src="../../assets/images/football-shoes.svg">
-        <img class="points">
+        <img
+          :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
+            require('../../assets/images/dm-points.svg')"
+          class="points"
+        >
       </a-col>
       <a-col class="right-content" :span="12">
-        <nuxt-link class="backBtn" to="/" />
+        <BackBtn />
         <h1>Registro</h1>
         <br>
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
           <a-form-model-item :prop="this.$RULES.firstName.name">
-            <a-input
+            <PrincipalInput
               v-model="ruleForm.firstName"
-              class="principalInput"
               :placeholder="this.$RULES.firstName.placeholder"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.email.name">
-            <a-input
+            <PrincipalInput
               v-model="ruleForm.email"
-              class="principalInput"
               :placeholder="this.$RULES.email.placeholder"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.password.name">
-            <a-input
+            <PrincipalInput
               v-model="ruleForm.password"
-              class="principalInput"
               :placeholder="this.$RULES.password.placeholder"
-              type="password"
-              autocomplete="off"
+              :type="this.$RULES.password.type"
+              :autocomplete="this.$RULES.password.autocomplete"
             />
           </a-form-model-item>
           <a-form-model-item :prop="this.$RULES.birthdate.name">
@@ -73,15 +78,16 @@ import ThemeToggle from '@/components/themeToggle'
 import PrincipalBtn from '@/components/principalBtn'
 import DateSelector from '@/components/dateSelector'
 import GenderSelector from '@/components/genderSelector'
+import BackBtn from '@/components/backBtn'
 
 export default {
-  components: { ThemeToggle, PrincipalBtn, DateSelector, GenderSelector },
+  components: { ThemeToggle, PrincipalBtn, DateSelector, GenderSelector, BackBtn },
   data () {
     return {
       ruleForm: {
-        firstName: this.$RULES.firstName.initialValue,
-        email: this.$RULES.email.initialValue,
-        password: this.$RULES.password.initialValue,
+        firstName: '',
+        email: '',
+        password: '',
         birthdate: {
           day: undefined,
           month: undefined,

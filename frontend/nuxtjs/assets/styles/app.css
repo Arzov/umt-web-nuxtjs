@@ -144,14 +144,16 @@
   margin-bottom: 0;
   color: #161C27; }
 
-.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .lmPrincipalInput, .lmPrincipalInput:hover, .lmPrincipalInput:focus, .dmPrincipalInput, .dmPrincipalInput:hover, .dmPrincipalInput:focus, .dateSelector,
-.dateSelector:hover, .ant-select, .genderSelector .ant-radio-wrapper {
+.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .lmPrincipalInput, .lmPrincipalInput:hover, .lmPrincipalInput:focus, .dmPrincipalInput, .dmPrincipalInput:hover, .dmPrincipalInput:focus, .dmBody .dateSelector,
+.dmBody .dateSelector:hover, .lmBody .dateSelector,
+.lmBody .dateSelector:hover, .ant-select, .genderSelector .ant-radio-wrapper {
   font-size: 16px;
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
   font-style: normal; }
-  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .lmPrincipalInput b, .lmPrincipalInput:hover b, .lmPrincipalInput:focus b, .dmPrincipalInput b, .dmPrincipalInput:hover b, .dmPrincipalInput:focus b, .dateSelector b,
-  .dateSelector:hover b, .ant-select b, .genderSelector .ant-radio-wrapper b {
+  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .lmPrincipalInput b, .lmPrincipalInput:hover b, .lmPrincipalInput:focus b, .dmPrincipalInput b, .dmPrincipalInput:hover b, .dmPrincipalInput:focus b, .dmBody .dateSelector b,
+  .dmBody .dateSelector:hover b, .lmBody .dateSelector b,
+  .lmBody .dateSelector:hover b, .ant-select b, .genderSelector .ant-radio-wrapper b {
     font-weight: 700; }
 
 .dmBody, .lmBody {
@@ -307,7 +309,9 @@ body:has(.dmBody) {
 .ant-form-explain {
   color: #6457e3 !important; }
 
-.dateSelector .ant-select-selection, .dateSelector:hover .ant-select-selection {
+.dmBody .dateSelector .ant-select-selection,
+.dmBody .dateSelector:hover .ant-select-selection, .lmBody .dateSelector .ant-select-selection,
+.lmBody .dateSelector:hover .ant-select-selection {
   box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
   border: none;
   border-radius: 0;
@@ -315,27 +319,35 @@ body:has(.dmBody) {
   width: 100%;
   padding-top: 0.4em; }
 
-body[data-theme='light'] .dateSelector .ant-select-selection,
-body[data-theme='light'] .dateSelector:hover .ant-select-selection {
-  color: #161C27;
-  background: white; }
-  body[data-theme='light'] .dateSelector .ant-select-selection svg,
-  body[data-theme='light'] .dateSelector:hover .ant-select-selection svg {
-    color: #161C27; }
-body[data-theme='dark'] .dateSelector .ant-select-selection, body[data-theme='dark'] .dateSelector:hover .ant-select-selection {
+.dmBody .dateSelector .ant-select-selection,
+.dmBody .dateSelector:hover .ant-select-selection {
   color: white;
   background: #1F2835; }
-  body[data-theme='dark'] .dateSelector .ant-select-selection svg, body[data-theme='dark'] .dateSelector:hover .ant-select-selection svg {
+  .dmBody .dateSelector .ant-select-selection svg,
+  .dmBody .dateSelector:hover .ant-select-selection svg {
     color: white; }
-.has-error .dateSelector .ant-select-selection, .has-error .dateSelector:hover .ant-select-selection {
-  box-shadow: 0 0 0 2px #6457e3; }
-.dateSelector label, .dateSelector:hover label {
-  font-size: 12px; }
-  body[data-theme='light'] .dateSelector label,
-  body[data-theme='light'] .dateSelector:hover label {
+  .dmBody .dateSelector .ant-select-selection .has-error,
+  .dmBody .dateSelector:hover .ant-select-selection .has-error {
+    box-shadow: 0 0 0 2px #6457e3; }
+.dmBody .dateSelector label,
+.dmBody .dateSelector:hover label {
+  font-size: 12px;
+  color: white; }
+
+.lmBody .dateSelector .ant-select-selection,
+.lmBody .dateSelector:hover .ant-select-selection {
+  color: #161C27;
+  background: white; }
+  .lmBody .dateSelector .ant-select-selection svg,
+  .lmBody .dateSelector:hover .ant-select-selection svg {
     color: #161C27; }
-  body[data-theme='dark'] .dateSelector label, body[data-theme='dark'] .dateSelector:hover label {
-    color: white; }
+  .lmBody .dateSelector .ant-select-selection .has-error,
+  .lmBody .dateSelector:hover .ant-select-selection .has-error {
+    box-shadow: 0 0 0 2px #6457e3; }
+.lmBody .dateSelector label,
+.lmBody .dateSelector:hover label {
+  font-size: 12px;
+  color: #161C27; }
 
 .ant-form-explain {
   color: #6457e3 !important; }
@@ -436,14 +448,8 @@ body[data-theme='dark'] .dateSelector .ant-select-selection, body[data-theme='da
     color: white; }
 
 .backBtn {
-  background-repeat: no-repeat;
-  background-size: cover;
   display: block;
   width: 38px; }
-  body[data-theme='light'] .backBtn {
-    content: url("../icons/lm-arrow-left.svg"); }
-  body[data-theme='dark'] .backBtn {
-    content: url("../icons/dm-arrow-left.svg"); }
 
 .right-content {
   padding-left: 10%;

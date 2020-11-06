@@ -7,45 +7,56 @@
     padding-top: 0.4em;
 }
 
-.dateSelector,
-.dateSelector:hover {
-    @extend %font-props;
+.dmBody {
+    .dateSelector,
+    .dateSelector:hover {
+        @extend %font-props;
 
-    .ant-select-selection {
-        body[data-theme='light'] & {
-            color: $color-black;
-            background: $color-white;
-
-            svg {
-                color: $color-black;
-            }
-        }
-
-        body[data-theme='dark'] & {
+        .ant-select-selection {
             color: $color-white;
             background: $color-dark-grey;
 
             svg {
                 color: $color-white;
             }
+
+            .has-error {
+                box-shadow: 0 0 0 2px $color-purple;
+            }
+            
+            @extend %date-selector-aspects;
         }
 
-        .has-error & {
-            box-shadow: 0 0 0 2px $color-purple;
-        }
-        
-        @extend %date-selector-aspects;
-    }
-
-    label {
-        font-size: 12px;
-
-        body[data-theme='light'] & {
-            color: $color-black;
-        }
-
-        body[data-theme='dark'] & {
+        label {
+            font-size: 12px;
             color: $color-white;
+        }
+    }
+}
+
+.lmBody {
+    .dateSelector,
+    .dateSelector:hover {
+        @extend %font-props;
+
+        .ant-select-selection {
+            color: $color-black;
+            background: $color-white;
+
+            svg {
+                color: $color-black;
+            }
+
+            .has-error {
+                box-shadow: 0 0 0 2px $color-purple;
+            }
+            
+            @extend %date-selector-aspects;
+        }
+
+        label {
+            font-size: 12px;
+            color: $color-black;
         }
     }
 }

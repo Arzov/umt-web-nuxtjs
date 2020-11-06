@@ -2,7 +2,7 @@ const getLocalStorageState = key => (localStorage.getItem(key))
 
 const getDefaultState = () => ({
   themePreference: getLocalStorageState('themePreference')
-    ? getLocalStorageState('themePreference') : 'light'
+    ? getLocalStorageState('themePreference') : 'dark'
 })
 
 const state = getDefaultState
@@ -16,13 +16,13 @@ const getters = {
 const actions = {
   setTheme (ctx, data) {
     const params = {
-      themePreference: 'light'
+      themePreference: 'dark'
     }
 
     if (ctx.getters.getGlobals.themePreference === 'light') {
-      params.themePreference = 'dark'
       ctx.commit('setState', { params })
     } else {
+      params.themePreference = 'light'
       ctx.commit('setState', { params })
     }
   },

@@ -1,7 +1,9 @@
 <template>
   <a class="google" block @click="toGoogleLogin">
-    <img v-if="_themePreference === 'light'" :src="require('../assets/icons/lm-google.svg')">
-    <img v-else :src="require('../assets/icons/dm-google.svg')">
+    <img
+      :src="_themePreference === 'light' ? require('../assets/icons/lm-google.svg') :
+        require('../assets/icons/dm-google.svg')"
+    >
   </a>
 </template>
 
