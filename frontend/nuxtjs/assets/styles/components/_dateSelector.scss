@@ -7,21 +7,17 @@
     padding-top: 0.4em;
 }
 
-.dmBody {
-    .dateSelector,
-    .dateSelector:hover {
-        @extend %font-props;
+.dateSelector,
+.dateSelector:hover {
+    @extend %font-props;
 
+    .dmBody & {
         .ant-select-selection {
             color: $color-white;
             background: $color-dark-grey;
 
             svg {
                 color: $color-white;
-            }
-
-            .has-error {
-                box-shadow: 0 0 0 2px $color-purple;
             }
             
             @extend %date-selector-aspects;
@@ -32,23 +28,14 @@
             color: $color-white;
         }
     }
-}
 
-.lmBody {
-    .dateSelector,
-    .dateSelector:hover {
-        @extend %font-props;
-
+    .lmBody & {
         .ant-select-selection {
             color: $color-black;
             background: $color-white;
 
             svg {
                 color: $color-black;
-            }
-
-            .has-error {
-                box-shadow: 0 0 0 2px $color-purple;
             }
             
             @extend %date-selector-aspects;
@@ -57,6 +44,13 @@
         label {
             font-size: 12px;
             color: $color-black;
+        }
+    }
+
+    .has-error & {
+        .ant-select-selection {
+            border-color: $color-purple;
+            box-shadow: 0 0 0 2px $color-purple;
         }
     }
 }
@@ -71,6 +65,10 @@
 
 .ant-select-arrow {
     right: 11px !important;
+}
+
+.ant-select-dropdown-menu-item {
+    @extend %font-props;
 }
 
 .ant-select-dropdown-content, .ant-select-dropdown {

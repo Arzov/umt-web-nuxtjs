@@ -1,6 +1,6 @@
 <template>
   <a-input
-    :class="_themePreference === 'light' ? 'lmPrincipalInput' : 'dmPrincipalInput'"
+    class="principalInput"
     :placeholder="placeholder"
     :type="type"
     :autocomplete="autocomplete"
@@ -15,7 +15,7 @@ export default {
     placeholder: { type: String, default: 'Ingresa' },
     type: { type: String, default: 'text' },
     autocomplete: { type: String, default: 'on' },
-    value: { type: String, default: 'on' }
+    value: { type: String, default: '' }
   },
   methods: {
     triggerInput (e) {

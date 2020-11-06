@@ -2,14 +2,14 @@
   <div class="genderSelector">
     <a-row>
       <label>
-        <b>{{ values.label | uppercase }}</b>
+        <b>{{ label | uppercase }}</b>
       </label>
     </a-row>
     <a-row>
       <a-col :span="24">
         <a-radio-group
-          :default-value="values.gender"
-          @change="setGender"
+          :value="value"
+          @change="triggerChange"
         >
           <a-radio
             v-for="g in genderOptions"
@@ -27,15 +27,8 @@
 <script>
 export default {
   props: {
-    values: {
-      type: Object,
-      default: () => {
-        return {
-          label: 'sexo',
-          gender: 'M'
-        }
-      }
-    }
+    label: { type: String, default: 'Sexo' },
+    value: { type: String, default: 'M' }
   },
   data () {
     return {
@@ -46,12 +39,9 @@ export default {
     }
   },
   methods: {
-    setGender (event) {
-      this.values.gender = event.target.value
-      this.triggerChange()
-    },
-    triggerChange () {
-      this.$emit('change', this.values)
+    triggerChange (e) {
+      this.$emit('input', e.target.value)
+      this.$emit('change', e.target.value)
     }
   }
 }

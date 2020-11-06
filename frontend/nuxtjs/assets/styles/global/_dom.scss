@@ -17,10 +17,6 @@
     }
 }
 
-body:has(.dmBody) {
-    background-color: $color-black;
-}
-
 .lmBody {
     @extend %font-props;
     @extend %effects;

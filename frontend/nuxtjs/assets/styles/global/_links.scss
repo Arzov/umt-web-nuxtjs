@@ -1,23 +1,16 @@
-.dmBody {
-    [class|="nuxt-link"],
-    [class|="nuxt-link"]:hover,
-    [class|="nuxt-link"]:active,
-    a,
-    a:hover,
-    a:active {
-        font-weight: 700;
+[class|="nuxt-link"],
+[class|="nuxt-link"]:hover,
+[class|="nuxt-link"]:active,
+a,
+a:hover,
+a:active {
+    font-weight: 700;
+
+    .dmBody & {
         color: $color-cian;
     }
-}
 
-.lmBody {
-    [class|="nuxt-link"],
-    [class|="nuxt-link"]:hover,
-    [class|="nuxt-link"]:active,
-    a,
-    a:hover,
-    a:active {
-        font-weight: 700;
+    .lmBody & {
         color: $color-pink;
     }
 }

@@ -88,72 +88,56 @@
   font-style: italic;
   font-weight: 900;
   src: url("../fonts/PublicSans-BlackItalic.ttf") format("truetype"); }
-.dmBody h1 {
+h1 {
   font-size: 2.5rem;
   font-weight: 700;
   text-transform: none;
-  margin-bottom: 0;
-  color: white; }
+  margin-bottom: 0; }
+  .dmBody h1 {
+    color: white; }
+  .lmBody h1 {
+    color: #161C27; }
 
-.lmBody h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-transform: none;
-  margin-bottom: 0;
-  color: #161C27; }
-
-.dmBody h2 {
+h2 {
   font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 0;
-  color: white; }
+  margin-bottom: 0; }
+  .dmBody h2 {
+    color: white; }
+  .lmBody h2 {
+    color: #161C27; }
 
-.lmBody h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 0;
-  color: #161C27; }
-
-.dmBody h3 {
+h3 {
   font-size: 1rem;
   font-weight: 900;
   text-transform: uppercase;
-  margin-bottom: 0;
-  color: white; }
+  margin-bottom: 0; }
+  .dmBody h3 {
+    color: white; }
+  .lmBody h3 {
+    color: #161C27; }
 
-.lmBody h3 {
-  font-size: 1rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  margin-bottom: 0;
-  color: #161C27; }
-
-.dmBody h4 {
+h4 {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 0;
-  color: white; }
+  margin-bottom: 0; }
+  .dmBody h4 {
+    color: white; }
+  .lmBody h4 {
+    color: #161C27; }
 
-.lmBody h4 {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 0;
-  color: #161C27; }
-
-.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .lmPrincipalInput, .lmPrincipalInput:hover, .lmPrincipalInput:focus, .dmPrincipalInput, .dmPrincipalInput:hover, .dmPrincipalInput:focus, .dmBody .dateSelector,
-.dmBody .dateSelector:hover, .lmBody .dateSelector,
-.lmBody .dateSelector:hover, .ant-select, .genderSelector .ant-radio-wrapper {
+.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .dmBody .principalInput,
+.dmBody .principalInput:hover,
+.dmBody .principalInput:focus, .lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .genderSelector .ant-radio-wrapper {
   font-size: 16px;
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
   font-style: normal; }
-  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .lmPrincipalInput b, .lmPrincipalInput:hover b, .lmPrincipalInput:focus b, .dmPrincipalInput b, .dmPrincipalInput:hover b, .dmPrincipalInput:focus b, .dmBody .dateSelector b,
-  .dmBody .dateSelector:hover b, .lmBody .dateSelector b,
-  .lmBody .dateSelector:hover b, .ant-select b, .genderSelector .ant-radio-wrapper b {
+  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .dmBody .principalInput b,
+  .dmBody .principalInput:hover b,
+  .dmBody .principalInput:focus b, .lmBody .principalInput b, .lmBody .principalInput:hover b, .lmBody .principalInput:focus b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .genderSelector .ant-radio-wrapper b {
     font-weight: 700; }
 
 .dmBody, .lmBody {
@@ -164,9 +148,6 @@
   color: white; }
   .dmBody .ant-form, .dmBody .ant-form-item {
     color: white; }
-
-body:has(.dmBody) {
-  background-color: #161C27; }
 
 .lmBody {
   background-color: #f1f3ff;
@@ -187,23 +168,17 @@ body:has(.dmBody) {
 ::-webkit-scrollbar-thumb:hover {
   background: #ac9ff9; }
 
-.dmBody [class|="nuxt-link"],
-.dmBody [class|="nuxt-link"]:hover,
-.dmBody [class|="nuxt-link"]:active,
-.dmBody a,
-.dmBody a:hover,
-.dmBody a:active {
-  font-weight: 700;
-  color: #0cecf2; }
-
-.lmBody [class|="nuxt-link"],
-.lmBody [class|="nuxt-link"]:hover,
-.lmBody [class|="nuxt-link"]:active,
-.lmBody a,
-.lmBody a:hover,
-.lmBody a:active {
-  font-weight: 700;
-  color: #ad64e6; }
+[class|="nuxt-link"], [class|="nuxt-link"]:hover, [class|="nuxt-link"]:active, a, a:hover, a:active {
+  font-weight: 700; }
+  .dmBody [class|="nuxt-link"],
+  .dmBody [class|="nuxt-link"]:hover,
+  .dmBody [class|="nuxt-link"]:active,
+  .dmBody a,
+  .dmBody a:hover,
+  .dmBody a:active {
+    color: #0cecf2; }
+  .lmBody [class|="nuxt-link"], .lmBody [class|="nuxt-link"]:hover, .lmBody [class|="nuxt-link"]:active, .lmBody a, .lmBody a:hover, .lmBody a:active {
+    color: #ad64e6; }
 
 .logo {
   margin-left: 30px;
@@ -228,22 +203,6 @@ body:has(.dmBody) {
 .google {
   display: block;
   width: 38px; }
-
-.logo {
-  margin-left: 30px;
-  margin-bottom: 30px;
-  margin-top: 30px;
-  max-width: 50%; }
-
-.football-shoes {
-  margin-bottom: 30px;
-  margin-top: 30px;
-  width: 75%; }
-
-.points {
-  max-width: 45%;
-  margin-bottom: 30px;
-  margin-top: 30px; }
 
 .themeToggle {
   display: block;
@@ -279,39 +238,32 @@ body:has(.dmBody) {
   background: -webkit-linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%);
   background: linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%); }
 
-.lmPrincipalInput, .lmPrincipalInput:hover, .lmPrincipalInput:focus, .dmPrincipalInput, .dmPrincipalInput:hover, .dmPrincipalInput:focus {
+.dmBody .principalInput,
+.dmBody .principalInput:hover,
+.dmBody .principalInput:focus, .lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus {
   box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
   border: none;
   border-radius: 0;
   height: 42px;
   width: 100%; }
 
-.lmPrincipalInput, .lmPrincipalInput:hover, .lmPrincipalInput:focus {
-  color: #161C27;
-  background: white; }
-  .has-error .lmPrincipalInput,
-  .has-error .lmPrincipalInput:hover,
-  .has-error .lmPrincipalInput:focus {
-    background-color: white;
-    border-color: #6457e3;
-    box-shadow: 0 0 0 2px #6457e3; }
-
-.dmPrincipalInput, .dmPrincipalInput:hover, .dmPrincipalInput:focus {
+.dmBody .principalInput,
+.dmBody .principalInput:hover,
+.dmBody .principalInput:focus {
   color: white;
   background: #1F2835; }
-  .has-error .dmPrincipalInput,
-  .has-error .dmPrincipalInput:hover,
-  .has-error .dmPrincipalInput:focus {
-    background-color: #1F2835;
-    border-color: #6457e3;
-    box-shadow: 0 0 0 2px #6457e3; }
+.lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus {
+  color: #161C27;
+  background: white; }
+.has-error .principalInput, .has-error .principalInput:hover, .has-error .principalInput:focus {
+  border-color: #6457e3;
+  box-shadow: 0 0 0 2px #6457e3; }
 
 .ant-form-explain {
   color: #6457e3 !important; }
 
 .dmBody .dateSelector .ant-select-selection,
-.dmBody .dateSelector:hover .ant-select-selection, .lmBody .dateSelector .ant-select-selection,
-.lmBody .dateSelector:hover .ant-select-selection {
+.dmBody .dateSelector:hover .ant-select-selection, .lmBody .dateSelector .ant-select-selection, .lmBody .dateSelector:hover .ant-select-selection {
   box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
   border: none;
   border-radius: 0;
@@ -326,28 +278,21 @@ body:has(.dmBody) {
   .dmBody .dateSelector .ant-select-selection svg,
   .dmBody .dateSelector:hover .ant-select-selection svg {
     color: white; }
-  .dmBody .dateSelector .ant-select-selection .has-error,
-  .dmBody .dateSelector:hover .ant-select-selection .has-error {
-    box-shadow: 0 0 0 2px #6457e3; }
 .dmBody .dateSelector label,
 .dmBody .dateSelector:hover label {
   font-size: 12px;
   color: white; }
-
-.lmBody .dateSelector .ant-select-selection,
-.lmBody .dateSelector:hover .ant-select-selection {
+.lmBody .dateSelector .ant-select-selection, .lmBody .dateSelector:hover .ant-select-selection {
   color: #161C27;
   background: white; }
-  .lmBody .dateSelector .ant-select-selection svg,
-  .lmBody .dateSelector:hover .ant-select-selection svg {
+  .lmBody .dateSelector .ant-select-selection svg, .lmBody .dateSelector:hover .ant-select-selection svg {
     color: #161C27; }
-  .lmBody .dateSelector .ant-select-selection .has-error,
-  .lmBody .dateSelector:hover .ant-select-selection .has-error {
-    box-shadow: 0 0 0 2px #6457e3; }
-.lmBody .dateSelector label,
-.lmBody .dateSelector:hover label {
+.lmBody .dateSelector label, .lmBody .dateSelector:hover label {
   font-size: 12px;
   color: #161C27; }
+.has-error .dateSelector .ant-select-selection, .has-error .dateSelector:hover .ant-select-selection {
+  border-color: #6457e3;
+  box-shadow: 0 0 0 2px #6457e3; }
 
 .ant-form-explain {
   color: #6457e3 !important; }
@@ -382,76 +327,76 @@ body:has(.dmBody) {
   line-height: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  grid-gap: 4.1666666667%; }
+  grid-gap: 16px; }
 .genderSelector .ant-radio-wrapper {
   display: grid;
   cursor: pointer;
   grid-template-columns: 1fr auto;
   grid-template-areas: "label radio"; }
-  body[data-theme='light'] .genderSelector .ant-radio-wrapper {
-    color: #161C27;
-    background: white; }
-    body[data-theme='light'] .genderSelector .ant-radio-wrapper > span:nth-child(1) {
-      grid-area: radio;
-      padding: 0.3em 1em 0.3em 0.3em;
-      align-self: center; }
-      body[data-theme='light'] .genderSelector .ant-radio-wrapper > span:nth-child(1)::after {
-        border: none; }
-      body[data-theme='light'] .genderSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
-        border: solid 1px #161C27; }
-      body[data-theme='light'] .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
-        background: none;
-        border: solid 2px #161C27;
-        width: 14px;
-        height: 14px; }
-        body[data-theme='light'] .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
-          background-color: #161C27;
-          top: 1px;
-          left: 1px;
-          width: 10px;
-          height: 10px; }
-    body[data-theme='light'] .genderSelector .ant-radio-wrapper > span:nth-child(2) {
-      grid-area: label;
-      padding: 0.3em 0.3em 0.3em 1em;
-      align-self: center; }
-  body[data-theme='dark'] .genderSelector .ant-radio-wrapper {
+  .dmBody .genderSelector .ant-radio-wrapper {
     color: white;
     background: #1F2835; }
-    body[data-theme='dark'] .genderSelector .ant-radio-wrapper > span:nth-child(1) {
+    .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) {
       grid-area: radio;
       padding: 0.3em 1em 0.3em 0.3em;
       align-self: center; }
-      body[data-theme='dark'] .genderSelector .ant-radio-wrapper > span:nth-child(1)::after {
+      .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1)::after {
         border: none; }
-      body[data-theme='dark'] .genderSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
+      .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
         border: solid 1px white; }
-      body[data-theme='dark'] .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
+      .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
         background: none;
         border: solid 2px white;
         width: 14px;
         height: 14px; }
-        body[data-theme='dark'] .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
+        .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
           background-color: white;
           top: 1px;
           left: 1px;
           width: 10px;
           height: 10px; }
-    body[data-theme='dark'] .genderSelector .ant-radio-wrapper > span:nth-child(2) {
+    .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(2) {
+      grid-area: label;
+      padding: 0.3em 0.3em 0.3em 1em;
+      align-self: center; }
+  .lmBody .genderSelector .ant-radio-wrapper {
+    color: #161C27;
+    background: white; }
+    .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) {
+      grid-area: radio;
+      padding: 0.3em 1em 0.3em 0.3em;
+      align-self: center; }
+      .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1)::after {
+        border: none; }
+      .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
+        border: solid 1px #161C27; }
+      .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
+        background: none;
+        border: solid 2px #161C27;
+        width: 14px;
+        height: 14px; }
+        .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
+          background-color: #161C27;
+          top: 1px;
+          left: 1px;
+          width: 10px;
+          height: 10px; }
+    .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(2) {
       grid-area: label;
       padding: 0.3em 0.3em 0.3em 1em;
       align-self: center; }
 .genderSelector label {
   font-size: 12px; }
-  body[data-theme='light'] .genderSelector label {
-    color: #161C27; }
-  body[data-theme='dark'] .genderSelector label {
+  .dmBody .genderSelector label {
     color: white; }
+  .lmBody .genderSelector label {
+    color: #161C27; }
 
 .backBtn {
   display: block;
   width: 38px; }
 
-.right-content {
+.rightContent {
   padding-left: 10%;
   padding-right: 10%; }
 

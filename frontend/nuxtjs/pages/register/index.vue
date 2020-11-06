@@ -15,7 +15,7 @@
           class="points"
         >
       </a-col>
-      <a-col class="right-content" :span="12">
+      <a-col class="rightContent" :span="12">
         <BackBtn />
         <h1>Registro</h1>
         <br>
@@ -49,7 +49,7 @@
           <a-form-model-item>
             <GenderSelector
               v-model="ruleForm.gender"
-              :values="ruleForm.gender"
+              label="SEXO*"
             />
           </a-form-model-item>
           <center>
@@ -93,10 +93,7 @@ export default {
           month: undefined,
           year: undefined
         },
-        gender: {
-          label: 'SEXO*',
-          gender: 'M'
-        }
+        gender: 'M'
       },
       rules: {
         firstName: this.$RULES.firstName.rules,
@@ -118,7 +115,7 @@ export default {
           console.log(this.ruleForm.birthdate)
           console.log(this.ruleForm.gender)
         } else {
-          console.log(this.ruleForm.birthdate)
+          console.log(this.ruleForm)
           return false
         }
       })

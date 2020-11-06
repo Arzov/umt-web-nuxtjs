@@ -15,7 +15,7 @@
           class="points"
         >
       </a-col>
-      <a-col class="right-content" :span="12">
+      <a-col class="rightContent" :span="12">
         <h1>Inicio de sesión</h1>
         <b>¿Olvidaste tu contraseña?</b> <nuxt-link to="/">
           Recupérala.

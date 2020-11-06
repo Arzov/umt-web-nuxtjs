@@ -7,29 +7,23 @@
     width: 100%;
 }
 
-.lmPrincipalInput,
-.lmPrincipalInput:hover,
-.lmPrincipalInput:focus {
-    color: $color-black;
-    background: $color-white;
-    @extend %input-aspects;
 
-    .has-error & {
-        background-color: $color-white;
-        border-color: $color-purple;
-        box-shadow: 0 0 0 2px $color-purple;
+.principalInput,
+.principalInput:hover,
+.principalInput:focus {
+    .dmBody & {
+        color: $color-white;
+        background: $color-dark-grey;
+        @extend %input-aspects;
     }
-}
 
-.dmPrincipalInput,
-.dmPrincipalInput:hover,
-.dmPrincipalInput:focus {
-    color: $color-white;
-    background: $color-dark-grey;
-    @extend %input-aspects;
+    .lmBody & {
+        color: $color-black;
+        background: $color-white;
+        @extend %input-aspects;
+    }
 
     .has-error & {
-        background-color: $color-dark-grey;
         border-color: $color-purple;
         box-shadow: 0 0 0 2px $color-purple;
     }
