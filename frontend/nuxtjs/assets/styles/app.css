@@ -130,14 +130,22 @@ h4 {
 
 .dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .dmBody .principalInput,
 .dmBody .principalInput:hover,
-.dmBody .principalInput:focus, .lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .genderSelector .ant-radio-wrapper {
+.dmBody .principalInput:focus, .lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .genderSelector .ant-radio-wrapper, .dmNotification, .lmNotification, .dmNotification .ant-notification-notice-message,
+.dmNotification .ant-notification-notice-description,
+.dmNotification .ant-notification-close-x, .lmNotification .ant-notification-notice-message,
+.lmNotification .ant-notification-notice-description,
+.lmNotification .ant-notification-close-x {
   font-size: 16px;
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
   font-style: normal; }
   .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .dmBody .principalInput b,
   .dmBody .principalInput:hover b,
-  .dmBody .principalInput:focus b, .lmBody .principalInput b, .lmBody .principalInput:hover b, .lmBody .principalInput:focus b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .genderSelector .ant-radio-wrapper b {
+  .dmBody .principalInput:focus b, .lmBody .principalInput b, .lmBody .principalInput:hover b, .lmBody .principalInput:focus b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .genderSelector .ant-radio-wrapper b, .dmNotification b, .lmNotification b, .dmNotification .ant-notification-notice-message b,
+  .dmNotification .ant-notification-notice-description b,
+  .dmNotification .ant-notification-close-x b, .lmNotification .ant-notification-notice-message b,
+  .lmNotification .ant-notification-notice-description b,
+  .lmNotification .ant-notification-close-x b {
     font-weight: 700; }
 
 .dmBody, .lmBody {
@@ -196,7 +204,7 @@ html {
   .dmBody a:active {
     color: #0cecf2; }
   .lmBody [class|="nuxt-link"], .lmBody [class|="nuxt-link"]:hover, .lmBody [class|="nuxt-link"]:active, .lmBody a, .lmBody a:hover, .lmBody a:active {
-    color: #ad64e6; }
+    color: #6457e3; }
 
 .logo {
   margin-left: 30px;
@@ -243,6 +251,11 @@ html {
   height: 42px;
   width: 100%;
   border: none; }
+  .principalBtn.ant-btn-loading, .principalBtn:focus.ant-btn-loading {
+    background: #ac9ff9;
+    background: -moz-linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%);
+    background: -webkit-linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%);
+    background: linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%); }
 
 .principalBtn:hover {
   background: #6457e3;
@@ -255,6 +268,12 @@ html {
   background: -moz-linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%);
   background: -webkit-linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%);
   background: linear-gradient(90deg, #ac9ff9 0%, #ac9ff9 100%); }
+
+.principalBtn::before {
+  background: none; }
+
+.anticon.anticon-loading {
+  margin-right: 10px; }
 
 .dmBody .principalInput,
 .dmBody .principalInput:hover,
@@ -420,6 +439,33 @@ html {
 .backBtn {
   display: block;
   width: 38px; }
+
+.dmNotification, .lmNotification {
+  box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.2);
+  border: none;
+  border-radius: 0; }
+  .dmNotification .ant-notification-notice-message, .lmNotification .ant-notification-notice-message {
+    font-weight: 700; }
+
+.dmNotification {
+  color: white;
+  background: #1F2835; }
+  .dmNotification .ant-notification-notice-message,
+  .dmNotification .ant-notification-notice-description,
+  .dmNotification .ant-notification-close-x {
+    color: white; }
+  .dmNotification .ant-notification-notice-icon svg {
+    color: #0cecf2; }
+
+.lmNotification {
+  color: #161C27;
+  background: white; }
+  .lmNotification .ant-notification-notice-message,
+  .lmNotification .ant-notification-notice-description,
+  .lmNotification .ant-notification-close-x {
+    color: #161C27; }
+  .lmNotification .ant-notification-notice-icon svg {
+    color: #6457e3; }
 
 .rightContent {
   padding-left: 10%;

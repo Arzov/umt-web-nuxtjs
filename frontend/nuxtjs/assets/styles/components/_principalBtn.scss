@@ -19,6 +19,10 @@
     height: 42px;
     width: 100%;
     border: none;
+
+    &.ant-btn-loading {
+        @include background($color-violet, $color-violet);
+    }
 }
 
 .principalBtn:hover {
@@ -29,4 +33,12 @@
 .principalBtn::after, .principalBtn:active {
     @extend %btn-aspects;
     @include background($color-violet, $color-violet);
+}
+
+.principalBtn::before {
+    background: none;
+}
+
+.anticon.anticon-loading {
+    margin-right: 10px;
 }

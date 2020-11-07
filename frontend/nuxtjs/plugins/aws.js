@@ -1,11 +1,7 @@
-// import Vue from 'vue'
 import { Amplify, Hub } from '@aws-amplify/core'
 import API from '@aws-amplify/api'
 import Auth from '@aws-amplify/auth'
 import Storage from '@aws-amplify/storage'
-// import Amplify, * as AmplifyModules from 'aws-amplify'
-// import { Hub, graphqlOperation } from 'aws-amplify'
-// import { AmplifyPlugin } from 'aws-amplify-vue'
 
 Amplify.configure({
   Auth: {
@@ -15,7 +11,7 @@ Amplify.configure({
     region: process.env.NUXT_ENV_AWS_DEFAULT_REGION,
     oauth: {
       domain: process.env.NUXT_ENV_AWS_COGNITO_USER_POOL_DOMAIN,
-      scope: ['email', 'openid'],
+      scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
       redirectSignIn: process.env.NUXT_ENV_ROOT_URL,
       redirectSignOut: process.env.NUXT_ENV_ROOT_URL,
       responseType: 'code'
@@ -33,9 +29,6 @@ Amplify.configure({
     }
   }
 })
-
-// Vue.use(API, Auth, Storage, Hub)
-// Vue.use(AmplifyPlugin, AmplifyModules)
 
 export default (ctx, inject) => {
   const AWS = {

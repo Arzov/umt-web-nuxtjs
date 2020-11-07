@@ -41,7 +41,11 @@
             />
           </a-form-model-item>
           <a-form-model-item>
-            <PrincipalBtn text="INICIAR SESIÓN" @click.native="submitForm('ruleForm')" />
+            <PrincipalBtn
+              text="INICIAR SESIÓN"
+              :loading="loading"
+              @click.native="submitForm('ruleForm')"
+            />
           </a-form-model-item>
         </a-form-model>
         <center>
@@ -65,6 +69,12 @@
         </center>
       </a-col>
     </a-row>
+    <Notification
+      :toggle="notification.toggle"
+      :type="notification.type"
+      :message="notification.message"
+      :description="notification.description"
+    />
   </div>
 </template>
 
@@ -86,17 +96,27 @@ export default {
       rules: {
         email: this.$RULES.email.rules,
         password: this.$RULES.password.rules
-      }
+      },
+      startState: this.$store.getters['start/getStart'],
+      loading: false
     }
   },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.loading = true
           this.$store.dispatch('start/signIn', {
             email: this.ruleForm.email.toLowerCase(),
             password: this.ruleForm.password
           })
+            .then(() => {
+              if (!this.startState.signInStatus) {
+                this.showNotification(this.startState.signInTitle,
+                  this.startState.signInMsg, 'error')
+              }
+              this.loading = false
+            })
         } else {
           return false
         }

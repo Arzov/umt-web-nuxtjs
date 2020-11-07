@@ -8,7 +8,7 @@ const getDefaultState = () => ({
 const state = getDefaultState
 
 const getters = {
-  getGlobals (state) {
+  getGlobal (state) {
     return state
   }
 }
@@ -19,7 +19,7 @@ const actions = {
       themePreference: 'dark'
     }
 
-    if (ctx.getters.getGlobals.themePreference === 'light') {
+    if (ctx.getters.getGlobal.themePreference === 'light') {
       ctx.commit('setState', { params })
     } else {
       params.themePreference = 'light'
