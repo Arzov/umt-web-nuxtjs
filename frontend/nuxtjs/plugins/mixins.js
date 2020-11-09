@@ -1,16 +1,10 @@
 import Vue from 'vue'
+import Notification from '@/components/notification'
+
+const NotificationClass = Vue.extend(Notification)
+const notificationInstance = new NotificationClass()
 
 const mixin = {
-  data () {
-    return {
-      notification: {
-        type: 'error',
-        toggle: false,
-        message: '',
-        description: ''
-      }
-    }
-  },
   computed: {
     _themePreference () {
       return this.$store.getters['global/getGlobal'].themePreference
@@ -18,10 +12,10 @@ const mixin = {
   },
   methods: {
     showNotification (message, description, type) {
-      this.notification.message = message
-      this.notification.description = description
-      this.notification.type = type
-      this.notification.toggle = !this.notification.toggle
+      notificationInstance.message = message
+      notificationInstance.description = description
+      notificationInstance.type = type
+      notificationInstance.toggle = !notificationInstance.toggle
     }
   }
 }

@@ -79,14 +79,7 @@
 </template>
 
 <script>
-import ThemeToggle from '@/components/themeToggle'
-import PrincipalBtn from '@/components/principalBtn'
-import DateSelector from '@/components/dateSelector'
-import GenderSelector from '@/components/genderSelector'
-import BackBtn from '@/components/backBtn'
-
 export default {
-  components: { ThemeToggle, PrincipalBtn, DateSelector, GenderSelector, BackBtn },
   data () {
     return {
       ruleForm: {

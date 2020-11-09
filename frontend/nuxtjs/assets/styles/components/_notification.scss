@@ -9,36 +9,38 @@
     }
 }
 
-.dmNotification {
-    color: $color-white;
-    background: $color-dark-grey;
+.notification {
     @extend %notification-aspects;
 
-    .ant-notification-notice-message,
-    .ant-notification-notice-description,
-    .ant-notification-close-x {
-        @extend %font-props;
+    .dmBody & {
         color: $color-white;
+        background: $color-dark-grey;
+
+        .ant-notification-notice-message,
+        .ant-notification-notice-description,
+        .ant-notification-close-x {
+            @extend %font-props;
+            color: $color-white;
+        }
+
+        .ant-notification-notice-icon svg {
+            color: $color-cian;
+        }
     }
 
-    .ant-notification-notice-icon svg {
-        color: $color-cian;
-    }
-}
-
-.lmNotification {
-    color: $color-black;
-    background: $color-white;
-    @extend %notification-aspects;
-
-    .ant-notification-notice-message,
-    .ant-notification-notice-description,
-    .ant-notification-close-x {
-        @extend %font-props;
+    .lmBody & {
         color: $color-black;
-    }
+        background: $color-white;
 
-    .ant-notification-notice-icon svg {
-        color: $color-purple;
+        .ant-notification-notice-message,
+        .ant-notification-notice-description,
+        .ant-notification-close-x {
+            @extend %font-props;
+            color: $color-black;
+        }
+
+        .ant-notification-notice-icon svg {
+            color: $color-purple;
+        }
     }
 }

@@ -36,7 +36,8 @@ export default {
       this.$notification.open({
         message: this.message,
         description: this.description,
-        class: this._themePreference === 'light' ? 'lmNotification' : 'dmNotification',
+        class: 'notification',
+        getContainer: () => document.querySelector('.page'),
         icon
       })
     }

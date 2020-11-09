@@ -55,10 +55,10 @@
           <a-row>
             <a-col :span="6" />
             <a-col :span="6">
-              <GoogleLogin />
+              <Google />
             </a-col>
             <a-col :span="6">
-              <FacebookLogin />
+              <Facebook />
             </a-col>
             <a-col :span="6" />
           </a-row>
@@ -69,24 +69,11 @@
         </center>
       </a-col>
     </a-row>
-    <Notification
-      :toggle="notification.toggle"
-      :type="notification.type"
-      :message="notification.message"
-      :description="notification.description"
-    />
   </div>
 </template>
 
 <script>
-import GoogleLogin from '@/components/google'
-import FacebookLogin from '@/components/facebook'
-import ThemeToggle from '@/components/themeToggle'
-import PrincipalBtn from '@/components/principalBtn'
-import PrincipalInput from '@/components/principalInput'
-
 export default {
-  components: { GoogleLogin, FacebookLogin, ThemeToggle, PrincipalBtn, PrincipalInput },
   data () {
     return {
       ruleForm: {
