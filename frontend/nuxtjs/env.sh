@@ -54,9 +54,14 @@ export NUXT_ENV_ROOT_URL=https://$AWS_R53_UMT_DOMAIN
 aws cloudformation describe-stacks \
     --stack-name umt \
 	--query 'Stacks[0].Outputs[?OutputKey==`CFDistributionUMTWebId`].OutputValue' \
-	--output text > tmp; export NUXT_ENV_AWS_CLOUDFRONT_ID=$(cat tmp); rm tmp
+	--output text > tmp; export AWS_CLOUDFRONT_ID=$(cat tmp); rm tmp
 
 export NUXT_ENV_AWS_APPSYNC_AUTH_TYPE=AMAZON_COGNITO_USER_POOLS
+
+aws cloudformation describe-stacks \
+    --stack-name umt \
+	--query 'Stacks[0].Outputs[?OutputKey==`S3BucketUMTWebId`].OutputValue' \
+	--output text > tmp; export AWS_S3_WEB_BUCKET=$(cat tmp); rm tmp
 
 
 # ----------------------------------------------------------
