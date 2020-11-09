@@ -7,20 +7,31 @@
     width: 100%;
 }
 
-
 .principalInput,
 .principalInput:hover,
-.principalInput:focus {
+.principalInput:focus,
+.principalInput:active,
+.principalInput:not(:hover) {
     .dmBody & {
-        color: $color-white;
         background: $color-dark-grey;
-        @extend %input-aspects;
     }
 
     .lmBody & {
-        color: $color-black;
         background: $color-white;
-        @extend %input-aspects;
+    }
+
+    input {
+        .dmBody & {
+            color: $color-white;
+            background: $color-dark-grey;
+            @extend %input-aspects;
+        }
+    
+        .lmBody & {
+            color: $color-black;
+            background: $color-white;
+            @extend %input-aspects;
+        }
     }
 
     .has-error & {
@@ -29,10 +40,11 @@
     }
 }
 
-.principalInput:-webkit-autofill,
-.principalInput:-webkit-autofill:hover,
-.principalInput:-webkit-autofill:focus,
-.principalInput:-webkit-autofill:active {
+.principalInput input:-webkit-autofill,
+.principalInput input:-webkit-autofill:hover,
+.principalInput input:-webkit-autofill:focus,
+.principalInput input:-webkit-autofill:active,
+.principalInput input:-webkit-autofill:not(:hover) {
     -webkit-background-clip: text;
 
     .has-error & {
@@ -41,10 +53,10 @@
     }
 }
 
-.ant-form-item-control-wrapper,
-.ant-form-item-control-wrapper:hover,
-.ant-form-item-control-wrapper:active,
-.ant-form-item-control-wrapper:focus {
+.ant-form-item-children,
+.ant-form-item-children:hover,
+.ant-form-item-children:active,
+.ant-form-item-children:focus {
     .dmBody & {
         -webkit-text-fill-color: $color-white;
         background: $color-dark-grey;
@@ -57,6 +69,7 @@
 }
 
 .ant-form-explain {
+    -webkit-text-fill-color: $color-purple !important;
     color: $color-purple !important;
 
     .dmBody & {

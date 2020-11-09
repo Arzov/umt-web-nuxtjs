@@ -2,6 +2,7 @@
     @extend %font-props;
     border-radius: 0;
     color: $color-white;
+    -webkit-text-fill-color: $color-white;
     border-color: transparent;
     --antd-wave-shadow-color: transparent;
 }

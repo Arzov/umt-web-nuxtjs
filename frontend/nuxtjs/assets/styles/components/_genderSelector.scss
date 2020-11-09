@@ -48,6 +48,14 @@
 }
 
 .genderSelector {
+    .dmBody & {
+        background: $color-black;
+    }
+
+    .lmBody & {
+        background: $color-light-grey;
+    }
+
     .ant-radio-group {
         line-height: 0;
         display: grid;

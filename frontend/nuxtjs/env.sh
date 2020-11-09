@@ -44,19 +44,19 @@ aws cloudformation describe-stacks \
 	--output text > tmp; export NUXT_ENV_AWS_COGNITO_IDENTITY_POOL_ID=$(cat tmp); rm tmp
 
 # UMT
-# aws cloudformation describe-stacks \
-#     --stack-name umt \
-# 	--query 'Stacks[0].Outputs[?OutputKey==`ASGraphQLApiUMTUrl`].OutputValue' \
-# 	--output text > tmp; export NUXT_ENV_AWS_APPSYNC_UMATCH_URL=$(cat tmp); rm tmp
+aws cloudformation describe-stacks \
+    --stack-name umt \
+	--query 'Stacks[0].Outputs[?OutputKey==`ASGraphQLApiUMTUrl`].OutputValue' \
+	--output text > tmp; export NUXT_ENV_AWS_APPSYNC_UMATCH_URL=$(cat tmp); rm tmp
 
-# export NUXT_ENV_ROOT_URL=https://$AWS_R53_UMT_DOMAIN
+export NUXT_ENV_ROOT_URL=https://$AWS_R53_UMT_DOMAIN
 
-# aws cloudformation describe-stacks \
-#     --stack-name umt \
-# 	--query 'Stacks[0].Outputs[?OutputKey==`CFDistributionUMTWebId`].OutputValue' \
-# 	--output text > tmp; export NUXT_ENV_AWS_CLOUDFRONT_ID=$(cat tmp); rm tmp
+aws cloudformation describe-stacks \
+    --stack-name umt \
+	--query 'Stacks[0].Outputs[?OutputKey==`CFDistributionUMTWebId`].OutputValue' \
+	--output text > tmp; export NUXT_ENV_AWS_CLOUDFRONT_ID=$(cat tmp); rm tmp
 
-# export NUXT_ENV_AWS_APPSYNC_AUTH_TYPE=AMAZON_COGNITO_USER_POOLS
+export NUXT_ENV_AWS_APPSYNC_AUTH_TYPE=AMAZON_COGNITO_USER_POOLS
 
 
 # ----------------------------------------------------------

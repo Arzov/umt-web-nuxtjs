@@ -128,9 +128,7 @@ h4 {
   .lmBody h4 {
     color: #161C27; }
 
-.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .dmBody .principalInput,
-.dmBody .principalInput:hover,
-.dmBody .principalInput:focus, .lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .genderSelector .ant-radio-wrapper, .notification, .dmBody .notification .ant-notification-notice-message,
+.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input, .lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .genderSelector .ant-radio-wrapper, .notification, .dmBody .notification .ant-notification-notice-message,
 .dmBody .notification .ant-notification-notice-description,
 .dmBody .notification .ant-notification-close-x, .lmBody .notification .ant-notification-notice-message,
 .lmBody .notification .ant-notification-notice-description,
@@ -139,9 +137,7 @@ h4 {
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
   font-style: normal; }
-  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .dmBody .principalInput b,
-  .dmBody .principalInput:hover b,
-  .dmBody .principalInput:focus b, .lmBody .principalInput b, .lmBody .principalInput:hover b, .lmBody .principalInput:focus b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .genderSelector .ant-radio-wrapper b, .notification b, .dmBody .notification .ant-notification-notice-message b,
+  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .dmBody .principalInput input b, .dmBody .principalInput:hover input b, .dmBody .principalInput:focus input b, .dmBody .principalInput:active input b, .dmBody .principalInput:not(:hover) input b, .lmBody .principalInput input b, .lmBody .principalInput:hover input b, .lmBody .principalInput:focus input b, .lmBody .principalInput:active input b, .lmBody .principalInput:not(:hover) input b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .genderSelector .ant-radio-wrapper b, .notification b, .dmBody .notification .ant-notification-notice-message b,
   .dmBody .notification .ant-notification-notice-description b,
   .dmBody .notification .ant-notification-close-x b, .lmBody .notification .ant-notification-notice-message b,
   .lmBody .notification .ant-notification-notice-description b,
@@ -236,6 +232,7 @@ html {
 .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active {
   border-radius: 0;
   color: white;
+  -webkit-text-fill-color: white;
   border-color: transparent;
   --antd-wave-shadow-color: transparent; }
 
@@ -271,9 +268,7 @@ html {
 .anticon.anticon-loading {
   margin-right: 10px; }
 
-.dmBody .principalInput,
-.dmBody .principalInput:hover,
-.dmBody .principalInput:focus, .lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus {
+.dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input, .lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input {
   box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
   border: none;
   border-radius: 0;
@@ -282,36 +277,44 @@ html {
 
 .dmBody .principalInput,
 .dmBody .principalInput:hover,
-.dmBody .principalInput:focus {
+.dmBody .principalInput:focus,
+.dmBody .principalInput:active,
+.dmBody .principalInput:not(:hover) {
+  background: #1F2835; }
+.lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus, .lmBody .principalInput:active, .lmBody .principalInput:not(:hover) {
+  background: white; }
+.dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input {
   color: white;
   background: #1F2835; }
-.lmBody .principalInput, .lmBody .principalInput:hover, .lmBody .principalInput:focus {
+.lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input {
   color: #161C27;
   background: white; }
-.has-error .principalInput, .has-error .principalInput:hover, .has-error .principalInput:focus {
+.has-error .principalInput, .has-error .principalInput:hover, .has-error .principalInput:focus, .has-error .principalInput:active, .has-error .principalInput:not(:hover) {
   border-color: #6457e3;
   box-shadow: 0 0 0 2px #6457e3; }
 
-.principalInput:-webkit-autofill, .principalInput:-webkit-autofill:hover, .principalInput:-webkit-autofill:focus, .principalInput:-webkit-autofill:active {
+.principalInput input:-webkit-autofill, .principalInput input:-webkit-autofill:hover, .principalInput input:-webkit-autofill:focus, .principalInput input:-webkit-autofill:active, .principalInput input:-webkit-autofill:not(:hover) {
   -webkit-background-clip: text; }
-  .has-error .principalInput:-webkit-autofill,
-  .has-error .principalInput:-webkit-autofill:hover,
-  .has-error .principalInput:-webkit-autofill:focus,
-  .has-error .principalInput:-webkit-autofill:active {
+  .has-error .principalInput input:-webkit-autofill,
+  .has-error .principalInput input:-webkit-autofill:hover,
+  .has-error .principalInput input:-webkit-autofill:focus,
+  .has-error .principalInput input:-webkit-autofill:active,
+  .has-error .principalInput input:-webkit-autofill:not(:hover) {
     border: none;
     box-shadow: none; }
 
-.dmBody .ant-form-item-control-wrapper,
-.dmBody .ant-form-item-control-wrapper:hover,
-.dmBody .ant-form-item-control-wrapper:active,
-.dmBody .ant-form-item-control-wrapper:focus {
+.dmBody .ant-form-item-children,
+.dmBody .ant-form-item-children:hover,
+.dmBody .ant-form-item-children:active,
+.dmBody .ant-form-item-children:focus {
   -webkit-text-fill-color: white;
   background: #1F2835; }
-.lmBody .ant-form-item-control-wrapper, .lmBody .ant-form-item-control-wrapper:hover, .lmBody .ant-form-item-control-wrapper:active, .lmBody .ant-form-item-control-wrapper:focus {
+.lmBody .ant-form-item-children, .lmBody .ant-form-item-children:hover, .lmBody .ant-form-item-children:active, .lmBody .ant-form-item-children:focus {
   -webkit-text-fill-color: #161C27;
   background: white; }
 
 .ant-form-explain {
+  -webkit-text-fill-color: #6457e3 !important;
   color: #6457e3 !important; }
   .dmBody .ant-form-explain {
     background: #161C27; }
@@ -327,31 +330,33 @@ html {
   width: 100%;
   padding-top: 0.4em; }
 
-.dmBody .dateSelector .ant-select-selection,
-.dmBody .dateSelector:hover .ant-select-selection {
-  color: white;
-  background: #1F2835; }
-  .dmBody .dateSelector .ant-select-selection svg,
-  .dmBody .dateSelector:hover .ant-select-selection svg {
+.dmBody .dateSelector,
+.dmBody .dateSelector:hover {
+  background: #161C27; }
+  .dmBody .dateSelector .ant-select-selection,
+  .dmBody .dateSelector:hover .ant-select-selection {
+    color: white;
+    background: #1F2835; }
+    .dmBody .dateSelector .ant-select-selection svg,
+    .dmBody .dateSelector:hover .ant-select-selection svg {
+      color: white; }
+  .dmBody .dateSelector label,
+  .dmBody .dateSelector:hover label {
+    font-size: 12px;
     color: white; }
-.dmBody .dateSelector label,
-.dmBody .dateSelector:hover label {
-  font-size: 12px;
-  color: white; }
-.lmBody .dateSelector .ant-select-selection, .lmBody .dateSelector:hover .ant-select-selection {
-  color: #161C27;
-  background: white; }
-  .lmBody .dateSelector .ant-select-selection svg, .lmBody .dateSelector:hover .ant-select-selection svg {
+.lmBody .dateSelector, .lmBody .dateSelector:hover {
+  background: #f1f3ff; }
+  .lmBody .dateSelector .ant-select-selection, .lmBody .dateSelector:hover .ant-select-selection {
+    color: #161C27;
+    background: white; }
+    .lmBody .dateSelector .ant-select-selection svg, .lmBody .dateSelector:hover .ant-select-selection svg {
+      color: #161C27; }
+  .lmBody .dateSelector label, .lmBody .dateSelector:hover label {
+    font-size: 12px;
     color: #161C27; }
-.lmBody .dateSelector label, .lmBody .dateSelector:hover label {
-  font-size: 12px;
-  color: #161C27; }
 .has-error .dateSelector .ant-select-selection, .has-error .dateSelector:hover .ant-select-selection {
   border-color: #6457e3;
   box-shadow: 0 0 0 2px #6457e3; }
-
-.ant-form-explain {
-  color: #6457e3 !important; }
 
 .ant-select-arrow {
   right: 11px !important; }
@@ -379,6 +384,10 @@ html {
   position: relative;
   width: 100%; }
 
+.dmBody .genderSelector {
+  background: #161C27; }
+.lmBody .genderSelector {
+  background: #f1f3ff; }
 .genderSelector .ant-radio-group {
   line-height: 0;
   display: grid;

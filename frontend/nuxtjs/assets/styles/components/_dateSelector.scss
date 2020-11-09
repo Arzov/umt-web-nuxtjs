@@ -12,6 +12,8 @@
     @extend %font-props;
 
     .dmBody & {
+        background: $color-black;
+
         .ant-select-selection {
             color: $color-white;
             background: $color-dark-grey;
@@ -30,6 +32,8 @@
     }
 
     .lmBody & {
+        background: $color-light-grey;
+
         .ant-select-selection {
             color: $color-black;
             background: $color-white;
@@ -57,10 +61,6 @@
 
 .ant-select {
     @extend %font-props;
-}
-
-.ant-form-explain {
-    color: $color-purple !important;
 }
 
 .ant-select-arrow {

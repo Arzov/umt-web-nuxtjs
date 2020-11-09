@@ -1,13 +1,14 @@
 <template>
-  <a-input
-    class="principalInput"
-    :placeholder="placeholder"
-    :type="type"
-    :autocomplete="autocomplete"
-    :name="name"
-    :value="value"
-    @input="triggerInput"
-  />
+  <div class="principalInput">
+    <a-input
+      :placeholder="placeholder"
+      :type="type"
+      :autocomplete="autocomplete"
+      :name="name"
+      :value="value"
+      @input="triggerInput"
+    />
+  </div>
 </template>
 
 <script>
