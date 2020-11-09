@@ -1,10 +1,11 @@
 import Vue from 'vue'
-import Notification from '@/components/notification'
-
-const NotificationClass = Vue.extend(Notification)
-const notificationInstance = new NotificationClass()
 
 const mixin = {
+  data () {
+    return {
+      btnLoading: false
+    }
+  },
   computed: {
     _themePreference () {
       return this.$store.getters['global/getGlobal'].themePreference
@@ -12,10 +13,31 @@ const mixin = {
   },
   methods: {
     showNotification (message, description, type) {
-      notificationInstance.message = message
-      notificationInstance.description = description
-      notificationInstance.type = type
-      notificationInstance.toggle = !notificationInstance.toggle
+      let icon = <a-icon type="close-circle" />
+
+      switch (type) {
+        case 'success':
+          icon = <a-icon type="check-circle" />
+          break
+
+        case 'warning':
+          icon = <a-icon type="warning" />
+          break
+
+        case 'info':
+          icon = <a-icon type="info-circle" />
+          break
+      }
+
+      this.$notification.destroy()
+
+      this.$notification.open({
+        message,
+        description,
+        class: 'notification',
+        getContainer: () => this.$el,
+        icon
+      })
     }
   }
 }

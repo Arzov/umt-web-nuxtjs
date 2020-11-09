@@ -64,6 +64,7 @@
           <a-form-model-item>
             <PrincipalBtn
               text="REGISTRAR"
+              :loading="btnLoading"
               @click.native="submitForm('ruleForm')"
             />
           </a-form-model-item>
@@ -98,13 +99,15 @@ export default {
         email: this.$RULES.email.rules,
         password: this.$RULES.password.rules,
         birthdate: this.$RULES.birthdate.rules
-      }
+      },
+      registerState: this.$store.getters['register/getStates']
     }
   },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.btnLoading = true
           this.$store.dispatch('register/signUp', {
             firstName: this.ruleForm.firstName,
             email: this.ruleForm.email.toLowerCase(),
@@ -112,6 +115,13 @@ export default {
             birthdate: this.ruleForm.birthdate,
             gender: this.ruleForm.gender
           })
+            .then(() => {
+              if (!this.registerState.signUpStatus) {
+                this.showNotification(this.registerState.signUpTitle,
+                  this.registerState.signUpMsg, this.registerState.signUpMsgType)
+              }
+              this.btnLoading = false
+            })
         } else {
           return false
         }

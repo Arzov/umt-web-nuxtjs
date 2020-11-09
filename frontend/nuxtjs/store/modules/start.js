@@ -1,13 +1,14 @@
 const getDefaultState = () => ({
   signInStatus: false,
   signInTitle: '',
-  signInMsg: ''
+  signInMsg: '',
+  signInMsgType: 'error'
 })
 
 const state = getDefaultState
 
 const getters = {
-  getStart (state) {
+  getStates (state) {
     return state
   }
 }
@@ -29,8 +30,9 @@ const actions = {
             case 'UserNotFoundException': {
               const params = {
                 signInStatus: false,
+                signInMsgType: 'error',
                 signInTitle: '¡Correo no registrado!',
-                signInMsg: 'El correo electrónico que ingresaste no se encuentra registrado.'
+                signInMsg: 'El correo electrónico ingresado no se encuentra registrado.'
               }
               ctx.commit('setState', { params })
               resolve()
@@ -38,9 +40,17 @@ const actions = {
             }
 
             // Contraseña incorrecta
-            case 'NotAuthorizedException':
-              console.log(err.message)
+            case 'NotAuthorizedException': {
+              const params = {
+                signInStatus: false,
+                signInMsgType: 'error',
+                signInTitle: '¡Contraseña incorrecta!',
+                signInMsg: 'La contraseña ingresada es incorrecta.'
+              }
+              ctx.commit('setState', { params })
+              resolve()
               break
+            }
 
             // Email sin verificar
             case 'UserNotConfirmedException':
@@ -49,9 +59,17 @@ const actions = {
               break
 
             // Error desconocido
-            default:
-              console.log('¡Error desconocido!')
+            default: {
+              const params = {
+                signInStatus: false,
+                signInMsgType: 'error',
+                signInTitle: '¡Ups!',
+                signInMsg: 'Algo inesperado ha sucedido. Inténtalo de nuevo.'
+              }
+              ctx.commit('setState', { params })
+              resolve()
               break
+            }
           }
         })
     })
@@ -61,12 +79,8 @@ const actions = {
 const mutations = {
   setState (state, { params }) {
     for (const key in params) {
-      localStorage.setItem(key, params[key])
       state[key] = params[key]
     }
-  },
-  resetStates (state) {
-    Object.assign(state, getDefaultState())
   }
 }
 

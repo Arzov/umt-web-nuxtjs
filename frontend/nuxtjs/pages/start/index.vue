@@ -43,7 +43,7 @@
           <a-form-model-item>
             <PrincipalBtn
               text="INICIAR SESIÓN"
-              :loading="loading"
+              :loading="btnLoading"
               @click.native="submitForm('ruleForm')"
             />
           </a-form-model-item>
@@ -84,15 +84,14 @@ export default {
         email: this.$RULES.email.rules,
         password: this.$RULES.password.rules
       },
-      startState: this.$store.getters['start/getStart'],
-      loading: false
+      startState: this.$store.getters['start/getStates']
     }
   },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.loading = true
+          this.btnLoading = true
           this.$store.dispatch('start/signIn', {
             email: this.ruleForm.email.toLowerCase(),
             password: this.ruleForm.password
@@ -100,9 +99,9 @@ export default {
             .then(() => {
               if (!this.startState.signInStatus) {
                 this.showNotification(this.startState.signInTitle,
-                  this.startState.signInMsg, 'error')
+                  this.startState.signInMsg, this.startState.signInMsgType)
               }
-              this.loading = false
+              this.btnLoading = false
             })
         } else {
           return false
