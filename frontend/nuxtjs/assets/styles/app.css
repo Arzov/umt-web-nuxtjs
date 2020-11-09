@@ -176,10 +176,6 @@ h4 {
 ::-webkit-scrollbar-thumb:hover {
   background: #ac9ff9; }
 
-.pageStart, .pageRegister {
-  display: flex;
-  align-items: center; }
-
 html {
   height: 100%; }
   html body {
@@ -296,15 +292,31 @@ html {
   border-color: #6457e3;
   box-shadow: 0 0 0 2px #6457e3; }
 
+.principalInput:-webkit-autofill, .principalInput:-webkit-autofill:hover, .principalInput:-webkit-autofill:focus, .principalInput:-webkit-autofill:active {
+  -webkit-background-clip: text; }
+  .has-error .principalInput:-webkit-autofill,
+  .has-error .principalInput:-webkit-autofill:hover,
+  .has-error .principalInput:-webkit-autofill:focus,
+  .has-error .principalInput:-webkit-autofill:active {
+    border: none;
+    box-shadow: none; }
+
+.dmBody .ant-form-item-control-wrapper,
+.dmBody .ant-form-item-control-wrapper:hover,
+.dmBody .ant-form-item-control-wrapper:active,
+.dmBody .ant-form-item-control-wrapper:focus {
+  -webkit-text-fill-color: white;
+  background: #1F2835; }
+.lmBody .ant-form-item-control-wrapper, .lmBody .ant-form-item-control-wrapper:hover, .lmBody .ant-form-item-control-wrapper:active, .lmBody .ant-form-item-control-wrapper:focus {
+  -webkit-text-fill-color: #161C27;
+  background: white; }
+
 .ant-form-explain {
   color: #6457e3 !important; }
-
-.principalInput:-webkit-autofill,
-.principalInput:-webkit-autofill:hover,
-.principalInput:-webkit-autofill:focus,
-.principalInput:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1) !important;
-  -webkit-transition-delay: 5000s !important; }
+  .dmBody .ant-form-explain {
+    background: #161C27; }
+  .lmBody .ant-form-explain {
+    background: #f1f3ff; }
 
 .dmBody .dateSelector .ant-select-selection,
 .dmBody .dateSelector:hover .ant-select-selection, .lmBody .dateSelector .ant-select-selection, .lmBody .dateSelector:hover .ant-select-selection {
