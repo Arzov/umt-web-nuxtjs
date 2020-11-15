@@ -1,26 +1,20 @@
 <template>
   <div class="genderSelector">
-    <a-row>
-      <label>
-        <b>{{ label | uppercase }}</b>
-      </label>
-    </a-row>
-    <a-row>
-      <a-col :span="24">
-        <a-radio-group
-          :value="value"
-          @change="triggerChange"
-        >
-          <a-radio
-            v-for="g in genderOptions"
-            :key="`g${g.key}`"
-            :value="g.value"
-          >
-            {{ g.key }}
-          </a-radio>
-        </a-radio-group>
-      </a-col>
-    </a-row>
+    <label>
+      <h4>{{ label }}</h4>
+    </label>
+    <a-radio-group
+      :value="value"
+      @change="triggerChange"
+    >
+      <a-radio
+        v-for="g in genderOptions"
+        :key="`g${g.key}`"
+        :value="g.value"
+      >
+        {{ g.key }}
+      </a-radio>
+    </a-radio-group>
   </div>
 </template>
 

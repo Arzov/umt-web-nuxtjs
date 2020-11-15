@@ -1,14 +1,13 @@
 <template>
-  <div class="page">
-    <a-row type="flex" justify="space-around" align="middle">
-      <a-col :span="12">
-        <ThemeToggle />
+  <div class="start">
+    <a-row>
+      <a-col class="leftContent" :span="12">
         <img
           :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
             require('../../static/dm-logo.svg')"
           class="logo"
         >
-        <img class="football-shoes" src="../../assets/images/football-shoes.svg">
+        <img class="footballShoes" src="../../assets/images/football-shoes.svg">
         <img
           :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
             require('../../assets/images/dm-points.svg')"
@@ -17,10 +16,9 @@
       </a-col>
       <a-col class="rightContent" :span="12">
         <h1>Inicio de sesión</h1>
-        <b>¿Olvidaste tu contraseña?</b> <nuxt-link to="/">
+        <b>¿Olvidaste tu contraseña? <nuxt-link to="/">
           Recupérala.
-        </nuxt-link>
-        <br>
+        </nuxt-link></b>
         <br>
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
           <a-form-model-item :prop="this.$RULES.email.name">
@@ -52,20 +50,14 @@
           - O ingresa con tus redes sociales -
           <br>
           <br>
-          <a-row>
-            <a-col :span="6" />
-            <a-col :span="6">
-              <Google />
-            </a-col>
-            <a-col :span="6">
-              <Facebook />
-            </a-col>
-            <a-col :span="6" />
-          </a-row>
+          <div class="socialLogin">
+            <Google />
+            <Facebook />
+          </div>
           <br>
-          <b>No tienes cuenta?</b> <nuxt-link to="/register">
+          <b>¿No tienes cuenta? <nuxt-link to="/register">
             Regístrate.
-          </nuxt-link>
+          </nuxt-link></b>
         </center>
       </a-col>
     </a-row>

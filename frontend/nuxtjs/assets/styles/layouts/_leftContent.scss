@@ -1,8 +1,8 @@
-.rightContent {
+.leftContent {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 10%;
+    padding-left: $padding-left;
     padding-right: $padding-right;
 }

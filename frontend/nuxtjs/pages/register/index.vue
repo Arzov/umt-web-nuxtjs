@@ -1,14 +1,13 @@
 <template>
-  <div class="page">
-    <a-row type="flex" justify="space-around" align="middle">
-      <a-col :span="12">
-        <ThemeToggle />
+  <div>
+    <a-row>
+      <a-col class="leftContent" :span="12">
         <img
           :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
             require('../../static/dm-logo.svg')"
           class="logo"
         >
-        <img class="football-shoes" src="../../assets/images/football-shoes.svg">
+        <img class="footballShoes" src="../../assets/images/football-shoes.svg">
         <img
           :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
             require('../../assets/images/dm-points.svg')"

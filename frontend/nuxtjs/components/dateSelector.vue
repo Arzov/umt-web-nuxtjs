@@ -1,45 +1,37 @@
 <template>
   <div class="dateSelector">
-    <a-row>
-      <label>
-        <b>{{ label | uppercase }}</b>
-      </label>
-    </a-row>
-    <a-row :gutter="16">
-      <a-col :span="8">
-        <a-select
-          placeholder="Día"
-          :value="value.day"
-          @change="triggerChange('day', $event)"
-        >
-          <a-select-option v-for="d in dayOptions" :key="`d${d}`" :value="d">
-            {{ d }}
-          </a-select-option>
-        </a-select>
-      </a-col>
-      <a-col :span="8">
-        <a-select
-          placeholder="Mes"
-          :value="value.month"
-          @change="triggerChange('month', $event)"
-        >
-          <a-select-option v-for="m in monthOptions" :key="`m${m.value}`" :value="m.value">
-            {{ m.key }}
-          </a-select-option>
-        </a-select>
-      </a-col>
-      <a-col :span="8">
-        <a-select
-          placeholder="Año"
-          :value="value.year"
-          @change="triggerChange('year', $event)"
-        >
-          <a-select-option v-for="y in yearOptions" :key="`y${y}`" :value="y">
-            {{ y }}
-          </a-select-option>
-        </a-select>
-      </a-col>
-    </a-row>
+    <label>
+      <h4>{{ label }}</h4>
+    </label>
+    <div class="container">
+      <a-select
+        placeholder="Día"
+        :value="value.day"
+        @change="triggerChange('day', $event)"
+      >
+        <a-select-option v-for="d in dayOptions" :key="`d${d}`" :value="d">
+          {{ d }}
+        </a-select-option>
+      </a-select>
+      <a-select
+        placeholder="Mes"
+        :value="value.month"
+        @change="triggerChange('month', $event)"
+      >
+        <a-select-option v-for="m in monthOptions" :key="`m${m.value}`" :value="m.value">
+          {{ m.key }}
+        </a-select-option>
+      </a-select>
+      <a-select
+        placeholder="Año"
+        :value="value.year"
+        @change="triggerChange('year', $event)"
+      >
+        <a-select-option v-for="y in yearOptions" :key="`y${y}`" :value="y">
+          {{ y }}
+        </a-select-option>
+      </a-select>
+    </div>
   </div>
 </template>
 

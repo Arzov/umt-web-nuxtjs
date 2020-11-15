@@ -1,22 +1,16 @@
-$margin-left: 30px;
-$margin-top: 30px;
-$margin-bottom: 30px;
-
 .logo {
-    margin-left: $margin-left;
     margin-bottom: $margin-bottom;
-    margin-top: $margin-top;
-    max-width: 50%;
+    width: 60%;
 }
 
-.football-shoes {
+.footballShoes {
+    margin-left: -50px;
     margin-bottom: $margin-bottom;
-    margin-top: $margin-top;
-    width: 75%;
+    width: 90%;
 }
 
 .points {
-    max-width: 45%;
+    width: 60%;
+    margin-left: -50px;
     margin-bottom: $margin-bottom;
-    margin-top: $margin-top;
 }

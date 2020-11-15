@@ -3,13 +3,18 @@
     border: none;
     border-radius: 0;
     height: 42px;
-    width: 100%;
     padding-top: 0.4em;
 }
 
 .dateSelector,
 .dateSelector:hover {
     @extend %font-props;
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        grid-gap: 16px;
+    }
 
     .dmBody & {
         background: $color-black;
@@ -26,7 +31,6 @@
         }
 
         label {
-            font-size: 12px;
             color: $color-white;
         }
     }
@@ -46,7 +50,6 @@
         }
 
         label {
-            font-size: 12px;
             color: $color-black;
         }
     }
