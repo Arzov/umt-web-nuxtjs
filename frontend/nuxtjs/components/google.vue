@@ -8,10 +8,12 @@
 </template>
 
 <script>
+import Auth from '@aws-amplify/auth'
+
 export default {
   methods: {
     toGoogleLogin () {
-      this.$AWS.Auth.federatedSignIn({ provider: 'Google' })
+      Auth.federatedSignIn({ provider: 'Google' })
     }
   }
 }

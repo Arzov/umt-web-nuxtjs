@@ -1,3 +1,5 @@
+import Auth from '@aws-amplify/auth'
+
 const getDefaultState = () => ({
   signUpStatus: false,
   signUpTitle: '',
@@ -18,7 +20,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
 
-      this.$AWS.Auth.signUp({
+      Auth.signUp({
         username: data.email,
         password: data.password,
         attributes: {

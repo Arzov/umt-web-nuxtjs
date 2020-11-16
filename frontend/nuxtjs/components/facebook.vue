@@ -8,10 +8,12 @@
 </template>
 
 <script>
+import Auth from '@aws-amplify/auth'
+
 export default {
   methods: {
     toFacebookLogin () {
-      this.$AWS.Auth.federatedSignIn({ provider: 'Facebook' })
+      Auth.federatedSignIn({ provider: 'Facebook' })
     }
   }
 }
