@@ -104,7 +104,6 @@ const actions = {
 
 const mutations = {
   setState (state, { params }) {
-    // eslint-disable-next-line no-unused-vars
     for (const key in params) {
       state[key] = params[key]
     }

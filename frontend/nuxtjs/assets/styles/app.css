@@ -223,6 +223,22 @@ html body {
   margin-left: -50px;
   margin-bottom: 50px; }
 
+.mailbox {
+  width: 50%;
+  margin-bottom: 50px; }
+
+.cornerTopRight {
+  width: 15%;
+  position: absolute;
+  top: 0px;
+  right: 0px; }
+
+.cornerBottomLeft {
+  width: 15%;
+  position: absolute;
+  bottom: 0px;
+  left: 0px; }
+
 .facebook {
   display: block;
   width: 38px; }
@@ -493,6 +509,52 @@ html body {
   .lmBody .notification .ant-notification-notice-icon svg {
     color: #6457e3; }
 
+.codeInput {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; }
+  .codeInput input {
+    padding: 0px;
+    font-size: 1.7rem;
+    max-width: 2rem;
+    text-align: center;
+    background: none;
+    border: none;
+    outline: none;
+    caret-color: transparent;
+    transition-duration: 0.3s; }
+    .codeInput input::-webkit-outer-spin-button, .codeInput input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0; }
+    .codeInput input[type=number] {
+      -moz-appearance: textfield; }
+    .dmBody .codeInput input {
+      border-bottom: 2px solid white; }
+      .dmBody .codeInput input::placeholder {
+        -webkit-text-fill-color: rgba(255, 255, 255, 0.2); }
+      .dmBody .codeInput input:focus {
+        border-bottom: 2px solid white; }
+    .lmBody .codeInput input {
+      border-bottom: 2px solid #161C27; }
+      .lmBody .codeInput input::placeholder {
+        -webkit-text-fill-color: rgba(22, 28, 39, 0.2); }
+      .lmBody .codeInput input:focus {
+        border-bottom: 2px solid #161C27; }
+    .has-error .codeInput input {
+      border-bottom: 2px solid #6457e3; }
+
+.textBtn {
+  cursor: pointer;
+  font-weight: 700; }
+  .dmBody .textBtn {
+    color: #0cecf2; }
+    .dmBody .textBtn:active {
+      color: rgba(12, 236, 242, 0.6); }
+  .lmBody .textBtn {
+    color: #6457e3; }
+    .lmBody .textBtn:active {
+      color: rgba(100, 87, 227, 0.6); }
+
 .header {
   display: flex;
   flex-direction: row;
@@ -527,5 +589,11 @@ html body {
   margin-right: 5%; }
 .start .facebook {
   margin-left: 5%; }
+
+.emailVerification .image {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; }
 
 /*# sourceMappingURL=app.css.map */

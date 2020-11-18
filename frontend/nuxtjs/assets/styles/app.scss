@@ -14,9 +14,12 @@
 @import 'components/genderSelector';
 @import 'components/backBtn';
 @import 'components/notification';
+@import 'components/codeInput';
+@import 'components/textBtn';
 
 @import 'layouts/header';
 @import 'layouts/rightContent';
 @import 'layouts/leftContent';
 
 @import 'pages/start';
+@import 'pages/emailVerification';

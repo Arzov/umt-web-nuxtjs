@@ -1,0 +1,20 @@
+.textBtn {
+    cursor: pointer;
+    font-weight: 700;
+
+    .dmBody & {
+        color: $color-cian;
+
+        &:active {
+            color: rgba($color-cian, 0.6);
+        }
+    }
+
+    .lmBody & {
+        color: $color-purple;
+
+        &:active {
+            color: rgba($color-purple, 0.6);
+        }
+    }
+}

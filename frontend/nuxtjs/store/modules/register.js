@@ -1,10 +1,10 @@
 import Auth from '@aws-amplify/auth'
 
 const getDefaultState = () => ({
-  signUpStatus: false,
+  signUpStatus: true,
   signUpTitle: '',
   signUpMsg: '',
-  signUpMsgType: 'error'
+  signUpMsgType: 'success'
 })
 
 const state = getDefaultState
@@ -17,6 +17,7 @@ const getters = {
 
 const actions = {
   signUp (ctx, data) {
+    ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
       const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
 
@@ -31,22 +32,12 @@ const actions = {
         }
       })
         .then((result) => {
-          console.log(result)
-          // const params = {
-          //   name: data.name,
-          //   birthdate,
-          //   gender: data.gender,
-          //   email: data.email.toLowerCase(),
-          //   verified: false
-          // }
-
-          // ctx.commit('user/setState', { params }, { root: true })
-
-        // this.$router.push(process.env.routes.email_verification.path)
+          this.$router.push(`/email_verification/${data.email}`)
+          resolve()
         })
         .catch((err) => {
           switch (err.code) {
-          // Validación desde lambda PreSignup
+            // Validación desde lambda PreSignup
             case 'UserLambdaValidationException': {
               const params = {
                 signUpStatus: false,
@@ -78,7 +69,7 @@ const actions = {
                 signUpStatus: false,
                 signUpMsgType: 'error',
                 signUpTitle: '¡Ups!',
-                signUpMsg: 'Algo inesperado ha sucedido. Inténtalo de nuevo.'
+                signUpMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
               }
               ctx.commit('setState', { params })
               resolve()
@@ -95,6 +86,9 @@ const mutations = {
     for (const key in params) {
       state[key] = params[key]
     }
+  },
+  resetStates (state) {
+    Object.assign(state, getDefaultState())
   }
 }
 

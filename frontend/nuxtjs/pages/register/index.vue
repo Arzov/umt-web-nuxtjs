@@ -70,7 +70,7 @@
         </a-form-model>
         <center>
           <nuxt-link to="/">
-            Términos y condiciones.
+            Términos y condiciones
           </nuxt-link>
         </center>
       </a-col>

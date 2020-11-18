@@ -1,10 +1,10 @@
 import Auth from '@aws-amplify/auth'
 
 const getDefaultState = () => ({
-  signInStatus: false,
+  signInStatus: true,
   signInTitle: '',
   signInMsg: '',
-  signInMsgType: 'error'
+  signInMsgType: 'success'
 })
 
 const state = getDefaultState
@@ -17,14 +17,19 @@ const getters = {
 
 const actions = {
   signIn (ctx, data) {
+    ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
       Auth.signIn({
         username: data.email,
         password: data.password
       })
         .then((user) => {
-          console.log('Bien!')
-        // this.$router.push(process.env.routes.home.path)
+          const params = {
+            signInStatus: true
+          }
+          ctx.commit('setState', { params })
+          // this.$router.push(`email_verification/${data.email}`)
+          resolve()
         })
         .catch((err) => {
           switch (err.code) {
@@ -56,8 +61,8 @@ const actions = {
 
             // Email sin verificar
             case 'UserNotConfirmedException':
-              console.log(err.message)
-              // this.$router.push(process.env.routes.email_verification.path)
+              this.$router.push(`/email_verification/${data.email}`)
+              resolve()
               break
 
             // Error desconocido
@@ -66,7 +71,7 @@ const actions = {
                 signInStatus: false,
                 signInMsgType: 'error',
                 signInTitle: '¡Ups!',
-                signInMsg: 'Algo inesperado ha sucedido. Inténtalo de nuevo.'
+                signInMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
               }
               ctx.commit('setState', { params })
               resolve()
@@ -83,6 +88,9 @@ const mutations = {
     for (const key in params) {
       state[key] = params[key]
     }
+  },
+  resetStates (state) {
+    Object.assign(state, getDefaultState())
   }
 }
 

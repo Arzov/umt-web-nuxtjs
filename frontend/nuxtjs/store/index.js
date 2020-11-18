@@ -3,6 +3,7 @@ import global from './modules/global'
 import user from './modules/user'
 import start from './modules/start'
 import register from './modules/register'
+import emailVerification from './modules/email-verification'
 
 const store = () => {
   return new Vuex.Store({
@@ -10,7 +11,8 @@ const store = () => {
       global,
       user,
       start,
-      register
+      register,
+      emailVerification
     }
   })
 }

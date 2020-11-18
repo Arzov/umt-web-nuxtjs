@@ -14,3 +14,22 @@
     margin-left: -50px;
     margin-bottom: $margin-bottom;
 }
+
+.mailbox {
+    width: 50%;
+    margin-bottom: $margin-bottom;
+}
+
+.cornerTopRight {
+    width: 15%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.cornerBottomLeft {
+    width: 15%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
