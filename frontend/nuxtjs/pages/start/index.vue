@@ -16,7 +16,7 @@
       </a-col>
       <a-col class="rightContent" :span="12">
         <h1>Inicio de sesión</h1>
-        <b>¿Olvidaste tu contraseña? <nuxt-link to="/">
+        <b>¿Olvidaste tu contraseña? <nuxt-link to="/recover_password">
           Recupérala.
         </nuxt-link></b>
         <br>
@@ -26,7 +26,7 @@
               v-model="ruleForm.email"
               :placeholder="this.$RULES.email.placeholder"
               name="email"
-              type="email"
+              :type="this.$RULES.email.type"
               autocomplete="email"
             />
           </a-form-model-item>

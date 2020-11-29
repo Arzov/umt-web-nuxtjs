@@ -13,5 +13,6 @@ export const emailRules = [
 export default {
   name: 'email',
   placeholder: 'Ingresa tu correo electrónico',
+  type: 'email',
   rules: emailRules
 }

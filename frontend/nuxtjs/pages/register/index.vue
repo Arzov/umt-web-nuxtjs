@@ -32,7 +32,7 @@
               v-model="ruleForm.email"
               :placeholder="this.$RULES.email.placeholder"
               name="email"
-              type="email"
+              :type="this.$RULES.email.type"
               autocomplete="email"
             />
           </a-form-model-item>

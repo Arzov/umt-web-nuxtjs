@@ -1,11 +1,11 @@
-let gulp = require('gulp')
-let awspublish = require('gulp-awspublish')
-let cloudfront = require('gulp-cloudfront-invalidate-aws-publish')
-let parallelize = require('concurrent-transform')
+const gulp = require('gulp')
+const awspublish = require('gulp-awspublish')
+const cloudfront = require('gulp-cloudfront-invalidate-aws-publish')
+const parallelize = require('concurrent-transform')
 
 // https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html
 
-let config = {
+const config = {
 
   // Required
   params: { Bucket: process.env.AWS_BUCKET_NAME },
@@ -29,11 +29,11 @@ let config = {
 gulp.task('deploy', function () {
   // create a new publisher using S3 options
   // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property
-  let publisher = awspublish.create(config, config)
+  const publisher = awspublish.create(config, config)
 
   let g = gulp.src('./' + config.distDir + '/**')
-    // publisher will add Content-Length, Content-Type and headers specified above
-    // If not specified it will set x-amz-acl to public-read by default
+  // publisher will add Content-Length, Content-Type and headers specified above
+  // If not specified it will set x-amz-acl to public-read by default
   g = g.pipe(parallelize(publisher.publish(config.headers), config.concurrentUploads))
 
   // Invalidate CDN
@@ -45,7 +45,7 @@ gulp.task('deploy', function () {
   }
 
   // Delete removed files
-  if (config.deleteOldVersions) g = g.pipe(publisher.sync())
+  if (config.deleteOldVersions) { g = g.pipe(publisher.sync()) }
   // create a cache file to speed up consecutive uploads
   g = g.pipe(publisher.cache())
   // print upload updates to console
