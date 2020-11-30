@@ -72,6 +72,19 @@ const actions = {
               break
             }
 
+            // Limite de reenvios alcanzados
+            case 'LimitExceededException': {
+              const params = {
+                confirmStatus: false,
+                confirmMsgType: 'warning',
+                confirmTitle: '¡Límite excedido!',
+                confirmMsg: 'Has excedido el límite de solicitudes por día. Inténtalo más tarde.'
+              }
+              ctx.commit('setState', { params })
+              resolve()
+              break
+            }
+
             // Error desconocido
             default: {
               const params = {
@@ -96,7 +109,7 @@ const actions = {
       )
         .then((result) => {
           const params = {
-            confirmStatus: false,
+            confirmStatus: true,
             confirmMsgType: 'success',
             confirmTitle: '¡Código enviado!',
             confirmMsg: `Un nuevo código de verificación fue enviado a ${data.email}.`

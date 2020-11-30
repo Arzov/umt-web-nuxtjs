@@ -227,6 +227,10 @@ html body {
   width: 50%;
   margin-bottom: 50px; }
 
+.lock {
+  width: 40%;
+  margin-bottom: 50px; }
+
 .cornerTopRight {
   width: 15%;
   position: absolute;
@@ -591,6 +595,12 @@ html body {
   margin-left: 5%; }
 
 .emailVerification .image {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; }
+
+.resetPassword .image {
   display: flex;
   flex-direction: row;
   justify-content: center;

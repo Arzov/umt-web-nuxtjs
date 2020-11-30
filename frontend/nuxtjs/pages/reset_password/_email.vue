@@ -1,22 +1,22 @@
 <template>
-  <div class="emailVerification">
+  <div class="resetPassword">
     <a-row>
       <a-col class="leftContent" :span="12">
         <div class="image">
-          <img class="mailbox" src="../../assets/images/mailbox.svg">
+          <img class="lock" src="../../assets/images/lock.svg">
         </div>
         <center>
-          Ingresa tu código secreto enviado a tu email registrado en <b>Arzov</b> para validar y
-          poder iniciar sesión en la app.
+          Ingresa tu código de seguridad enviado a tu email registrado en <b>Arzov</b>, luego ingresa tu nueva contraseña.
+          Si recordaste tu antigua contraseña y no la quieres cambiar, sólo debes volver e ingresar a la app.
         </center>
       </a-col>
       <a-col class="rightContent" :span="12">
         <BackBtn />
-        <h1>Verifica tu email</h1>
+        <h1>Cambia tu contraseña</h1>
         <br>
         <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
           <center>
-            Ingresa tu código de verificación enviado a
+            Ingresa tu código enviado a
             <nuxt-link to="">
               <i>{{ email }}</i>
             </nuxt-link>
@@ -27,10 +27,17 @@
               v-model="ruleForm.code"
             />
           </a-form-model-item>
-          <br>
+          <a-form-model-item :prop="this.$RULES.password.name">
+            <PrincipalInput
+              v-model="ruleForm.password"
+              placeholder="Ingresa tu nueva contraseña"
+              :type="this.$RULES.password.type"
+              :autocomplete="this.$RULES.password.autocomplete"
+            />
+          </a-form-model-item>
           <a-form-model-item>
             <PrincipalBtn
-              text="ENVIAR"
+              text="CAMBIAR CONTRASEÑA"
               :loading="btnLoading"
               @click.native="submitForm('ruleForm')"
             />
@@ -61,12 +68,14 @@ export default {
   data () {
     return {
       ruleForm: {
-        code: ''
+        code: '',
+        password: ''
       },
       rules: {
-        code: this.$RULES.code.rules
+        code: this.$RULES.code.rules,
+        password: this.$RULES.password.rules
       },
-      emailVerificationState: this.$store.getters['emailVerification/getStates']
+      resetPasswordState: this.$store.getters['resetPassword/getStates']
     }
   },
   methods: {
@@ -74,14 +83,15 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.btnLoading = true
-          this.$store.dispatch('emailVerification/verify', {
+          this.$store.dispatch('resetPassword/reset', {
             email: this.email.toLowerCase(),
-            code: this.ruleForm.code
+            code: this.ruleForm.code,
+            password: this.ruleForm.password
           })
             .then(() => {
-              if (!this.emailVerificationState.confirmStatus) {
-                this.showNotification(this.emailVerificationState.confirmTitle,
-                  this.emailVerificationState.confirmMsg, this.emailVerificationState.confirmMsgType)
+              if (!this.resetPasswordState.resetStatus) {
+                this.showNotification(this.resetPasswordState.resetTitle,
+                  this.resetPasswordState.resetMsg, this.resetPasswordState.resetMsgType)
               }
               this.btnLoading = false
             })
@@ -91,12 +101,12 @@ export default {
       })
     },
     resendCode () {
-      this.$store.dispatch('emailVerification/resendCode', {
+      this.$store.dispatch('resetPassword/resendCode', {
         email: this.email.toLowerCase()
       })
         .then(() => {
-          this.showNotification(this.emailVerificationState.confirmTitle,
-            this.emailVerificationState.confirmMsg, this.emailVerificationState.confirmMsgType)
+          this.showNotification(this.resetPasswordState.resetTitle,
+            this.resetPasswordState.resetMsg, this.resetPasswordState.resetMsgType)
         })
     }
   }
