@@ -8,7 +8,10 @@ const mixin = {
   },
   computed: {
     _themePreference () {
-      return this.$store.getters['global/getGlobal'].themePreference
+      return this._globalState.themePreference
+    },
+    _globalState () {
+      return this.$store.getters['global/getGlobal']
     }
   },
   methods: {
@@ -38,6 +41,19 @@ const mixin = {
         getContainer: () => this.$el,
         icon
       })
+    },
+    signOut () {
+      this.$store
+        .dispatch('global/signOut')
+        .then(() => {
+          if (!this._globalState.signOutStatus) {
+            this.showNotification(
+              this._globalState.signOutTitle,
+              this._globalState.signOutMsg,
+              this._globalState.signOutMsgType
+            )
+          }
+        })
     }
   }
 }
