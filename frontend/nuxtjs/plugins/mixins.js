@@ -41,16 +41,6 @@ const mixin = {
         getContainer: () => this.$el,
         icon
       })
-    },
-    signOut () {
-      this.$store
-        .dispatch('global/signOut')
-        .then(() => {
-        })
-        .catch((e) => {
-          this.showNotification()
-          this.btnLoading = false
-        })
     }
   }
 }

@@ -50,7 +50,7 @@
           </a-form-model-item>
         </a-form-model>
         <center>
-          <TextBtn text="Cerrar sesión" @click.native="signOut()" />
+          <SignOutBtn />
         </center>
       </a-col>
     </a-row>

@@ -34,6 +34,7 @@ const actions = {
   },
   signOut (ctx, data) {
     ctx.commit('resetStates')
+
     return new Promise((resolve, reject) => {
       this.$AWS.Auth.signOut()
         .then((result) => {
@@ -41,19 +42,22 @@ const actions = {
           resolve()
         })
         .catch((err) => {
+          let params = {}
+
           switch (err.code) {
             // Error desconocido
             default: {
-              const params = {
+              params = {
                 notificationMsgType: 'error',
                 notificationTitle: '¡Ups!',
                 notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
               }
-              ctx.commit('setState', { params })
-              resolve()
               break
             }
           }
+
+          ctx.commit('setState', { params })
+          reject(err)
         })
     })
   }
