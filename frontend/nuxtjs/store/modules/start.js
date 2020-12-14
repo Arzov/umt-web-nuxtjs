@@ -1,101 +1,64 @@
-const getDefaultState = () => ({
-  signInStatus: true,
-  signInTitle: '',
-  signInMsg: '',
-  signInMsgType: 'success'
-})
-
-const state = getDefaultState
-
-const getters = {
-  getStates (state) {
-    return state
-  }
-}
-
 const actions = {
   signIn (ctx, data) {
-    ctx.commit('resetStates')
+    ctx.commit('global/resetStates', {}, { root: true })
+
     return new Promise((resolve, reject) => {
       this.$AWS.Auth.signIn({
         username: data.email,
         password: data.password
       })
-        .then((user) => {
-          const params = {
-            signInStatus: true
-          }
-          ctx.commit('setState', { params })
-          // this.$router.push(`email_verification/${data.email}`)
+        .then(() => {
+          // TODO: agregar logica en middleware
           resolve()
         })
         .catch((err) => {
+          let params = {}
+
           switch (err.code) {
             // Email invalido o no registrado
             case 'UserNotFoundException': {
-              const params = {
-                signInStatus: false,
-                signInMsgType: 'error',
-                signInTitle: '¡Correo no registrado!',
-                signInMsg: 'El correo electrónico ingresado no se encuentra registrado.'
+              params = {
+                notificationMsgType: 'error',
+                notificationTitle: '¡Correo no registrado!',
+                notificationMsg: 'El correo electrónico ingresado no se encuentra registrado.'
               }
-              ctx.commit('setState', { params })
-              resolve()
               break
             }
 
             // Contraseña incorrecta
             case 'NotAuthorizedException': {
-              const params = {
-                signInStatus: false,
-                signInMsgType: 'error',
-                signInTitle: '¡Contraseña incorrecta!',
-                signInMsg: 'La contraseña ingresada es incorrecta.'
+              params = {
+                notificationMsgType: 'error',
+                notificationTitle: '¡Contraseña incorrecta!',
+                notificationMsg: 'La contraseña ingresada es incorrecta.'
               }
-              ctx.commit('setState', { params })
-              resolve()
               break
             }
 
             // Email sin verificar
             case 'UserNotConfirmedException':
               this.$router.push(`/email_verification/${data.email}`)
-              resolve()
               break
 
             // Error desconocido
             default: {
-              const params = {
-                signInStatus: false,
-                signInMsgType: 'error',
-                signInTitle: '¡Ups!',
-                signInMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
+              params = {
+                notificationMsgType: 'error',
+                notificationTitle: '¡Ups!',
+                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
               }
-              ctx.commit('setState', { params })
-              resolve()
               break
             }
           }
+
+          ctx.commit('global/setState', { params }, { root: true })
+          reject(err)
         })
     })
   }
 }
 
-const mutations = {
-  setState (state, { params }) {
-    for (const key in params) {
-      state[key] = params[key]
-    }
-  },
-  resetStates (state) {
-    Object.assign(state, getDefaultState())
-  }
-}
-
 export default {
   namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
+  actions
 }

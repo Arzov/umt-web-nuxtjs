@@ -98,8 +98,7 @@ export default {
         email: this.$RULES.email.rules,
         password: this.$RULES.password.rules,
         birthdate: this.$RULES.birthdate.rules
-      },
-      registerState: this.$store.getters['register/getStates']
+      }
     }
   },
   methods: {
@@ -115,10 +114,10 @@ export default {
             gender: this.ruleForm.gender
           })
             .then(() => {
-              if (!this.registerState.signUpStatus) {
-                this.showNotification(this.registerState.signUpTitle,
-                  this.registerState.signUpMsg, this.registerState.signUpMsgType)
-              }
+              this.btnLoading = false
+            })
+            .catch((e) => {
+              this.showNotification()
               this.btnLoading = false
             })
         } else {

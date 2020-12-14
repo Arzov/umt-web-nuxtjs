@@ -74,8 +74,7 @@ export default {
       rules: {
         code: this.$RULES.code.rules,
         password: this.$RULES.password.rules
-      },
-      resetPasswordState: this.$store.getters['resetPassword/getStates']
+      }
     }
   },
   methods: {
@@ -89,10 +88,10 @@ export default {
             password: this.ruleForm.password
           })
             .then(() => {
-              if (!this.resetPasswordState.resetStatus) {
-                this.showNotification(this.resetPasswordState.resetTitle,
-                  this.resetPasswordState.resetMsg, this.resetPasswordState.resetMsgType)
-              }
+              this.btnLoading = false
+            })
+            .catch((e) => {
+              this.showNotification()
               this.btnLoading = false
             })
         } else {
@@ -105,8 +104,10 @@ export default {
         email: this.email.toLowerCase()
       })
         .then(() => {
-          this.showNotification(this.resetPasswordState.resetTitle,
-            this.resetPasswordState.resetMsg, this.resetPasswordState.resetMsgType)
+          this.showNotification()
+        })
+        .catch((e) => {
+          this.showNotification()
         })
     }
   }

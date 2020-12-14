@@ -1,21 +1,7 @@
-const getDefaultState = () => ({
-  signUpStatus: true,
-  signUpTitle: '',
-  signUpMsg: '',
-  signUpMsgType: 'success'
-})
-
-const state = getDefaultState
-
-const getters = {
-  getStates (state) {
-    return state
-  }
-}
-
 const actions = {
   signUp (ctx, data) {
-    ctx.commit('resetStates')
+    ctx.commit('global/resetStates', {}, { root: true })
+
     return new Promise((resolve, reject) => {
       const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
 
@@ -29,71 +15,53 @@ const actions = {
           gender: data.gender
         }
       })
-        .then((result) => {
+        .then(() => {
           this.$router.push(`/email_verification/${data.email}`)
           resolve()
         })
         .catch((err) => {
+          let params = {}
+
           switch (err.code) {
             // Validación desde lambda PreSignup
             case 'UserLambdaValidationException': {
-              const params = {
-                signUpStatus: false,
-                signUpMsgType: 'warning',
-                signUpTitle: '¡Correo ya registrado!',
-                signUpMsg: err.message.split('#')[1]
+              params = {
+                notificationMsgType: 'warning',
+                notificationTitle: '¡Correo ya registrado!',
+                notificationMsg: err.message.split('#')[1]
               }
-              ctx.commit('setState', { params })
-              resolve()
               break
             }
 
             // Usuario ya existe
             case 'UsernameExistsException': {
-              const params = {
-                signUpStatus: false,
-                signUpMsgType: 'warning',
-                signUpTitle: '¡Correo ya registrado!',
-                signUpMsg: 'El correo ya se encuentra registrado. Intenta iniciar sesión.'
+              params = {
+                notificationMsgType: 'warning',
+                notificationTitle: '¡Correo ya registrado!',
+                notificationMsg: 'El correo ya se encuentra registrado. Intenta iniciar sesión.'
               }
-              ctx.commit('setState', { params })
-              resolve()
               break
             }
 
             // Error desconocido
             default: {
-              const params = {
-                signUpStatus: false,
-                signUpMsgType: 'error',
-                signUpTitle: '¡Ups!',
-                signUpMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
+              params = {
+                notificationMsgType: 'error',
+                notificationTitle: '¡Ups!',
+                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
               }
-              ctx.commit('setState', { params })
-              resolve()
               break
             }
           }
+
+          ctx.commit('global/setState', { params }, { root: true })
+          reject(err)
         })
     })
   }
 }
 
-const mutations = {
-  setState (state, { params }) {
-    for (const key in params) {
-      state[key] = params[key]
-    }
-  },
-  resetStates (state) {
-    Object.assign(state, getDefaultState())
-  }
-}
-
 export default {
   namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
+  actions
 }

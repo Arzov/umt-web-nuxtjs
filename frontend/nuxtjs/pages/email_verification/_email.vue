@@ -65,8 +65,7 @@ export default {
       },
       rules: {
         code: this.$RULES.code.rules
-      },
-      emailVerificationState: this.$store.getters['emailVerification/getStates']
+      }
     }
   },
   methods: {
@@ -79,10 +78,10 @@ export default {
             code: this.ruleForm.code
           })
             .then(() => {
-              if (!this.emailVerificationState.confirmStatus) {
-                this.showNotification(this.emailVerificationState.confirmTitle,
-                  this.emailVerificationState.confirmMsg, this.emailVerificationState.confirmMsgType)
-              }
+              this.btnLoading = false
+            })
+            .catch((e) => {
+              this.showNotification()
               this.btnLoading = false
             })
         } else {
@@ -95,8 +94,10 @@ export default {
         email: this.email.toLowerCase()
       })
         .then(() => {
-          this.showNotification(this.emailVerificationState.confirmTitle,
-            this.emailVerificationState.confirmMsg, this.emailVerificationState.confirmMsgType)
+          this.showNotification()
+        })
+        .catch((e) => {
+          this.showNotification()
         })
     }
   }

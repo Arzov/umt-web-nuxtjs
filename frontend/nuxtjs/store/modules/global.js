@@ -3,10 +3,9 @@ const getLocalStorageState = key => (localStorage.getItem(key))
 const getDefaultState = () => ({
   themePreference: getLocalStorageState('themePreference')
     ? getLocalStorageState('themePreference') : 'dark',
-  signOutStatus: true,
-  signOutTitle: '',
-  signOutMsg: '',
-  signOutMsgType: 'success'
+  notificationTitle: '',
+  notificationMsg: '',
+  notificationMsgType: 'success'
 })
 
 const state = getDefaultState
@@ -46,10 +45,9 @@ const actions = {
             // Error desconocido
             default: {
               const params = {
-                signOutStatus: false,
-                signOutMsgType: 'error',
-                signOutTitle: '¡Ups!',
-                signOutMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
+                notificationMsgType: 'error',
+                notificationTitle: '¡Ups!',
+                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
               }
               ctx.commit('setState', { params })
               resolve()
@@ -64,7 +62,9 @@ const actions = {
 const mutations = {
   setState (state, { params }) {
     for (const key in params) {
-      localStorage.setItem(key, params[key])
+      if (key === 'themePreference') {
+        localStorage.setItem(key, params[key])
+      }
       state[key] = params[key]
     }
   },

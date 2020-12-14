@@ -7,18 +7,18 @@ const mixin = {
     }
   },
   computed: {
-    _themePreference () {
-      return this._globalState.themePreference
-    },
     _globalState () {
       return this.$store.getters['global/getGlobal']
+    },
+    _themePreference () {
+      return this._globalState.themePreference
     }
   },
   methods: {
-    showNotification (message, description, type) {
+    showNotification () {
       let icon = <a-icon type="close-circle" />
 
-      switch (type) {
+      switch (this._globalState.notificationMsgType) {
         case 'success':
           icon = <a-icon type="check-circle" />
           break
@@ -35,8 +35,8 @@ const mixin = {
       this.$notification.destroy()
 
       this.$notification.open({
-        message,
-        description,
+        message: this._globalState.notificationTitle,
+        description: this._globalState.notificationMsg,
         class: 'notification',
         getContainer: () => this.$el,
         icon
@@ -46,13 +46,10 @@ const mixin = {
       this.$store
         .dispatch('global/signOut')
         .then(() => {
-          if (!this._globalState.signOutStatus) {
-            this.showNotification(
-              this._globalState.signOutTitle,
-              this._globalState.signOutMsg,
-              this._globalState.signOutMsgType
-            )
-          }
+        })
+        .catch((e) => {
+          this.showNotification()
+          this.btnLoading = false
         })
     }
   }

@@ -75,8 +75,7 @@ export default {
       rules: {
         email: this.$RULES.email.rules,
         password: this.$RULES.password.rules
-      },
-      startState: this.$store.getters['start/getStates']
+      }
     }
   },
   methods: {
@@ -89,10 +88,10 @@ export default {
             password: this.ruleForm.password
           })
             .then(() => {
-              if (!this.startState.signInStatus) {
-                this.showNotification(this.startState.signInTitle,
-                  this.startState.signInMsg, this.startState.signInMsgType)
-              }
+              this.btnLoading = false
+            })
+            .catch((e) => {
+              this.showNotification()
               this.btnLoading = false
             })
         } else {

@@ -55,8 +55,7 @@ export default {
       },
       rules: {
         email: this.$RULES.email.rules
-      },
-      recoverPasswordState: this.$store.getters['recoverPassword/getStates']
+      }
     }
   },
   methods: {
@@ -68,10 +67,10 @@ export default {
             email: this.ruleForm.email.toLowerCase()
           })
             .then(() => {
-              if (!this.recoverPasswordState.confirmStatus) {
-                this.showNotification(this.recoverPasswordState.confirmTitle,
-                  this.recoverPasswordState.confirmMsg, this.recoverPasswordState.confirmMsgType)
-              }
+              this.btnLoading = false
+            })
+            .catch((e) => {
+              this.showNotification()
               this.btnLoading = false
             })
         } else {

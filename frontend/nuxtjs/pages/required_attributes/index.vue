@@ -71,8 +71,7 @@ export default {
       },
       rules: {
         birthdate: this.$RULES.birthdate.rules
-      },
-      requiredAttributesState: this.$store.getters['requiredAttributes/getStates']
+      }
     }
   },
   methods: {
@@ -86,13 +85,10 @@ export default {
               gender: this.ruleForm.gender
             })
             .then(() => {
-              if (!this.requiredAttributesState.saveStatus) {
-                this.showNotification(
-                  this.requiredAttributesState.saveTitle,
-                  this.requiredAttributesState.saveMsg,
-                  this.requiredAttributesState.saveMsgType
-                )
-              }
+              this.btnLoading = false
+            })
+            .catch((e) => {
+              this.showNotification()
               this.btnLoading = false
             })
         } else {
