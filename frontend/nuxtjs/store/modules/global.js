@@ -1,5 +1,3 @@
-import Auth from '@aws-amplify/auth'
-
 const getLocalStorageState = key => (localStorage.getItem(key))
 
 const getDefaultState = () => ({
@@ -38,7 +36,7 @@ const actions = {
   signOut (ctx, data) {
     ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
-      Auth.signOut()
+      this.$AWS.Auth.signOut()
         .then((result) => {
           console.log('log out del store')
           resolve()

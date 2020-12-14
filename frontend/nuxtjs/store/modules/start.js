@@ -1,5 +1,3 @@
-// import Auth from '@aws-amplify/auth'
-
 const getDefaultState = () => ({
   signInStatus: true,
   signInTitle: '',

@@ -1,5 +1,3 @@
-import Auth from '@aws-amplify/auth'
-
 const getDefaultState = () => ({
   confirmStatus: true,
   confirmTitle: '',
@@ -19,7 +17,7 @@ const actions = {
   verify (ctx, data) {
     ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
-      Auth.confirmSignUp(
+      this.$AWS.Auth.confirmSignUp(
         data.email,
         data.code,
         {
@@ -104,7 +102,7 @@ const actions = {
   resendCode (ctx, data) {
     ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
-      Auth.resendSignUp(
+      this.$AWS.Auth.resendSignUp(
         data.email
       )
         .then((result) => {

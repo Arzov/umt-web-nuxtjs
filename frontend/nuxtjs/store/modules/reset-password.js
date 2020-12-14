@@ -1,5 +1,3 @@
-import Auth from '@aws-amplify/auth'
-
 const getDefaultState = () => ({
   resetStatus: true,
   resetTitle: '',
@@ -19,7 +17,7 @@ const actions = {
   reset (ctx, data) {
     ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
-      Auth.forgotPasswordSubmit(
+      this.$AWS.Auth.forgotPasswordSubmit(
         data.email,
         data.code,
         data.password
@@ -29,7 +27,6 @@ const actions = {
           resolve()
         })
         .catch((err) => {
-          console.log(err)
           switch (err.code) {
             // Codigo invalido
             case 'CodeMismatchException': {
@@ -102,7 +99,7 @@ const actions = {
   resendCode (ctx, data) {
     ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
-      Auth.forgotPassword(
+      this.$AWS.Auth.forgotPassword(
         data.email
       )
         .then((result) => {

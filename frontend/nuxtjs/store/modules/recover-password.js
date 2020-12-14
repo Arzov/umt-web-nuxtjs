@@ -1,5 +1,3 @@
-import Auth from '@aws-amplify/auth'
-
 const getDefaultState = () => ({
   confirmStatus: true,
   confirmTitle: '',
@@ -17,13 +15,14 @@ const getters = {
 
 const actions = {
   recoverPassword (ctx, data) {
+    // TODO: Revisar cuando un email no esta verificado arroja un error (probar con fjbarrientosg@gmail.com) esta registrado con Cognito, Facebook y Google.
     ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
-      Auth.forgotPassword(
+      this.$AWS.Auth.forgotPassword(
         data.email
       )
         .then(() => {
-          this.$router.push('/start')
+          this.$router.push(`/reset_password/${data.email}`)
           resolve()
         })
         .catch((err) => {
