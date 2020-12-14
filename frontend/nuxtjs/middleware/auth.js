@@ -93,10 +93,10 @@
 //       }
 //     })
 // }
-import { Hub } from '@aws-amplify/core'
+// import { Hub } from '@aws-amplify/core'
 
 export default function ({ app }) {
-  Hub.listen('auth', ({ payload: { event, data } }) => {
+  app.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
     switch (event) {
       case 'signIn':
         console.log('inicio')

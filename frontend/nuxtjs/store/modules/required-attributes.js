@@ -1,5 +1,6 @@
-import { API, graphqlOperation } from '@aws-amplify/api'
+import { graphqlOperation } from '@aws-amplify/api'
 import { updateUser } from '@/graphql/mutations'
+import awsconfig from '~/aws-exports'
 
 const getDefaultState = () => ({
   saveStatus: true,
@@ -21,12 +22,10 @@ const actions = {
     ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
       const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
-      API._options.aws_appsync_graphqlEndpoint = process.env.NUXT_ENV_AWS_APPSYNC_ARZOV_URL
-      console.log(birthdate, data.gender)
-      console.log(process.env.NUXT_ENV_AWS_APPSYNC_ARZOV_URL)
-      console.log(API._options.aws_appsync_graphqlEndpoint)
-      console.log(API)
-      API.graphql(
+
+      this.$AWS.configure(awsconfig.arv)
+      this.$AWS.API.graphql(
+        /* TODO: Conectar store del usuario */
         graphqlOperation(updateUser, {
           email: /* data.email, */ 'diegolagosbeltran@gmail.com',
           birthdate,
