@@ -1,4 +1,4 @@
-import Auth from '@aws-amplify/auth'
+// import Auth from '@aws-amplify/auth'
 
 const getDefaultState = () => ({
   signInStatus: true,
@@ -19,7 +19,7 @@ const actions = {
   signIn (ctx, data) {
     ctx.commit('resetStates')
     return new Promise((resolve, reject) => {
-      Auth.signIn({
+      this.$AWS.Auth.signIn({
         username: data.email,
         password: data.password
       })
