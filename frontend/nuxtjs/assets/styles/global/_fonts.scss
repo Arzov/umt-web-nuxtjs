@@ -1,0 +1,104 @@
+@function str-replace($string, $search, $replace: "") {
+    $index: str-index($string, $search);
+
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+
+    @return $string;
+}
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+    $src: null;
+
+    $extmods: (
+        eot: "?",
+        svg: "#" + str-replace($name, " ", "_")
+    );
+
+    $formats: (
+        otf: "opentype",
+        ttf: "truetype"
+    );
+
+    @each $ext in $exts {
+        $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+        $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+        $src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+    }
+
+    @font-face {
+        font-family: quote($name);
+        font-style: $style;
+        font-weight: $weight;
+        src: $src;
+    }
+}
+
+
+@include font-face('PublicSans', '../fonts/PublicSans-Thin', 100, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-ThinItalic', 100, italic, ttf);
+
+@include font-face('PublicSans', '../fonts/PublicSans-ExtraLight', 200, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-ExtraLightItalic', 200, italic, ttf);
+
+@include font-face('PublicSans', '../fonts/PublicSans-Light', 300, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-LightItalic', 300, italic, ttf);
+
+@include font-face('PublicSans', '../fonts/PublicSans-Regular', 400, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-Italic', 400, italic, ttf);
+
+@include font-face('PublicSans', '../fonts/PublicSans-Medium', 500, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-MediumItalic', 500, italic, ttf);
+
+@include font-face('PublicSans', '../fonts/PublicSans-SemiBold', 600, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-SemiBoldItalic', 600, italic, ttf);
+
+@include font-face('PublicSans', '../fonts/PublicSans-Bold', 700, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-BoldItalic', 700, italic, ttf);
+
+@include font-face('PublicSans', '../fonts/PublicSans-ExtraBold', 800, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-ExtraBoldItalic', 800, italic, ttf);
+
+@include font-face('PublicSans', '../fonts/PublicSans-Black', 900, normal, ttf);
+@include font-face('PublicSans', '../fonts/PublicSans-BlackItalic', 900, italic, ttf);
+
+$h-sizes: (
+  1: (size: 2.5rem, weight: 700, text-transform: none),
+  2: (size: 1rem, weight: 700, text-transform: uppercase),
+  3: (size: 1rem, weight: 900, text-transform: uppercase),
+  4: (size: 0.75rem, weight: 700, text-transform: uppercase)
+);
+$p-size: 16px;
+
+@mixin h-sizes {
+    @each $key, $value in $h-sizes {
+        h#{$key} {
+            font-size: map-get($value, 'size');
+            font-weight: map-get($value, 'weight');
+            text-transform: map-get($value, 'text-transform');
+            margin-bottom: 0;
+
+            .dmBody & {
+                color: $color-white;
+            }
+
+            .lmBody & {
+                color: $color-black;
+            }
+        }
+    }
+}
+
+@include h-sizes;
+
+%font-props {
+    font-size: $p-size;
+    font-family: 'PublicSans', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    b {
+        font-weight: 700;
+    }
+}

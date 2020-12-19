@@ -1,0 +1,28 @@
+@import 'global/colors';
+@import 'global/fonts';
+@import 'global/margins';
+@import 'global/dom';
+@import 'global/links';
+@import 'global/images';
+
+@import 'components/facebook';
+@import 'components/google';
+@import 'components/themeToggle';
+@import 'components/principalBtn';
+@import 'components/principalInput';
+@import 'components/dateSelector';
+@import 'components/genderSelector';
+@import 'components/backBtn';
+@import 'components/notification';
+@import 'components/codeInput';
+@import 'components/textBtn';
+
+@import 'layouts/header';
+@import 'layouts/rightContent';
+@import 'layouts/leftContent';
+
+@import 'pages/start';
+@import 'pages/emailVerification';
+@import 'pages/recoverPassword';
+@import 'pages/resetPassword';
+@import 'pages/requiredAttributes';

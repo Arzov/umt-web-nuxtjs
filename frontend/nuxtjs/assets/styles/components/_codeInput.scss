@@ -1,0 +1,55 @@
+.codeInput {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    input {
+        padding: 0px;
+        font-size: 1.7rem;
+        max-width: 2rem;
+        text-align: center;
+        background: none;
+        border: none;
+        outline: none;
+        caret-color: transparent;
+        transition-duration: 0.3s;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .dmBody & {
+            border-bottom: 2px solid $color-white;
+
+            &::placeholder {
+                -webkit-text-fill-color: rgba($color-white, 0.2);
+            }
+
+            &:focus {
+                border-bottom: 2px solid $color-white;
+            }
+        }
+    
+        .lmBody & {
+            border-bottom: 2px solid $color-black;
+
+            &::placeholder {
+                -webkit-text-fill-color: rgba($color-black, 0.2);
+            }
+
+            &:focus {
+                border-bottom: 2px solid $color-black;
+            }
+        }
+
+        .has-error & {
+            border-bottom: 2px solid $color-purple;
+        }
+    }
+}

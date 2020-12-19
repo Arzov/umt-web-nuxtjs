@@ -1,0 +1,8 @@
+.leftContent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: $padding-left;
+    padding-right: $padding-right;
+}

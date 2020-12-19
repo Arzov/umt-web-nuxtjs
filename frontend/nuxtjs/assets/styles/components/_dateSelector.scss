@@ -1,0 +1,93 @@
+%date-selector-aspects {
+    box-shadow: 0 0 10px 0 rgba($color-black, 0.1);
+    border: none;
+    border-radius: 0;
+    height: 42px;
+    padding-top: 0.4em;
+}
+
+.dateSelector,
+.dateSelector:hover {
+    @extend %font-props;
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        grid-gap: 16px;
+    }
+
+    .dmBody & {
+        background: $color-black;
+
+        .ant-select-selection {
+            color: $color-white;
+            background: $color-dark-grey;
+
+            svg {
+                color: $color-white;
+            }
+            
+            @extend %date-selector-aspects;
+        }
+
+        label {
+            color: $color-white;
+        }
+    }
+
+    .lmBody & {
+        background: $color-light-grey;
+
+        .ant-select-selection {
+            color: $color-black;
+            background: $color-white;
+
+            svg {
+                color: $color-black;
+            }
+            
+            @extend %date-selector-aspects;
+        }
+
+        label {
+            color: $color-black;
+        }
+    }
+
+    .has-error & {
+        .ant-select-selection {
+            border-color: $color-purple;
+            box-shadow: 0 0 0 2px $color-purple;
+        }
+    }
+}
+
+.ant-select {
+    @extend %font-props;
+}
+
+.ant-select-arrow {
+    right: 11px !important;
+}
+
+.ant-select-dropdown-menu-item {
+    @extend %font-props;
+}
+
+.ant-select-dropdown-content, .ant-select-dropdown {
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.ant-select-dropdown-menu-item-active:hover {
+    background: $color-violet !important;
+}
+
+.ant-select-dropdown-menu-item-active {
+    background: transparent !important;
+}
+
+.ant-select-dropdown-menu-item-selected {
+    font-weight: 900 !important;
+    background: transparent !important;
+}

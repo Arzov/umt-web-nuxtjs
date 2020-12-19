@@ -1,0 +1,82 @@
+%input-aspects {
+    @extend %font-props;
+    box-shadow: 0 0 10px 0 rgba($color-black, 0.1);
+    border: none;
+    border-radius: 0;
+    height: 42px;
+    width: 100%;
+}
+
+.principalInput,
+.principalInput:hover,
+.principalInput:focus,
+.principalInput:active,
+.principalInput:not(:hover) {
+    .dmBody & {
+        background: $color-dark-grey;
+    }
+
+    .lmBody & {
+        background: $color-white;
+    }
+
+    input {
+        .dmBody & {
+            color: $color-white;
+            background: $color-dark-grey;
+            @extend %input-aspects;
+        }
+    
+        .lmBody & {
+            color: $color-black;
+            background: $color-white;
+            @extend %input-aspects;
+        }
+    }
+
+    .has-error & {
+        border-color: $color-purple;
+        box-shadow: 0 0 0 2px $color-purple;
+    }
+}
+
+.principalInput input:-webkit-autofill,
+.principalInput input:-webkit-autofill:hover,
+.principalInput input:-webkit-autofill:focus,
+.principalInput input:-webkit-autofill:active,
+.principalInput input:-webkit-autofill:not(:hover) {
+    -webkit-background-clip: text;
+
+    .has-error & {
+        border: none;
+        box-shadow: none;
+    }
+}
+
+.ant-form-item-children,
+.ant-form-item-children:hover,
+.ant-form-item-children:active,
+.ant-form-item-children:focus {
+    .dmBody & {
+        -webkit-text-fill-color: $color-white;
+        background: $color-dark-grey;
+    }
+
+    .lmBody & {
+        -webkit-text-fill-color: $color-black;
+        background: $color-white;
+    }
+}
+
+.ant-form-explain {
+    -webkit-text-fill-color: $color-purple !important;
+    color: $color-purple !important;
+
+    .dmBody & {
+        background: $color-black;
+    }
+
+    .lmBody & {
+        background: $color-light-grey;
+    }
+}
