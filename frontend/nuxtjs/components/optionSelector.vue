@@ -1,5 +1,5 @@
 <template>
-  <div class="genderSelector">
+  <div class="optionSelector">
     <label>
       <h4>{{ label }}</h4>
     </label>
@@ -8,11 +8,11 @@
       @change="triggerChange"
     >
       <a-radio
-        v-for="g in genderOptions"
-        :key="`g${g.key}`"
-        :value="g.value"
+        v-for="o in options"
+        :key="`o${o.key}`"
+        :value="o.value"
       >
-        {{ g.key }}
+        {{ o.key }}
       </a-radio>
     </a-radio-group>
   </div>
@@ -21,16 +21,9 @@
 <script>
 export default {
   props: {
-    label: { type: String, default: 'Sexo' },
-    value: { type: String, default: 'M' }
-  },
-  data () {
-    return {
-      genderOptions: [
-        { key: 'Masculino', value: 'M' },
-        { key: 'Femenino', value: 'F' }
-      ]
-    }
+    label: { type: String, default: 'Selecciona' },
+    value: { type: String, default: '' },
+    options: { type: Array, default: () => {} }
   },
   methods: {
     triggerChange (e) {

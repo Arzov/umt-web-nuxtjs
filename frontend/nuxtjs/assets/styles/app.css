@@ -128,7 +128,7 @@ h4 {
   .lmBody h4 {
     color: #161C27; }
 
-.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input, .lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .genderSelector .ant-radio-wrapper, .notification, .dmBody .notification .ant-notification-notice-message,
+.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input, .lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .optionSelector .ant-radio-wrapper, .notification, .dmBody .notification .ant-notification-notice-message,
 .dmBody .notification .ant-notification-notice-description,
 .dmBody .notification .ant-notification-close-x, .lmBody .notification .ant-notification-notice-message,
 .lmBody .notification .ant-notification-notice-description,
@@ -137,7 +137,7 @@ h4 {
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
   font-style: normal; }
-  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .dmBody .principalInput input b, .dmBody .principalInput:hover input b, .dmBody .principalInput:focus input b, .dmBody .principalInput:active input b, .dmBody .principalInput:not(:hover) input b, .lmBody .principalInput input b, .lmBody .principalInput:hover input b, .lmBody .principalInput:focus input b, .lmBody .principalInput:active input b, .lmBody .principalInput:not(:hover) input b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .genderSelector .ant-radio-wrapper b, .notification b, .dmBody .notification .ant-notification-notice-message b,
+  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .dmBody .principalInput input b, .dmBody .principalInput:hover input b, .dmBody .principalInput:focus input b, .dmBody .principalInput:active input b, .dmBody .principalInput:not(:hover) input b, .lmBody .principalInput input b, .lmBody .principalInput:hover input b, .lmBody .principalInput:focus input b, .lmBody .principalInput:active input b, .lmBody .principalInput:not(:hover) input b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .optionSelector .ant-radio-wrapper b, .notification b, .dmBody .notification .ant-notification-notice-message b,
   .dmBody .notification .ant-notification-notice-description b,
   .dmBody .notification .ant-notification-close-x b, .lmBody .notification .ant-notification-notice-message b,
   .lmBody .notification .ant-notification-notice-description b,
@@ -237,6 +237,10 @@ html body {
 
 .cupTriangle {
   width: 40%;
+  margin-bottom: 50px; }
+
+.whistle {
+  width: 50%;
   margin-bottom: 50px; }
 
 .cornerTopRight {
@@ -410,7 +414,7 @@ html body {
   font-weight: 900 !important;
   background: transparent !important; }
 
-.genderSelector .ant-radio-wrapper {
+.optionSelector .ant-radio-wrapper {
   box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
   border: none;
   border-radius: 0;
@@ -419,76 +423,76 @@ html body {
   position: relative;
   width: 100%; }
 
-.dmBody .genderSelector {
+.dmBody .optionSelector {
   background: #161C27; }
-.lmBody .genderSelector {
+.lmBody .optionSelector {
   background: #f1f3ff; }
-.genderSelector .ant-radio-group {
+.optionSelector .ant-radio-group {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   grid-gap: 16px; }
-.genderSelector .ant-radio-wrapper {
+.optionSelector .ant-radio-wrapper {
   display: grid;
   cursor: pointer;
   grid-template-columns: 1fr auto;
   grid-template-areas: "label radio"; }
-  .dmBody .genderSelector .ant-radio-wrapper {
+  .dmBody .optionSelector .ant-radio-wrapper {
     color: white;
     background: #1F2835; }
-    .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) {
+    .dmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) {
       grid-area: radio;
       padding: 0.3em 1em 0.3em 0.3em;
       align-self: center; }
-      .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1)::after {
+      .dmBody .optionSelector .ant-radio-wrapper > span:nth-child(1)::after {
         border: none; }
-      .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
+      .dmBody .optionSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
         border: solid 1px white; }
-      .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
+      .dmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
         background: none;
         border: solid 2px white;
         width: 14px;
         height: 14px; }
-        .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
+        .dmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
           background-color: white;
           top: 1px;
           left: 1px;
           width: 10px;
           height: 10px; }
-    .dmBody .genderSelector .ant-radio-wrapper > span:nth-child(2) {
+    .dmBody .optionSelector .ant-radio-wrapper > span:nth-child(2) {
       grid-area: label;
       padding: 0.3em 0.3em 0.3em 1em;
       align-self: center; }
-  .lmBody .genderSelector .ant-radio-wrapper {
+  .lmBody .optionSelector .ant-radio-wrapper {
     color: #161C27;
     background: white; }
-    .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) {
+    .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) {
       grid-area: radio;
       padding: 0.3em 1em 0.3em 0.3em;
       align-self: center; }
-      .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1)::after {
+      .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1)::after {
         border: none; }
-      .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
+      .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
         border: solid 1px #161C27; }
-      .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
+      .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
         background: none;
         border: solid 2px #161C27;
         width: 14px;
         height: 14px; }
-        .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
+        .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
           background-color: #161C27;
           top: 1px;
           left: 1px;
           width: 10px;
           height: 10px; }
-    .lmBody .genderSelector .ant-radio-wrapper > span:nth-child(2) {
+    .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(2) {
       grid-area: label;
       padding: 0.3em 0.3em 0.3em 1em;
       align-self: center; }
-.genderSelector label {
+.optionSelector label {
   font-size: 12px; }
-  .dmBody .genderSelector label {
+  .dmBody .optionSelector label {
     color: white; }
-  .lmBody .genderSelector label {
+  .lmBody .optionSelector label {
     color: #161C27; }
 
 .backBtn {
@@ -571,7 +575,16 @@ html body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 70px;
+  height: 10%;
+  width: 100%;
+  padding-left: 50px;
+  padding-right: 50px; }
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 10%;
   width: 100%;
   padding-left: 50px;
   padding-right: 50px; }
@@ -591,6 +604,11 @@ html body {
   justify-content: center;
   padding-left: 50px;
   padding-right: 50px; }
+  .leftContent .image {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; }
 
 .start .socialLogin {
   display: flex;
@@ -601,29 +619,5 @@ html body {
   margin-right: 5%; }
 .start .facebook {
   margin-left: 5%; }
-
-.emailVerification .image {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center; }
-
-.recoverPassword .image {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center; }
-
-.resetPassword .image {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center; }
-
-.requiredAttributes .image {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center; }
 
 /*# sourceMappingURL=app.css.map */

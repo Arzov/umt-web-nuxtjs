@@ -1,5 +1,5 @@
 <template>
-  <div class="requiredAttributes">
+  <div>
     <a-row>
       <a-col class="leftContent" :span="12">
         <div class="image">
@@ -21,7 +21,11 @@
             />
           </a-form-model-item>
           <a-form-model-item>
-            <GenderSelector v-model="ruleForm.gender" label="SEXO*" />
+            <OptionSelector
+              v-model="ruleForm.gender"
+              label="SEXO*"
+              :options="require('../../static/data/genderOptions.json')"
+            />
           </a-form-model-item>
           <center>
             *Tu edad y sexo permitirán a otros rivales encontrarte y desafiarte

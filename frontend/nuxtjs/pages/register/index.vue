@@ -51,9 +51,10 @@
             />
           </a-form-model-item>
           <a-form-model-item>
-            <GenderSelector
+            <OptionSelector
               v-model="ruleForm.gender"
               label="SEXO*"
+              :options="require('../../static/data/genderOptions.json')"
             />
           </a-form-model-item>
           <center>

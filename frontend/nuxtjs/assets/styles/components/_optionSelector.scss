@@ -1,4 +1,4 @@
-%gender-selector-aspects {
+%option-selector-aspects {
     box-shadow: 0 0 10px 0 rgba($color-black, 0.1);
     border: none;
     border-radius: 0;
@@ -47,7 +47,7 @@
     }
 }
 
-.genderSelector {
+.optionSelector {
     .dmBody & {
         background: $color-black;
     }
@@ -64,7 +64,7 @@
 
     .ant-radio-wrapper {
         @extend %font-props;
-        @extend %gender-selector-aspects;
+        @extend %option-selector-aspects;
 
         display: grid;
         cursor: pointer;
