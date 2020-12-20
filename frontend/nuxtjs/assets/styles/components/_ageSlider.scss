@@ -1,0 +1,47 @@
+@mixin sliderThemeColors($color1, $color2) {
+    .ant-slider-rail {
+        background-color: $color1;
+        border-radius: 0;
+    }
+
+    .ant-slider:hover .ant-slider-rail {
+        background-color: $color1;
+    }
+
+    .ant-slider:hover .ant-slider-track {
+        background-color: $color2;
+    }
+
+    .ant-slider-track {
+        background-color: $color2;
+    }
+}
+
+.ageSlider {
+    .range {
+        position: relative;
+        float: right;
+        // text-align: right;
+    }
+
+    .ant-slider {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .ant-slider-handle {
+        box-shadow: 0 0 10px 0 rgba($color-black, 0.2);
+    }
+
+    .ant-slider-handle {
+        border: none;
+    }
+
+    .lmBody & {
+        @include sliderThemeColors($color-purple, $color-pink);
+    }
+
+    .dmBody & {
+        @include sliderThemeColors($color-blue, $color-cian);
+    }
+}

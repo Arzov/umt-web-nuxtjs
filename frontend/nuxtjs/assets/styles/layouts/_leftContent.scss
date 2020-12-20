@@ -5,4 +5,11 @@
     justify-content: center;
     padding-left: $padding-left;
     padding-right: $padding-right;
+
+    .image {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
 }
