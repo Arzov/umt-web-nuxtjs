@@ -1,6 +1,3 @@
-// import { addUser } from '@/graphql/mutations'
-// import { getUser, getUmatchUser } from '@/graphql/queries'
-
 const getDefaultState = () => ({
   email: null,
   firstName: null,
@@ -8,20 +5,22 @@ const getDefaultState = () => ({
   birthdate: null,
   gender: null,
   picture: null,
-  latitude: null,
-  longitude: null,
+  coords: null,
   geohash: null,
   matchFilter: null,
   genderFilter: null,
   ageMinFilter: null,
   ageMaxFilter: null,
-  verified: true
+  positions: null,
+  foot: null,
+  weight: null,
+  height: null
 })
 
 const state = getDefaultState()
 
 const getters = {
-  userData (state) {
+  getUser (state) {
     return state
   }
 }
