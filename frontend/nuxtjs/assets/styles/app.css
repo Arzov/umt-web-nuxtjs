@@ -571,6 +571,35 @@ html body {
     .lmBody .textBtn:active {
       color: rgba(100, 87, 227, 0.6); }
 
+.ageSlider .range {
+  position: relative;
+  float: right; }
+.ageSlider .ant-slider {
+  margin-left: 0px;
+  margin-right: 0px; }
+.ageSlider .ant-slider-handle {
+  box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.2); }
+.ageSlider .ant-slider-handle {
+  border: none; }
+.lmBody .ageSlider .ant-slider-rail {
+  background-color: #6457e3;
+  border-radius: 0; }
+.lmBody .ageSlider .ant-slider:hover .ant-slider-rail {
+  background-color: #6457e3; }
+.lmBody .ageSlider .ant-slider:hover .ant-slider-track {
+  background-color: #ad64e6; }
+.lmBody .ageSlider .ant-slider-track {
+  background-color: #ad64e6; }
+.dmBody .ageSlider .ant-slider-rail {
+  background-color: #0271c4;
+  border-radius: 0; }
+.dmBody .ageSlider .ant-slider:hover .ant-slider-rail {
+  background-color: #0271c4; }
+.dmBody .ageSlider .ant-slider:hover .ant-slider-track {
+  background-color: #0cecf2; }
+.dmBody .ageSlider .ant-slider-track {
+  background-color: #0cecf2; }
+
 .header {
   display: flex;
   flex-direction: row;

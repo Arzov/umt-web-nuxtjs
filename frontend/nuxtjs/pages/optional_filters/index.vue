@@ -29,6 +29,12 @@
             />
           </a-form-model-item>
           <a-form-model-item>
+            <AgeSlider
+              v-model="ruleForm.ageFilter"
+              label="RANGO DE EDAD"
+            />
+          </a-form-model-item>
+          <a-form-model-item>
             <PrincipalBtn
               text="CONTINUAR"
               :loading="btnLoading"
@@ -51,7 +57,8 @@ export default {
     return {
       ruleForm: {
         matchFilter: '5v5',
-        genderFilter: 'M'
+        genderFilter: 'M',
+        ageFilter: [18, 22]
       }
     }
   },
@@ -59,6 +66,7 @@ export default {
     submitForm (formName) {
       console.log(this.ruleForm.matchFilter)
       console.log(this.ruleForm.genderFilter)
+      console.log(this.ruleForm.ageFilter)
       // this.$refs[formName].validate((valid) => {
       //   if (valid) {
       //     this.btnLoading = true
