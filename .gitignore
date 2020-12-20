@@ -90,12 +90,7 @@ sw.*
 *.swp
 
 # uxi
-3x
-**/_uxi/**/*.png
-**/_uxi/**/*.jpg
-**/_uxi/**/*.jpeg
-**/_uxi/**/*.ico
-**/_uxi/**/*.gif
+_uxi
 
 # sass
 .sass-cache
