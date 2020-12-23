@@ -144,9 +144,6 @@ h4 {
   .lmBody .notification .ant-notification-close-x b {
     font-weight: 700; }
 
-.dmBody, .lmBody {
-  transition: background-color 0.2s linear; }
-
 html, html body,
 html body #__nuxt,
 html body #__layout, html body .dmBody,
@@ -537,8 +534,7 @@ html body {
     background: none;
     border: none;
     outline: none;
-    caret-color: transparent;
-    transition-duration: 0.3s; }
+    caret-color: transparent; }
     .codeInput input::-webkit-outer-spin-button, .codeInput input::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0; }
