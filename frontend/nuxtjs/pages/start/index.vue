@@ -65,10 +65,7 @@
 </template>
 
 <script>
-import { signOut } from '@/plugins/mixins'
-
 export default {
-  mixins: [signOut],
   data () {
     return {
       ruleForm: {

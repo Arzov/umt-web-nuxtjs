@@ -12,13 +12,12 @@ export default function ({ app, route, store, redirect }) {
         // del usuario en el store, por lo tanto, no se redirecciona a la vista
         // Home. Esto sólo ocurre en la vista Start y sólo cuando se inicia con
         // redes sociales.
-        // FIXME: Cuando login regresa de callback (redes sociales) los estados
-        //        del usuario quedan en String 'null' lo que deberia ser null.
-        if (!userState.email) {
-          redirect('/home')
-        }
+        if (userState.email) { redirect('/home') }
 
       // Revisar campos obligatorios y opcionales
+      // FIXME: Revisar error que arroja cuando redirecciona. Para replicar el error,
+      //        se debe manualemente ir a la vista 'start' cuando se esta en, por ejemplo,
+      //        'required_attributes' con una sesion activa.
       } else if (!userState.birthdate) {
         // Se redirecciona solo si no se esta en la pagina correspondiente.
         // Esta validacion va en este punto y no en el 'else if' padre ya que

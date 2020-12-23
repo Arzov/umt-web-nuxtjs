@@ -52,7 +52,6 @@ export const signOut = {
     this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signOut':
-          this.$store.dispatch('user/resetStates')
           this.$router.push('/start')
           break
       }

@@ -60,22 +60,20 @@ const actions = {
             email: data.email
           }))
             .then((result) => {
-              if (result.data.getUser.email) {
-                const params = {
-                  geohash: result.data.getUser.geohash,
-                  coords: result.data.getUser.coords,
-                  genderFilter: result.data.getUser.genderFilter,
-                  ageMinFilter: result.data.getUser.ageMinFilter,
-                  ageMaxFilter: result.data.getUser.ageMaxFilter,
-                  matchFilter: result.data.getUser.matchFilter,
-                  positions: result.data.getUser.positions,
-                  foot: result.data.getUser.foot,
-                  weight: result.data.getUser.weight,
-                  height: result.data.getUser.height
-                }
-
-                ctx.commit('setState', { params })
+              const params = {
+                geohash: result.data.getUser.geohash || null,
+                coords: result.data.getUser.coords || null,
+                genderFilter: result.data.getUser.genderFilter || null,
+                ageMinFilter: result.data.getUser.ageMinFilter || null,
+                ageMaxFilter: result.data.getUser.ageMaxFilter || null,
+                matchFilter: result.data.getUser.matchFilter || null,
+                positions: result.data.getUser.positions || null,
+                foot: result.data.getUser.foot || null,
+                weight: result.data.getUser.weight || null,
+                height: result.data.getUser.height || null
               }
+
+              ctx.commit('setState', { params })
 
               resolve(ctx.getters.getUser)
             })
@@ -137,7 +135,8 @@ const mutations = {
   },
   resetStates (state) {
     for (const key in state) {
-      localStorage.setItem(key, null)
+      localStorage.removeItem(key)
+      // localStorage.setItem(key, JSON.stringify(null))
       state[key] = null
     }
   }
