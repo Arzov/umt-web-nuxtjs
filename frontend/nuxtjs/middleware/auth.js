@@ -35,7 +35,7 @@ export default function ({ app, route, store, redirect }) {
     .catch(function () {
       // Redireccionar hacia Start solo si esta dentro de la app
       if (!['start', 'register', 'email_verification', 'recover_password',
-        'reset_password'].includes(currentPath)
+        'reset_password', 'mobile'].includes(currentPath)
       ) {
         redirect('/start')
       }

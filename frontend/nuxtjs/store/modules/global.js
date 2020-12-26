@@ -33,9 +33,9 @@ const actions = {
   },
   signOut (ctx, data) {
     ctx.commit('resetStates')
+    ctx.commit('user/resetStates', {}, { root: true })
 
     return new Promise((resolve, reject) => {
-      ctx.commit('user/resetStates', {}, { root: true })
       this.$AWS.Auth.signOut()
         .then((result) => {
           resolve()

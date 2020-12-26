@@ -66,8 +66,7 @@ export default {
       },
       rules: {
         birthdate: this.$RULES.birthdate.rules
-      },
-      userState: this.$store.getters['user/getUser']
+      }
     }
   },
   methods: {
@@ -77,10 +76,10 @@ export default {
           this.btnLoading = true
           this.$store
             .dispatch('requiredAttributes/save', {
-              email: this.userState.email,
-              firstName: this.userState.firstName,
-              lastName: this.userState.lastName,
-              picture: this.userState.picture,
+              email: this._userState.email,
+              firstName: this._userState.firstName,
+              lastName: this._userState.lastName,
+              picture: this._userState.picture,
               birthdate: this.ruleForm.birthdate,
               gender: this.ruleForm.gender
             })
