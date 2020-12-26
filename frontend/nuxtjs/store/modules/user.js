@@ -2,7 +2,16 @@ import { graphqlOperation } from '@aws-amplify/api'
 import { arv, umt } from '@/graphql/gql'
 import awsconfig from '~/aws-exports'
 
-const getLocalStorageState = key => (localStorage.getItem(key))
+const getLocalStorageState = (key) => {
+  // localStorage guara todos los estados como 'string'
+  // por lo que se debe en algunos casos usar JSON.parse()
+  // para obtener el tipo de dato correcto
+  if (localStorage.getItem(key) === 'null') {
+    return JSON.parse(localStorage.getItem(key))
+  } else {
+    return localStorage.getItem(key)
+  }
+}
 
 const getDefaultState = () => ({
   email: getLocalStorageState('email') || null,
@@ -19,6 +28,7 @@ const getDefaultState = () => ({
   ageMaxFilter: getLocalStorageState('ageMaxFilter') || null,
   positions: getLocalStorageState('positions') || null,
   foot: getLocalStorageState('foot') || null,
+  skills: getLocalStorageState('skills') || null,
   weight: getLocalStorageState('weight') || null,
   height: getLocalStorageState('height') || null
 })
@@ -69,6 +79,7 @@ const actions = {
                 matchFilter: result.data.getUser.matchFilter || null,
                 positions: result.data.getUser.positions || null,
                 foot: result.data.getUser.foot || null,
+                skills: result.data.getUser.skills || null,
                 weight: result.data.getUser.weight || null,
                 height: result.data.getUser.height || null
               }
@@ -136,7 +147,6 @@ const mutations = {
   resetStates (state) {
     for (const key in state) {
       localStorage.removeItem(key)
-      // localStorage.setItem(key, JSON.stringify(null))
       state[key] = null
     }
   }

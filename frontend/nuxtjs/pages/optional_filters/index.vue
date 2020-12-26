@@ -38,12 +38,12 @@
             <PrincipalBtn
               text="CONTINUAR"
               :loading="btnLoading"
-              @click.native="submitForm('ruleForm')"
+              @click.native="submitForm('ruleForm', false)"
             />
           </a-form-model-item>
         </a-form-model>
         <center>
-          <SignOutBtn />
+          <TextBtn text="Omitir" @click.native="submitForm('ruleForm', true)" />
         </center>
       </a-col>
     </a-row>
@@ -63,29 +63,33 @@ export default {
     }
   },
   methods: {
-    submitForm (formName) {
-      console.log(this.ruleForm.matchFilter)
-      console.log(this.ruleForm.genderFilter)
-      console.log(this.ruleForm.ageFilter)
-      // this.$refs[formName].validate((valid) => {
-      //   if (valid) {
-      //     this.btnLoading = true
-      //     this.$store
-      //       .dispatch('requiredAttributes/save', {
-      //         birthdate: this.ruleForm.birthdate,
-      //         gender: this.ruleForm.gender
-      //       })
-      //       .then(() => {
-      //         this.btnLoading = false
-      //       })
-      //       .catch((e) => {
-      //         this.showNotification()
-      //         this.btnLoading = false
-      //       })
-      //   } else {
-      //     return false
-      //   }
-      // })
+    submitForm (formName, isSkip) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (!isSkip) { this.btnLoading = true }
+          this.$store
+            .dispatch('optionalFilters/save', {
+              email: this._userState.email,
+              matchFilter: this.ruleForm.matchFilter,
+              genderFilter: this.ruleForm.genderFilter,
+              ageFilter: this.ruleForm.ageFilter,
+              positions: this._userState.positions,
+              skills: this._userState.skills,
+              foot: this._userState.foot,
+              weight: this._userState.weight,
+              height: this._userState.height
+            })
+            .then(() => {
+              this.btnLoading = false
+            })
+            .catch((e) => {
+              this.showNotification()
+              this.btnLoading = false
+            })
+        } else {
+          return false
+        }
+      })
     }
   }
 }

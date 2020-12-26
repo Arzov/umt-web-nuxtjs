@@ -7,6 +7,7 @@ import emailVerification from './modules/email-verification'
 import resetPassword from './modules/reset-password'
 import recoverPassword from './modules/recover-password'
 import requiredAttributes from './modules/required-attributes'
+import optionalFilters from './modules/optional-filters'
 
 const store = () => {
   return new Vuex.Store({
@@ -18,7 +19,8 @@ const store = () => {
       emailVerification,
       recoverPassword,
       requiredAttributes,
-      resetPassword
+      resetPassword,
+      optionalFilters
     }
   })
 }

@@ -7,6 +7,9 @@ const global = {
     }
   },
   computed: {
+    _userState () {
+      return this.$store.getters['user/getUser']
+    },
     _globalState () {
       return this.$store.getters['global/getGlobal']
     },
