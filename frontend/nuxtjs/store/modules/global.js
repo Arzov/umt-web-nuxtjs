@@ -1,8 +1,7 @@
 const getLocalStorageState = key => (localStorage.getItem(key))
 
 const getDefaultState = () => ({
-  themePreference: getLocalStorageState('themePreference')
-    ? getLocalStorageState('themePreference') : 'dark',
+  themePreference: getLocalStorageState('themePreference') || 'dark',
   notificationTitle: '',
   notificationMsg: '',
   notificationMsgType: 'success'
@@ -36,9 +35,9 @@ const actions = {
     ctx.commit('resetStates')
 
     return new Promise((resolve, reject) => {
+      ctx.commit('user/resetStates', {}, { root: true })
       this.$AWS.Auth.signOut()
         .then((result) => {
-          console.log('log out del store')
           resolve()
         })
         .catch((err) => {

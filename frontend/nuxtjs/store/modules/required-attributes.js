@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { updateUser } from '@/graphql/mutations'
+import { arv } from '@/graphql/gql'
 import awsconfig from '~/aws-exports'
 
 const actions = {
@@ -11,20 +11,22 @@ const actions = {
 
       this.$AWS.configure(awsconfig.arv)
       this.$AWS.API.graphql(
-        /* TODO: Conectar store del usuario */
-        graphqlOperation(updateUser, {
-          email: /* data.email, */ 'diegolagosbeltran@gmail.com',
+        graphqlOperation(arv.mutations.updateUser, {
+          email: data.email,
           birthdate,
           gender: data.gender,
-          firstName: /* data.firstName */ 'Diego',
-          lastName: /* data.lastName */ 'Lagos Beltrán',
-          picture: /* data.picture */ 'https://lh3.googleusercontent.com/a-/AOh14GgqghYLNJQrifSvh2D-jdcCpn_v93Q4SovGINRi=s96-c'
+          firstName: data.firstName,
+          lastName: data.lastName || '',
+          picture: data.picture || ''
         })
       )
         .then(() => {
-          /* this.$router.push('/start') */
-          /* TODO: guardar datos del usuario en su store y enviar al home */
-          console.log('entró al then')
+          const params = {
+            birthdate,
+            gender: data.gender
+          }
+          ctx.commit('user/setState', { params }, { root: true })
+          this.$router.push('/home')
           resolve()
         })
         .catch((err) => {

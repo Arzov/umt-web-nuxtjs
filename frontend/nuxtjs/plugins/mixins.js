@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-const mixin = {
+const global = {
   data () {
     return {
       btnLoading: false
@@ -45,4 +45,16 @@ const mixin = {
   }
 }
 
-Vue.mixin(mixin)
+Vue.mixin(global)
+
+export const signOut = {
+  mounted () {
+    this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signOut':
+          this.$router.push('/start')
+          break
+      }
+    })
+  }
+}

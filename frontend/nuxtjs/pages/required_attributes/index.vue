@@ -49,8 +49,11 @@
 </template>
 
 <script>
+import { signOut } from '@/plugins/mixins'
+
 export default {
   layout: 'corners',
+  mixins: [signOut],
   data () {
     return {
       ruleForm: {
@@ -63,7 +66,8 @@ export default {
       },
       rules: {
         birthdate: this.$RULES.birthdate.rules
-      }
+      },
+      userState: this.$store.getters['user/getUser']
     }
   },
   methods: {
@@ -73,6 +77,10 @@ export default {
           this.btnLoading = true
           this.$store
             .dispatch('requiredAttributes/save', {
+              email: this.userState.email,
+              firstName: this.userState.firstName,
+              lastName: this.userState.lastName,
+              picture: this.userState.picture,
               birthdate: this.ruleForm.birthdate,
               gender: this.ruleForm.gender
             })

@@ -78,6 +78,26 @@ export default {
       }
     }
   },
+  mounted () {
+    this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signIn': {
+          const email = data.signInUserSession.idToken.payload.email
+          this.$store.dispatch('user/fetchUser', { email })
+            .then((result) => {
+              this.btnLoading = false
+              this.$router.push('/home')
+            })
+            .catch((e) => {
+              this.showNotification()
+              this.btnLoading = false
+            })
+
+          break
+        }
+      }
+    })
+  },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
@@ -88,7 +108,6 @@ export default {
             password: this.ruleForm.password
           })
             .then(() => {
-              this.btnLoading = false
             })
             .catch((e) => {
               this.showNotification()
