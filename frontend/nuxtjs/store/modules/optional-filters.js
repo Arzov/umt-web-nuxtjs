@@ -7,7 +7,7 @@ const actions = {
     ctx.commit('global/resetStates', {}, { root: true })
 
     return new Promise((resolve, reject) => {
-      this.$AWS.configure(awsconfig.umt)
+      this.$AWS.Amplify.configure(awsconfig.umt)
       this.$AWS.API.graphql(
         graphqlOperation(umt.mutations.addUser, {
           latitude: 0,

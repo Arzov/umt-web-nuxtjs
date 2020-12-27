@@ -9,7 +9,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
 
-      this.$AWS.configure(awsconfig.arv)
+      this.$AWS.Amplify.configure(awsconfig.arv)
       this.$AWS.API.graphql(
         graphqlOperation(arv.mutations.updateUser, {
           email: data.email,

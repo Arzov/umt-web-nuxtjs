@@ -8,7 +8,6 @@ const actions = {
         password: data.password
       })
         .then(() => {
-          // TODO: agregar logica en middleware
           resolve()
         })
         .catch((err) => {

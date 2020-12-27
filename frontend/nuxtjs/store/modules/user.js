@@ -46,7 +46,7 @@ const actions = {
     ctx.commit('global/resetStates', {}, { root: true })
 
     return new Promise((resolve, reject) => {
-      this.$AWS.configure(awsconfig.arv)
+      this.$AWS.Amplify.configure(awsconfig.arv)
       this.$AWS.API.graphql(graphqlOperation(arv.queries.getUser, {
         email: data.email
       }))
@@ -65,7 +65,7 @@ const actions = {
 
           ctx.commit('setState', { params })
 
-          this.$AWS.configure(awsconfig.umt)
+          this.$AWS.Amplify.configure(awsconfig.umt)
           this.$AWS.API.graphql(graphqlOperation(umt.queries.getUser, {
             email: data.email
           }))
