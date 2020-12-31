@@ -1,6 +1,6 @@
-export default function ({ app, route, store, redirect }) {
+export default ({ app, route, store, redirect }) => {
   const currentPath = route.name
-  const userState = store.getters['user/getUser']
+  const userState = store.getters['user/get']
 
   app.$AWS.Auth.currentSession()
     .then(() => {

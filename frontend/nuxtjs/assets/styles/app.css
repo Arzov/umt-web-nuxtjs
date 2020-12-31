@@ -132,7 +132,8 @@ h4 {
 .dmBody .notification .ant-notification-notice-description,
 .dmBody .notification .ant-notification-close-x, .lmBody .notification .ant-notification-notice-message,
 .lmBody .notification .ant-notification-notice-description,
-.lmBody .notification .ant-notification-close-x {
+.lmBody .notification .ant-notification-close-x, .geoloc .ant-modal-content,
+.geoloc .ant-modal-body {
   font-size: 16px;
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
@@ -141,7 +142,8 @@ h4 {
   .dmBody .notification .ant-notification-notice-description b,
   .dmBody .notification .ant-notification-close-x b, .lmBody .notification .ant-notification-notice-message b,
   .lmBody .notification .ant-notification-notice-description b,
-  .lmBody .notification .ant-notification-close-x b {
+  .lmBody .notification .ant-notification-close-x b, .geoloc .ant-modal-content b,
+  .geoloc .ant-modal-body b {
     font-weight: 700; }
 
 html, html body,
@@ -251,6 +253,9 @@ html body {
   position: absolute;
   bottom: 0px;
   left: 0px; }
+
+.pin {
+  width: 38px; }
 
 .facebook {
   display: block;
@@ -595,6 +600,25 @@ html body {
   background-color: #0cecf2; }
 .dmBody .ageSlider .ant-slider-track {
   background-color: #0cecf2; }
+
+.geoloc .ant-modal-content,
+.geoloc .ant-modal-body {
+  border-radius: 0px; }
+  .geoloc .ant-modal-content .image,
+  .geoloc .ant-modal-body .image {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; }
+.geoloc .ant-modal-wrap {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.5); }
+.geoloc .dmBody .ant-modal-content {
+  background-color: #1F2835;
+  color: white; }
+.geoloc .lmBody .ant-modal-content {
+  background-color: white;
+  color: #161C27; }
 
 .header {
   display: flex;

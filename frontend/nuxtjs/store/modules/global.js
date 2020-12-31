@@ -4,13 +4,14 @@ const getDefaultState = () => ({
   themePreference: getLocalStorageState('themePreference') || 'dark',
   notificationTitle: '',
   notificationMsg: '',
-  notificationMsgType: 'success'
+  notificationMsgType: 'success',
+  allowGeoloc: getLocalStorageState('allowGeoloc') || true
 })
 
 const state = getDefaultState
 
 const getters = {
-  getGlobal (state) {
+  get (state) {
     return state
   }
 }
@@ -27,6 +28,12 @@ const actions = {
       params.themePreference = 'light'
       ctx.commit('setState', { params })
     }
+  },
+  setGeoloc (ctx, data) {
+    const params = {
+      allowGeoloc: data.allowGeoloc
+    }
+    ctx.commit('setState', { params })
   },
   resetStates (ctx) {
     ctx.commit('resetStates')
@@ -65,7 +72,7 @@ const actions = {
 const mutations = {
   setState (state, { params }) {
     for (const key in params) {
-      if (key === 'themePreference') {
+      if (['themePreference', 'allowGeoloc'].includes(key)) {
         localStorage.setItem(key, params[key])
       }
       state[key] = params[key]

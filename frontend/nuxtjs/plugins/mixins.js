@@ -8,13 +8,16 @@ const global = {
   },
   computed: {
     _userState () {
-      return this.$store.getters['user/getUser']
+      return this.$store.getters['user/get']
     },
     _globalState () {
-      return this.$store.getters['global/getGlobal']
+      return this.$store.getters['global/get']
     },
     _themePreference () {
       return this._globalState.themePreference
+    },
+    _allowGeoloc () {
+      return this._globalState.allowGeoloc
     }
   },
   methods: {

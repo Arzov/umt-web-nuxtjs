@@ -9,8 +9,7 @@ export default {
   },
   methods: {
     signOut () {
-      this.$store
-        .dispatch('global/signOut')
+      this.$store.dispatch('global/signOut')
         .then(() => {
         })
         .catch((e) => {

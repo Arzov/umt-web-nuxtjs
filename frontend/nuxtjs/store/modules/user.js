@@ -3,7 +3,7 @@ import { arv, umt } from '@/graphql/gql'
 import awsconfig from '~/aws-exports'
 
 const getLocalStorageState = (key) => {
-  // localStorage guara todos los estados como 'string'
+  // localStorage guarda todos los estados como 'string'
   // por lo que se debe en algunos casos usar JSON.parse()
   // para obtener el tipo de dato correcto
   if (localStorage.getItem(key) === 'null') {
@@ -36,13 +36,13 @@ const getDefaultState = () => ({
 const state = getDefaultState()
 
 const getters = {
-  getUser (state) {
+  get (state) {
     return state
   }
 }
 
 const actions = {
-  fetchUser (ctx, data) {
+  fetch (ctx, data) {
     ctx.commit('global/resetStates', {}, { root: true })
 
     return new Promise((resolve, reject) => {
@@ -109,29 +109,109 @@ const actions = {
         })
     })
   },
-  // updatePosition (context, data) {
-  //   // Usar API de Umatch
-  //   this.$AWS.API._options.aws_appsync_graphqlEndpoint = process.env.NUXT_ENV_AWS_APPSYNC_UMATCH_URL
+  update (ctx, data) {
+    ctx.commit('global/resetStates', {}, { root: true })
 
-  //   // Actualizar posicion del usuario
-  //   this.$AWS.API.graphql(this.$AWS.Query(addUser, data))
-  //     .then((result) => {
-  //       const params = {
-  //         latitude: data.latitude,
-  //         longitude: data.longitude,
-  //         geohash: result.data.addUser.hashKey
-  //       }
+    if (data.api === 'arv') {
+      return new Promise((resolve, reject) => {
+        const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
 
-  //       context.commit('setState', { params })
+        this.$AWS.Amplify.configure(awsconfig.arv)
+        this.$AWS.API.graphql(
+          graphqlOperation(arv.mutations.updateUser, {
+            email: data.email,
+            birthdate,
+            gender: data.gender,
+            firstName: data.firstName,
+            lastName: data.lastName || '',
+            picture: data.picture || ''
+          })
+        )
+          .then((result) => {
+            console.log(result)
+            // const params = {
+            //   birthdate,
+            //   gender: data.gender
+            // }
+            // ctx.commit('setState', { params })
+            resolve()
+          })
+          .catch((err) => {
+            let params = {}
 
-  //       // Si la llamada viene desde el componente geoloc, entonces quitar popup de geoloc
-  //       if (data.isSavePosition) {
-  //         context.dispatch('geoloc/update', { toggle: false }, { root: true })
-  //       }
-  //     })
-  //     // eslint-disable-next-line no-console
-  //     .catch(e => console.log(e))
-  // },
+            switch (err.code) {
+              // Error desconocido
+              default: {
+                params = {
+                  notificationMsgType: 'error',
+                  notificationTitle: '¡Ups!',
+                  notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
+                }
+                break
+              }
+            }
+
+            ctx.commit('global/setState', { params }, { root: true })
+            reject(err)
+          })
+      })
+    } else {
+      return new Promise((resolve, reject) => {
+        this.$AWS.Amplify.configure(awsconfig.umt)
+        this.$AWS.API.graphql(
+          graphqlOperation(umt.mutations.updateUser, {
+            latitude: data.latitude,
+            longitude: data.longitude,
+            email: data.email,
+            genderFilter: data.genderFilter,
+            ageMinFilter: data.ageMinFilter,
+            ageMaxFilter: data.ageMaxFilter,
+            matchFilter: data.matchFilter,
+            positions: data.positions,
+            skills: data.skills,
+            foot: data.foot,
+            weight: data.weight,
+            height: data.height
+          })
+        )
+          .then((result) => {
+            console.log(result)
+            // const params = {
+            //   coords: { LON: 'asd' },
+            //   genderFilter: data.genderFilter,
+            //   ageMinFilter: data.ageMinFilter,
+            //   ageMaxFilter: data.ageMaxFilter,
+            //   matchFilter: data.matchFilter,
+            //   positions: data.positions,
+            //   skills: data.skills,
+            //   foot: data.foot,
+            //   weight: data.weight,
+            //   height: data.height
+            // }
+            // ctx.commit('setState', { params })
+            resolve()
+          })
+          .catch((err) => {
+            let params = {}
+
+            switch (err.code) {
+              // Error desconocido
+              default: {
+                params = {
+                  notificationMsgType: 'error',
+                  notificationTitle: '¡Ups!',
+                  notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
+                }
+                break
+              }
+            }
+
+            ctx.commit('global/setState', { params }, { root: true })
+            reject(err)
+          })
+      })
+    }
+  },
   resetStates (ctx) {
     ctx.commit('resetStates')
   }

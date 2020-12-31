@@ -83,7 +83,7 @@ export default {
       switch (event) {
         case 'signIn': {
           const email = data.signInUserSession.idToken.payload.email
-          this.$store.dispatch('user/fetchUser', { email })
+          this.$store.dispatch('user/fetch', { email })
             .then((result) => {
               this.btnLoading = false
               this.$router.push('/home')

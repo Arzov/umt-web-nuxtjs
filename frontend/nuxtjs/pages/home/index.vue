@@ -10,6 +10,7 @@
         HOME
       </a-col>
     </a-row>
+    <Geoloc />
   </div>
 </template>
 
