@@ -1,3 +1,5 @@
+import errorNotification from '@/static/data/errorNotification.json'
+
 const getLocalStorageState = key => (localStorage.getItem(key))
 
 const getDefaultState = () => ({
@@ -53,11 +55,7 @@ const actions = {
           switch (err.code) {
             // Error desconocido
             default: {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Ups!',
-                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-              }
+              params = errorNotification
               break
             }
           }

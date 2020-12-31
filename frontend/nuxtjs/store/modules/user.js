@@ -1,5 +1,6 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import { arv, umt } from '@/graphql/gql'
+import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
 const getLocalStorageState = (key) => {
@@ -89,21 +90,13 @@ const actions = {
               resolve(ctx.getters.getUser)
             })
             .catch((err) => {
-              const params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Ups!',
-                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-              }
+              const params = errorNotification
               ctx.commit('global/setState', { params }, { root: true })
               reject(err)
             })
         })
         .catch((err) => {
-          const params = {
-            notificationMsgType: 'error',
-            notificationTitle: '¡Ups!',
-            notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-          }
+          const params = errorNotification
           ctx.commit('global/setState', { params }, { root: true })
           reject(err)
         })
@@ -142,11 +135,7 @@ const actions = {
             switch (err.code) {
               // Error desconocido
               default: {
-                params = {
-                  notificationMsgType: 'error',
-                  notificationTitle: '¡Ups!',
-                  notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-                }
+                params = errorNotification
                 break
               }
             }
@@ -197,11 +186,7 @@ const actions = {
             switch (err.code) {
               // Error desconocido
               default: {
-                params = {
-                  notificationMsgType: 'error',
-                  notificationTitle: '¡Ups!',
-                  notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-                }
+                params = errorNotification
                 break
               }
             }

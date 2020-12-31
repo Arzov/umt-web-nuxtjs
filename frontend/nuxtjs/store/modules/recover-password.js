@@ -1,3 +1,5 @@
+import errorNotification from '@/static/data/errorNotification.json'
+
 const actions = {
   recoverPassword (ctx, data) {
     ctx.commit('global/resetStates', {}, { root: true })
@@ -26,11 +28,7 @@ const actions = {
 
             // Error desconocido
             default: {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Ups!',
-                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-              }
+              params = errorNotification
               break
             }
           }

@@ -42,39 +42,40 @@ export default {
   },
   methods: {
     getPosition () {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const params = {
-          email: this._userState.email,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          genderFilter: this._userState.genderFilter,
-          matchFilter: this._userState.matchFilter,
-          ageMinFilter: this._userState.ageMinFilter,
-          ageMaxFilter: this._userState.ageMaxFilter
-        }
+      this.$store.dispatch('user/test')
+      //   navigator.geolocation.getCurrentPosition(function (position) {
+      //     const params = {
+      //       email: this._userState.email,
+      //       latitude: position.coords.latitude,
+      //       longitude: position.coords.longitude,
+      //       genderFilter: this._userState.genderFilter,
+      //       matchFilter: this._userState.matchFilter,
+      //       ageMinFilter: this._userState.ageMinFilter,
+      //       ageMaxFilter: this._userState.ageMaxFilter
+      //     }
 
-        this.$store.dispatch('user/updatePosition', params)
+      //     this.$store.dispatch('user/updatePosition', params)
 
-        // Error en la peticion de la ubicacion
-      }, function (err) {
-        console.log(err)
-        // const params = {
-        //   toggle: true,
-        //   allow: false
-        // }
+      //     // Error en la peticion de la ubicacion
+      //   }, function (err) {
+      //     console.log(err)
+      //     // const params = {
+      //     //   toggle: true,
+      //     //   allow: false
+      //     // }
 
-        // switch (error.code) {
-        //   // Permiso denegado
-        //   case error.PERMISSION_DENIED:
-        //     // Mostrar popup para que el usuario configure la ubicacion
-        //     vue.$store.dispatch('geoloc/update', params)
-        //     break
+      //     // switch (error.code) {
+      //     //   // Permiso denegado
+      //     //   case error.PERMISSION_DENIED:
+      //     //     // Mostrar popup para que el usuario configure la ubicacion
+      //     //     vue.$store.dispatch('geoloc/update', params)
+      //     //     break
 
-        //   default:
-        //     console.log('Error desconocido.')
-        //     break
-        // }
-      })
+    //     //   default:
+    //     //     console.log('Error desconocido.')
+    //     //     break
+    //     // }
+    //   })
     },
     resetStates () {
     //   this.$store.dispatch('geoloc/resetStates')

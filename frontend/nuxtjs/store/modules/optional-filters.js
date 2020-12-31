@@ -1,5 +1,6 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import { umt } from '@/graphql/gql'
+import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
 const actions = {
@@ -41,11 +42,7 @@ const actions = {
           switch (err.code) {
             // Error desconocido
             default: {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Ups!',
-                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-              }
+              params = errorNotification
               break
             }
           }
