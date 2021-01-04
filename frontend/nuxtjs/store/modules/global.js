@@ -38,7 +38,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       this.$AWS.Auth.signOut()
         .then((result) => {
-          console.log('log out del store')
+          /* console.log('log out del store') */
           resolve()
         })
         .catch((err) => {

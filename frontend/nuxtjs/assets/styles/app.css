@@ -310,14 +310,15 @@ a:active {
   margin-bottom: 50px;
 }
 
+.lock {
+  width: 40%;
+  margin-bottom: 50px;
+}
+
 .key {
   width: 50%;
   margin-bottom: 50px;
 }
-
-.lock {
-  width: 40%;
-  margin-bottom: 50px; }
 
 .cornerTopRight {
   width: 15%;
@@ -331,6 +332,11 @@ a:active {
   position: absolute;
   bottom: 0px;
   left: 0px;
+}
+
+.footballCircle {
+  width: 40%;
+  margin-bottom: 50px;
 }
 
 .facebook {
@@ -391,6 +397,42 @@ a:active {
 
 .anticon.anticon-loading {
   margin-right: 10px;
+}
+
+.positionBtnCian {
+  background-color: #0cecf2;
+  width: 60px;
+  border-radius: 30px;
+  border: 0px;
+  opacity: 0.5;
+  font-weight: 900;
+}
+
+.positionBtnViolet {
+  background-color: #ac9ff9;
+  width: 60px;
+  border-radius: 30px;
+  border: 0px;
+  opacity: 0.5;
+  font-weight: 900;
+}
+
+.positionBtnPink {
+  background-color: #ad64e6;
+  width: 60px;
+  border-radius: 30px;
+  border: 0px;
+  opacity: 0.5;
+  font-weight: 900;
+}
+
+.positionBtnPurple {
+  background-color: #6457e3;
+  width: 60px;
+  border-radius: 30px;
+  border: 0px;
+  opacity: 0.5;
+  font-weight: 900;
 }
 
 .lmBody .principalInput input,
@@ -798,6 +840,10 @@ a:active {
   padding-right: 50px;
 }
 
+.ant-row {
+  margin-bottom: 10px;
+}
+
 .start .socialLogin {
   display: flex;
   flex-direction: row;
@@ -829,6 +875,14 @@ a:active {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+}
+
+.optionalAttributes .image {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
 /*# sourceMappingURL=app.css.map */

@@ -24,7 +24,6 @@ const actions = {
         .then(() => {
           /* this.$router.push('/start') */
           /* TODO: guardar datos del usuario en su store y enviar al home */
-          console.log('entró al then')
           resolve()
         })
         .catch((err) => {

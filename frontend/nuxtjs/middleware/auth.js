@@ -99,7 +99,7 @@ export default function ({ app }) {
   app.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
     switch (event) {
       case 'signIn':
-        console.log('inicio')
+        /* console.log('inicio') */
         // authValidation(app, route, store, redirect)
         break
       case 'signOut':
