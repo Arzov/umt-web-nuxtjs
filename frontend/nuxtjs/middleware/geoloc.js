@@ -32,21 +32,22 @@ export default ({ app, store }) => {
           store.dispatch('user/update', params)
         }
       }, function (err) {
-        const params = {
-          allowGeoloc: false
-        }
+        console.log(err)
+        // const params = {
+        //   allowGeoloc: false
+        // }
 
-        switch (err.code) {
-          case err.PERMISSION_DENIED:
-            // TODO: Mostrar popup para que el usuario configure la ubicacion
-            store.dispatch('global/setGeoloc', params)
-            break
+        // switch (err.code) {
+        //   case err.PERMISSION_DENIED:
+        //     // TODO: Mostrar popup para que el usuario configure la ubicacion
+        //     store.dispatch('global/setGeoloc', params)
+        //     break
 
-          default:
-            // TODO: Error desconocido
-            console.log('¡Error desconocido!')
-            break
-        }
+        //   default:
+        //     // TODO: Error desconocido
+        //     console.log('¡Error desconocido!')
+        //     break
+        // }
       })
     }
   } else {

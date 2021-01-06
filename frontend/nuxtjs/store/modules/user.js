@@ -4,14 +4,7 @@ import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
 const getLocalStorageState = (key) => {
-  // localStorage guarda todos los estados como 'string'
-  // por lo que se debe en algunos casos usar JSON.parse()
-  // para obtener el tipo de dato correcto
-  if (localStorage.getItem(key) === 'null') {
-    return JSON.parse(localStorage.getItem(key))
-  } else {
-    return localStorage.getItem(key)
-  }
+  return JSON.parse(localStorage.getItem(key))
 }
 
 const getDefaultState = () => ({
@@ -30,8 +23,8 @@ const getDefaultState = () => ({
   positions: getLocalStorageState('positions') || null,
   foot: getLocalStorageState('foot') || null,
   skills: getLocalStorageState('skills') || null,
-  weight: getLocalStorageState('weight') || null,
-  height: getLocalStorageState('height') || null
+  weight: getLocalStorageState('weight') || 0,
+  height: getLocalStorageState('height') || 0
 })
 
 const state = getDefaultState()
@@ -44,8 +37,6 @@ const getters = {
 
 const actions = {
   fetch (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
-
     return new Promise((resolve, reject) => {
       this.$AWS.Amplify.configure(awsconfig.arv)
       this.$AWS.API.graphql(graphqlOperation(arv.queries.getUser, {
@@ -73,16 +64,16 @@ const actions = {
             .then((result) => {
               const params = {
                 geohash: result.data.getUser.geohash || null,
-                coords: result.data.getUser.coords || null,
+                coords: JSON.parse(result.data.getUser.coords) || null,
                 genderFilter: result.data.getUser.genderFilter || null,
                 ageMinFilter: result.data.getUser.ageMinFilter || null,
                 ageMaxFilter: result.data.getUser.ageMaxFilter || null,
                 matchFilter: result.data.getUser.matchFilter || null,
                 positions: result.data.getUser.positions || null,
                 foot: result.data.getUser.foot || null,
-                skills: result.data.getUser.skills || null,
-                weight: result.data.getUser.weight || null,
-                height: result.data.getUser.height || null
+                skills: JSON.parse(result.data.getUser.skills) || null,
+                weight: result.data.getUser.weight || 0,
+                height: result.data.getUser.height || 0
               }
 
               ctx.commit('setState', { params })
@@ -90,21 +81,17 @@ const actions = {
               resolve(ctx.getters.getUser)
             })
             .catch((err) => {
-              const params = errorNotification
-              ctx.commit('global/setState', { params }, { root: true })
-              reject(err)
+              const response = { ...errorNotification, err }
+              reject(response)
             })
         })
         .catch((err) => {
-          const params = errorNotification
-          ctx.commit('global/setState', { params }, { root: true })
-          reject(err)
+          const response = { ...errorNotification, err }
+          reject(response)
         })
     })
   },
   update (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
-
     if (data.api === 'arv') {
       return new Promise((resolve, reject) => {
         const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
@@ -120,28 +107,17 @@ const actions = {
             picture: data.picture || ''
           })
         )
-          .then((result) => {
-            console.log(result)
-            // const params = {
-            //   birthdate,
-            //   gender: data.gender
-            // }
-            // ctx.commit('setState', { params })
+          .then(() => {
+            const params = {
+              birthdate,
+              gender: data.gender
+            }
+            ctx.commit('setState', { params })
             resolve()
           })
           .catch((err) => {
-            let params = {}
-
-            switch (err.code) {
-              // Error desconocido
-              default: {
-                params = errorNotification
-                break
-              }
-            }
-
-            ctx.commit('global/setState', { params }, { root: true })
-            reject(err)
+            const response = { ...errorNotification, err }
+            reject(response)
           })
       })
     } else {
@@ -157,42 +133,32 @@ const actions = {
             ageMaxFilter: data.ageMaxFilter,
             matchFilter: data.matchFilter,
             positions: data.positions,
-            skills: data.skills,
+            skills: JSON.stringify(data.skills),
             foot: data.foot,
             weight: data.weight,
             height: data.height
           })
         )
           .then((result) => {
-            console.log(result)
-            // const params = {
-            //   coords: { LON: 'asd' },
-            //   genderFilter: data.genderFilter,
-            //   ageMinFilter: data.ageMinFilter,
-            //   ageMaxFilter: data.ageMaxFilter,
-            //   matchFilter: data.matchFilter,
-            //   positions: data.positions,
-            //   skills: data.skills,
-            //   foot: data.foot,
-            //   weight: data.weight,
-            //   height: data.height
-            // }
-            // ctx.commit('setState', { params })
+            const params = {
+              geohash: result.data.updateUser.geohash,
+              coords: JSON.parse(result.data.updateUser.coords),
+              genderFilter: result.data.updateUser.genderFilter,
+              ageMinFilter: result.data.updateUser.ageMinFilter,
+              ageMaxFilter: result.data.updateUser.ageMaxFilter,
+              matchFilter: result.data.updateUser.matchFilter,
+              positions: result.data.updateUser.positions,
+              foot: result.data.updateUser.foot,
+              skills: JSON.parse(result.data.updateUser.skills),
+              weight: result.data.updateUser.weight,
+              height: result.data.updateUser.height
+            }
+            ctx.commit('setState', { params })
             resolve()
           })
           .catch((err) => {
-            let params = {}
-
-            switch (err.code) {
-              // Error desconocido
-              default: {
-                params = errorNotification
-                break
-              }
-            }
-
-            ctx.commit('global/setState', { params }, { root: true })
-            reject(err)
+            const response = { ...errorNotification, err }
+            reject(response)
           })
       })
     }
@@ -205,7 +171,7 @@ const actions = {
 const mutations = {
   setState (state, { params }) {
     for (const key in params) {
-      localStorage.setItem(key, params[key])
+      localStorage.setItem(key, JSON.stringify(params[key]))
       state[key] = params[key]
     }
   },

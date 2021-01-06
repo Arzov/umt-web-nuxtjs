@@ -1,5 +1,5 @@
 {
-    "notificationMsgType": "error",
-    "notificationTitle": "¡Ups!",
-    "notificationMsg": "Algo inesperado ha sucedido. Inténtalo más tarde."
+    "type": "error",
+    "title": "¡Ups!",
+    "msg": "Algo inesperado ha sucedido. Inténtalo más tarde."
 }

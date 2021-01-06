@@ -70,8 +70,8 @@ export default {
           this.$store
             .dispatch('optionalFilters/save', {
               email: this._userState.email,
-              matchFilter: this.ruleForm.matchFilter,
-              genderFilter: this.ruleForm.genderFilter,
+              matchFilter: [this.ruleForm.matchFilter],
+              genderFilter: [this.ruleForm.genderFilter],
               ageFilter: this.ruleForm.ageFilter,
               positions: this._userState.positions,
               skills: this._userState.skills,
@@ -83,7 +83,7 @@ export default {
               this.btnLoading = false
             })
             .catch((e) => {
-              this.showNotification()
+              this.showNotification(e.title, e.msg, e.type)
               this.btnLoading = false
             })
         } else {

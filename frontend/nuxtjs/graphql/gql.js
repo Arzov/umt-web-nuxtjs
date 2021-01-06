@@ -83,9 +83,9 @@ export const umt = {
       }
     `,
     updateUser: `
-      mutation updateUser($latitude: Float!, $longitude: Float!, $email: String!, $genderFilter: [String!]!,
-      $ageMinFilter: Int!, $ageMaxFilter: Int!, $matchFilter: [String!]!, $positions: [String],
-      $skills: String, $foot: String!, $weight: Int!, $height: Int!) {
+      mutation updateUser($latitude: Float!, $longitude: Float!, $email: String!, $genderFilter: [String]!,
+      $ageMinFilter: Int!, $ageMaxFilter: Int!, $matchFilter: [String]!, $positions: [String]!,
+      $skills: String!, $foot: String!, $weight: Int!, $height: Int!) {
         updateUser(latitude: $latitude, longitude: $longitude, email: $email, genderFilter: $genderFilter,
           ageMinFilter: $ageMinFilter, ageMaxFilter: $ageMaxFilter, matchFilter: $matchFilter,
           positions: $positions, skills: $skills, foot: $foot, weight: $weight, height: $height) {

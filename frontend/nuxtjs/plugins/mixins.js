@@ -21,10 +21,10 @@ const global = {
     }
   },
   methods: {
-    showNotification () {
+    showNotification (title, msg, type) {
       let icon = <a-icon type="close-circle" />
 
-      switch (this._globalState.notificationMsgType) {
+      switch (type) {
         case 'success':
           icon = <a-icon type="check-circle" />
           break
@@ -41,8 +41,8 @@ const global = {
       this.$notification.destroy()
 
       this.$notification.open({
-        message: this._globalState.notificationTitle,
-        description: this._globalState.notificationMsg,
+        message: title,
+        description: msg,
         class: 'notification',
         getContainer: () => this.$el,
         icon

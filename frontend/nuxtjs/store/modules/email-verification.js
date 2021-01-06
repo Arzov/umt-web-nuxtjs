@@ -2,8 +2,6 @@ import errorNotification from '@/static/data/errorNotification.json'
 
 const actions = {
   verify (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
-
     return new Promise((resolve, reject) => {
       this.$AWS.Auth.confirmSignUp(
         data.email,
@@ -17,25 +15,25 @@ const actions = {
           resolve()
         })
         .catch((err) => {
-          let params = {}
+          let response = {}
 
           switch (err.code) {
             // Correo ya validado
             case 'NotAuthorizedException': {
-              params = {
-                notificationMsgType: 'warning',
-                notificationTitle: '¡Correo válido!',
-                notificationMsg: 'El correo ya se encuentra validado. Intenta iniciar sesión.'
+              response = {
+                type: 'warning',
+                title: '¡Correo válido!',
+                msg: 'El correo ya se encuentra validado. Intenta iniciar sesión.'
               }
               break
             }
 
             // Correo invalido
             case 'UserNotFoundException': {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Correo incorrecto!',
-                notificationMsg: 'El correo electrónico ingresado es incorrecto.'
+              response = {
+                type: 'error',
+                title: '¡Correo incorrecto!',
+                msg: 'El correo electrónico ingresado es incorrecto.'
               }
               break
             }
@@ -43,95 +41,92 @@ const actions = {
             // Codigo invalido o caracter invalido
             case 'CodeMismatchException':
             case 'InvalidParameterException': {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Código incorrecto!',
-                notificationMsg: 'El código ingresado es incorrecto.'
+              response = {
+                type: 'error',
+                title: '¡Código incorrecto!',
+                msg: 'El código ingresado es incorrecto.'
               }
               break
             }
 
             // Limite de reenvios alcanzados
             case 'LimitExceededException': {
-              params = {
-                notificationMsgType: 'warning',
-                notificationTitle: '¡Límite excedido!',
-                notificationMsg: 'Has excedido el límite de solicitudes por día. Inténtalo más tarde.'
+              response = {
+                type: 'warning',
+                title: '¡Límite excedido!',
+                msg: 'Has excedido el límite de solicitudes por día. Inténtalo más tarde.'
               }
               break
             }
 
             // Error desconocido
             default: {
-              params = errorNotification
+              response = errorNotification
               break
             }
           }
 
-          ctx.commit('global/setState', { params }, { root: true })
-          reject(err)
+          response = { ...response, err }
+          reject(response)
         })
     })
   },
   resendCode (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
-
     return new Promise((resolve, reject) => {
       this.$AWS.Auth.resendSignUp(
         data.email
       )
         .then(() => {
-          const params = {
-            notificationMsgType: 'success',
-            notificationTitle: '¡Código enviado!',
-            notificationMsg: `Un nuevo código de verificación fue enviado a ${data.email}.`
+          const response = {
+            type: 'success',
+            title: '¡Código enviado!',
+            msg: `Un nuevo código de verificación fue enviado a ${data.email}.`
           }
-          ctx.commit('global/setState', { params }, { root: true })
-          resolve()
+          resolve(response)
         })
         .catch((err) => {
-          let params = {}
+          let response = {}
 
           switch (err.code) {
             // Correo invalido
             case 'UserNotFoundException': {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Correo incorrecto!',
-                notificationMsg: 'El correo electrónico ingresado es incorrecto.'
+              response = {
+                type: 'error',
+                title: '¡Correo incorrecto!',
+                msg: 'El correo electrónico ingresado es incorrecto.'
               }
               break
             }
 
             // El correo ya se encuentra validado
             case 'InvalidParameterException': {
-              params = {
-                notificationMsgType: 'warning',
-                notificationTitle: '¡Correo válido!',
-                notificationMsg: 'El correo ya se encuentra validado. Intenta iniciar sesión.'
+              response = {
+                type: 'warning',
+                title: '¡Correo válido!',
+                msg: 'El correo ya se encuentra validado. Intenta iniciar sesión.'
               }
               break
             }
 
             // Limite de reenvios alcanzados
             case 'LimitExceededException': {
-              params = {
-                notificationMsgType: 'warning',
-                notificationTitle: '¡Límite excedido!',
-                notificationMsg: 'Has excedido el límite de solicitudes por día. Inténtalo más tarde.'
+              response = {
+                type: 'warning',
+                title: '¡Límite excedido!',
+                msg: 'Has excedido el límite de solicitudes por día. Inténtalo más tarde.'
               }
               break
             }
 
             // Error desconocido
             default: {
-              params = errorNotification
+              response = errorNotification
               break
             }
           }
 
-          ctx.commit('global/setState', { params }, { root: true })
-          reject(err)
+          response = { ...response, err }
+          reject(response)
         })
     })
   }

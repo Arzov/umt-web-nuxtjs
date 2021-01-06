@@ -5,8 +5,6 @@ import awsconfig from '~/aws-exports'
 
 const actions = {
   save (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
-
     return new Promise((resolve, reject) => {
       this.$AWS.Amplify.configure(awsconfig.umt)
       this.$AWS.API.graphql(
@@ -18,37 +16,36 @@ const actions = {
           ageMinFilter: data.ageFilter[0],
           ageMaxFilter: data.ageFilter[1],
           matchFilter: data.matchFilter,
-          positions: data.positions,
-          skills: data.skills,
-          foot: data.foot,
-          weight: data.weight,
-          height: data.height
+          // TODO: Descomentar cuando optional_attributes este listo
+          positions: null, // data.positions,
+          skills: null, // data.skills,
+          foot: 'R', // data.foot,
+          weight: 0, // data.weight,
+          height: 0 // data.height
         })
       )
-        .then(() => {
+        .then((result) => {
           const params = {
-            genderFilter: data.genderFilter,
-            ageMinFilter: data.ageFilter[0],
-            ageMaxFilter: data.ageFilter[1],
-            matchFilter: data.matchFilter
+            geohash: result.data.addUser.geohash,
+            height: result.data.addUser.height,
+            weight: result.data.addUser.weight,
+            foot: result.data.addUser.foot,
+            skills: JSON.parse(result.data.addUser.skills),
+            positions: result.data.addUser.positions,
+            coords: JSON.parse(result.data.addUser.coords),
+            genderFilter: result.data.addUser.genderFilter,
+            ageMinFilter: result.data.addUser.ageMinFilter,
+            ageMaxFilter: result.data.addUser.ageMaxFilter,
+            matchFilter: result.data.addUser.matchFilter
           }
+          // TODO: Revisar si los commit son asincronos y decidir si hay que esperarlos o no
           ctx.commit('user/setState', { params }, { root: true })
           this.$router.push('/home')
           resolve()
         })
         .catch((err) => {
-          let params = {}
-
-          switch (err.code) {
-            // Error desconocido
-            default: {
-              params = errorNotification
-              break
-            }
-          }
-
-          ctx.commit('global/setState', { params }, { root: true })
-          reject(err)
+          const response = { ...errorNotification, err }
+          reject(response)
         })
     })
   }

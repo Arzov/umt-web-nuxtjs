@@ -2,8 +2,6 @@ import errorNotification from '@/static/data/errorNotification.json'
 
 const actions = {
   signIn (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
-
     return new Promise((resolve, reject) => {
       this.$AWS.Auth.signIn({
         username: data.email,
@@ -13,25 +11,25 @@ const actions = {
           resolve()
         })
         .catch((err) => {
-          let params = {}
+          let response = {}
 
           switch (err.code) {
             // Email invalido o no registrado
             case 'UserNotFoundException': {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Correo no registrado!',
-                notificationMsg: 'El correo electrónico ingresado no se encuentra registrado.'
+              response = {
+                type: 'error',
+                title: '¡Correo no registrado!',
+                msg: 'El correo electrónico ingresado no se encuentra registrado.'
               }
               break
             }
 
             // Contraseña incorrecta
             case 'NotAuthorizedException': {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Contraseña incorrecta!',
-                notificationMsg: 'La contraseña ingresada es incorrecta.'
+              response = {
+                type: 'error',
+                title: '¡Contraseña incorrecta!',
+                msg: 'La contraseña ingresada es incorrecta.'
               }
               break
             }
@@ -43,13 +41,13 @@ const actions = {
 
             // Error desconocido
             default: {
-              params = errorNotification
+              response = errorNotification
               break
             }
           }
 
-          ctx.commit('global/setState', { params }, { root: true })
-          reject(err)
+          response = { ...response, err }
+          reject(response)
         })
     })
   }

@@ -89,7 +89,7 @@ export default {
               this.$router.push('/home')
             })
             .catch((e) => {
-              this.showNotification()
+              this.showNotification(e.title, e.msg, e.type)
               this.btnLoading = false
             })
 
@@ -110,7 +110,7 @@ export default {
             .then(() => {
             })
             .catch((e) => {
-              this.showNotification()
+              this.showNotification(e.title, e.msg, e.type)
               this.btnLoading = false
             })
         } else {

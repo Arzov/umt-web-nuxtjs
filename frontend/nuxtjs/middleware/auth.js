@@ -21,7 +21,7 @@ export default ({ app, route, store, redirect }) => {
         // si la condicion es falsa seguiria al siguiente 'else if' y necesitamos
         // que cuando sea falsa la condicion se quede en la vista.
         if (currentPath !== 'required_attributes') { redirect('/required_attributes') }
-      } else if (!userState.weight) {
+      } else if (!userState.foot) {
         // TODO: Descomentar cuando vista este lista
         // if (currentPath !== 'optional_attributes') { redirect('/optional_attributes') }
         console.log('enviar a optional_attributes')

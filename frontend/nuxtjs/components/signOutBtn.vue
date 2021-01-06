@@ -13,7 +13,7 @@ export default {
         .then(() => {
         })
         .catch((e) => {
-          this.showNotification()
+          this.showNotification(e.title, e.msg, e.type)
         })
     }
   }
