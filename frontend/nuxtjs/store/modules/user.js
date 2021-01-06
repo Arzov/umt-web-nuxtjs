@@ -78,7 +78,7 @@ const actions = {
 
               ctx.commit('setState', { params })
 
-              resolve(ctx.getters.getUser)
+              resolve(ctx.getters.get)
             })
             .catch((err) => {
               const response = { ...errorNotification, err }

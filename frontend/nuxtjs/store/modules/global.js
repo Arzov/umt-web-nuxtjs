@@ -21,7 +21,7 @@ const actions = {
       themePreference: 'dark'
     }
 
-    if (ctx.getters.getGlobal.themePreference === 'light') {
+    if (ctx.getters.get.themePreference === 'light') {
       ctx.commit('setState', { params })
     } else {
       params.themePreference = 'light'
