@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import errorNotification from '@/static/data/errorNotification.json'
+import { getDistance } from './utils'
 
 const global = {
   data () {
@@ -62,5 +64,75 @@ export const signOut = {
           break
       }
     })
+  }
+}
+
+export const validGeoloc = {
+  mounted () {
+    if ('geolocation' in navigator) {
+      if (this._allowGeoloc) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const moveDistance = getDistance(
+            position.coords.latitude,
+            position.coords.longitude,
+            this._userState.coords.LAT.N,
+            this._userState.coords.LON.N
+          )
+
+          if (moveDistance >= 5) {
+            const params = {
+              api: 'umt',
+              email: this._userState.email,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              genderFilter: this._userState.genderFilter,
+              matchFilter: this._userState.matchFilter,
+              ageMinFilter: this._userState.ageMinFilter,
+              ageMaxFilter: this._userState.ageMaxFilter,
+              positions: this._userState.positions,
+              skills: this._userState.skills,
+              foot: this._userState.foot,
+              weight: this._userState.weight,
+              height: this._userState.height
+            }
+
+            this.$store.dispatch('user/update', params)
+              .then(() => {
+                const params = {
+                  allowGeoloc: true
+                }
+                this.$store.dispatch('global/setGeoloc', params)
+              })
+              .catch((e) => {
+                this.showNotification(e.title, e.msg, e.type)
+              })
+          }
+        }, (err) => {
+          const params = {
+            allowGeoloc: false
+          }
+          this.$store.dispatch('global/setGeoloc', params)
+
+          switch (err.code) {
+            case err.PERMISSION_DENIED:
+              break
+
+            default:
+              this.showNotification(
+                errorNotification.title,
+                errorNotification.msg,
+                errorNotification.type
+              )
+              break
+          }
+        })
+      }
+    } else {
+      this.showNotification(
+        '¡Geolocalización no disponible!',
+        'No puedes usar la app en este dispositivo.',
+        errorNotification.type
+      )
+    }
   }
 }

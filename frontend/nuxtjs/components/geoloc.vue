@@ -18,18 +18,17 @@
       </div>
       <br>
       <a-row type="flex" justify="center" align="top">
-        <p><b>Nop</b></p>
+        <p><b>¡Ubicación denegada!</b></p>
         <p>
-          Umatch utiliza tu ubicación para encontrar rivales cercanos.
-          Presiona el botón "Aceptar" y luego debes permitir el acceso a la ubicación,
-          de lo contrario no podrás usar la aplicación.
+          Necesitas habilitar la ubicación para utilizar la aplicación.
+          Debes configurar tu navegador.
         </p>
+        <!--TODO: Falta implementar accion-->
         <PrincipalBtn
-          text="ACEPTAR"
-          :loading="btnLoading"
-          @click.native="getPosition"
+          text="CONFIGURAR"
+          @click.native="back"
         />
-        <SignOutBtn />
+        <TextBtn text="Atrás" @click.native="back" />
       </a-row>
     </div>
     <div v-else>
@@ -60,14 +59,21 @@
 </template>
 
 <script>
+import errorNotification from '@/static/data/errorNotification.json'
+
 export default {
   data () {
     return {
-      visible: !this._allowGeoloc,
       isDenied: false
     }
   },
+  computed: {
+    visible () { return !this._allowGeoloc }
+  },
   methods: {
+    back () {
+      this.isDenied = false
+    },
     getPosition () {
       this.btnLoading = true
       navigator.geolocation.getCurrentPosition((position) => {
@@ -89,21 +95,29 @@ export default {
 
         this.$store.dispatch('user/update', params)
           .then(() => {
+            const params = {
+              allowGeoloc: true
+            }
             this.btnLoading = false
+            this.$store.dispatch('global/setGeoloc', params)
           })
           .catch((e) => {
-            this.showNotification()
+            this.showNotification(e.title, e.msg, e.type)
             this.btnLoading = false
           })
       }, (err) => {
+        this.btnLoading = false
         switch (err.code) {
-          // Permiso denegado
           case err.PERMISSION_DENIED:
             this.isDenied = true
             break
 
           default:
-            this.showNotification()
+            this.showNotification(
+              errorNotification.title,
+              errorNotification.msg,
+              errorNotification.type
+            )
             break
         }
       })

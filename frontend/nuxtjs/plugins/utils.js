@@ -60,4 +60,4 @@ export default (ctx, inject) => {
   inject('UTILS', UTILS)
 }
 
-export { validateBirthdate }
+export { validateBirthdate, getDistance }

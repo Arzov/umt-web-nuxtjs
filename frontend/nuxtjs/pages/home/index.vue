@@ -15,7 +15,10 @@
 </template>
 
 <script>
+import { validGeoloc } from '@/plugins/mixins'
+
 export default {
+  mixins: [validGeoloc],
   layout: 'corners'
 }
 </script>
