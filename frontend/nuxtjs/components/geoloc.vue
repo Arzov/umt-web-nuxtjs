@@ -102,6 +102,7 @@ export default {
             this.$store.dispatch('global/setGeoloc', params)
           })
           .catch((e) => {
+            // TODO: Arreglar estilo de notificacion
             this.showNotification(e.title, e.msg, e.type)
             this.btnLoading = false
           })
@@ -113,6 +114,7 @@ export default {
             break
 
           default:
+            // TODO: Arreglar estilo de notificacion
             this.showNotification(
               errorNotification.title,
               errorNotification.msg,
