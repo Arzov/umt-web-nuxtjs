@@ -1,7 +1,7 @@
-const actions = {
-  recoverPassword (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
+import errorNotification from '@/static/data/errorNotification.json'
 
+const actions = {
+  recover (ctx, data) {
     return new Promise((resolve, reject) => {
       this.$AWS.Auth.forgotPassword(
         data.email
@@ -11,32 +11,28 @@ const actions = {
           resolve()
         })
         .catch((err) => {
-          let params = {}
+          let response = {}
 
           switch (err.code) {
             // Correo invalido
             case 'UserNotFoundException': {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Correo incorrecto!',
-                notificationMsg: 'El correo electrónico ingresado es incorrecto o no se encuentra en nuestros registros.'
+              response = {
+                type: 'error',
+                title: '¡Correo incorrecto!',
+                msg: 'El correo electrónico ingresado es incorrecto o no se encuentra en nuestros registros.'
               }
               break
             }
 
             // Error desconocido
             default: {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Ups!',
-                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-              }
+              response = errorNotification
               break
             }
           }
 
-          ctx.commit('global/setState', { params }, { root: true })
-          reject(err)
+          response = { ...response, err }
+          reject(response)
         })
     })
   }

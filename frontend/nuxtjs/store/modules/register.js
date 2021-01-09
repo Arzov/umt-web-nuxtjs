@@ -1,7 +1,7 @@
+import errorNotification from '@/static/data/errorNotification.json'
+
 const actions = {
   signUp (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
-
     return new Promise((resolve, reject) => {
       const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
 
@@ -20,42 +20,38 @@ const actions = {
           resolve()
         })
         .catch((err) => {
-          let params = {}
+          let response = {}
 
           switch (err.code) {
             // Validación desde lambda PreSignup
             case 'UserLambdaValidationException': {
-              params = {
-                notificationMsgType: 'warning',
-                notificationTitle: '¡Correo ya registrado!',
-                notificationMsg: err.message.split('#')[1]
+              response = {
+                type: 'warning',
+                title: '¡Correo ya registrado!',
+                msg: err.message.split('#')[1]
               }
               break
             }
 
             // Usuario ya existe
             case 'UsernameExistsException': {
-              params = {
-                notificationMsgType: 'warning',
-                notificationTitle: '¡Correo ya registrado!',
-                notificationMsg: 'El correo ya se encuentra registrado. Intenta iniciar sesión.'
+              response = {
+                type: 'warning',
+                title: '¡Correo ya registrado!',
+                msg: 'El correo ya se encuentra registrado. Intenta iniciar sesión.'
               }
               break
             }
 
             // Error desconocido
             default: {
-              params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Ups!',
-                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-              }
+              response = errorNotification
               break
             }
           }
 
-          ctx.commit('global/setState', { params }, { root: true })
-          reject(err)
+          response = { ...response, err }
+          reject(response)
         })
     })
   }

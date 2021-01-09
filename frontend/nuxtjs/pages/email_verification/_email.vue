@@ -81,7 +81,7 @@ export default {
               this.btnLoading = false
             })
             .catch((e) => {
-              this.showNotification()
+              this.showNotification(e.title, e.msg, e.type)
               this.btnLoading = false
             })
         } else {
@@ -93,11 +93,11 @@ export default {
       this.$store.dispatch('emailVerification/resendCode', {
         email: this.email.toLowerCase()
       })
-        .then(() => {
-          this.showNotification()
+        .then((r) => {
+          this.showNotification(r.title, r.msg, r.type)
         })
         .catch((e) => {
-          this.showNotification()
+          this.showNotification(e.title, e.msg, e.type)
         })
     }
   }

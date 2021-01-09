@@ -9,12 +9,11 @@ export default {
   },
   methods: {
     signOut () {
-      this.$store
-        .dispatch('global/signOut')
+      this.$store.dispatch('global/signOut')
         .then(() => {
         })
         .catch((e) => {
-          this.showNotification()
+          this.showNotification(e.title, e.msg, e.type)
         })
     }
   }

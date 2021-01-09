@@ -10,11 +10,15 @@
         HOME
       </a-col>
     </a-row>
+    <Geoloc />
   </div>
 </template>
 
 <script>
+import { validGeoloc } from '@/plugins/mixins'
+
 export default {
+  mixins: [validGeoloc],
   layout: 'corners'
 }
 </script>

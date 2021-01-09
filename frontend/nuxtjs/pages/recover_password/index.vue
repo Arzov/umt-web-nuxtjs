@@ -63,14 +63,14 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.btnLoading = true
-          this.$store.dispatch('recoverPassword/recoverPassword', {
+          this.$store.dispatch('recoverPassword/recover', {
             email: this.ruleForm.email.toLowerCase()
           })
             .then(() => {
               this.btnLoading = false
             })
             .catch((e) => {
-              this.showNotification()
+              this.showNotification(e.title, e.msg, e.type)
               this.btnLoading = false
             })
         } else {

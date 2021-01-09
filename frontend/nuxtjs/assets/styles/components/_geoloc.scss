@@ -1,0 +1,38 @@
+.geoloc {
+    .ant-modal-content,
+    .ant-modal-body {
+        @extend %font-props;
+        border-radius: 0px;
+
+        .image {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .principalBtn {
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+
+    .ant-modal-wrap {
+        display: block;
+        background-color: rgba($color: #000000, $alpha: 0.5);
+    }
+
+    .dmBody {
+        .ant-modal-content { 
+            background-color: $color-dark-grey;
+            color: $color-white;
+        }
+    }
+
+    .lmBody {
+        .ant-modal-content { 
+            background-color: $color-white;
+            color: $color-black;
+        }
+    }
+}

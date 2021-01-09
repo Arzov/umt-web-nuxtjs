@@ -1,16 +1,10 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import { arv, umt } from '@/graphql/gql'
+import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
 const getLocalStorageState = (key) => {
-  // localStorage guara todos los estados como 'string'
-  // por lo que se debe en algunos casos usar JSON.parse()
-  // para obtener el tipo de dato correcto
-  if (localStorage.getItem(key) === 'null') {
-    return JSON.parse(localStorage.getItem(key))
-  } else {
-    return localStorage.getItem(key)
-  }
+  return JSON.parse(localStorage.getItem(key))
 }
 
 const getDefaultState = () => ({
@@ -29,22 +23,20 @@ const getDefaultState = () => ({
   positions: getLocalStorageState('positions') || null,
   foot: getLocalStorageState('foot') || null,
   skills: getLocalStorageState('skills') || null,
-  weight: getLocalStorageState('weight') || null,
-  height: getLocalStorageState('height') || null
+  weight: getLocalStorageState('weight') || 0,
+  height: getLocalStorageState('height') || 0
 })
 
 const state = getDefaultState()
 
 const getters = {
-  getUser (state) {
+  get (state) {
     return state
   }
 }
 
 const actions = {
-  fetchUser (ctx, data) {
-    ctx.commit('global/resetStates', {}, { root: true })
-
+  fetch (ctx, data) {
     return new Promise((resolve, reject) => {
       this.$AWS.Amplify.configure(awsconfig.arv)
       this.$AWS.API.graphql(graphqlOperation(arv.queries.getUser, {
@@ -72,66 +64,105 @@ const actions = {
             .then((result) => {
               const params = {
                 geohash: result.data.getUser.geohash || null,
-                coords: result.data.getUser.coords || null,
+                coords: JSON.parse(result.data.getUser.coords) || null,
                 genderFilter: result.data.getUser.genderFilter || null,
                 ageMinFilter: result.data.getUser.ageMinFilter || null,
                 ageMaxFilter: result.data.getUser.ageMaxFilter || null,
                 matchFilter: result.data.getUser.matchFilter || null,
                 positions: result.data.getUser.positions || null,
                 foot: result.data.getUser.foot || null,
-                skills: result.data.getUser.skills || null,
-                weight: result.data.getUser.weight || null,
-                height: result.data.getUser.height || null
+                skills: JSON.parse(result.data.getUser.skills) || null,
+                weight: result.data.getUser.weight || 0,
+                height: result.data.getUser.height || 0
               }
 
               ctx.commit('setState', { params })
 
-              resolve(ctx.getters.getUser)
+              resolve(ctx.getters.get)
             })
             .catch((err) => {
-              const params = {
-                notificationMsgType: 'error',
-                notificationTitle: '¡Ups!',
-                notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-              }
-              ctx.commit('global/setState', { params }, { root: true })
-              reject(err)
+              const response = { ...errorNotification, err }
+              reject(response)
             })
         })
         .catch((err) => {
-          const params = {
-            notificationMsgType: 'error',
-            notificationTitle: '¡Ups!',
-            notificationMsg: 'Algo inesperado ha sucedido. Inténtalo más tarde.'
-          }
-          ctx.commit('global/setState', { params }, { root: true })
-          reject(err)
+          const response = { ...errorNotification, err }
+          reject(response)
         })
     })
   },
-  // updatePosition (context, data) {
-  //   // Usar API de Umatch
-  //   this.$AWS.API._options.aws_appsync_graphqlEndpoint = process.env.NUXT_ENV_AWS_APPSYNC_UMATCH_URL
+  update (ctx, data) {
+    if (data.api === 'arv') {
+      return new Promise((resolve, reject) => {
+        const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
 
-  //   // Actualizar posicion del usuario
-  //   this.$AWS.API.graphql(this.$AWS.Query(addUser, data))
-  //     .then((result) => {
-  //       const params = {
-  //         latitude: data.latitude,
-  //         longitude: data.longitude,
-  //         geohash: result.data.addUser.hashKey
-  //       }
-
-  //       context.commit('setState', { params })
-
-  //       // Si la llamada viene desde el componente geoloc, entonces quitar popup de geoloc
-  //       if (data.isSavePosition) {
-  //         context.dispatch('geoloc/update', { toggle: false }, { root: true })
-  //       }
-  //     })
-  //     // eslint-disable-next-line no-console
-  //     .catch(e => console.log(e))
-  // },
+        this.$AWS.Amplify.configure(awsconfig.arv)
+        this.$AWS.API.graphql(
+          graphqlOperation(arv.mutations.updateUser, {
+            email: data.email,
+            birthdate,
+            gender: data.gender,
+            firstName: data.firstName,
+            lastName: data.lastName || '',
+            picture: data.picture || ''
+          })
+        )
+          .then(() => {
+            const params = {
+              birthdate,
+              gender: data.gender
+            }
+            ctx.commit('setState', { params })
+            resolve()
+          })
+          .catch((err) => {
+            const response = { ...errorNotification, err }
+            reject(response)
+          })
+      })
+    } else {
+      return new Promise((resolve, reject) => {
+        this.$AWS.Amplify.configure(awsconfig.umt)
+        this.$AWS.API.graphql(
+          graphqlOperation(umt.mutations.updateUser, {
+            latitude: data.latitude,
+            longitude: data.longitude,
+            email: data.email,
+            genderFilter: data.genderFilter,
+            ageMinFilter: data.ageMinFilter,
+            ageMaxFilter: data.ageMaxFilter,
+            matchFilter: data.matchFilter,
+            positions: data.positions,
+            skills: JSON.stringify(data.skills),
+            foot: data.foot,
+            weight: data.weight,
+            height: data.height
+          })
+        )
+          .then((result) => {
+            const params = {
+              geohash: result.data.updateUser.geohash,
+              coords: JSON.parse(result.data.updateUser.coords),
+              genderFilter: result.data.updateUser.genderFilter,
+              ageMinFilter: result.data.updateUser.ageMinFilter,
+              ageMaxFilter: result.data.updateUser.ageMaxFilter,
+              matchFilter: result.data.updateUser.matchFilter,
+              positions: result.data.updateUser.positions,
+              foot: result.data.updateUser.foot,
+              skills: JSON.parse(result.data.updateUser.skills),
+              weight: result.data.updateUser.weight,
+              height: result.data.updateUser.height
+            }
+            ctx.commit('setState', { params })
+            resolve()
+          })
+          .catch((err) => {
+            const response = { ...errorNotification, err }
+            reject(response)
+          })
+      })
+    }
+  },
   resetStates (ctx) {
     ctx.commit('resetStates')
   }
@@ -140,7 +171,7 @@ const actions = {
 const mutations = {
   setState (state, { params }) {
     for (const key in params) {
-      localStorage.setItem(key, params[key])
+      localStorage.setItem(key, JSON.stringify(params[key]))
       state[key] = params[key]
     }
   },
