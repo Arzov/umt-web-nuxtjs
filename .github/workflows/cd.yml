@@ -55,6 +55,5 @@ jobs:
 
       - name: Deploy
         run: |
-          cd frontend/nuxtjs
           chmod +x deploy.sh
           ./deploy.sh
