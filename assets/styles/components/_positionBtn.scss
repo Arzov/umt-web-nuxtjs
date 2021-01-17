@@ -1,0 +1,40 @@
+$position-colors: (
+  Cian: (color: $color-cian),
+  Violet: (color: $color-violet),
+  Pink: (color: $color-pink),
+  Purple: (color: $color-purple)
+);
+
+%positionBtn-props {
+    width: 60px;
+    border-radius: 30px;
+    border: 0px;
+    font-weight: 900;
+    color: $color-black;
+}
+
+@mixin create-position {
+    @each $key, $value in $position-colors {
+        .positionBtn#{$key},
+        .positionBtn#{$key}:hover,
+        .positionBtn#{$key}:active,
+        .positionBtn#{$key}:focus {
+            background-color: map-get($value, 'color');
+            opacity: 0.5;
+            @extend %positionBtn-props;
+        }
+
+        .positionBtn#{$key}On,
+        .positionBtn#{$key}On:hover,
+        .positionBtn#{$key}On:active,
+        .positionBtn#{$key}On:focus,
+        .positionBtn#{$key}:disabled,
+        .positionBtn#{$key}:disabled:hover {
+            background-color: map-get($value, 'color');
+            opacity: 1;
+            @extend %positionBtn-props;
+        }
+    }
+}
+
+@include create-position();
