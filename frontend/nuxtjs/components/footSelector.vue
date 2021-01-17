@@ -9,11 +9,11 @@
       @change="triggerChange"
     >
       <a-radio
-        v-for="g in footOptions"
-        :key="`g${g.key}`"
-        :value="g.value"
+        v-for="f in footOptions"
+        :key="`f${f.key}`"
+        :value="f.value"
       >
-        {{ g.key }}
+        {{ f.key }}
       </a-radio>
     </a-radio-group>
   </div>

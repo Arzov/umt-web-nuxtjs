@@ -120,7 +120,16 @@
           <a-form-model-item>
             <FootSelector v-model="ruleForm.foot" label="PIE HÁBIL*" />
           </a-form-model-item>
-          <a-form-model-item />
+          <a-col :span="12">
+            <a-form-model-item>
+              <HeightSelector v-model="ruleForm.height" label="ESTATURA" />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-model-item>
+              <WeightSelector v-model="ruleForm.weight" label="PESO" />
+            </a-form-model-item>
+          </a-col>
           <br>
           <a-form-model-item>
             <PrincipalBtn
@@ -142,13 +151,15 @@
   </div>
 </template>
 
-<script defer>
+<script>
 export default {
   layout: 'corners',
   data () {
     return {
       ruleForm: {
-        foot: 'R'
+        foot: 'R',
+        height: 0,
+        weight: 0
       },
       rules: {
       }
@@ -156,12 +167,12 @@ export default {
   },
   methods: {
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      console.log(this.ruleForm)
+      /* this.$refs[formName].validate((valid) => {
         if (valid) {
           this.btnLoading = true
           this.$store
             .dispatch('optionalAttributes/save', {
-              birthdate: this.ruleForm.birthdate,
               foot: this.ruleForm.foot
             })
             .then(() => {
@@ -174,7 +185,13 @@ export default {
         } else {
           return false
         }
-      })
+      }) */
+    },
+    setHeight (e) {
+      console.log(e)
+    },
+    setWeight (e) {
+      console.log(e)
     }
   }
 }
