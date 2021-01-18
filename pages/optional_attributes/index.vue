@@ -115,26 +115,22 @@ export default {
   },
   methods: {
     submitForm (formName, isSkip) {
-      console.log(this.ruleForm)
-      // this.$refs[formName].validate((valid) => {
-      //   if (valid) {
-      //     this.btnLoading = true
-      //     this.$store
-      //       .dispatch('optionalAttributes/save', {
-      //         birthdate: this.ruleForm.birthdate,
-      //         foot: this.ruleForm.foot
-      //       })
-      //       .then(() => {
-      //         this.btnLoading = false
-      //       })
-      //       .catch((e) => {
-      //         this.showNotification()
-      //         this.btnLoading = false
-      //       })
-      //   } else {
-      //     return false
-      //   }
-      // })
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (!isSkip) { this.btnLoading = true }
+          this.$store
+            .dispatch('optionalAttributes/save', {
+              foot: this.ruleForm.foot,
+              positions: this.ruleForm.positions,
+              weight: this.ruleForm.weight,
+              height: this.ruleForm.height
+            })
+
+          this.btnLoading = false
+        } else {
+          return false
+        }
+      })
     },
     setPosition (e) {
       if (e.value !== null) {

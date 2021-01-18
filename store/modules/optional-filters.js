@@ -6,6 +6,9 @@ import awsconfig from '~/aws-exports'
 const actions = {
   save (ctx, data) {
     return new Promise((resolve, reject) => {
+      // TODO: Revisar comportamiento de atributos de tipo objecto con valor 'null'
+      // en backend y frontend (en este caso skills)
+      const skills = data.skills ? JSON.stringify(data.skills) : null
       this.$AWS.Amplify.configure(awsconfig.umt)
       this.$AWS.API.graphql(
         graphqlOperation(umt.mutations.addUser, {
@@ -16,12 +19,11 @@ const actions = {
           ageMinFilter: data.ageFilter[0],
           ageMaxFilter: data.ageFilter[1],
           matchFilter: data.matchFilter,
-          // TODO: Descomentar cuando optional_attributes este listo
-          positions: null, // data.positions,
-          skills: null, // data.skills,
-          foot: 'R', // data.foot,
-          weight: 0, // data.weight,
-          height: 0 // data.height
+          positions: data.positions,
+          skills,
+          foot: data.foot,
+          weight: data.weight,
+          height: data.height
         })
       )
         .then((result) => {
