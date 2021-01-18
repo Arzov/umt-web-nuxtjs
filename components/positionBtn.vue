@@ -21,10 +21,10 @@ export default {
     toggle () {
       if (this.stat === '') {
         this.stat = 'On'
-        this.$emit('change', this.value)
+        this.$emit('change', { key: this.value, value: this.value })
       } else {
         this.stat = ''
-        this.$emit('change', null)
+        this.$emit('change', { key: this.value, value: null })
       }
     }
   }

@@ -90,7 +90,7 @@
   src: url("../fonts/PublicSans-BlackItalic.ttf") format("truetype"); }
 h1 {
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 900;
   text-transform: none;
   margin-bottom: 0; }
   .dmBody h1 {
@@ -128,7 +128,7 @@ h4 {
   .lmBody h4 {
     color: #161C27; }
 
-.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input, .lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .optionSelector .ant-radio-wrapper, .notification, .dmBody .notification .ant-notification-notice-message,
+.dmBody, .dmBody .ant-form, .dmBody .ant-form-item, .lmBody, .lmBody .ant-form, .lmBody .ant-form-item, .principalBtn, .principalBtn:focus, .principalBtn:hover, .principalBtn::after, .principalBtn:active, .dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input, .lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input, .dmBody .metricInput .ant-input, .dmBody .metricInput:hover .ant-input, .dmBody .metricInput:focus .ant-input, .dmBody .metricInput:active .ant-input, .dmBody .metricInput:not(:hover) .ant-input, .lmBody .metricInput .ant-input, .lmBody .metricInput:hover .ant-input, .lmBody .metricInput:focus .ant-input, .lmBody .metricInput:active .ant-input, .lmBody .metricInput:not(:hover) .ant-input, .dateSelector, .dateSelector:hover, .ant-select, .ant-select-dropdown-menu-item, .optionSelector .ant-radio-wrapper, .notification, .dmBody .notification .ant-notification-notice-message,
 .dmBody .notification .ant-notification-notice-description,
 .dmBody .notification .ant-notification-close-x, .lmBody .notification .ant-notification-notice-message,
 .lmBody .notification .ant-notification-notice-description,
@@ -138,7 +138,7 @@ h4 {
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
   font-style: normal; }
-  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .dmBody .principalInput input b, .dmBody .principalInput:hover input b, .dmBody .principalInput:focus input b, .dmBody .principalInput:active input b, .dmBody .principalInput:not(:hover) input b, .lmBody .principalInput input b, .lmBody .principalInput:hover input b, .lmBody .principalInput:focus input b, .lmBody .principalInput:active input b, .lmBody .principalInput:not(:hover) input b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .optionSelector .ant-radio-wrapper b, .notification b, .dmBody .notification .ant-notification-notice-message b,
+  .dmBody b, .dmBody .ant-form b, .dmBody .ant-form-item b, .lmBody b, .lmBody .ant-form b, .lmBody .ant-form-item b, .principalBtn b, .principalBtn:focus b, .principalBtn:hover b, .principalBtn::after b, .principalBtn:active b, .dmBody .principalInput input b, .dmBody .principalInput:hover input b, .dmBody .principalInput:focus input b, .dmBody .principalInput:active input b, .dmBody .principalInput:not(:hover) input b, .lmBody .principalInput input b, .lmBody .principalInput:hover input b, .lmBody .principalInput:focus input b, .lmBody .principalInput:active input b, .lmBody .principalInput:not(:hover) input b, .dmBody .metricInput .ant-input b, .dmBody .metricInput:hover .ant-input b, .dmBody .metricInput:focus .ant-input b, .dmBody .metricInput:active .ant-input b, .dmBody .metricInput:not(:hover) .ant-input b, .lmBody .metricInput .ant-input b, .lmBody .metricInput:hover .ant-input b, .lmBody .metricInput:focus .ant-input b, .lmBody .metricInput:active .ant-input b, .lmBody .metricInput:not(:hover) .ant-input b, .dateSelector b, .dateSelector:hover b, .ant-select b, .ant-select-dropdown-menu-item b, .optionSelector .ant-radio-wrapper b, .notification b, .dmBody .notification .ant-notification-notice-message b,
   .dmBody .notification .ant-notification-notice-description b,
   .dmBody .notification .ant-notification-close-x b, .lmBody .notification .ant-notification-notice-message b,
   .lmBody .notification .ant-notification-notice-description b,
@@ -257,6 +257,10 @@ html body {
 .pin {
   width: 38px; }
 
+.footballCircle {
+  width: 40%;
+  margin-bottom: 50px; }
+
 .facebook {
   display: block;
   width: 38px; }
@@ -307,7 +311,7 @@ html body {
 .anticon.anticon-loading {
   margin-right: 10px; }
 
-.dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input, .lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input {
+.dmBody .principalInput input, .dmBody .principalInput:hover input, .dmBody .principalInput:focus input, .dmBody .principalInput:active input, .dmBody .principalInput:not(:hover) input, .lmBody .principalInput input, .lmBody .principalInput:hover input, .lmBody .principalInput:focus input, .lmBody .principalInput:active input, .lmBody .principalInput:not(:hover) input, .dmBody .metricInput .ant-input, .dmBody .metricInput:hover .ant-input, .dmBody .metricInput:focus .ant-input, .dmBody .metricInput:active .ant-input, .dmBody .metricInput:not(:hover) .ant-input, .lmBody .metricInput .ant-input, .lmBody .metricInput:hover .ant-input, .lmBody .metricInput:focus .ant-input, .lmBody .metricInput:active .ant-input, .lmBody .metricInput:not(:hover) .ant-input {
   box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
   border: none;
   border-radius: 0;
@@ -622,6 +626,137 @@ html body {
 .geoloc .lmBody .ant-modal-content {
   background-color: white;
   color: #161C27; }
+
+.positionBtnCian,
+.positionBtnCian:hover,
+.positionBtnCian:active,
+.positionBtnCian:focus, .positionBtnCianOn,
+.positionBtnCianOn:hover,
+.positionBtnCianOn:active,
+.positionBtnCianOn:focus,
+.positionBtnCian:disabled,
+.positionBtnCian:disabled:hover, .positionBtnViolet,
+.positionBtnViolet:hover,
+.positionBtnViolet:active,
+.positionBtnViolet:focus, .positionBtnVioletOn,
+.positionBtnVioletOn:hover,
+.positionBtnVioletOn:active,
+.positionBtnVioletOn:focus,
+.positionBtnViolet:disabled,
+.positionBtnViolet:disabled:hover, .positionBtnPink,
+.positionBtnPink:hover,
+.positionBtnPink:active,
+.positionBtnPink:focus, .positionBtnPinkOn,
+.positionBtnPinkOn:hover,
+.positionBtnPinkOn:active,
+.positionBtnPinkOn:focus,
+.positionBtnPink:disabled,
+.positionBtnPink:disabled:hover, .positionBtnPurple,
+.positionBtnPurple:hover,
+.positionBtnPurple:active,
+.positionBtnPurple:focus, .positionBtnPurpleOn,
+.positionBtnPurpleOn:hover,
+.positionBtnPurpleOn:active,
+.positionBtnPurpleOn:focus,
+.positionBtnPurple:disabled,
+.positionBtnPurple:disabled:hover {
+  width: 60px;
+  border-radius: 30px;
+  border: 0px;
+  font-weight: 900;
+  color: #161C27; }
+
+.positionBtnCian,
+.positionBtnCian:hover,
+.positionBtnCian:active,
+.positionBtnCian:focus {
+  background-color: #0cecf2;
+  opacity: 0.5; }
+
+.positionBtnCianOn,
+.positionBtnCianOn:hover,
+.positionBtnCianOn:active,
+.positionBtnCianOn:focus,
+.positionBtnCian:disabled,
+.positionBtnCian:disabled:hover {
+  background-color: #0cecf2;
+  opacity: 1; }
+
+.positionBtnViolet,
+.positionBtnViolet:hover,
+.positionBtnViolet:active,
+.positionBtnViolet:focus {
+  background-color: #ac9ff9;
+  opacity: 0.5; }
+
+.positionBtnVioletOn,
+.positionBtnVioletOn:hover,
+.positionBtnVioletOn:active,
+.positionBtnVioletOn:focus,
+.positionBtnViolet:disabled,
+.positionBtnViolet:disabled:hover {
+  background-color: #ac9ff9;
+  opacity: 1; }
+
+.positionBtnPink,
+.positionBtnPink:hover,
+.positionBtnPink:active,
+.positionBtnPink:focus {
+  background-color: #ad64e6;
+  opacity: 0.5; }
+
+.positionBtnPinkOn,
+.positionBtnPinkOn:hover,
+.positionBtnPinkOn:active,
+.positionBtnPinkOn:focus,
+.positionBtnPink:disabled,
+.positionBtnPink:disabled:hover {
+  background-color: #ad64e6;
+  opacity: 1; }
+
+.positionBtnPurple,
+.positionBtnPurple:hover,
+.positionBtnPurple:active,
+.positionBtnPurple:focus {
+  background-color: #6457e3;
+  opacity: 0.5; }
+
+.positionBtnPurpleOn,
+.positionBtnPurpleOn:hover,
+.positionBtnPurpleOn:active,
+.positionBtnPurpleOn:focus,
+.positionBtnPurple:disabled,
+.positionBtnPurple:disabled:hover {
+  background-color: #6457e3;
+  opacity: 1; }
+
+.metricInput .ant-input-suffix,
+.metricInput:hover .ant-input-suffix,
+.metricInput:focus .ant-input-suffix,
+.metricInput:active .ant-input-suffix,
+.metricInput:not(:hover) .ant-input-suffix {
+  font-weight: 700; }
+.has-error .metricInput .ant-input,
+.has-error .metricInput:hover .ant-input,
+.has-error .metricInput:focus .ant-input,
+.has-error .metricInput:active .ant-input,
+.has-error .metricInput:not(:hover) .ant-input {
+  border-color: #6457e3;
+  box-shadow: 0 0 0 2px #6457e3; }
+.dmBody .metricInput .ant-input, .dmBody .metricInput:hover .ant-input, .dmBody .metricInput:focus .ant-input, .dmBody .metricInput:active .ant-input, .dmBody .metricInput:not(:hover) .ant-input {
+  color: white;
+  background: #1F2835; }
+.lmBody .metricInput .ant-input, .lmBody .metricInput:hover .ant-input, .lmBody .metricInput:focus .ant-input, .lmBody .metricInput:active .ant-input, .lmBody .metricInput:not(:hover) .ant-input {
+  color: #161C27;
+  background: white; }
+.dmBody .metricInput,
+.dmBody .metricInput:hover,
+.dmBody .metricInput:focus,
+.dmBody .metricInput:active,
+.dmBody .metricInput:not(:hover) {
+  background: #161C27; }
+.lmBody .metricInput, .lmBody .metricInput:hover, .lmBody .metricInput:focus, .lmBody .metricInput:active, .lmBody .metricInput:not(:hover) {
+  background: #f1f3ff; }
 
 .header {
   display: flex;

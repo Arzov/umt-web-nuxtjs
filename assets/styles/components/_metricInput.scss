@@ -1,27 +1,37 @@
-%height-selector-aspects {
+%metric-input-aspects {
+    @extend %font-props;
     box-shadow: 0 0 10px 0 rgba($color-black, 0.1);
     border: none;
     border-radius: 0;
     height: 42px;
     width: 100%;
-    position: relative;
 }
 
-.heightSelector {
+.metricInput,
+.metricInput:hover,
+.metricInput:focus,
+.metricInput:active,
+.metricInput:not(:hover) {
+    .ant-input-suffix {
+        font-weight: 700;
+    }
 
-    .ant-input-number {
-        padding: 0.3em 1em 0.3em 0.3em;
-        width: 90%;
-        border: none;
+    .ant-input {
+        .has-error & {
+            border-color: $color-purple;
+            box-shadow: 0 0 0 2px $color-purple;
+        }
 
         .dmBody & {
             color: $color-white;
             background: $color-dark-grey;
+            @extend %input-aspects;
         }
 
         .lmBody & {
             color: $color-black;
             background: $color-white;
+            @extend %input-aspects;
         }
     }
 
@@ -31,17 +41,5 @@
 
     .lmBody & {
         background: $color-light-grey;
-    }
-
-    label {
-        font-size: 16px;
-
-        .dmBody & {
-            color: $color-white;
-        }
-
-        .lmBody & {
-            color: $color-black;
-        }
     }
 }

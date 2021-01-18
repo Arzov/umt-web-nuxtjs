@@ -31,7 +31,7 @@
       <a-col class="rightContent" :span="12">
         <h1>Habilidades y características</h1>
         <br>
-        <a-form-model ref="ruleForm" :model="ruleForm">
+        <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
           <h4>POSICIONES DE JUEGO</h4>
           <br>
           <a-row :gutter="[48, 48]" type="flex">
@@ -51,24 +51,45 @@
           </a-row>
           <br>
           <a-form-model-item>
-            <FootSelector v-model="ruleForm.foot" label="PIE HÁBIL*" />
+            <OptionSelector
+              v-model="ruleForm.foot"
+              label="PIE HÁBIL"
+              :options="require('../../static/data/footOptions.json')"
+            />
           </a-form-model-item>
-          <a-form-model-item />
-          <br>
+          <a-row :gutter="16" type="flex">
+            <a-col :span="12">
+              <a-form-model-item :prop="this.$RULES.height.name">
+                <MetricInput
+                  v-model="ruleForm.height"
+                  label="ESTATURA"
+                  suffix="cm"
+                />
+              </a-form-model-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-model-item :prop="this.$RULES.weight.name">
+                <MetricInput
+                  v-model="ruleForm.weight"
+                  label="PESO"
+                  suffix="kg"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
           <a-form-model-item>
             <PrincipalBtn
               text="CONTINUAR"
               :loading="btnLoading"
-              @click.native="submitForm('ruleForm')"
+              @click.native="submitForm('ruleForm', false)"
             />
           </a-form-model-item>
         </a-form-model>
         <center>
-          <!-- TODO: enlazar con vista optionalFilters -->
-          <nuxt-link to="#">
-            Omitir
-          </nuxt-link>
-          <b />
+          <TextBtn
+            text="Omitir"
+            @click.native="submitForm('ruleForm', true)"
+          />
         </center>
       </a-col>
     </a-row>
@@ -82,12 +103,18 @@ export default {
     return {
       ruleForm: {
         foot: 'R',
-        positions: []
+        positions: [],
+        weight: 0,
+        height: 0
+      },
+      rules: {
+        height: this.$RULES.height.rules,
+        weight: this.$RULES.weight.rules
       }
     }
   },
   methods: {
-    submitForm (formName) {
+    submitForm (formName, isSkip) {
       console.log(this.ruleForm)
       // this.$refs[formName].validate((valid) => {
       //   if (valid) {
@@ -110,7 +137,13 @@ export default {
       // })
     },
     setPosition (e) {
-      console.log(e)
+      if (e.value !== null) {
+        this.ruleForm.positions.push(e.value)
+      } else {
+        this.ruleForm.positions = this.ruleForm.positions.filter((value) => {
+          return value !== e.key
+        })
+      }
     }
   }
 }
