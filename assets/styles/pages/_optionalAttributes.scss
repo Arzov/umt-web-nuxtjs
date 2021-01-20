@@ -1,0 +1,9 @@
+.optionalAttributes {
+    .positionsDescriptions {
+        z-index: 1000;
+        display: grid;
+        row-gap: 16px;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}

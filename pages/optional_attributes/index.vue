@@ -10,23 +10,22 @@
           también te darás a conocer frente a otros jugadores.
         </center>
         <br>
-        <a-row>
-          <a-col class="leftContent" :span="24">
-            <a-row
-              v-for="k in require('../../static/data/positionOptions.json')"
-              :key="`ci${k.value}`"
-            >
-              <PositionBtn
-                :key="`pi${k.value}`"
-                :text="k.text"
-                :color="k.color"
-                :value="k.value"
-                disabled
-              />
-              {{ k.desc }}
-            </a-row>
-          </a-col>
-        </a-row>
+        <div class="positionsDescriptions">
+          <div
+            v-for="k in require('../../static/data/positionOptions.json')"
+            :key="`ci${k.value}`"
+          >
+            <PositionBtn
+              :key="`pi${k.value}`"
+              :text="k.text"
+              :color="k.color"
+              :value="k.value"
+              style="margin-right: 10px;"
+              disabled
+            />
+            {{ k.desc }}
+          </div>
+        </div>
       </a-col>
       <a-col class="rightContent" :span="12">
         <h1>Habilidades y características</h1>
