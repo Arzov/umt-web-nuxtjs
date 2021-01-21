@@ -22,9 +22,7 @@ export default ({ app, route, store, redirect }) => {
         // que cuando sea falsa la condicion se quede en la vista.
         if (currentPath !== 'required_attributes') { redirect('/required_attributes') }
       } else if (!userState.foot) {
-        // TODO: Descomentar cuando vista este lista
-        // if (currentPath !== 'optional_attributes') { redirect('/optional_attributes') }
-        console.log('enviar a optional_attributes')
+        if (currentPath !== 'optional_attributes') { redirect('/optional_attributes') }
       } else if (!userState.ageMinFilter) {
         if (currentPath !== 'optional_filters') { redirect('/optional_filters') }
       }
