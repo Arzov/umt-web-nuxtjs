@@ -1,0 +1,32 @@
+[
+    {
+        "key": "challenge",
+        "title": "DESAFIAR",
+        "desc": "Puedes desafiar a otros equipos sólo si tienes o perteneces a un equipo.",
+        "icon": {
+            "normal": "challenge.svg",
+            "active": "challenge-active.svg"
+        },
+        "active": true
+    },
+    {
+        "key": "patch",
+        "title": "PARCHAR",
+        "desc": "Únete a partidos cercanos a ti. Puedes parchar de manera individual a equipos que requieran de jugadores.",
+        "icon": {
+            "normal": "patch.svg",
+            "active": "patch-active-contrast.svg"
+        },
+        "active": false
+    },
+    {
+        "key": "search",
+        "title": "BUSCAR EQUIPOS",
+        "desc": "¿No tienes equipo? Busca uno cercano a ti o encuentra alguno por su nombre.",
+        "icon": {
+            "normal": "search-team.svg",
+            "active": "search-team-active.svg"
+        },
+        "active": false
+    }
+]

@@ -8,6 +8,7 @@ const getLocalStorageState = (key) => {
 }
 
 const getDefaultState = () => ({
+  // DynamoDB
   email: getLocalStorageState('email') || null,
   firstName: getLocalStorageState('firstName') || null,
   lastName: getLocalStorageState('lastName') || null,
@@ -24,7 +25,10 @@ const getDefaultState = () => ({
   foot: getLocalStorageState('foot') || null,
   skills: getLocalStorageState('skills') || null,
   weight: getLocalStorageState('weight') || 0,
-  height: getLocalStorageState('height') || 0
+  height: getLocalStorageState('height') || 0,
+  // Local
+  teams: getLocalStorageState('teams') || null,
+  primaryTeam: getLocalStorageState('primaryTeam') || null
 })
 
 const state = getDefaultState()

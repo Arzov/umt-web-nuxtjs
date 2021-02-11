@@ -20,6 +20,8 @@
 @import 'components/geoloc';
 @import 'components/positionBtn';
 @import 'components/metricInput';
+@import 'components/navbar';
+@import 'components/cardBtn';
 
 @import 'layouts/header';
 @import 'layouts/footer';
@@ -27,4 +29,6 @@
 @import 'layouts/leftContent';
 
 @import 'pages/start';
+@import 'pages/register';
 @import 'pages/optionalAttributes';
+@import 'pages/home';

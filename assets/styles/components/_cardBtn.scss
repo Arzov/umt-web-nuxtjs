@@ -1,0 +1,54 @@
+.cardBtn {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    padding: 16px;
+    cursor: pointer;
+
+    .dmBody & {
+        background-color: $color-black;
+        border-bottom: 1px solid $color-dark-grey;
+
+        &:hover {
+            background-color: $color-dark-grey;
+        }
+
+        &.active {
+            border-bottom: 1px solid $color-cian;
+            color: $color-black;
+            background-color: $color-cian;
+
+            .title {
+                color: $color-black;
+            }
+        }
+    }
+
+    .lmBody & {
+        background-color: $color-light-grey;
+        border-bottom: 1px solid mix($color-violet, $color-light-grey, 20%);
+
+        &:hover {
+            background-color: mix($color-violet, $color-light-grey, 20%);
+        }
+
+        &.active {
+            border-bottom: 1px solid $color-purple;
+            color: $color-white;
+            background-color: $color-purple;
+
+            .title {
+                color: $color-white;
+            }
+        }
+    }
+
+    img {
+        width: 54px;
+        margin-right: 16px;
+    }
+
+    .content {
+        flex: 1 0;
+    }
+}

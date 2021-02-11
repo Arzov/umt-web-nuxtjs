@@ -9,6 +9,7 @@ import recoverPassword from './modules/recover-password'
 import requiredAttributes from './modules/required-attributes'
 import optionalFilters from './modules/optional-filters'
 import optionalAttributes from './modules/optional-attributes'
+import home from './modules/home'
 
 const store = () => {
   return new Vuex.Store({
@@ -22,7 +23,8 @@ const store = () => {
       requiredAttributes,
       resetPassword,
       optionalFilters,
-      optionalAttributes
+      optionalAttributes,
+      home
     }
   })
 }

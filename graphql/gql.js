@@ -57,6 +57,28 @@ export const umt = {
           height
         }
       }
+    `,
+    listTeams: `
+      query listTeams($email: String!, $nextToken: String) {
+        listTeams(email: $email, nextToken: $nextToken) {
+          items {
+            id
+          }
+          nextToken
+        }
+      }
+    `,
+    getTeam: `
+      query getTeam($id: String!) {
+        getTeam(id: $id) {
+          id
+          name
+          picture
+          formation
+          geohash
+          searchingPlayers
+        }
+      }
     `
   },
   mutations: {

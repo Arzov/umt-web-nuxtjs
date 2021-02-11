@@ -1,5 +1,5 @@
 export default ({ app, route, store, redirect }) => {
-  const currentPath = route.name
+  const currentPath = route.name.split('-')[0] // separar por - para paginas dinamicas
   const userState = store.getters['user/get']
 
   app.$AWS.Auth.currentSession()
