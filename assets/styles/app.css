@@ -776,7 +776,9 @@ html body {
   display: grid;
   justify-items: center;
   grid-template-columns: 70px auto 70px;
-  box-shadow: 0px 0px 10px 0px rgba(22, 28, 39, 0.1); }
+  box-shadow: 0px 0px 10px 0px rgba(22, 28, 39, 0.1);
+  padding-left: 50px;
+  padding-right: 50px; }
   .dmBody .navbar {
     color: white;
     background: #1F2835; }
@@ -793,11 +795,9 @@ html body {
       width: 24px; }
   .navbar .teamPicture {
     position: absolute;
-    width: 16px;
-    height: 16px;
     top: 0;
     right: 0;
-    transform: translate(-280%, 215%);
+    transform: translate(-400%, 132%);
     transform-origin: 100% 0%;
     z-index: 10; }
     .dmBody .navbar .teamPicture {
@@ -834,10 +834,93 @@ html body {
       .lmBody .cardBtn.active .title {
         color: white; }
   .cardBtn img {
+    align-self: center;
     width: 54px;
     margin-right: 16px; }
   .cardBtn .content {
     flex: 1 0; }
+
+.listDisplay {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  max-height: 72px;
+  padding: 16px;
+  box-shadow: 0px 0px 10px 0px rgba(22, 28, 39, 0.1);
+  margin-bottom: 24px; }
+  .dmBody .listDisplay {
+    background-color: #1F2835; }
+  .lmBody .listDisplay {
+    background-color: white; }
+  .listDisplay .ant-avatar {
+    align-self: center;
+    margin-right: 16px; }
+  .listDisplay .content {
+    align-self: center;
+    flex: 1; }
+    .listDisplay .content.patch {
+      display: flex;
+      text-align: center; }
+      .listDisplay .content.patch .count, .listDisplay .content.patch .date {
+        flex-grow: 1; }
+        .dmBody .listDisplay .content.patch .count,
+        .dmBody .listDisplay .content.patch .date {
+          border-right: 1px solid #161C27; }
+          .dmBody .listDisplay .content.patch .count i,
+          .dmBody .listDisplay .content.patch .date i {
+            color: #0cecf2; }
+        .lmBody .listDisplay .content.patch .count, .lmBody .listDisplay .content.patch .date {
+          border-right: 1px solid #f1f3ff; }
+          .lmBody .listDisplay .content.patch .count i, .lmBody .listDisplay .content.patch .date i {
+            color: #6457e3; }
+  .listDisplay .btn {
+    margin-left: 16px;
+    align-self: center;
+    position: relative; }
+  .listDisplay .pictures.patch {
+    display: -webkit-inline-box;
+    align-self: center; }
+    .dmBody .listDisplay .pictures.patch {
+      border-right: 1px solid #161C27; }
+    .lmBody .listDisplay .pictures.patch {
+      border-right: 1px solid #f1f3ff; }
+    .listDisplay .pictures.patch figcaption {
+      margin-right: 16px;
+      text-align: center; }
+    .listDisplay .pictures.patch b {
+      margin-right: 16px;
+      align-self: center; }
+    .listDisplay .pictures.patch figure h4 {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 32px;
+      flex-grow: 1;
+      white-space: nowrap; }
+  .listDisplay figure {
+    margin: 0 0 0; }
+
+.roundedTextBtn {
+  cursor: pointer;
+  border-radius: 100px;
+  text-align: center;
+  padding: 3px 0 3px 0;
+  min-width: 100px; }
+  .dmBody .roundedTextBtn {
+    border: 2px solid #0cecf2; }
+    .dmBody .roundedTextBtn h4 {
+      color: #0cecf2; }
+    .dmBody .roundedTextBtn:active {
+      border: 2px solid rgba(12, 236, 242, 0.6); }
+      .dmBody .roundedTextBtn:active h4 {
+        color: rgba(12, 236, 242, 0.6); }
+  .lmBody .roundedTextBtn {
+    border: 2px solid #6457e3; }
+    .lmBody .roundedTextBtn h4 {
+      color: #6457e3; }
+    .lmBody .roundedTextBtn:active {
+      border: 2px solid rgba(100, 87, 227, 0.6); }
+      .lmBody .roundedTextBtn:active h4 {
+        color: rgba(100, 87, 227, 0.6); }
 
 .header {
   display: flex;
@@ -897,7 +980,7 @@ html body {
   top: 70px;
   left: 0px; }
 .home .homeBottomRight {
-  width: 15%;
+  width: 20%;
   position: absolute;
   bottom: 0px;
   right: 0px; }

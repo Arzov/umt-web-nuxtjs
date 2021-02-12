@@ -20,7 +20,15 @@
         </div>
       </a-col>
       <a-col class="rightContent" :span="12">
-        HOME
+        <ListDisplay
+          title="rpc"
+          desc="A 2 Kilometros"
+        />
+        <ListDisplay
+          title="rpc"
+          desc="A 2 Kilometros"
+          type="patch"
+        />
         <ThemeToggle />
       </a-col>
     </a-row>
@@ -46,7 +54,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('home/listTeams', { email: this._userState.email })
+    this.$store.dispatch('user/listTeams', { email: this._userState.email })
       .then((result) => {
       })
       .catch((e) => {

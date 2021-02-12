@@ -16,10 +16,11 @@
     </div>
     <div class="navbarPicture">
       <a-avatar
+        size="small"
         class="teamPicture"
         :src="_userState.primaryTeam ? _userState.primaryTeam.picture : getImage('team-profile.svg')"
       />
-      <a-avatar :src="_userState.picture" />
+      <a-avatar size="large" :src="_userState.picture" />
     </div>
   </div>
 </template>
@@ -37,9 +38,9 @@ export default {
     }
   },
   methods: {
-    getImage (icon) {
+    getImage (image) {
       const mode = this._themePreference === 'light' ? 'lm' : 'dm'
-      return require(`@/assets/icons/${mode}-${icon}`)
+      return require(`@/assets/icons/${mode}-${image}`)
     }
   }
 }

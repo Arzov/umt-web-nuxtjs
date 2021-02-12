@@ -167,6 +167,46 @@ const actions = {
       })
     }
   },
+  listTeams (ctx, data) {
+    if (!ctx.state.teams || !ctx.state.primaryTeam) {
+      return new Promise((resolve, reject) => {
+        this.$AWS.Amplify.configure(awsconfig.umt)
+        this.$AWS.API.graphql(
+          graphqlOperation(umt.queries.listTeams, { email: data.email })
+        )
+          .then(async (result) => {
+            const teamsIds = result.data.listTeams.items
+
+            if (teamsIds) {
+              const teams = []
+
+              for (const e in teamsIds) {
+                await this.$AWS.API.graphql(
+                  graphqlOperation(umt.queries.getTeam, teamsIds[e])
+                )
+                  .then((result) => {
+                    teams.push(JSON.stringify(result.data.getTeam))
+                  })
+                  .catch((err) => {
+                    const response = { ...errorNotification, err }
+                    reject(response)
+                  })
+              }
+
+              const params = { teams }
+              ctx.commit('setState', { params })
+              resolve()
+            } else {
+              resolve()
+            }
+          })
+          .catch((err) => {
+            const response = { ...errorNotification, err }
+            reject(response)
+          })
+      })
+    }
+  },
   resetStates (ctx) {
     ctx.commit('resetStates')
   }
