@@ -20,6 +20,8 @@
 @import 'components/geoloc';
 @import 'components/positionBtn';
 @import 'components/metricInput';
+@import 'components/avatar';
+@import 'components/principalTeamSelector';
 
 @import 'layouts/header';
 @import 'layouts/footer';
@@ -28,3 +30,4 @@
 
 @import 'pages/start';
 @import 'pages/optionalAttributes';
+@import 'pages/profile';

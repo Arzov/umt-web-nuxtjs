@@ -48,7 +48,7 @@ export default {
 
   // Router
   router: {
-    middleware: ['auth', 'mobile'],
+    /* middleware: ['auth', 'mobile'], */
     extendRoutes (routes, resolve) {
       routes.push({
         name: 'custom',
