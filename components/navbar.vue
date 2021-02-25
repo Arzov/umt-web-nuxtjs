@@ -18,7 +18,7 @@
       <a-avatar
         size="small"
         class="teamPicture"
-        :src="_userState.primaryTeam ? _userState.primaryTeam.picture : getImage('team-profile.svg')"
+        :src="teamPicture"
       />
       <a-avatar size="large" :src="_userState.picture" />
     </div>
@@ -35,6 +35,13 @@ export default {
   computed: {
     current () {
       return this.$route.name
+    },
+    teamPicture () {
+      if (this._userState.primaryTeam && this._userState.primaryTeam.picture) {
+        return this._userState.primaryTeam.picture
+      } else {
+        return this.getImage('team-profile.svg')
+      }
     }
   },
   methods: {

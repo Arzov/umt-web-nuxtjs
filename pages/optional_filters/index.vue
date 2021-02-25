@@ -22,13 +22,6 @@
             />
           </a-form-model-item>
           <a-form-model-item>
-            <OptionSelector
-              v-model="ruleForm.genderFilter"
-              label="BUSCO RIVALES"
-              :options="require('../../static/data/genderFilterOptions.json')"
-            />
-          </a-form-model-item>
-          <a-form-model-item>
             <AgeSlider
               v-model="ruleForm.ageFilter"
               label="RANGO DE EDAD"
@@ -57,7 +50,6 @@ export default {
     return {
       ruleForm: {
         matchFilter: '5v5',
-        genderFilter: 'M',
         ageFilter: [18, 22]
       }
     }
@@ -71,7 +63,6 @@ export default {
             .dispatch('optionalFilters/save', {
               email: this._userState.email,
               matchFilter: [this.ruleForm.matchFilter],
-              genderFilter: [this.ruleForm.genderFilter],
               ageFilter: this.ruleForm.ageFilter,
               positions: this._userState.positions,
               skills: this._userState.skills,

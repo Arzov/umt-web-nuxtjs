@@ -15,7 +15,6 @@ const actions = {
           latitude: 0,
           longitude: 0,
           email: data.email,
-          genderFilter: data.genderFilter,
           ageMinFilter: data.ageFilter[0],
           ageMaxFilter: data.ageFilter[1],
           matchFilter: data.matchFilter,
@@ -35,7 +34,6 @@ const actions = {
             skills: JSON.parse(result.data.addUser.skills),
             positions: result.data.addUser.positions,
             coords: JSON.parse(result.data.addUser.coords),
-            genderFilter: result.data.addUser.genderFilter,
             ageMinFilter: result.data.addUser.ageMinFilter,
             ageMaxFilter: result.data.addUser.ageMaxFilter,
             matchFilter: result.data.addUser.matchFilter

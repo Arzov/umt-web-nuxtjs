@@ -46,7 +46,6 @@ export const umt = {
           email,
           geohash,
           coords,
-          genderFilter,
           ageMinFilter,
           ageMaxFilter,
           matchFilter,
@@ -63,30 +62,23 @@ export const umt = {
         listTeams(email: $email, nextToken: $nextToken) {
           items {
             id
+            name
+            picture
+            formation
+            geohash
+            searchingPlayers
           }
           nextToken
-        }
-      }
-    `,
-    getTeam: `
-      query getTeam($id: String!) {
-        getTeam(id: $id) {
-          id
-          name
-          picture
-          formation
-          geohash
-          searchingPlayers
         }
       }
     `
   },
   mutations: {
     addUser: `
-      mutation addUser($latitude: Float!, $longitude: Float!, $email: String!, $genderFilter: [String!]!,
+      mutation addUser($latitude: Float!, $longitude: Float!, $email: String!,
       $ageMinFilter: Int!, $ageMaxFilter: Int!, $matchFilter: [String!]!, $positions: [String],
       $skills: String, $foot: String!, $weight: Int!, $height: Int!) {
-        addUser(latitude: $latitude, longitude: $longitude, email: $email, genderFilter: $genderFilter,
+        addUser(latitude: $latitude, longitude: $longitude, email: $email,
           ageMinFilter: $ageMinFilter, ageMaxFilter: $ageMaxFilter, matchFilter: $matchFilter,
           positions: $positions, skills: $skills, foot: $foot, weight: $weight, height: $height) {
           email,
@@ -94,7 +86,6 @@ export const umt = {
           coords,
           ageMinFilter,
           ageMaxFilter,
-          genderFilter,
           matchFilter,
           positions,
           skills,
@@ -105,10 +96,10 @@ export const umt = {
       }
     `,
     updateUser: `
-      mutation updateUser($latitude: Float!, $longitude: Float!, $email: String!, $genderFilter: [String]!,
+      mutation updateUser($latitude: Float!, $longitude: Float!, $email: String!,
       $ageMinFilter: Int!, $ageMaxFilter: Int!, $matchFilter: [String]!, $positions: [String]!,
       $skills: String!, $foot: String!, $weight: Int!, $height: Int!) {
-        updateUser(latitude: $latitude, longitude: $longitude, email: $email, genderFilter: $genderFilter,
+        updateUser(latitude: $latitude, longitude: $longitude, email: $email,
           ageMinFilter: $ageMinFilter, ageMaxFilter: $ageMaxFilter, matchFilter: $matchFilter,
           positions: $positions, skills: $skills, foot: $foot, weight: $weight, height: $height) {
           email,
@@ -116,7 +107,6 @@ export const umt = {
           coords,
           ageMinFilter,
           ageMaxFilter,
-          genderFilter,
           matchFilter,
           positions,
           skills,

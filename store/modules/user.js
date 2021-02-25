@@ -18,7 +18,6 @@ const getDefaultState = () => ({
   coords: getLocalStorageState('coords') || null,
   geohash: getLocalStorageState('geohash') || null,
   matchFilter: getLocalStorageState('matchFilter') || null,
-  genderFilter: getLocalStorageState('genderFilter') || null,
   ageMinFilter: getLocalStorageState('ageMinFilter') || null,
   ageMaxFilter: getLocalStorageState('ageMaxFilter') || null,
   positions: getLocalStorageState('positions') || null,
@@ -69,7 +68,6 @@ const actions = {
               const params = {
                 geohash: result.data.getUser.geohash || null,
                 coords: JSON.parse(result.data.getUser.coords) || null,
-                genderFilter: result.data.getUser.genderFilter || null,
                 ageMinFilter: result.data.getUser.ageMinFilter || null,
                 ageMaxFilter: result.data.getUser.ageMaxFilter || null,
                 matchFilter: result.data.getUser.matchFilter || null,
@@ -132,7 +130,6 @@ const actions = {
             latitude: data.latitude,
             longitude: data.longitude,
             email: data.email,
-            genderFilter: data.genderFilter,
             ageMinFilter: data.ageMinFilter,
             ageMaxFilter: data.ageMaxFilter,
             matchFilter: data.matchFilter,
@@ -147,7 +144,6 @@ const actions = {
             const params = {
               geohash: result.data.updateUser.geohash,
               coords: JSON.parse(result.data.updateUser.coords),
-              genderFilter: result.data.updateUser.genderFilter,
               ageMinFilter: result.data.updateUser.ageMinFilter,
               ageMaxFilter: result.data.updateUser.ageMaxFilter,
               matchFilter: result.data.updateUser.matchFilter,
@@ -174,26 +170,14 @@ const actions = {
         this.$AWS.API.graphql(
           graphqlOperation(umt.queries.listTeams, { email: data.email })
         )
-          .then(async (result) => {
-            const teamsIds = result.data.listTeams.items
+          .then((result) => {
+            const teams = result.data.listTeams.items
 
-            if (teamsIds) {
-              const teams = []
-
-              for (const e in teamsIds) {
-                await this.$AWS.API.graphql(
-                  graphqlOperation(umt.queries.getTeam, teamsIds[e])
-                )
-                  .then((result) => {
-                    teams.push(JSON.stringify(result.data.getTeam))
-                  })
-                  .catch((err) => {
-                    const response = { ...errorNotification, err }
-                    reject(response)
-                  })
+            if (teams) {
+              const params = {
+                teams,
+                primaryTeam: teams[0]
               }
-
-              const params = { teams }
               ctx.commit('setState', { params })
               resolve()
             } else {

@@ -85,7 +85,6 @@ export const validGeoloc = {
               email: this._userState.email,
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
-              genderFilter: this._userState.genderFilter,
               matchFilter: this._userState.matchFilter,
               ageMinFilter: this._userState.ageMinFilter,
               ageMaxFilter: this._userState.ageMaxFilter,
