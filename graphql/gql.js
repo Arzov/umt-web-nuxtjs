@@ -67,6 +67,10 @@ export const umt = {
             formation
             geohash
             searchingPlayers
+            genderFilter
+            ageMinFilter
+            ageMaxFilter
+            matchFilter
           }
           nextToken
         }

@@ -20,6 +20,14 @@
         </div>
       </a-col>
       <a-col class="rightContent" :span="12">
+        <div v-for="team in _userState.teams" :key="team.id">
+          <ListDisplay
+            :title="team.name"
+            :picture1="team.picture"
+            desc="A 2 Kilometros"
+            @change="selectOption($event)"
+          />
+        </div>
         <ListDisplay
           title="rpc"
           desc="A 2 Kilometros"
@@ -52,6 +60,11 @@ export default {
     activeOption () {
       return this.options.filter(m => m.active === true)[0].key
     }
+    // teamsWithDistance () {
+    //   return this._userState.teams.map((x) => {
+    //     {...x, }
+    //   })
+    // }
   },
   mounted () {
     this.$store.dispatch('user/listTeams', { email: this._userState.email })
@@ -75,8 +88,6 @@ export default {
           active
         }
       })
-      console.log(this.activeOption)
-      console.log(this.options)
     }
   }
 }

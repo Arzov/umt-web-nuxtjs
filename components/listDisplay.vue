@@ -2,7 +2,7 @@
   <div v-if="type == 'patch'" class="listDisplay">
     <div class="pictures patch">
       <figure>
-        <a-avatar :src="getImage(team1)" />
+        <a-avatar :src="getImage(picture1)" />
         <figcaption>
           <a-tooltip placement="bottom">
             <template slot="title">
@@ -14,7 +14,7 @@
       </figure>
       <b> - </b>
       <figure>
-        <a-avatar :src="getImage(team2)" />
+        <a-avatar :src="getImage(picture2)" />
         <figcaption>
           <a-tooltip placement="bottom">
             <template slot="title">
@@ -44,7 +44,7 @@
     </div>
   </div>
   <div v-else class="listDisplay">
-    <a-avatar size="large" :src="getImage(team1)" />
+    <a-avatar size="large" :src="getImage(picture1)" />
     <div class="content">
       <h2>
         {{ title }}
@@ -60,8 +60,8 @@
 <script>
 export default {
   props: {
-    team1: { type: String, default: '' },
-    team2: { type: String, default: '' },
+    picture1: { type: String, default: '' },
+    picture2: { type: String, default: '' },
     title: { type: String, default: '' },
     desc: { type: String, default: '' },
     type: { type: String, default: 'challenge' }
