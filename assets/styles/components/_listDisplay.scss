@@ -1,0 +1,97 @@
+.listDisplay {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    max-height: 72px;
+    padding: 16px;
+    box-shadow: 0px 0px 10px 0px rgba($color-black, 0.1);
+    margin-bottom: 24px;
+
+    .dmBody & {
+        background-color: $color-dark-grey;
+    }
+
+    .lmBody & {
+        background-color: $color-white;
+    }
+
+    .ant-avatar {
+        align-self: center;
+        margin-right: 16px;
+    }
+
+    .content {
+        align-self: center;
+        flex: 1;
+
+        &.patch {
+            display: flex;
+            text-align: center;
+
+            .count,
+            .date {
+                flex-grow: 1;
+                .dmBody & {
+                    border-right: 1px solid $color-black;
+
+                    i {
+                        color: $color-cian;
+                    }
+                }
+
+                .lmBody & {
+                    border-right: 1px solid $color-light-grey;
+                    
+                    i {
+                        color: $color-purple;
+                    }
+                }
+            }
+        }
+    }
+
+    .btn {
+        margin-left: 16px;
+        align-self: center;
+        position: relative;
+    }
+
+    .pictures {
+        &.patch {
+            display: -webkit-inline-box;
+            align-self: center;
+
+            .dmBody & {
+                border-right: 1px solid $color-black;
+            }
+
+            .lmBody & {
+                border-right: 1px solid $color-light-grey;
+            }
+
+            figcaption {
+                margin-right: 16px;
+                text-align: center;
+            }
+
+            b {
+                margin-right: 16px;
+                align-self: center;
+            }
+
+            figure {        
+                h4 {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: 32px;
+                    flex-grow: 1;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    figure {
+        margin: 0 0 0;
+    }
+}

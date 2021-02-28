@@ -1,0 +1,50 @@
+.navbar {
+    height: 70px;
+    display: grid;
+    justify-items: center;
+    grid-template-columns: 70px auto 70px;
+    box-shadow: 0px 0px 10px 0px rgba($color-black, 0.1);
+    padding-left: 50px;
+    padding-right: 50px;
+
+    .dmBody & {
+        color: $color-white;
+        background: $color-dark-grey;
+    }
+
+    .lmBody & {
+        color: $color-black;
+        background: $color-white;
+    }
+
+    .navbarMenu, .navbarPicture {
+        place-self: center;
+    }
+
+    .navbarMenu > div {
+        display: inline-block;
+        margin-left: 5rem;
+        margin-right: 5rem;
+
+        img {
+            width: 24px;
+        }
+    }
+
+    .teamPicture {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(-400%, 132%);
+        transform-origin: 100% 0%;
+        z-index: 10;
+
+        .dmBody & {
+            box-shadow: 0 0 0 1px $color-dark-grey;
+        }
+    
+        .lmBody & {
+            box-shadow: 0 0 0 1px $color-white;
+        }
+    }
+}

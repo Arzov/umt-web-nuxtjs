@@ -82,3 +82,34 @@ html {
         width: 100%;
     }
 }
+
+// Modal background
+.ant-modal-mask {
+    background-color: transparent;
+}
+
+.ant-modal-wrap {
+    backdrop-filter: blur(12px);
+}
+
+.ant-modal-wrap.lmBody {
+    background-color: rgba($color: $color-light-grey, $alpha: 0.5);
+}
+
+.ant-modal-wrap.dmBody {
+    background-color: rgba($color: $color-black, $alpha: 0.5);
+}
+
+.dmBody {
+    .ant-modal-content { 
+        background-color: $color-dark-grey;
+        color: $color-white;
+    }
+}
+
+.lmBody {
+    .ant-modal-content { 
+        background-color: $color-white;
+        color: $color-black;
+    }
+}

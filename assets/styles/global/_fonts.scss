@@ -64,7 +64,7 @@
 @include font-face('PublicSans', '../fonts/PublicSans-BlackItalic', 900, italic, ttf);
 
 $h-sizes: (
-  1: (size: 2.5rem, weight: 900, text-transform: none),
+  1: (size: 2.5rem, weight: 700, text-transform: none),
   2: (size: 1rem, weight: 700, text-transform: uppercase),
   3: (size: 1rem, weight: 900, text-transform: uppercase),
   4: (size: 0.75rem, weight: 700, text-transform: uppercase)

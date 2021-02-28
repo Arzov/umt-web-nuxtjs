@@ -55,8 +55,8 @@ export default {
       email: params.email
     }
   },
-  validate ({ params, query, store }) {
-    if (params.email) { return true } else { return false }
+  validate ({ params, query, store, redirect }) {
+    if (params.email) { return true } else { redirect('/start') }
   },
   data () {
     return {

@@ -8,6 +8,7 @@ const getLocalStorageState = (key) => {
 }
 
 const getDefaultState = () => ({
+  // DynamoDB
   email: getLocalStorageState('email') || null,
   firstName: getLocalStorageState('firstName') || null,
   lastName: getLocalStorageState('lastName') || null,
@@ -17,14 +18,16 @@ const getDefaultState = () => ({
   coords: getLocalStorageState('coords') || null,
   geohash: getLocalStorageState('geohash') || null,
   matchFilter: getLocalStorageState('matchFilter') || null,
-  genderFilter: getLocalStorageState('genderFilter') || null,
   ageMinFilter: getLocalStorageState('ageMinFilter') || null,
   ageMaxFilter: getLocalStorageState('ageMaxFilter') || null,
   positions: getLocalStorageState('positions') || null,
   foot: getLocalStorageState('foot') || null,
   skills: getLocalStorageState('skills') || null,
   weight: getLocalStorageState('weight') || 0,
-  height: getLocalStorageState('height') || 0
+  height: getLocalStorageState('height') || 0,
+  // Local
+  teams: getLocalStorageState('teams') || null,
+  primaryTeam: getLocalStorageState('primaryTeam') || null
 })
 
 const state = getDefaultState()
@@ -65,7 +68,6 @@ const actions = {
               const params = {
                 geohash: result.data.getUser.geohash || null,
                 coords: JSON.parse(result.data.getUser.coords) || null,
-                genderFilter: result.data.getUser.genderFilter || null,
                 ageMinFilter: result.data.getUser.ageMinFilter || null,
                 ageMaxFilter: result.data.getUser.ageMaxFilter || null,
                 matchFilter: result.data.getUser.matchFilter || null,
@@ -128,7 +130,6 @@ const actions = {
             latitude: data.latitude,
             longitude: data.longitude,
             email: data.email,
-            genderFilter: data.genderFilter,
             ageMinFilter: data.ageMinFilter,
             ageMaxFilter: data.ageMaxFilter,
             matchFilter: data.matchFilter,
@@ -143,7 +144,6 @@ const actions = {
             const params = {
               geohash: result.data.updateUser.geohash,
               coords: JSON.parse(result.data.updateUser.coords),
-              genderFilter: result.data.updateUser.genderFilter,
               ageMinFilter: result.data.updateUser.ageMinFilter,
               ageMaxFilter: result.data.updateUser.ageMaxFilter,
               matchFilter: result.data.updateUser.matchFilter,
@@ -155,6 +155,34 @@ const actions = {
             }
             ctx.commit('setState', { params })
             resolve()
+          })
+          .catch((err) => {
+            const response = { ...errorNotification, err }
+            reject(response)
+          })
+      })
+    }
+  },
+  listTeams (ctx, data) {
+    if (!ctx.state.teams || !ctx.state.primaryTeam) {
+      return new Promise((resolve, reject) => {
+        this.$AWS.Amplify.configure(awsconfig.umt)
+        this.$AWS.API.graphql(
+          graphqlOperation(umt.queries.listTeams, { email: data.email })
+        )
+          .then((result) => {
+            const teams = result.data.listTeams.items
+
+            if (teams) {
+              const params = {
+                teams,
+                primaryTeam: teams[0]
+              }
+              ctx.commit('setState', { params })
+              resolve()
+            } else {
+              resolve()
+            }
           })
           .catch((err) => {
             const response = { ...errorNotification, err }

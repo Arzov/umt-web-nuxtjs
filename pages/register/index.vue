@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="register">
     <a-row>
       <a-col class="leftContent" :span="12">
         <img
