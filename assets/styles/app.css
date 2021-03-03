@@ -228,59 +228,6 @@ html body {
   .lmBody [class|="nuxt-link"], .lmBody [class|="nuxt-link"]:hover, .lmBody [class|="nuxt-link"]:active, .lmBody a, .lmBody a:hover, .lmBody a:active {
     color: #6457e3; }
 
-.logo {
-  margin-bottom: 50px;
-  width: 60%; }
-
-.footballShoes {
-  margin-left: -50px;
-  margin-bottom: 50px;
-  width: 90%; }
-
-.points {
-  width: 60%;
-  margin-left: -50px;
-  margin-bottom: 50px; }
-
-.mailbox {
-  width: 50%;
-  margin-bottom: 50px; }
-
-.lock {
-  width: 40%;
-  margin-bottom: 50px; }
-
-.key {
-  width: 50%;
-  margin-bottom: 50px; }
-
-.cupTriangle {
-  width: 40%;
-  margin-bottom: 50px; }
-
-.whistle {
-  width: 50%;
-  margin-bottom: 50px; }
-
-.cornerTopRight {
-  width: 150px;
-  position: absolute;
-  top: 0px;
-  right: 0px; }
-
-.cornerBottomLeft {
-  width: 150px;
-  position: absolute;
-  bottom: 0px;
-  left: 0px; }
-
-.pin {
-  width: 38px; }
-
-.footballCircle {
-  width: 40%;
-  margin-bottom: 50px; }
-
 .facebook {
   display: block;
   width: 38px; }
@@ -634,6 +581,9 @@ html body {
     flex-direction: row;
     justify-content: center;
     align-items: center; }
+    .geoloc .ant-modal-content .image .pin,
+    .geoloc .ant-modal-body .image .pin {
+      width: 38px; }
 .geoloc .principalBtn {
   margin-top: 24px;
   margin-bottom: 24px; }
@@ -922,6 +872,32 @@ html body {
       .lmBody .roundedTextBtn:active h4 {
         color: rgba(100, 87, 227, 0.6); }
 
+.startImagesLayout .logo {
+  margin-bottom: 50px;
+  width: 60%; }
+.startImagesLayout .footballShoes {
+  margin-left: -50px;
+  margin-bottom: 50px;
+  width: 90%; }
+.startImagesLayout .points {
+  width: 60%;
+  margin-left: -50px;
+  margin-bottom: 50px; }
+
+.header .cornerTopRight {
+  max-width: 150px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 200; }
+
+.footer .cornerBottomLeft {
+  max-width: 150px;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  z-index: 200; }
+
 .header {
   display: flex;
   align-items: center;
@@ -952,6 +928,12 @@ html body {
     flex-direction: row;
     justify-content: center;
     align-items: center; }
+    .leftContent .image img {
+      max-width: 300px;
+      margin-bottom: 24px; }
+
+.page {
+  z-index: 100; }
 
 .start .socialLogin {
   display: flex;
@@ -968,7 +950,7 @@ html body {
   margin-top: -70px; }
 
 .optionalAttributes .positionsDescriptions {
-  z-index: 1000;
+  z-index: 300;
   display: grid;
   row-gap: 16px;
   grid-auto-flow: row;

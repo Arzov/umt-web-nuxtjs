@@ -66,6 +66,7 @@ export const umt = {
             picture
             formation
             geohash
+            coords
             searchingPlayers
             genderFilter
             ageMinFilter
