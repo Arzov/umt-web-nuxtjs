@@ -2,17 +2,7 @@
   <div class="register">
     <a-row>
       <a-col class="leftContent" :span="12">
-        <img
-          :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
-            require('../../static/dm-logo.svg')"
-          class="logo"
-        >
-        <img class="footballShoes" src="../../assets/images/football-shoes.svg">
-        <img
-          :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
-            require('../../assets/images/dm-points.svg')"
-          class="points"
-        >
+        <StartImagesLayout />
       </a-col>
       <a-col class="rightContent" :span="12">
         <BackBtn />

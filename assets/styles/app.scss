@@ -1,9 +1,6 @@
 @import 'global/colors';
 @import 'global/fonts';
-@import 'global/margins';
 @import 'global/dom';
-@import 'global/links';
-@import 'global/images';
 
 @import 'components/facebook';
 @import 'components/google';
@@ -24,13 +21,21 @@
 @import 'components/cardBtn';
 @import 'components/listDisplay';
 @import 'components/roundedTextBtn';
+@import 'components/startImagesLayout';
 
+@import 'layouts/corners';
 @import 'layouts/header';
 @import 'layouts/footer';
 @import 'layouts/rightContent';
 @import 'layouts/leftContent';
 
+@import 'pages/page';
 @import 'pages/start';
 @import 'pages/register';
 @import 'pages/optionalAttributes';
+@import 'pages/optionalFilters';
+@import 'pages/emailVerification';
 @import 'pages/home';
+@import 'pages/recoverPassword';
+@import 'pages/resetPassword';
+@import 'pages/requiredAttributes'

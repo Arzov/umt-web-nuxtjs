@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="recoverPassword">
     <a-row>
       <a-col class="leftContent" :span="12">
         <div class="image">
