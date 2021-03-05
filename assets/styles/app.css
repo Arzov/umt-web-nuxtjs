@@ -133,7 +133,7 @@ h4 {
 .dmBody .notification .ant-notification-close-x, .lmBody .notification .ant-notification-notice-message,
 .lmBody .notification .ant-notification-notice-description,
 .lmBody .notification .ant-notification-close-x, .geoloc .ant-modal-content,
-.geoloc .ant-modal-body {
+.geoloc .ant-modal-body, .multiSelector .option {
   font-size: 16px;
   font-family: 'PublicSans', sans-serif;
   font-weight: 400;
@@ -143,7 +143,7 @@ h4 {
   .dmBody .notification .ant-notification-close-x b, .lmBody .notification .ant-notification-notice-message b,
   .lmBody .notification .ant-notification-notice-description b,
   .lmBody .notification .ant-notification-close-x b, .geoloc .ant-modal-content b,
-  .geoloc .ant-modal-body b {
+  .geoloc .ant-modal-body b, .multiSelector .option b {
     font-weight: 700; }
 
 html, html body,
@@ -393,8 +393,7 @@ html body {
   border-radius: 0;
   height: 42px;
   width: 100%;
-  position: relative;
-  width: 100%; }
+  position: relative; }
 
 .dmBody .optionSelector {
   background: #161C27; }
@@ -883,6 +882,41 @@ html body {
   width: 60%;
   margin-left: -50px;
   margin-bottom: 50px; }
+
+.multiSelector .option {
+  box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
+  border: none;
+  border-radius: 0;
+  height: 42px;
+  width: 100%;
+  position: relative;
+  text-align: center; }
+
+.multiSelector .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  grid-gap: 16px; }
+.multiSelector .option {
+  display: grid;
+  cursor: pointer;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "label radio"; }
+  .dmBody .multiSelector .option {
+    background: #1F2835; }
+    .dmBody .multiSelector .option.on {
+      -webkit-text-fill-color: #161C27;
+      background: #0cecf2; }
+  .lmBody .multiSelector .option {
+    background: white; }
+    .lmBody .multiSelector .option.on {
+      -webkit-text-fill-color: white;
+      background: #6457e3; }
+.multiSelector label {
+  font-size: 12px; }
+  .dmBody .multiSelector label {
+    color: white; }
+  .lmBody .multiSelector label {
+    color: #161C27; }
 
 .header .cornerTopRight {
   max-width: 150px;
