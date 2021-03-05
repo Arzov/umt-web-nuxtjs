@@ -6,18 +6,19 @@
           <img class="whistle" src="../../assets/images/whistle.svg">
         </div>
         <center>
-          Ingresa tus filtros para poder encontrar rivales según tus preferencias.
+          Ingresa tus <b>filtros</b> para encontrar partidos cercanos a ti a los cuales quieras
+          <b>parchar</b> o simplemente para buscar equipos a los cuales quieras <b>unirte</b>.
           Puedes omitir estas opciones y configurarlas más adelante desde tu perfil.
         </center>
       </a-col>
       <a-col class="rightContent" :span="12">
-        <h1>¿A qué rivales buscas?</h1>
+        <h1>¿A qué rivales o equipos buscas?</h1>
         <br>
         <a-form-model ref="ruleForm" :model="ruleForm">
           <a-form-model-item>
-            <OptionSelector
+            <MultiSelector
               v-model="ruleForm.matchFilter"
-              label="TIPO DE JUEGO"
+              label="TIPO DE JUEGO (SELECCIONA 1 O MÁS)"
               :options="require('../../static/data/matchFilterOptions.json')"
             />
           </a-form-model-item>
@@ -49,7 +50,7 @@ export default {
   data () {
     return {
       ruleForm: {
-        matchFilter: '5v5',
+        matchFilter: ['5v5'],
         ageFilter: [18, 22]
       }
     }
@@ -62,7 +63,7 @@ export default {
           this.$store
             .dispatch('optionalFilters/save', {
               email: this._userState.email,
-              matchFilter: [this.ruleForm.matchFilter],
+              matchFilter: this.ruleForm.matchFilter,
               ageFilter: this.ruleForm.ageFilter,
               positions: this._userState.positions,
               skills: this._userState.skills,
