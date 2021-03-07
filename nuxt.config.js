@@ -30,7 +30,8 @@ export default {
     '@/plugins/aws',
     '@/plugins/rules',
     '@/plugins/filters',
-    '@/plugins/mixins'
+    '@/plugins/mixins',
+    '@/plugins/utils'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

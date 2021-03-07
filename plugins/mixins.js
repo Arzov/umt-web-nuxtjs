@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import errorNotification from '@/static/data/errorNotification.json'
-import { getDistance } from './utils'
 
 const global = {
   data () {
@@ -72,7 +71,7 @@ export const validGeoloc = {
     if ('geolocation' in navigator) {
       if (this._allowGeoloc) {
         navigator.geolocation.getCurrentPosition((position) => {
-          const moveDistance = getDistance(
+          const moveDistance = this.$UTILS.getDistance(
             position.coords.latitude,
             position.coords.longitude,
             this._userState.coords.LAT.N,

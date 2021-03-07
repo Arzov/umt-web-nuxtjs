@@ -163,12 +163,12 @@ const actions = {
       })
     }
   },
-  listTeams (ctx, data) {
+  listTeams (ctx) {
     if (!ctx.state.teams || !ctx.state.primaryTeam) {
       return new Promise((resolve, reject) => {
         this.$AWS.Amplify.configure(awsconfig.umt)
         this.$AWS.API.graphql(
-          graphqlOperation(umt.queries.listTeams, { email: data.email })
+          graphqlOperation(umt.queries.listTeams, { email: ctx.state.email })
         )
           .then((result) => {
             const teams = result.data.listTeams.items
