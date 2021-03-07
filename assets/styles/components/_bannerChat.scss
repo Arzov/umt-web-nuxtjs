@@ -1,0 +1,45 @@
+%full-width {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+}
+
+.bannerChat {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+
+    .imgContainer {
+        border: 1px solid white;
+        @extend %full-width;
+
+        img {
+            width: 75%;
+            height: 100%;
+        }
+
+        .teamPicture {
+            position: absolute;
+            top: 45%;
+            right: 0;
+            left: 10%;
+            bottom: 0;
+            z-index: 1;
+    
+            .dmBody & {
+                box-shadow: 0 0 0 1px $color-dark-grey;
+            }
+        
+            .lmBody & {
+                box-shadow: 0 0 0 1px $color-white;
+            }
+        }
+    }    
+
+    .content {
+        border: 1px solid white;
+        @extend %full-width;
+        justify-content: center;
+    }
+}

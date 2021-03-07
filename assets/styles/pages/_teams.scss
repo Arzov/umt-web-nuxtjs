@@ -1,0 +1,47 @@
+%full-width {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+}
+
+.teams {
+
+    .leftContent {
+        border: 1px solid white;
+        @extend %full-width;
+
+        .shield {
+            border: 1px solid white;
+            height: 25%;
+
+            img {
+                padding-top: 30px;
+                width: 300px;
+            }
+        }
+
+        .options {
+            border: 1px solid white;
+            height: 75%;
+            padding: 0px 60px 60px 60px;
+        }
+    }
+
+    .rightContent { 
+
+        border: 1px solid white;
+        @extend %full-width;
+
+        .banner {
+            border: 1px solid white;
+            height: 20%;
+        }
+
+        .chat {
+            border: 1px solid white;
+            height: 80%;
+            background-image: url(https://media.githubusercontent.com/media/Arzov/umt-app-uxi/ca1d5869a115460b4654e349dda2474dde77285e/mockup/images/chat-background.svg);
+        }
+    }
+    
+}
