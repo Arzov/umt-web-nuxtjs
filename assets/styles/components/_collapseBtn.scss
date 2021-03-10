@@ -1,0 +1,42 @@
+.collapseBtn {
+
+    .dmBody & {
+
+        .ant-collapse {
+            background-color: $color-white;
+        }
+
+        .ant-collapse-header {
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 50px;
+        }
+
+        h2 {
+            color: $color-dark-grey;
+        }
+    }
+
+    .lmBody & {
+
+        .ant-collapse {
+            background-color: $color-white;
+        }
+
+        .ant-collapse-header {
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 50px;
+        }
+
+        .ant-collapse-content {
+            background-color: $color-light-grey;
+        }
+    }
+
+    .teamIcon {
+        position: relative;
+        top: 40px;
+        left: 15px;
+    }
+}

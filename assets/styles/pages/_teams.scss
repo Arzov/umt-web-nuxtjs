@@ -7,12 +7,11 @@
 .teams {
 
     .leftContent {
-        border: 1px solid white;
         @extend %full-width;
+        justify-content: flex-start;
 
         .shield {
-            border: 1px solid white;
-            height: 25%;
+            height: 200px;
 
             img {
                 padding-top: 30px;
@@ -21,26 +20,85 @@
         }
 
         .options {
-            border: 1px solid white;
             height: 75%;
             padding: 0px 60px 60px 60px;
         }
     }
 
     .rightContent { 
-
-        border: 1px solid white;
         @extend %full-width;
+        justify-content: flex-start;
+        border-left: 1px solid $color-dark-grey;
 
         .banner {
-            border: 1px solid white;
             height: 20%;
+            border-bottom: 1px solid $color-dark-grey;
         }
 
-        .chat {
-            border: 1px solid white;
+        .chatContainer {
             height: 80%;
-            background-image: url(https://media.githubusercontent.com/media/Arzov/umt-app-uxi/ca1d5869a115460b4654e349dda2474dde77285e/mockup/images/chat-background.svg);
+            background-image: url("../images/chat-background.svg");
+            opacity: 0.4;
+        }
+        
+        .bannerInfoTeam {
+            height: 150px;
+            display: flex;
+            flex-direction: row;
+        
+            .iconContainer {
+                @extend %full-width;
+                align-items: center;
+                justify-content: center;
+                width: 15%;
+        
+                img {
+                    width: 35%;
+                    height: 35%;
+                    cursor: pointer;
+                }
+            }    
+        
+            .title {
+                @extend %full-width;
+                justify-content: center;
+                width: 70%;
+            }
+
+            .imgContainer {
+                @extend %full-width;
+                width: 15%;
+        
+                img {
+                    width: 75%;
+                    height: 100%;
+                }
+        
+                .teamPicture {
+                    position: absolute;
+                    top: 45%;
+                    right: 0;
+                    left: 10%;
+                    bottom: 0;
+                    z-index: 1;
+            
+                    .dmBody & {
+                        box-shadow: 0 0 0 1px $color-dark-grey;
+                    }
+                
+                    .lmBody & {
+                        box-shadow: 0 0 0 1px $color-white;
+                    }
+                }
+            }    
+        }
+
+        .infoTeam {
+            height: auto;
+            justify-content: center;
+            align-self: center;
+            padding-right: 25%;
+            padding-left: 25%;
         }
     }
     

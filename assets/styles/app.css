@@ -117,7 +117,7 @@ h1 {
   color: white;
 }
 .lmBody h1 {
-  color: #161C27;
+  color: #161c27;
 }
 
 h2 {
@@ -130,7 +130,7 @@ h2 {
   color: white;
 }
 .lmBody h2 {
-  color: #161C27;
+  color: #161c27;
 }
 
 h3 {
@@ -143,7 +143,7 @@ h3 {
   color: white;
 }
 .lmBody h3 {
-  color: #161C27;
+  color: #161c27;
 }
 
 h4 {
@@ -156,7 +156,7 @@ h4 {
   color: white;
 }
 .lmBody h4 {
-  color: #161C27;
+  color: #161c27;
 }
 
 .geoloc .ant-modal-content,
@@ -222,7 +222,7 @@ html body #__layout, html {
 }
 
 .dmBody {
-  background-color: #161C27;
+  background-color: #161c27;
   color: white;
 }
 .dmBody .ant-form, .dmBody .ant-form-item {
@@ -231,10 +231,10 @@ html body #__layout, html {
 
 .lmBody {
   background-color: #f1f3ff;
-  color: #161C27;
+  color: #161c27;
 }
 .lmBody .ant-form, .lmBody .ant-form-item {
-  color: #161C27;
+  color: #161c27;
 }
 
 ::-webkit-scrollbar {
@@ -269,7 +269,7 @@ html body .lmBody {
   width: 100%;
 }
 .dmBody .page {
-  background-color: #161C27;
+  background-color: #161c27;
 }
 .lmBody .page {
   background-color: #f1f3ff;
@@ -295,13 +295,13 @@ html body .lmBody {
 }
 
 .dmBody .ant-modal-content {
-  background-color: #1F2835;
+  background-color: #1f2835;
   color: white;
 }
 
 .lmBody .ant-modal-content {
   background-color: white;
-  color: #161C27;
+  color: #161c27;
 }
 
 [class|=nuxt-link],
@@ -483,7 +483,7 @@ a:active {
 .dmBody .principalInput:focus,
 .dmBody .principalInput:active,
 .dmBody .principalInput:not(:hover) {
-  background: #1F2835;
+  background: #1f2835;
 }
 .lmBody .principalInput,
 .lmBody .principalInput:hover,
@@ -498,14 +498,14 @@ a:active {
 .dmBody .principalInput:active input,
 .dmBody .principalInput:not(:hover) input {
   color: white;
-  background: #1F2835;
+  background: #1f2835;
 }
 .lmBody .principalInput input,
 .lmBody .principalInput:hover input,
 .lmBody .principalInput:focus input,
 .lmBody .principalInput:active input,
 .lmBody .principalInput:not(:hover) input {
-  color: #161C27;
+  color: #161c27;
   background: white;
 }
 .has-error .principalInput,
@@ -538,13 +538,13 @@ a:active {
 .dmBody .ant-form-item-children:active,
 .dmBody .ant-form-item-children:focus {
   -webkit-text-fill-color: white;
-  background: #1F2835;
+  background: #1f2835;
 }
 .lmBody .ant-form-item-children,
 .lmBody .ant-form-item-children:hover,
 .lmBody .ant-form-item-children:active,
 .lmBody .ant-form-item-children:focus {
-  -webkit-text-fill-color: #161C27;
+  -webkit-text-fill-color: #161c27;
   background: white;
 }
 
@@ -553,7 +553,7 @@ a:active {
   color: #6457e3 !important;
 }
 .dmBody .ant-form-explain {
-  background: #161C27;
+  background: #161c27;
 }
 .lmBody .ant-form-explain {
   background: #f1f3ff;
@@ -575,12 +575,12 @@ a:active {
 }
 .dmBody .dateSelector,
 .dmBody .dateSelector:hover {
-  background: #161C27;
+  background: #161c27;
 }
 .dmBody .dateSelector .ant-select-selection,
 .dmBody .dateSelector:hover .ant-select-selection {
   color: white;
-  background: #1F2835;
+  background: #1f2835;
 }
 .dmBody .dateSelector .ant-select-selection svg,
 .dmBody .dateSelector:hover .ant-select-selection svg {
@@ -596,16 +596,16 @@ a:active {
 }
 .lmBody .dateSelector .ant-select-selection,
 .lmBody .dateSelector:hover .ant-select-selection {
-  color: #161C27;
+  color: #161c27;
   background: white;
 }
 .lmBody .dateSelector .ant-select-selection svg,
 .lmBody .dateSelector:hover .ant-select-selection svg {
-  color: #161C27;
+  color: #161c27;
 }
 .lmBody .dateSelector label,
 .lmBody .dateSelector:hover label {
-  color: #161C27;
+  color: #161c27;
 }
 .has-error .dateSelector .ant-select-selection,
 .has-error .dateSelector:hover .ant-select-selection {
@@ -646,7 +646,7 @@ a:active {
 }
 
 .dmBody .optionSelector {
-  background: #161C27;
+  background: #161c27;
 }
 .lmBody .optionSelector {
   background: #f1f3ff;
@@ -664,7 +664,7 @@ a:active {
 }
 .dmBody .optionSelector .ant-radio-wrapper {
   color: white;
-  background: #1F2835;
+  background: #1f2835;
 }
 .dmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) {
   grid-area: radio;
@@ -696,7 +696,7 @@ a:active {
   align-self: center;
 }
 .lmBody .optionSelector .ant-radio-wrapper {
-  color: #161C27;
+  color: #161c27;
   background: white;
 }
 .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) {
@@ -708,16 +708,16 @@ a:active {
   border: none;
 }
 .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1).ant-radio-checked .ant-radio-inner {
-  border: solid 1px #161C27;
+  border: solid 1px #161c27;
 }
 .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner {
   background: none;
-  border: solid 2px #161C27;
+  border: solid 2px #161c27;
   width: 14px;
   height: 14px;
 }
 .lmBody .optionSelector .ant-radio-wrapper > span:nth-child(1) .ant-radio-inner::after {
-  background-color: #161C27;
+  background-color: #161c27;
   top: 1px;
   left: 1px;
   width: 10px;
@@ -735,7 +735,7 @@ a:active {
   color: white;
 }
 .lmBody .optionSelector label {
-  color: #161C27;
+  color: #161c27;
 }
 
 .backBtn {
@@ -754,7 +754,7 @@ a:active {
 
 .dmBody .notification {
   color: white;
-  background: #1F2835;
+  background: #1f2835;
 }
 .dmBody .notification .ant-notification-notice-message,
 .dmBody .notification .ant-notification-notice-description,
@@ -765,13 +765,13 @@ a:active {
   color: #0cecf2;
 }
 .lmBody .notification {
-  color: #161C27;
+  color: #161c27;
   background: white;
 }
 .lmBody .notification .ant-notification-notice-message,
 .lmBody .notification .ant-notification-notice-description,
 .lmBody .notification .ant-notification-close-x {
-  color: #161C27;
+  color: #161c27;
 }
 .lmBody .notification .ant-notification-notice-icon svg {
   color: #6457e3;
@@ -809,13 +809,13 @@ a:active {
   border-bottom: 2px solid white;
 }
 .lmBody .codeInput input {
-  border-bottom: 2px solid #161C27;
+  border-bottom: 2px solid #161c27;
 }
 .lmBody .codeInput input::placeholder {
   -webkit-text-fill-color: rgba(22, 28, 39, 0.2);
 }
 .lmBody .codeInput input:focus {
-  border-bottom: 2px solid #161C27;
+  border-bottom: 2px solid #161c27;
 }
 .has-error .codeInput input {
   border-bottom: 2px solid #6457e3;
@@ -935,7 +935,7 @@ a:active {
   border-radius: 30px;
   border: 0px;
   font-weight: 900;
-  color: #161C27;
+  color: #161c27;
 }
 
 .positionBtnCian,
@@ -1031,14 +1031,14 @@ a:active {
 .dmBody .metricInput:active .ant-input,
 .dmBody .metricInput:not(:hover) .ant-input {
   color: white;
-  background: #1F2835;
+  background: #1f2835;
 }
 .lmBody .metricInput .ant-input,
 .lmBody .metricInput:hover .ant-input,
 .lmBody .metricInput:focus .ant-input,
 .lmBody .metricInput:active .ant-input,
 .lmBody .metricInput:not(:hover) .ant-input {
-  color: #161C27;
+  color: #161c27;
   background: white;
 }
 .dmBody .metricInput,
@@ -1046,7 +1046,7 @@ a:active {
 .dmBody .metricInput:focus,
 .dmBody .metricInput:active,
 .dmBody .metricInput:not(:hover) {
-  background: #161C27;
+  background: #161c27;
 }
 .lmBody .metricInput,
 .lmBody .metricInput:hover,
@@ -1067,10 +1067,10 @@ a:active {
 }
 .dmBody .navbar {
   color: white;
-  background: #1F2835;
+  background: #1f2835;
 }
 .lmBody .navbar {
-  color: #161C27;
+  color: #161c27;
   background: white;
 }
 .navbar .navbarMenu, .navbar .navbarPicture {
@@ -1093,7 +1093,7 @@ a:active {
   z-index: 10;
 }
 .dmBody .navbar .teamPicture {
-  box-shadow: 0 0 0 1px #1F2835;
+  box-shadow: 0 0 0 1px #1f2835;
 }
 .lmBody .navbar .teamPicture {
   box-shadow: 0 0 0 1px white;
@@ -1107,19 +1107,19 @@ a:active {
   cursor: pointer;
 }
 .dmBody .cardBtn {
-  background-color: #161C27;
-  border-bottom: 1px solid #1F2835;
+  background-color: #161c27;
+  border-bottom: 1px solid #1f2835;
 }
 .dmBody .cardBtn:hover {
-  background-color: #1F2835;
+  background-color: #1f2835;
 }
 .dmBody .cardBtn.active {
   border-bottom: 1px solid #0cecf2;
-  color: #161C27;
+  color: #161c27;
   background-color: #0cecf2;
 }
 .dmBody .cardBtn.active .title {
-  color: #161C27;
+  color: #161c27;
 }
 .lmBody .cardBtn {
   background-color: #f1f3ff;
@@ -1155,7 +1155,7 @@ a:active {
   margin-bottom: 24px;
 }
 .dmBody .listDisplay {
-  background-color: #1F2835;
+  background-color: #1f2835;
 }
 .lmBody .listDisplay {
   background-color: white;
@@ -1179,7 +1179,7 @@ a:active {
 }
 .dmBody .listDisplay .content.patch .count,
 .dmBody .listDisplay .content.patch .date {
-  border-right: 1px solid #161C27;
+  border-right: 1px solid #161c27;
 }
 .dmBody .listDisplay .content.patch .count i,
 .dmBody .listDisplay .content.patch .date i {
@@ -1203,7 +1203,7 @@ a:active {
   align-self: center;
 }
 .dmBody .listDisplay .pictures.patch {
-  border-right: 1px solid #161C27;
+  border-right: 1px solid #161c27;
 }
 .lmBody .listDisplay .pictures.patch {
   border-right: 1px solid #f1f3ff;
@@ -1259,7 +1259,7 @@ a:active {
   color: rgba(100, 87, 227, 0.6);
 }
 
-.teams .rightContent, .teams .leftContent, .bannerChat .content, .bannerChat .imgContainer {
+.teams .rightContent .bannerInfoTeam .imgContainer, .teams .rightContent .bannerInfoTeam .title, .teams .rightContent .bannerInfoTeam .iconContainer, .teams .rightContent, .teams .leftContent, .bannerChat .content, .bannerChat .imgContainer {
   display: flex;
   flex-direction: column;
   padding: 0px;
@@ -1270,9 +1270,6 @@ a:active {
   display: flex;
   flex-direction: row;
   cursor: pointer;
-}
-.bannerChat .imgContainer {
-  border: 1px solid white;
 }
 .bannerChat .imgContainer img {
   width: 75%;
@@ -1287,64 +1284,125 @@ a:active {
   z-index: 1;
 }
 .dmBody .bannerChat .imgContainer .teamPicture {
-  box-shadow: 0 0 0 1px #1F2835;
+  box-shadow: 0 0 0 1px #1f2835;
 }
 .lmBody .bannerChat .imgContainer .teamPicture {
   box-shadow: 0 0 0 1px white;
 }
 .bannerChat .content {
-  border: 1px solid white;
   justify-content: center;
 }
 
-.lmBody .teamTabs .ant-tabs-tab, .lmBody .teamTabs .ant-tabs-nav .ant-tabs-tab-active, .dmBody .teamTabs .ant-tabs-tab, .dmBody .teamTabs .ant-tabs-nav .ant-tabs-tab-active {
+.lmBody .tabs .ant-tabs-tab, .lmBody .tabs .ant-tabs-nav .ant-tabs-tab-active, .dmBody .tabs .ant-tabs-tab, .dmBody .tabs .ant-tabs-nav .ant-tabs-tab-active {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-.teamTabs {
+.tabs {
   display: flex;
   flex-direction: row;
   justify-content: center;
   /* Esconde la barra horizontal inferior que marca la pestaña activa */
   /* Esconde la linea horizontal inferior que viene por defecto */
 }
-.teamTabs .ant-tabs-ink-bar {
+.tabs .ant-tabs-ink-bar {
   height: 0px;
 }
-.teamTabs .ant-tabs-bar {
+.tabs .ant-tabs-bar {
   border-bottom: 0px;
 }
-.teamTabs .ant-tabs-nav-container {
+.tabs .ant-tabs-nav-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-.dmBody .teamTabs .ant-tabs-nav .ant-tabs-tab-active {
+.dmBody .tabs .ant-tabs-nav .ant-tabs-tab-active {
   color: #0cecf2;
   font-weight: 900;
 }
-.dmBody .teamTabs .ant-tabs-tab {
+.dmBody .tabs .ant-tabs-tab {
   color: white;
   font-weight: 900;
 }
-.dmBody .teamTabs .tabPane {
+.dmBody .tabs .tabPane {
   color: white;
   width: 100%;
 }
-.lmBody .teamTabs .ant-tabs-nav .ant-tabs-tab-active {
+.dmBody .tabs .tabPane .divider {
+  background-color: #969696;
+}
+.lmBody .tabs .ant-tabs-nav .ant-tabs-tab-active {
   color: #6457e3;
   font-weight: 900;
 }
-.lmBody .teamTabs .ant-tabs-tab {
-  color: #161C27;
+.lmBody .tabs .ant-tabs-tab {
+  color: #161c27;
   font-weight: 900;
 }
-.lmBody .teamTabs .tabPane {
-  color: #161C27;
+.lmBody .tabs .tabPane {
+  color: #161c27;
   width: 100%;
+}
+.lmBody .tabs .tabPane .divider {
+  background-color: #969696;
+}
+
+.listBtn {
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0px 0px 0px 0px rgba(22, 28, 39, 0.1);
+  max-height: 50px;
+  margin-bottom: 5%;
+  overflow: hidden;
+}
+.listBtn .ant-avatar {
+  align-self: center;
+  margin-right: 16px;
+}
+.listBtn .contentContainer .content .desc {
+  font-weight: bold;
+  font-style: italic;
+}
+.listBtn .contentContainer .time {
+  text-align: right;
+}
+.listBtn .contentContainer .icon .iconRow {
+  text-align: right;
+}
+.listBtn .contentContainer .icon .iconRow img {
+  margin-left: 10px;
+  width: 35px;
+  height: 35px;
+}
+
+.dmBody .collapseBtn .ant-collapse {
+  background-color: white;
+}
+.dmBody .collapseBtn .ant-collapse-header {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 50px;
+}
+.dmBody .collapseBtn h2 {
+  color: #1f2835;
+}
+.lmBody .collapseBtn .ant-collapse {
+  background-color: white;
+}
+.lmBody .collapseBtn .ant-collapse-header {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 50px;
+}
+.lmBody .collapseBtn .ant-collapse-content {
+  background-color: #f1f3ff;
+}
+.collapseBtn .teamIcon {
+  position: relative;
+  top: 40px;
+  left: 15px;
 }
 
 .header {
@@ -1422,39 +1480,85 @@ a:active {
   right: 0px;
 }
 
-.teams .rightContent, .teams .leftContent, .bannerChat .imgContainer, .bannerChat .content {
+.teams .rightContent .bannerInfoTeam .imgContainer, .teams .rightContent .bannerInfoTeam .title, .teams .rightContent .bannerInfoTeam .iconContainer, .teams .rightContent, .teams .leftContent, .bannerChat .imgContainer, .bannerChat .content {
   display: flex;
   flex-direction: column;
   padding: 0px;
 }
 
 .teams .leftContent {
-  border: 1px solid white;
+  justify-content: flex-start;
 }
 .teams .leftContent .shield {
-  border: 1px solid white;
-  height: 25%;
+  height: 200px;
 }
 .teams .leftContent .shield img {
   padding-top: 30px;
   width: 300px;
 }
 .teams .leftContent .options {
-  border: 1px solid white;
   height: 75%;
   padding: 0px 60px 60px 60px;
 }
 .teams .rightContent {
-  border: 1px solid white;
+  justify-content: flex-start;
+  border-left: 1px solid #1f2835;
 }
 .teams .rightContent .banner {
-  border: 1px solid white;
   height: 20%;
+  border-bottom: 1px solid #1f2835;
 }
-.teams .rightContent .chat {
-  border: 1px solid white;
+.teams .rightContent .chatContainer {
   height: 80%;
-  background-image: url(https://media.githubusercontent.com/media/Arzov/umt-app-uxi/ca1d5869a115460b4654e349dda2474dde77285e/mockup/images/chat-background.svg);
+  background-image: url("../images/chat-background.svg");
+  opacity: 0.4;
+}
+.teams .rightContent .bannerInfoTeam {
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+}
+.teams .rightContent .bannerInfoTeam .iconContainer {
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+}
+.teams .rightContent .bannerInfoTeam .iconContainer img {
+  width: 35%;
+  height: 35%;
+  cursor: pointer;
+}
+.teams .rightContent .bannerInfoTeam .title {
+  justify-content: center;
+  width: 70%;
+}
+.teams .rightContent .bannerInfoTeam .imgContainer {
+  width: 15%;
+}
+.teams .rightContent .bannerInfoTeam .imgContainer img {
+  width: 75%;
+  height: 100%;
+}
+.teams .rightContent .bannerInfoTeam .imgContainer .teamPicture {
+  position: absolute;
+  top: 45%;
+  right: 0;
+  left: 10%;
+  bottom: 0;
+  z-index: 1;
+}
+.dmBody .teams .rightContent .bannerInfoTeam .imgContainer .teamPicture {
+  box-shadow: 0 0 0 1px #1f2835;
+}
+.lmBody .teams .rightContent .bannerInfoTeam .imgContainer .teamPicture {
+  box-shadow: 0 0 0 1px white;
+}
+.teams .rightContent .infoTeam {
+  height: auto;
+  justify-content: center;
+  align-self: center;
+  padding-right: 25%;
+  padding-left: 25%;
 }
 
 /*# sourceMappingURL=app.css.map */

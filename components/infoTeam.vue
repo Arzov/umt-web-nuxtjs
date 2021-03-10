@@ -2,34 +2,33 @@
   <div class="tabs">
     <a-tabs default-active-key="1" class="tabPane" size="large">
       <a-tabPane key="1" :tab="title1">
-        <ListBtn
-          title="FC BARCELONA"
-          desc="Matias: Hola chicos, todos listos?"
-          time="Hoy 18:20"
-          @click.native="click()"
-        />
-        <a-divider class="divider" />
-        <ListBtn
-          title="MAN. UNITED"
-          desc="Franco: Buena Cabros!"
-          time="Miércoles 16:30"
-          @click.native="click()"
-        />
+        <h4>JUGADORES</h4>
         <br>
-        <center>
-          * Sólo puedes pertenecer o crear un máximo de 3 equipos.
-        </center>
-        <br>
+        <a-row :gutter="[0, 0]" type="flex">
+          <a-col
+            v-for="k in require('./../static/data/players.json')"
+            :key="`r${k.name}`"
+            :span="24"
+          >
+            <ListBtn
+              :key="`l${k.name}`"
+              :desc="k.name"
+              :picture1="k.img"
+              :value="k.name"
+              @click.native="click()"
+            />
+          </a-col>
+        </a-row>
         <a-form-model-item>
           <PrincipalBtn
-            text="+ CREAR EQUIPO (1/3)"
+            text="+ AGREGAR JUGADOR (3/30)"
             :loading="btnLoading"
-            @click.native="createTeam()"
+            @click.native="addPlayer()"
           />
         </a-form-model-item>
       </a-tabPane>
       <a-tabPane key="2" :tab="title2">
-        <CollapseBtn />
+        Content of Tab Pane 2
       </a-tabPane>
     </a-tabs>
   </div>
@@ -51,8 +50,8 @@ export default {
     click () {
       console.log('Probando click de listDisplay para el chat')
     },
-    createTeam () {
-      console.log('Probando click para crear equipos')
+    addPlayer () {
+      console.log('Probando click para agregar jugadores')
     }
   }
 }

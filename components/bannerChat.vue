@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row class="bannerChat" @click="toggle">
+    <a-row class="bannerChat">
       <a-col class="imgContainer" :span="4">
         <img src="../assets/images/corner-top-right.svg" alt="">
         <a-avatar
@@ -42,9 +42,6 @@ export default {
     getImage (image) {
       const mode = this._themePreference === 'light' ? 'lm' : 'dm'
       return require(`@/assets/icons/${mode}-${image}`)
-    },
-    toggle () {
-      this.$emit('click', this.value)
     }
   }
 }
