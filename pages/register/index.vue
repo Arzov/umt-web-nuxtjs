@@ -71,51 +71,51 @@
 
 <script>
 export default {
-  data () {
-    return {
-      ruleForm: {
-        firstName: '',
-        email: '',
-        password: '',
-        birthdate: {
-          day: undefined,
-          month: undefined,
-          year: undefined
-        },
-        gender: 'M'
-      },
-      rules: {
-        firstName: this.$RULES.firstName.rules,
-        email: this.$RULES.email.rules,
-        password: this.$RULES.password.rules,
-        birthdate: this.$RULES.birthdate.rules
-      }
-    }
-  },
-  methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true
-          this.$store.dispatch('register/signUp', {
-            firstName: this.ruleForm.firstName,
-            email: this.ruleForm.email.toLowerCase(),
-            password: this.ruleForm.password,
-            birthdate: this.ruleForm.birthdate,
-            gender: this.ruleForm.gender
-          })
-            .then(() => {
-              this.btnLoading = false
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
-        } else {
-          return false
+    data () {
+        return {
+            ruleForm: {
+                firstName: '',
+                email: '',
+                password: '',
+                birthdate: {
+                    day: undefined,
+                    month: undefined,
+                    year: undefined
+                },
+                gender: 'M'
+            },
+            rules: {
+                firstName: this.$RULES.firstName.rules,
+                email: this.$RULES.email.rules,
+                password: this.$RULES.password.rules,
+                birthdate: this.$RULES.birthdate.rules
+            }
         }
-      })
+    },
+    methods: {
+        submitForm (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.btnLoading = true
+                    this.$store.dispatch('register/signUp', {
+                        firstName: this.ruleForm.firstName,
+                        email: this.ruleForm.email.toLowerCase(),
+                        password: this.ruleForm.password,
+                        birthdate: this.ruleForm.birthdate,
+                        gender: this.ruleForm.gender
+                    })
+                        .then(() => {
+                            this.btnLoading = false
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                } else {
+                    return false
+                }
+            })
+        }
     }
-  }
 }
 </script>

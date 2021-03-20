@@ -77,22 +77,22 @@
 <script>
 import loadingAvatar from './loadingAvatar.vue'
 export default {
-  components: { loadingAvatar },
-  props: {
-    match: { type: Object, default: () => {} },
-    team: { type: Object, default: () => {} },
-    loading: { type: Boolean, default: false },
-    type: { type: String, default: 'challenge' }
-  },
-  methods: {
-    getImage (image) {
-      if (image === '') {
-        const mode = this._themePreference === 'light' ? 'lm' : 'dm'
-        return require(`@/assets/icons/${mode}-team-profile.svg`)
-      } else {
-        return image
-      }
+    components: { loadingAvatar },
+    props: {
+        match: { type: Object, default: () => {} },
+        team: { type: Object, default: () => {} },
+        loading: { type: Boolean, default: false },
+        type: { type: String, default: 'challenge' }
+    },
+    methods: {
+        getImage (image) {
+            if (image === '') {
+                const mode = this._themePreference === 'light' ? 'lm' : 'dm'
+                return require(`@/assets/icons/${mode}-team-profile.svg`)
+            } else {
+                return image
+            }
+        }
     }
-  }
 }
 </script>

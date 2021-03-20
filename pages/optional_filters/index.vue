@@ -46,43 +46,43 @@
 
 <script>
 export default {
-  layout: 'corners',
-  data () {
-    return {
-      ruleForm: {
-        matchFilter: ['5v5'],
-        ageFilter: [18, 22]
-      }
-    }
-  },
-  methods: {
-    submitForm (formName, isSkip) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          if (!isSkip) { this.btnLoading = true }
-          this.$store
-            .dispatch('optionalFilters/save', {
-              email: this._userState.email,
-              matchFilter: this.ruleForm.matchFilter,
-              ageFilter: this.ruleForm.ageFilter,
-              positions: this._userState.positions,
-              skills: this._userState.skills,
-              foot: this._userState.foot,
-              weight: this._userState.weight,
-              height: this._userState.height
-            })
-            .then(() => {
-              this.btnLoading = false
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
-        } else {
-          return false
+    layout: 'corners',
+    data () {
+        return {
+            ruleForm: {
+                matchFilter: ['5v5'],
+                ageFilter: [18, 22]
+            }
         }
-      })
+    },
+    methods: {
+        submitForm (formName, isSkip) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if (!isSkip) { this.btnLoading = true }
+                    this.$store
+                        .dispatch('optionalFilters/save', {
+                            email: this._userState.email,
+                            matchFilter: this.ruleForm.matchFilter,
+                            ageFilter: this.ruleForm.ageFilter,
+                            positions: this._userState.positions,
+                            skills: this._userState.skills,
+                            foot: this._userState.foot,
+                            weight: this._userState.weight,
+                            height: this._userState.height
+                        })
+                        .then(() => {
+                            this.btnLoading = false
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                } else {
+                    return false
+                }
+            })
+        }
     }
-  }
 }
 </script>

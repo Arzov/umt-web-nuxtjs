@@ -57,59 +57,59 @@
 <script>
 import startImagesLayout from '../../components/startImagesLayout.vue'
 export default {
-  components: { startImagesLayout },
-  data () {
-    return {
-      ruleForm: {
-        email: '',
-        password: ''
-      },
-      rules: {
-        email: this.$RULES.email.rules,
-        password: this.$RULES.password.rules
-      }
-    }
-  },
-  mounted () {
-    this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
-      switch (event) {
-        case 'signIn': {
-          const email = data.signInUserSession.idToken.payload.email
-          this.$store.dispatch('user/fetch', { email })
-            .then((result) => {
-              this.btnLoading = false
-              this.$router.push('/home')
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
+    components: { startImagesLayout },
+    data () {
+        return {
+            ruleForm: {
+                email: '',
+                password: ''
+            },
+            rules: {
+                email: this.$RULES.email.rules,
+                password: this.$RULES.password.rules
+            }
+        }
+    },
+    mounted () {
+        this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
+            switch (event) {
+            case 'signIn': {
+                const email = data.signInUserSession.idToken.payload.email
+                this.$store.dispatch('user/fetch', { email })
+                    .then((result) => {
+                        this.btnLoading = false
+                        this.$router.push('/home')
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                        this.btnLoading = false
+                    })
 
-          break
-        }
-      }
-    })
-  },
-  methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true
-          this.$store.dispatch('start/signIn', {
-            email: this.ruleForm.email.toLowerCase(),
-            password: this.ruleForm.password
-          })
-            .then(() => {
+                break
+            }
+            }
+        })
+    },
+    methods: {
+        submitForm (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.btnLoading = true
+                    this.$store.dispatch('start/signIn', {
+                        email: this.ruleForm.email.toLowerCase(),
+                        password: this.ruleForm.password
+                    })
+                        .then(() => {
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                } else {
+                    return false
+                }
             })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
-        } else {
-          return false
         }
-      })
     }
-  }
 }
 </script>

@@ -9,10 +9,10 @@
 
 <script>
 export default {
-  methods: {
-    switchTheme () {
-      this.$store.dispatch('global/setTheme')
+    methods: {
+        switchTheme () {
+            this.$store.dispatch('global/setTheme')
+        }
     }
-  }
 }
 </script>

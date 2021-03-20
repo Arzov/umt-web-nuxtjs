@@ -92,92 +92,92 @@
 import { validGeoloc } from '@/plugins/mixins'
 
 export default {
-  mixins: [validGeoloc],
-  layout: 'navbar',
-  data () {
-    return {
-      loading: true,
-      options: require('@/static/data/homeOptions.json')
-    }
-  },
-  computed: {
-    _activeOption () {
-      return this.options.filter(m => m.active === true)[0].key
+    mixins: [validGeoloc],
+    layout: 'navbar',
+    data () {
+        return {
+            loading: true,
+            options: require('@/static/data/homeOptions.json')
+        }
     },
-    _nearTeams () {
-      return this.$store.getters['home/get'].nearTeams
+    computed: {
+        _activeOption () {
+            return this.options.filter(m => m.active === true)[0].key
+        },
+        _nearTeams () {
+            return this.$store.getters['home/get'].nearTeams
+        },
+        _nearMatches () {
+            return this.$store.getters['home/get'].nearMatches
+        }
     },
-    _nearMatches () {
-      return this.$store.getters['home/get'].nearMatches
-    }
-  },
-  mounted () {
-    this.$store.dispatch('user/listTeams')
-      .catch((e) => {
-        this.showNotification(e.title, e.msg, e.type)
-      })
-
-    this.callStore(this._activeOption)
-  },
-  methods: {
-    callStore (action) {
-      switch (action) {
-        case 'challenge': {
-          if (this._userState.primaryTeam) {
-            this.$store.dispatch('home/nearTeams', { forJoin: false })
-              .then(() => {
-                this.loading = false
-              })
-              .catch((e) => {
+    mounted () {
+        this.$store.dispatch('user/listTeams')
+            .catch((e) => {
                 this.showNotification(e.title, e.msg, e.type)
-              })
-          }
-          break
-        }
+            })
 
-        case 'patch': {
-          this.$store.dispatch('home/nearMatches', { forJoin: false })
-            .then(() => {
-              this.loading = false
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-            })
-          break
-        }
-
-        case 'search': {
-          this.$store.dispatch('home/nearTeams', { forJoin: true })
-            .then(() => {
-              this.loading = false
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-            })
-          break
-        }
-      }
+        this.callStore(this._activeOption)
     },
-    selectOption (e) {
-      // Evita recargar cuando ya esta seleccionada la opcion
-      if (e !== this._activeOption) {
-        this.options = this.options.map((m) => {
-          let active = false
+    methods: {
+        callStore (action) {
+            switch (action) {
+            case 'challenge': {
+                if (this._userState.primaryTeam) {
+                    this.$store.dispatch('home/nearTeams', { forJoin: false })
+                        .then(() => {
+                            this.loading = false
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                        })
+                }
+                break
+            }
 
-          if (m.key === e) {
-            active = true
-          }
+            case 'patch': {
+                this.$store.dispatch('home/nearMatches', { forJoin: false })
+                    .then(() => {
+                        this.loading = false
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                break
+            }
 
-          return {
-            ...m,
-            active
-          }
-        })
+            case 'search': {
+                this.$store.dispatch('home/nearTeams', { forJoin: true })
+                    .then(() => {
+                        this.loading = false
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                break
+            }
+            }
+        },
+        selectOption (e) {
+            // Evita recargar cuando ya esta seleccionada la opcion
+            if (e !== this._activeOption) {
+                this.options = this.options.map((m) => {
+                    let active = false
 
-        this.loading = true
-        this.callStore(e)
-      }
+                    if (m.key === e) {
+                        active = true
+                    }
+
+                    return {
+                        ...m,
+                        active
+                    }
+                })
+
+                this.loading = true
+                this.callStore(e)
+            }
+        }
     }
-  }
 }
 </script>

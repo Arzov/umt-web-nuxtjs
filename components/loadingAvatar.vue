@@ -4,8 +4,8 @@
 
 <script>
 export default {
-  props: {
-    size: { type: String, default: 'default' }
-  }
+    props: {
+        size: { type: String, default: 'default' }
+    }
 }
 </script>

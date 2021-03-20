@@ -7,15 +7,15 @@ import height from './rules/height.js'
 import weight from './rules/weight.js'
 
 export default (ctx, inject) => {
-  const RULES = {
-    email,
-    password,
-    firstName,
-    birthdate,
-    code,
-    height,
-    weight
-  }
+    const RULES = {
+        email,
+        password,
+        firstName,
+        birthdate,
+        code,
+        height,
+        weight
+    }
 
-  inject('RULES', RULES)
+    inject('RULES', RULES)
 }

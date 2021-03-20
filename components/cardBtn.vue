@@ -12,25 +12,25 @@
 
 <script>
 export default {
-  props: {
-    icon: {
-      type: Object,
-      default: () => { return { normal: '', active: '' } }
+    props: {
+        icon: {
+            type: Object,
+            default: () => { return { normal: '', active: '' } }
+        },
+        title: { type: String, default: '' },
+        desc: { type: String, default: '' },
+        active: { type: Boolean, default: false },
+        value: { type: String, default: null }
     },
-    title: { type: String, default: '' },
-    desc: { type: String, default: '' },
-    active: { type: Boolean, default: false },
-    value: { type: String, default: null }
-  },
-  methods: {
-    getImage (icon) {
-      const mode = this._themePreference === 'light' ? 'lm' : 'dm'
-      const type = this.active ? icon.active : icon.normal
-      return require(`@/assets/icons/${mode}-${type}`)
-    },
-    toggle () {
-      this.$emit('change', this.value)
+    methods: {
+        getImage (icon) {
+            const mode = this._themePreference === 'light' ? 'lm' : 'dm'
+            const type = this.active ? icon.active : icon.normal
+            return require(`@/assets/icons/${mode}-${type}`)
+        },
+        toggle () {
+            this.$emit('change', this.value)
+        }
     }
-  }
 }
 </script>
