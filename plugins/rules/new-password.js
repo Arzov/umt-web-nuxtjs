@@ -1,15 +1,15 @@
-import passwordRules from './password'
+import passwordRules from "./password";
 
 export default {
-    title: 'Contraseña nueva',
+    title: "Contraseña nueva",
     required: true,
-    placeholder: 'Ingresa tu nueva contraseña',
-    extra: '',
+    placeholder: "Ingresa tu nueva contraseña",
+    extra: "",
     decorator: [
-        'password',
+        "password",
         {
             initialValue: undefined,
-            rules: passwordRules
-        }
-    ]
-}
+            rules: passwordRules,
+        },
+    ],
+};

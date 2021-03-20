@@ -91,3 +91,4 @@ sw.*
 
 # CSS files
 *.css
+*.css.map

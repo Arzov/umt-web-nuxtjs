@@ -1,12 +1,57 @@
 {
     "GK": { "value": "GK", "text": "PO", "desc": "Portero", "color": "Cian" },
-    "LB": { "value": "LB", "text": "DFI", "desc": "Defensa izquierdo", "color": "Violet" },
-    "CB": { "value": "CB", "text": "DFC", "desc": "Defensa central", "color": "Violet" },
-    "RB": { "value": "RB", "text": "DFD", "desc": "Defensa derecho", "color": "Violet" },
-    "LM": { "value": "LM", "text": "MI", "desc": "Medio campo izquierdo", "color": "Pink" },
-    "CM": { "value": "CM", "text": "MC", "desc": "Medio campo", "color": "Pink" },
-    "RM": { "value": "RM", "text": "MD", "desc": "Medio campo derecho", "color": "Pink" },
-    "LW": { "value": "LW", "text": "DI", "desc": "Delantero izquierdo", "color": "Purple" },
-    "CF": { "value": "CF", "text": "DC", "desc": "Delantero centro", "color": "Purple" },
-    "RW": { "value": "RW", "text": "DD", "desc": "Delantero derecho", "color": "Purple" }
+    "LB": {
+        "value": "LB",
+        "text": "DFI",
+        "desc": "Defensa izquierdo",
+        "color": "Violet"
+    },
+    "CB": {
+        "value": "CB",
+        "text": "DFC",
+        "desc": "Defensa central",
+        "color": "Violet"
+    },
+    "RB": {
+        "value": "RB",
+        "text": "DFD",
+        "desc": "Defensa derecho",
+        "color": "Violet"
+    },
+    "LM": {
+        "value": "LM",
+        "text": "MI",
+        "desc": "Medio campo izquierdo",
+        "color": "Pink"
+    },
+    "CM": {
+        "value": "CM",
+        "text": "MC",
+        "desc": "Medio campo",
+        "color": "Pink"
+    },
+    "RM": {
+        "value": "RM",
+        "text": "MD",
+        "desc": "Medio campo derecho",
+        "color": "Pink"
+    },
+    "LW": {
+        "value": "LW",
+        "text": "DI",
+        "desc": "Delantero izquierdo",
+        "color": "Purple"
+    },
+    "CF": {
+        "value": "CF",
+        "text": "DC",
+        "desc": "Delantero centro",
+        "color": "Purple"
+    },
+    "RW": {
+        "value": "RW",
+        "text": "DD",
+        "desc": "Delantero derecho",
+        "color": "Purple"
+    }
 }

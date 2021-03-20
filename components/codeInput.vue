@@ -1,70 +1,82 @@
 <template>
-  <div class="codeInput">
-    <input
-      v-for="n in length"
-      :key="n"
-      :ref="'cn-' + n"
-      type="number"
-      maxlength="1"
-      :min="0"
-      :max="9"
-      placeholder="0"
-      @keyup="onKeyUp($event, n)"
-      @change="triggerChange"
-    >
-  </div>
+    <div class="codeInput">
+        <input
+            v-for="n in length"
+            :key="n"
+            :ref="'cn-' + n"
+            type="number"
+            maxlength="1"
+            :min="0"
+            :max="9"
+            placeholder="0"
+            @keyup="onKeyUp($event, n)"
+            @change="triggerChange"
+        />
+    </div>
 </template>
 
 <script>
 export default {
-    data () {
+    data() {
         return {
             code: [],
             length: 6,
-            previousValue: undefined
-        }
+            previousValue: undefined,
+        };
     },
     methods: {
-        onKeyUp (event, key) {
-            const aux = this.code[key - 1] ? this.code[key - 1] + event.key : undefined
+        onKeyUp(event, key) {
+            const aux = this.code[key - 1]
+                ? this.code[key - 1] + event.key
+                : undefined;
 
             // Number greater than 10
             if (this.code[key - 1] && aux && Number(aux) > 10) {
-                event.preventDefault()
-                this.code[key - 1] = Number(event.key)
+                event.preventDefault();
+                this.code[key - 1] = Number(event.key);
 
-            // Digit not in [0 - 9]
-            } else if (Number(event.keyCode) < 48 || Number(event.keyCode) > 57) {
-                event.preventDefault()
+                // Digit not in [0 - 9]
+            } else if (
+                Number(event.keyCode) < 48 ||
+                Number(event.keyCode) > 57
+            ) {
+                event.preventDefault();
             } else {
-                this.code[key - 1] = Number(event.key)
+                this.code[key - 1] = Number(event.key);
             }
 
-            this.$refs['cn-' + key][0].value = this.code[key - 1]
+            this.$refs["cn-" + key][0].value = this.code[key - 1];
 
-            if ((Number(event.keyCode) >= 48 && Number(event.keyCode) <= 57)) {
+            if (Number(event.keyCode) >= 48 && Number(event.keyCode) <= 57) {
                 // If exist next digit's input
-                if (this.$refs['cn-' + (key + 1)]) {
-                    this.$refs['cn-' + (key + 1)][0].focus()
+                if (this.$refs["cn-" + (key + 1)]) {
+                    this.$refs["cn-" + (key + 1)][0].focus();
 
-                // Out in last digit's input
+                    // Out in last digit's input
                 } else {
-                    this.$refs['cn-' + key][0].blur()
+                    this.$refs["cn-" + key][0].blur();
                 }
-            } else if (event.key === 'Backspace' && this.$refs['cn-' + (key - 1)]) {
-                this.$refs['cn-' + (key - 1)][0].focus()
+            } else if (
+                event.key === "Backspace" &&
+                this.$refs["cn-" + (key - 1)]
+            ) {
+                this.$refs["cn-" + (key - 1)][0].focus();
             }
         },
 
-        triggerChange () {
-            let code = ''
+        triggerChange() {
+            let code = "";
             this.code.forEach((n) => {
-                if (n || n === 0) { code += n.toString() } else { code += '' }
-            })
+                if (n || n === 0) {
+                    code += n.toString();
+                } else {
+                    code += "";
+                }
+            });
 
-            this.$emit('input', code)
-            this.$emit('change', code)
-        }
-    }
-}
+            this.$emit("input", code);
+            this.$emit("change", code);
+        },
+    },
+};
 </script>

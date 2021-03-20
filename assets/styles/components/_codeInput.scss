@@ -19,7 +19,7 @@
             margin: 0;
         }
 
-        &[type=number] {
+        &[type="number"] {
             -moz-appearance: textfield;
         }
 
@@ -34,7 +34,7 @@
                 border-bottom: 2px solid $color-white;
             }
         }
-    
+
         .lmBody & {
             border-bottom: 2px solid $color-black;
 

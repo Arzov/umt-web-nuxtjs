@@ -28,7 +28,7 @@ export const arv = {
               email
             }
           }
-        `
+        `,
     },
     queries: {
         getUser: `
@@ -46,9 +46,9 @@ export const arv = {
               picture
             }
           }
-        `
-    }
-}
+        `,
+    },
+};
 
 export const umt = {
     queries: {
@@ -187,7 +187,7 @@ export const umt = {
               nextToken
             }
           }
-        `
+        `,
     },
     mutations: {
         addUser: `
@@ -271,6 +271,6 @@ export const umt = {
               height
             }
           }
-        `
-    }
-}
+        `,
+    },
+};

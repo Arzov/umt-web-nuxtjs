@@ -1,32 +1,32 @@
 <template>
-  <a-button :class="`positionBtn${color}${stat}`" @click="toggle">
-    <b>{{ text }}</b>
-  </a-button>
+    <a-button :class="`positionBtn${color}${stat}`" @click="toggle">
+        <b>{{ text }}</b>
+    </a-button>
 </template>
 
 <script>
 export default {
     props: {
-        text: { type: String, default: '' },
-        color: { type: String, default: '' },
-        status: { type: String, default: '' },
-        value: { type: String, default: null }
+        text: { type: String, default: "" },
+        color: { type: String, default: "" },
+        status: { type: String, default: "" },
+        value: { type: String, default: null },
     },
-    data () {
+    data() {
         return {
-            stat: this.status
-        }
+            stat: this.status,
+        };
     },
     methods: {
-        toggle () {
-            if (this.stat === '') {
-                this.stat = 'On'
-                this.$emit('change', { key: this.value, value: this.value })
+        toggle() {
+            if (this.stat === "") {
+                this.stat = "On";
+                this.$emit("change", { key: this.value, value: this.value });
             } else {
-                this.stat = ''
-                this.$emit('change', { key: this.value, value: null })
+                this.stat = "";
+                this.$emit("change", { key: this.value, value: null });
             }
-        }
-    }
-}
+        },
+    },
+};
 </script>
