@@ -1,19 +1,19 @@
 #!/bin/bash
 # ==========================================================
-# Deploy frontend en AWS
-# Author : Franco Barrientos <franco.barrientos@arzov.com>
+# Deploy to AWS
+# @author : Franco Barrientos <franco.barrientos@arzov.com>
 # ==========================================================
 
 
 # ----------------------------------------------------------
-#  Cargar variables de entorno
+#  Load environment variables
 # ----------------------------------------------------------
 
 chmod +x env.sh; source ./env.sh
 
 
 # ----------------------------------------------------------
-#  Deploy de Nuxt
+#  Nuxt deploy
 # ----------------------------------------------------------
 
 export AWS_BUCKET_NAME="$AWS_S3_WEB_BUCKET"

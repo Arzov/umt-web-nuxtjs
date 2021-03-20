@@ -126,66 +126,66 @@
 
 <script>
 export default {
-  layout: 'none',
-  data () {
-    return {
-      ruleForm: {
-        height: 0,
-        weight: 0,
-        matchFilter: '5v5',
-        genderFilter: 'M',
-        ageFilter: [18, 22],
-        positions: [],
-        foot: 'R'
-      },
-      /* TODO: Eliminar teams, ya que los equipos vendrán desde el backend */
-      teams: [
-        {
-          id: 'realmadrid',
-          name: 'Real Madrid',
-          picture: ''
-        },
-        {
-          id: 'barcelona',
-          name: 'FC Barcelona',
-          picture: ''
+    layout: 'none',
+    data () {
+        return {
+            ruleForm: {
+                height: 0,
+                weight: 0,
+                matchFilter: '5v5',
+                genderFilter: 'M',
+                ageFilter: [18, 22],
+                positions: [],
+                foot: 'R'
+            },
+            /* TODO: Eliminar teams, ya que los equipos vendrán desde el backend */
+            teams: [
+                {
+                    id: 'realmadrid',
+                    name: 'Real Madrid',
+                    picture: ''
+                },
+                {
+                    id: 'barcelona',
+                    name: 'FC Barcelona',
+                    picture: ''
+                }
+            ],
+            rules: {
+                height: this.$RULES.height.rules,
+                weight: this.$RULES.weight.rules
+            }
         }
-      ],
-      rules: {
-        height: this.$RULES.height.rules,
-        weight: this.$RULES.weight.rules
-      }
-    }
-  },
-  methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true
-          this.$store.dispatch('profile/save', {
-            height: this.ruleForm.height,
-            weight: this.ruleForm.weight,
-            matchFilter: this.ruleForm.matchFilter,
-            genderFilter: this.ruleForm.genderFilter,
-            ageFilter: this.ruleForm.ageFilter,
-            positions: this.ruleForm.positions,
-            foot: this.ruleForm.foot
-          })
-          this.btnLoading = false
-        } else {
-          return false
-        }
-      })
     },
-    setPosition (e) {
-      if (e.value !== null) {
-        this.ruleForm.positions.push(e.value)
-      } else {
-        this.ruleForm.positions = this.ruleForm.positions.filter((value) => {
-          return value !== e.key
-        })
-      }
+    methods: {
+        submitForm (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.btnLoading = true
+                    this.$store.dispatch('profile/save', {
+                        height: this.ruleForm.height,
+                        weight: this.ruleForm.weight,
+                        matchFilter: this.ruleForm.matchFilter,
+                        genderFilter: this.ruleForm.genderFilter,
+                        ageFilter: this.ruleForm.ageFilter,
+                        positions: this.ruleForm.positions,
+                        foot: this.ruleForm.foot
+                    })
+                    this.btnLoading = false
+                } else {
+                    return false
+                }
+            })
+        },
+        setPosition (e) {
+            if (e.value !== null) {
+                this.ruleForm.positions.push(e.value)
+            } else {
+                this.ruleForm.positions = this.ruleForm.positions.filter((value) => {
+                    return value !== e.key
+                })
+            }
+        }
     }
-  }
 }
 </script>

@@ -1,6 +1,5 @@
 const actions = {
     save (ctx, data) {
-        // TODO: Revisar este comportamiento desde backend (mejorar)
         const positions = data.positions.length ? data.positions : null
         const params = {
             height: data.height,
@@ -8,7 +7,7 @@ const actions = {
             foot: data.foot,
             positions
         }
-        // TODO: Revisar si los commit son asincronos y decidir si hay que esperarlos o no
+        // TODO: Review async commits
         ctx.commit('user/setState', { params }, { root: true })
         this.$router.push('/optional_filters')
     }

@@ -22,9 +22,9 @@
 
 <script>
 export default {
-  props: {
-    label: { type: String, default: 'Selecciona' },
-    teams: { type: Array, default: () => {} }
-  }
+    props: {
+        label: { type: String, default: 'Selecciona' },
+        teams: { type: Array, default: () => {} }
+    }
 }
 </script>

@@ -63,9 +63,7 @@ const actions = {
                         verified: result.data.getUser.verified
                     }
 
-                    // TODO: Si picture == email+profile.png entonces usar
-                    //       this.$AWS.Storage.get() para traer la url de la
-                    //       imagen
+                    // TODO: Upload image to S3 logic
 
                     ctx.commit('setState', { params })
 

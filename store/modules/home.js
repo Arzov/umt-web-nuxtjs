@@ -24,9 +24,12 @@ const getters = {
 
 const actions = {
     nearTeams (ctx, data) {
-        const ownTeams = ctx.rootState.user.teams.map((x) => {
-            return x.id
-        })
+        const ownTeams = ctx.rootState.user.team
+            ? ctx.rootState.user.teams.map((x) => {
+                return x.id
+            })
+            : null
+
         const params = data.forJoin
             ? {
                 ownTeams,
@@ -95,9 +98,11 @@ const actions = {
         })
     },
     nearMatches (ctx, data) {
-        const ownTeams = ctx.rootState.user.teams.map((x) => {
-            return x.id
-        })
+        const ownTeams = ctx.rootState.user.team
+            ? ctx.rootState.user.teams.map((x) => {
+                return x.id
+            })
+            : null
 
         return new Promise((resolve, reject) => {
             this.$AWS.Amplify.configure(awsconfig.umt)

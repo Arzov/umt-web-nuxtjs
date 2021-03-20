@@ -18,7 +18,7 @@ const actions = {
                     let response = {}
 
                     switch (err.code) {
-                    // Correo ya validado
+                    // Email already validated
                     case 'NotAuthorizedException': {
                         response = {
                             type: 'warning',
@@ -31,7 +31,7 @@ const actions = {
                         break
                     }
 
-                    // Correo invalido
+                    // Invalid email
                     case 'UserNotFoundException': {
                         response = {
                             type: 'error',
@@ -43,7 +43,7 @@ const actions = {
                         break
                     }
 
-                    // Codigo invalido o caracter invalido
+                    // Wrong code or bad character
                     case 'CodeMismatchException':
                     case 'InvalidParameterException': {
                         response = {
@@ -54,7 +54,7 @@ const actions = {
                         break
                     }
 
-                    // Limite de reenvios alcanzados
+                    // Resend limit exceeded
                     case 'LimitExceededException': {
                         response = {
                             type: 'warning',
@@ -67,7 +67,7 @@ const actions = {
                         break
                     }
 
-                    // Error desconocido
+                    // Unknown error
                     default: {
                         response = errorNotification
                         break
@@ -99,7 +99,7 @@ const actions = {
                     let response = {}
 
                     switch (err.code) {
-                    // Correo invalido
+                    // Invalid email
                     case 'UserNotFoundException': {
                         response = {
                             type: 'error',
@@ -111,7 +111,7 @@ const actions = {
                         break
                     }
 
-                    // El correo ya se encuentra validado
+                    // Email already validated
                     case 'InvalidParameterException': {
                         response = {
                             type: 'warning',
@@ -124,7 +124,7 @@ const actions = {
                         break
                     }
 
-                    // Limite de reenvios alcanzados
+                    // Resend limit exceeded
                     case 'LimitExceededException': {
                         response = {
                             type: 'warning',
@@ -137,7 +137,7 @@ const actions = {
                         break
                     }
 
-                    // Error desconocido
+                    // Unknown error
                     default: {
                         response = errorNotification
                         break

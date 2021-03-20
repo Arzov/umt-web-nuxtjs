@@ -14,7 +14,7 @@ const actions = {
                     let response = {}
 
                     switch (err.code) {
-                    // Email invalido o no registrado
+                    // Invalid email or not registered
                     case 'UserNotFoundException': {
                         response = {
                             type: 'error',
@@ -27,7 +27,7 @@ const actions = {
                         break
                     }
 
-                    // Contraseña incorrecta
+                    // Wrong password
                     case 'NotAuthorizedException': {
                         response = {
                             type: 'error',
@@ -39,12 +39,12 @@ const actions = {
                         break
                     }
 
-                    // Email sin verificar
+                    // Email unverified
                     case 'UserNotConfirmedException':
                         this.$router.push(`/email_verification/${data.email}`)
                         break
 
-                        // Error desconocido
+                    // Unknown error
                     default: {
                         response = errorNotification
                         break

@@ -18,9 +18,9 @@
 
 <script>
 export default {
-  props: {
-    nameTeam: { type: String, default: 'Team' },
-    label: { type: String, default: 'Usuario' }
-  }
+    props: {
+        nameTeam: { type: String, default: 'Team' },
+        label: { type: String, default: 'Usuario' }
+    }
 }
 </script>

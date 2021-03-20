@@ -14,7 +14,7 @@ const actions = {
                     let response = {}
 
                     switch (err.code) {
-                    // Correo invalido
+                    // Invalid email
                     case 'UserNotFoundException': {
                         response = {
                             type: 'error',
@@ -27,7 +27,7 @@ const actions = {
                         break
                     }
 
-                    // Error desconocido
+                    // Unknown error
                     default: {
                         response = errorNotification
                         break

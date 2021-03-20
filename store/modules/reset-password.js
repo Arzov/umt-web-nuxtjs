@@ -16,7 +16,7 @@ const actions = {
                     let response = {}
 
                     switch (err.code) {
-                    // Codigo invalido
+                    // Invalid code
                     case 'CodeMismatchException': {
                         response = {
                             type: 'error',
@@ -29,7 +29,7 @@ const actions = {
                         break
                     }
 
-                    // Codigo expirado
+                    // Expired code
                     case 'ExpiredCodeException': {
                         response = {
                             type: 'warning',
@@ -42,7 +42,7 @@ const actions = {
                         break
                     }
 
-                    // Correo invalido
+                    // Invalid email
                     case 'UserNotFoundException': {
                         response = {
                             type: 'error',
@@ -54,7 +54,7 @@ const actions = {
                         break
                     }
 
-                    // Limite de reenvios alcanzados
+                    // Resend limit exceeded
                     case 'LimitExceededException': {
                         response = {
                             type: 'warning',
@@ -67,7 +67,7 @@ const actions = {
                         break
                     }
 
-                    // Error desconocido
+                    // Unknown error
                     default: {
                         response = errorNotification
                         break
@@ -98,7 +98,7 @@ const actions = {
                     let response = {}
 
                     switch (err.code) {
-                    // Correo invalido
+                    // Invalid email
                     case 'UserNotFoundException': {
                         response = {
                             type: 'error',
@@ -110,7 +110,7 @@ const actions = {
                         break
                     }
 
-                    // Limite de reenvios alcanzados
+                    // Resend limit exceeded
                     case 'LimitExceededException': {
                         response = {
                             type: 'warning',
@@ -123,7 +123,7 @@ const actions = {
                         break
                     }
 
-                    // Error desconocido
+                    // Unknown error
                     default: {
                         response = errorNotification
                         break

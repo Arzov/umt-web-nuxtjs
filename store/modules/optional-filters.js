@@ -6,8 +6,6 @@ import awsconfig from '~/aws-exports'
 const actions = {
     save (ctx, data) {
         return new Promise((resolve, reject) => {
-            // TODO: Revisar comportamiento de atributos de tipo objecto con valor 'null'
-            // en backend y frontend (en este caso skills)
             const skills = data.skills ? JSON.stringify(data.skills) : null
             this.$AWS.Amplify.configure(awsconfig.umt)
             this.$AWS.API.graphql(
@@ -38,7 +36,7 @@ const actions = {
                         ageMaxFilter: result.data.addUser.ageMaxFilter,
                         matchFilter: result.data.addUser.matchFilter
                     }
-                    // TODO: Revisar si los commit son asincronos y decidir si hay que esperarlos o no
+                    // TODO: Review async commits
                     ctx.commit('user/setState', { params }, { root: true })
                     this.$router.push('/home')
                     resolve()

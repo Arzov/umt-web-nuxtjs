@@ -28,11 +28,12 @@ export default {
         onKeyUp (event, key) {
             const aux = this.code[key - 1] ? this.code[key - 1] + event.key : undefined
 
-            // Número mayor a 10
+            // Number greater than 10
             if (this.code[key - 1] && aux && Number(aux) > 10) {
                 event.preventDefault()
                 this.code[key - 1] = Number(event.key)
-                // Digito distinto entre 0 y 9
+
+            // Digit not in [0 - 9]
             } else if (Number(event.keyCode) < 48 || Number(event.keyCode) > 57) {
                 event.preventDefault()
             } else {
@@ -42,10 +43,11 @@ export default {
             this.$refs['cn-' + key][0].value = this.code[key - 1]
 
             if ((Number(event.keyCode) >= 48 && Number(event.keyCode) <= 57)) {
-                // Si hay siguiente
+                // If exist next digit's input
                 if (this.$refs['cn-' + (key + 1)]) {
                     this.$refs['cn-' + (key + 1)][0].focus()
-                    // En el ultimo se sale
+
+                // Out in last digit's input
                 } else {
                     this.$refs['cn-' + key][0].blur()
                 }

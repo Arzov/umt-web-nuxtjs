@@ -35,13 +35,13 @@
                 </div>
               </div>
               <div v-else>
-                <!-- TODO: Poner alguna imagen -->
+                <!-- TODO: Put image -->
                 <b>¡Lo sentimos!.</b> No encontramos partidos cercanos. Intenta más tarde.
               </div>
             </div>
           </div>
           <div v-else>
-            <!-- TODO: Poner alguna imagen -->
+            <!-- TODO: Put image -->
             <b>¡Lo sentimos!.</b> Debes tener un equipo para poder buscar equipos rivales.
           </div>
         </div>
@@ -58,7 +58,7 @@
               </div>
             </div>
             <div v-else>
-              <!-- TODO: Poner alguna imagen -->
+              <!-- TODO: Put image -->
               <b>¡Lo sentimos!.</b> No encontramos partidos cercanos. Intenta más tarde.
             </div>
           </div>
@@ -76,8 +76,8 @@
               </div>
             </div>
             <div v-else>
-              <!-- TODO: Poner alguna imagen -->
-              <b>¡Lo sentimos!.</b> No encontramos partidos cercanos. Intenta más tarde.
+              <!-- TODO: Put image -->
+              <b>¡Lo sentimos!.</b> No encontramos equipos cercanos. Intenta más tarde.
             </div>
           </div>
         </div>
@@ -159,7 +159,7 @@ export default {
             }
         },
         selectOption (e) {
-            // Evita recargar cuando ya esta seleccionada la opcion
+            // Avoid reload when action is already selected
             if (e !== this._activeOption) {
                 this.options = this.options.map((m) => {
                     let active = false

@@ -24,7 +24,7 @@ const actions = {
                     let response = {}
 
                     switch (err.code) {
-                    // Validación desde lambda PreSignup
+                    // AWS Lambda PreSignup validation
                     case 'UserLambdaValidationException': {
                         response = {
                             type: 'warning',
@@ -34,7 +34,7 @@ const actions = {
                         break
                     }
 
-                    // Usuario ya existe
+                    // User already exist
                     case 'UsernameExistsException': {
                         response = {
                             type: 'warning',
@@ -47,7 +47,7 @@ const actions = {
                         break
                     }
 
-                    // Error desconocido
+                    // Unknown error
                     default: {
                         response = errorNotification
                         break
