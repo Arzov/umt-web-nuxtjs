@@ -27,28 +27,28 @@
 
 <script>
 export default {
-  data () {
-    return {
-      options: require('@/static/data/navbarOptions.json')
-    }
-  },
-  computed: {
-    current () {
-      return this.$route.name
+    data () {
+        return {
+            options: require('@/static/data/navbarOptions.json')
+        }
     },
-    teamPicture () {
-      if (this._userState.primaryTeam && this._userState.primaryTeam.picture) {
-        return this._userState.primaryTeam.picture
-      } else {
-        return this.getImage('team-profile.svg')
-      }
+    computed: {
+        current () {
+            return this.$route.name
+        },
+        teamPicture () {
+            if (this._userState.primaryTeam && this._userState.primaryTeam.picture) {
+                return this._userState.primaryTeam.picture
+            } else {
+                return this.getImage('team-profile.svg')
+            }
+        }
+    },
+    methods: {
+        getImage (image) {
+            const mode = this._themePreference === 'light' ? 'lm' : 'dm'
+            return require(`@/assets/icons/${mode}-${image}`)
+        }
     }
-  },
-  methods: {
-    getImage (image) {
-      const mode = this._themePreference === 'light' ? 'lm' : 'dm'
-      return require(`@/assets/icons/${mode}-${image}`)
-    }
-  }
 }
 </script>

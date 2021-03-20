@@ -9,8 +9,8 @@
 
 <script>
 export default {
-  props: {
-    path: { type: String, default: '/' }
-  }
+    props: {
+        path: { type: String, default: '/' }
+    }
 }
 </script>

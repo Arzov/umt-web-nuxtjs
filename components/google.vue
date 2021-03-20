@@ -11,10 +11,10 @@
 import Auth from '@aws-amplify/auth'
 
 export default {
-  methods: {
-    toGoogleLogin () {
-      Auth.federatedSignIn({ provider: 'Google' })
+    methods: {
+        toGoogleLogin () {
+            Auth.federatedSignIn({ provider: 'Google' })
+        }
     }
-  }
 }
 </script>

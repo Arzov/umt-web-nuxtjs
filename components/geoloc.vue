@@ -62,67 +62,67 @@
 import errorNotification from '@/static/data/errorNotification.json'
 
 export default {
-  data () {
-    return {
-      isDenied: false
-    }
-  },
-  computed: {
-    visible () { return !this._allowGeoloc }
-  },
-  methods: {
-    back () {
-      this.isDenied = false
+    data () {
+        return {
+            isDenied: false
+        }
     },
-    getPosition () {
-      this.btnLoading = true
-      navigator.geolocation.getCurrentPosition((position) => {
-        const params = {
-          api: 'umt',
-          email: this._userState.email,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          matchFilter: this._userState.matchFilter,
-          ageMinFilter: this._userState.ageMinFilter,
-          ageMaxFilter: this._userState.ageMaxFilter,
-          positions: this._userState.positions,
-          skills: this._userState.skills,
-          foot: this._userState.foot,
-          weight: this._userState.weight,
-          height: this._userState.height
-        }
+    computed: {
+        visible () { return !this._allowGeoloc }
+    },
+    methods: {
+        back () {
+            this.isDenied = false
+        },
+        getPosition () {
+            this.btnLoading = true
+            navigator.geolocation.getCurrentPosition((position) => {
+                const params = {
+                    api: 'umt',
+                    email: this._userState.email,
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    matchFilter: this._userState.matchFilter,
+                    ageMinFilter: this._userState.ageMinFilter,
+                    ageMaxFilter: this._userState.ageMaxFilter,
+                    positions: this._userState.positions,
+                    skills: this._userState.skills,
+                    foot: this._userState.foot,
+                    weight: this._userState.weight,
+                    height: this._userState.height
+                }
 
-        this.$store.dispatch('user/update', params)
-          .then(() => {
-            const params = {
-              allowGeoloc: true
-            }
-            this.btnLoading = false
-            this.$store.dispatch('global/setGeoloc', params)
-          })
-          .catch((e) => {
-            // TODO: Arreglar estilo de notificacion
-            this.showNotification(e.title, e.msg, e.type)
-            this.btnLoading = false
-          })
-      }, (err) => {
-        this.btnLoading = false
-        switch (err.code) {
-          case err.PERMISSION_DENIED:
-            this.isDenied = true
-            break
+                this.$store.dispatch('user/update', params)
+                    .then(() => {
+                        const params = {
+                            allowGeoloc: true
+                        }
+                        this.btnLoading = false
+                        this.$store.dispatch('global/setGeoloc', params)
+                    })
+                    .catch((e) => {
+                        // TODO: Arreglar estilo de notificacion
+                        this.showNotification(e.title, e.msg, e.type)
+                        this.btnLoading = false
+                    })
+            }, (err) => {
+                this.btnLoading = false
+                switch (err.code) {
+                case err.PERMISSION_DENIED:
+                    this.isDenied = true
+                    break
 
-          default:
-            // TODO: Arreglar estilo de notificacion
-            this.showNotification(
-              errorNotification.title,
-              errorNotification.msg,
-              errorNotification.type
-            )
-            break
+                default:
+                    // TODO: Arreglar estilo de notificacion
+                    this.showNotification(
+                        errorNotification.title,
+                        errorNotification.msg,
+                        errorNotification.type
+                    )
+                    break
+                }
+            })
         }
-      })
     }
-  }
 }
 </script>

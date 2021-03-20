@@ -4,8 +4,8 @@
 
 <script>
 export default {
-  props: {
-    type: { type: String, default: 'paragraph' }
-  }
+    props: {
+        type: { type: String, default: 'paragraph' }
+    }
 }
 </script>

@@ -20,16 +20,16 @@
 
 <script>
 export default {
-  props: {
-    label: { type: String, default: 'Selecciona' },
-    value: { type: String, default: '' },
-    options: { type: Array, default: () => {} }
-  },
-  methods: {
-    triggerChange (e) {
-      this.$emit('input', e.target.value)
-      this.$emit('change', e.target.value)
+    props: {
+        label: { type: String, default: 'Selecciona' },
+        value: { type: String, default: '' },
+        options: { type: Array, default: () => {} }
+    },
+    methods: {
+        triggerChange (e) {
+            this.$emit('input', e.target.value)
+            this.$emit('change', e.target.value)
+        }
     }
-  }
 }
 </script>
