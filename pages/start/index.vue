@@ -6,8 +6,8 @@
             </a-col>
             <a-col class="rightContent" :span="12">
                 <h1>Inicio de sesión</h1>
-                <b
-                    >¿Olvidaste tu contraseña?
+                <b>
+                    ¿Olvidaste tu contraseña?
                     <nuxt-link to="/recover_password"> Recupérala. </nuxt-link>
                 </b>
 

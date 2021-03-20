@@ -26,7 +26,7 @@ export default {
     plugins: [
         "@/plugins/antd-ui",
         "@/plugins/aws",
-        "@/plugins/rules",
+        "@/plugins/rules.js",
         "@/plugins/filters",
         "@/plugins/mixins",
         "@/plugins/utils",

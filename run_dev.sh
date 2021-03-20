@@ -9,6 +9,11 @@ chmod +x env.sh; source ./env.sh
 export NUXT_ENV_ROOT_URL=http://localhost:3000
 
 # Npm install if not already
-[ ! -d "node_modules" ] && npm install
+[ ! -d "node_modules" ] && yarn
 
+# Start sass
+sass --watch ./assets/styles/app.scss:./assets/styles/app.css \
+    --cache-location ./assets/styles/.sass-cache &
+
+# Start nuxt
 nuxt

@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  dev-executor:
+    image: arzov/umt-web-nuxtjs
+    volumes:
+      - ${PWD}:/var/opt:rw
+    ports:
+      - 3000:3000
+    network_mode: bridge
+    env_file: env.list
+    tty: true
