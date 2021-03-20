@@ -25,6 +25,8 @@
 @import "components/multiSelector";
 @import "components/loadingAvatar";
 @import "components/loadingText";
+@import 'components/avatar';
+@import 'components/principalTeamSelector';
 
 @import "layouts/corners";
 @import "layouts/header";
@@ -42,3 +44,4 @@
 @import "pages/recoverPassword";
 @import "pages/resetPassword";
 @import "pages/requiredAttributes";
+@import 'pages/profile';
