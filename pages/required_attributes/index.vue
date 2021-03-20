@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="requiredAttributes">
     <a-row>
       <a-col class="leftContent" :span="12">
         <div class="image">
@@ -52,49 +52,49 @@
 import { signOut } from '@/plugins/mixins'
 
 export default {
-  layout: 'corners',
-  mixins: [signOut],
-  data () {
-    return {
-      ruleForm: {
-        birthdate: {
-          day: undefined,
-          month: undefined,
-          year: undefined
-        },
-        gender: 'M'
-      },
-      rules: {
-        birthdate: this.$RULES.birthdate.rules
-      }
-    }
-  },
-  methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true
-          this.$store
-            .dispatch('requiredAttributes/save', {
-              email: this._userState.email,
-              firstName: this._userState.firstName,
-              lastName: this._userState.lastName,
-              picture: this._userState.picture,
-              birthdate: this.ruleForm.birthdate,
-              gender: this.ruleForm.gender
-            })
-            .then(() => {
-              this.btnLoading = false
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
-        } else {
-          return false
+    layout: 'corners',
+    mixins: [signOut],
+    data () {
+        return {
+            ruleForm: {
+                birthdate: {
+                    day: undefined,
+                    month: undefined,
+                    year: undefined
+                },
+                gender: 'M'
+            },
+            rules: {
+                birthdate: this.$RULES.birthdate.rules
+            }
         }
-      })
+    },
+    methods: {
+        submitForm (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.btnLoading = true
+                    this.$store
+                        .dispatch('requiredAttributes/save', {
+                            email: this._userState.email,
+                            firstName: this._userState.firstName,
+                            lastName: this._userState.lastName,
+                            picture: this._userState.picture,
+                            birthdate: this.ruleForm.birthdate,
+                            gender: this.ruleForm.gender
+                        })
+                        .then(() => {
+                            this.btnLoading = false
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                } else {
+                    return false
+                }
+            })
+        }
     }
-  }
 }
 </script>

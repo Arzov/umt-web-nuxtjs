@@ -1,18 +1,18 @@
 export const emailRules = [
-  {
-    required: true,
-    message: 'Ingresa un correo electrónico.'
-  },
-  {
-    type: 'email',
-    message: 'Ingresa un correo válido.',
-    trigger: 'change'
-  }
+    {
+        required: true,
+        message: 'Ingresa un correo electrónico.'
+    },
+    {
+        type: 'email',
+        message: 'Ingresa un correo válido.',
+        trigger: 'change'
+    }
 ]
 
 export default {
-  name: 'email',
-  placeholder: 'Ingresa tu correo electrónico',
-  type: 'email',
-  rules: emailRules
+    name: 'email',
+    placeholder: 'Ingresa tu correo electrónico',
+    type: 'email',
+    rules: emailRules
 }

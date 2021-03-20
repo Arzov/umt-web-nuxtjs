@@ -1,0 +1,22 @@
+.home {
+    .homeTopLeft {
+        width: 20%;
+        position: absolute;
+        top: 70px;
+        left: 0px;
+    }
+
+    .homeBottomRight {
+        width: 20%;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+    }
+
+    .rightContent {
+        h3 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+    }
+}

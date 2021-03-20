@@ -97,49 +97,49 @@
 
 <script>
 export default {
-  layout: 'corners',
-  data () {
-    return {
-      ruleForm: {
-        foot: 'R',
-        positions: [],
-        weight: 0,
-        height: 0
-      },
-      rules: {
-        height: this.$RULES.height.rules,
-        weight: this.$RULES.weight.rules
-      }
-    }
-  },
-  methods: {
-    submitForm (formName, isSkip) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          if (!isSkip) { this.btnLoading = true }
-          this.$store
-            .dispatch('optionalAttributes/save', {
-              foot: this.ruleForm.foot,
-              positions: this.ruleForm.positions,
-              weight: this.ruleForm.weight,
-              height: this.ruleForm.height
-            })
-
-          this.btnLoading = false
-        } else {
-          return false
+    layout: 'corners',
+    data () {
+        return {
+            ruleForm: {
+                foot: 'R',
+                positions: [],
+                weight: 0,
+                height: 0
+            },
+            rules: {
+                height: this.$RULES.height.rules,
+                weight: this.$RULES.weight.rules
+            }
         }
-      })
     },
-    setPosition (e) {
-      if (e.value !== null) {
-        this.ruleForm.positions.push(e.value)
-      } else {
-        this.ruleForm.positions = this.ruleForm.positions.filter((value) => {
-          return value !== e.key
-        })
-      }
+    methods: {
+        submitForm (formName, isSkip) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if (!isSkip) { this.btnLoading = true }
+                    this.$store
+                        .dispatch('optionalAttributes/save', {
+                            foot: this.ruleForm.foot,
+                            positions: this.ruleForm.positions,
+                            weight: this.ruleForm.weight,
+                            height: this.ruleForm.height
+                        })
+
+                    this.btnLoading = false
+                } else {
+                    return false
+                }
+            })
+        },
+        setPosition (e) {
+            if (e.value !== null) {
+                this.ruleForm.positions.push(e.value)
+            } else {
+                this.ruleForm.positions = this.ruleForm.positions.filter((value) => {
+                    return value !== e.key
+                })
+            }
+        }
     }
-  }
 }
 </script>

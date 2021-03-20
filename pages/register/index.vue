@@ -1,18 +1,8 @@
 <template>
-  <div>
+  <div class="register">
     <a-row>
       <a-col class="leftContent" :span="12">
-        <img
-          :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
-            require('../../static/dm-logo.svg')"
-          class="logo"
-        >
-        <img class="footballShoes" src="../../assets/images/football-shoes.svg">
-        <img
-          :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
-            require('../../assets/images/dm-points.svg')"
-          class="points"
-        >
+        <StartImagesLayout />
       </a-col>
       <a-col class="rightContent" :span="12">
         <BackBtn />
@@ -81,51 +71,51 @@
 
 <script>
 export default {
-  data () {
-    return {
-      ruleForm: {
-        firstName: '',
-        email: '',
-        password: '',
-        birthdate: {
-          day: undefined,
-          month: undefined,
-          year: undefined
-        },
-        gender: 'M'
-      },
-      rules: {
-        firstName: this.$RULES.firstName.rules,
-        email: this.$RULES.email.rules,
-        password: this.$RULES.password.rules,
-        birthdate: this.$RULES.birthdate.rules
-      }
-    }
-  },
-  methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true
-          this.$store.dispatch('register/signUp', {
-            firstName: this.ruleForm.firstName,
-            email: this.ruleForm.email.toLowerCase(),
-            password: this.ruleForm.password,
-            birthdate: this.ruleForm.birthdate,
-            gender: this.ruleForm.gender
-          })
-            .then(() => {
-              this.btnLoading = false
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
-        } else {
-          return false
+    data () {
+        return {
+            ruleForm: {
+                firstName: '',
+                email: '',
+                password: '',
+                birthdate: {
+                    day: undefined,
+                    month: undefined,
+                    year: undefined
+                },
+                gender: 'M'
+            },
+            rules: {
+                firstName: this.$RULES.firstName.rules,
+                email: this.$RULES.email.rules,
+                password: this.$RULES.password.rules,
+                birthdate: this.$RULES.birthdate.rules
+            }
         }
-      })
+    },
+    methods: {
+        submitForm (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.btnLoading = true
+                    this.$store.dispatch('register/signUp', {
+                        firstName: this.ruleForm.firstName,
+                        email: this.ruleForm.email.toLowerCase(),
+                        password: this.ruleForm.password,
+                        birthdate: this.ruleForm.birthdate,
+                        gender: this.ruleForm.gender
+                    })
+                        .then(() => {
+                            this.btnLoading = false
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                } else {
+                    return false
+                }
+            })
+        }
     }
-  }
 }
 </script>

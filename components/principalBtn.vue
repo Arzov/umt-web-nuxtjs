@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  props: {
-    text: { type: String, default: '' },
-    loading: { type: Boolean, default: false }
-  }
+    props: {
+        text: { type: String, default: '' },
+        loading: { type: Boolean, default: false }
+    }
 }
 </script>

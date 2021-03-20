@@ -11,10 +11,10 @@
 import Auth from '@aws-amplify/auth'
 
 export default {
-  methods: {
-    toFacebookLogin () {
-      Auth.federatedSignIn({ provider: 'Facebook' })
+    methods: {
+        toFacebookLogin () {
+            Auth.federatedSignIn({ provider: 'Facebook' })
+        }
     }
-  }
 }
 </script>

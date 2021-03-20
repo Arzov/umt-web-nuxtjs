@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="recoverPassword">
     <a-row>
       <a-col class="leftContent" :span="12">
         <div class="image">
@@ -47,37 +47,37 @@
 
 <script>
 export default {
-  layout: 'corners',
-  data () {
-    return {
-      ruleForm: {
-        email: ''
-      },
-      rules: {
-        email: this.$RULES.email.rules
-      }
-    }
-  },
-  methods: {
-    recoverPassword (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true
-          this.$store.dispatch('recoverPassword/recover', {
-            email: this.ruleForm.email.toLowerCase()
-          })
-            .then(() => {
-              this.btnLoading = false
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
-        } else {
-          return false
+    layout: 'corners',
+    data () {
+        return {
+            ruleForm: {
+                email: ''
+            },
+            rules: {
+                email: this.$RULES.email.rules
+            }
         }
-      })
+    },
+    methods: {
+        recoverPassword (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.btnLoading = true
+                    this.$store.dispatch('recoverPassword/recover', {
+                        email: this.ruleForm.email.toLowerCase()
+                    })
+                        .then(() => {
+                            this.btnLoading = false
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                } else {
+                    return false
+                }
+            })
+        }
     }
-  }
 }
 </script>

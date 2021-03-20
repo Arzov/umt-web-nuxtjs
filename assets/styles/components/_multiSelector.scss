@@ -1,0 +1,58 @@
+%multi-select-aspects {
+    @extend %font-props;
+    box-shadow: 0 0 10px 0 rgba($color-black, 0.1);
+    border: none;
+    border-radius: 0;
+    height: 42px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+.multiSelector {
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        grid-gap: 16px;
+    }
+
+    .option {
+        @extend %multi-select-aspects;
+
+        display: grid;
+        cursor: pointer;
+        grid-template-columns: 1fr auto;
+        grid-template-areas: "label radio";
+
+        .dmBody & {
+            background: $color-dark-grey;
+
+            &.on {
+                -webkit-text-fill-color: $color-black;
+                background: $color-cian;
+            }
+        }
+
+        .lmBody & {
+            background: $color-white;
+
+            &.on {
+                -webkit-text-fill-color: $color-white;
+                background: $color-purple;
+            }
+        }
+    }
+
+    label {
+        font-size: 12px;
+
+        .dmBody & {
+            color: $color-white;
+        }
+
+        .lmBody & {
+            color: $color-black;
+        }
+    }
+}

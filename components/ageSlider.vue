@@ -18,35 +18,35 @@
 
 <script>
 export default {
-  props: {
-    label: { type: String, default: 'Rango' },
-    value: { type: Array, default: () => { return [18, 22] } },
-    fullRange: {
-      type: Object,
-      default: () => {
-        return {
-          min: 18,
-          max: 60
+    props: {
+        label: { type: String, default: 'Rango' },
+        value: { type: Array, default: () => { return [18, 22] } },
+        fullRange: {
+            type: Object,
+            default: () => {
+                return {
+                    min: 18,
+                    max: 60
+                }
+            }
         }
-      }
+    },
+    data () {
+        return {
+            textRange: {
+                min: this.value[0],
+                max: this.value[1]
+            }
+        }
+    },
+    methods: {
+        triggerChange (e) {
+            this.textRange.min = e[0]
+            this.textRange.max = e[1]
+            this.$emit('input', e)
+            this.$emit('change', e)
+        }
     }
-  },
-  data () {
-    return {
-      textRange: {
-        min: this.value[0],
-        max: this.value[1]
-      }
-    }
-  },
-  methods: {
-    triggerChange (e) {
-      this.textRange.min = e[0]
-      this.textRange.max = e[1]
-      this.$emit('input', e)
-      this.$emit('change', e)
-    }
-  }
 }
 </script>
 

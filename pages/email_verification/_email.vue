@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="emailVerification">
     <a-row>
       <a-col class="leftContent" :span="12">
         <div class="image">
@@ -49,57 +49,57 @@
 
 <script>
 export default {
-  layout: 'corners',
-  asyncData ({ params }) {
-    return {
-      email: params.email
-    }
-  },
-  validate ({ params, query, store }) {
-    if (params.email) { return true } else { return false }
-  },
-  data () {
-    return {
-      ruleForm: {
-        code: ''
-      },
-      rules: {
-        code: this.$RULES.code.rules
-      }
-    }
-  },
-  methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true
-          this.$store.dispatch('emailVerification/verify', {
-            email: this.email.toLowerCase(),
-            code: this.ruleForm.code
-          })
-            .then(() => {
-              this.btnLoading = false
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
-        } else {
-          return false
+    layout: 'corners',
+    asyncData ({ params }) {
+        return {
+            email: params.email
         }
-      })
     },
-    resendCode () {
-      this.$store.dispatch('emailVerification/resendCode', {
-        email: this.email.toLowerCase()
-      })
-        .then((r) => {
-          this.showNotification(r.title, r.msg, r.type)
-        })
-        .catch((e) => {
-          this.showNotification(e.title, e.msg, e.type)
-        })
+    validate ({ params, query, store, redirect }) {
+        if (params.email) { return true } else { redirect('/start') }
+    },
+    data () {
+        return {
+            ruleForm: {
+                code: ''
+            },
+            rules: {
+                code: this.$RULES.code.rules
+            }
+        }
+    },
+    methods: {
+        submitForm (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.btnLoading = true
+                    this.$store.dispatch('emailVerification/verify', {
+                        email: this.email.toLowerCase(),
+                        code: this.ruleForm.code
+                    })
+                        .then(() => {
+                            this.btnLoading = false
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                } else {
+                    return false
+                }
+            })
+        },
+        resendCode () {
+            this.$store.dispatch('emailVerification/resendCode', {
+                email: this.email.toLowerCase()
+            })
+                .then((r) => {
+                    this.showNotification(r.title, r.msg, r.type)
+                })
+                .catch((e) => {
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+        }
     }
-  }
 }
 </script>

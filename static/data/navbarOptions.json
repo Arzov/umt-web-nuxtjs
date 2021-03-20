@@ -1,0 +1,29 @@
+[
+    {
+        "key": "home",
+        "label": "Inicio",
+        "icon": {
+            "normal": "football.svg",
+            "active": "football-active.svg"
+        },
+        "url": "/home"
+    },
+    {
+        "key": "teams",
+        "label": "Equipos",
+        "icon": {
+            "normal": "shield.svg",
+            "active": "shield-active.svg"
+        },
+        "url": "/teams"
+    },
+    {
+        "key": "matches",
+        "label": "Partidos",
+        "icon": {
+            "normal": "whistle.svg",
+            "active": "whistle-active.svg"
+        },
+        "url": "/matches"
+    }
+]

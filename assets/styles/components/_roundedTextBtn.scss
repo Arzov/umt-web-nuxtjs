@@ -1,0 +1,35 @@
+.roundedTextBtn {
+    cursor: pointer;
+    border-radius: 100px;
+    text-align: center;
+    padding: 3px 0 3px 0;
+    min-width: 100px;
+
+    .dmBody & {
+        h4 {
+            color: $color-cian;
+        }
+        border: 2px solid $color-cian;
+
+        &:active {
+            border: 2px solid rgba($color-cian, 0.6);
+            h4 {
+                color: rgba($color-cian, 0.6);
+            }
+        }
+    }
+
+    .lmBody & {
+        h4 {
+            color: $color-purple;
+        }
+        border: 2px solid $color-purple;
+
+        &:active {
+            border: 2px solid rgba($color-purple, 0.6);
+            h4 {
+                color: rgba($color-purple, 0.6);
+            }
+        }
+    }
+}

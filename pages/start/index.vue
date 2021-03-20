@@ -2,17 +2,7 @@
   <div class="start">
     <a-row>
       <a-col class="leftContent" :span="12">
-        <img
-          :src="_themePreference === 'light' ? require('../../static/lm-logo.svg') :
-            require('../../static/dm-logo.svg')"
-          class="logo"
-        >
-        <img class="footballShoes" src="../../assets/images/football-shoes.svg">
-        <img
-          :src="_themePreference === 'light' ? require('../../assets/images/lm-points.svg') :
-            require('../../assets/images/dm-points.svg')"
-          class="points"
-        >
+        <StartImagesLayout />
       </a-col>
       <a-col class="rightContent" :span="12">
         <h1>Inicio de sesión</h1>
@@ -65,59 +55,61 @@
 </template>
 
 <script>
+import startImagesLayout from '../../components/startImagesLayout.vue'
 export default {
-  data () {
-    return {
-      ruleForm: {
-        email: '',
-        password: ''
-      },
-      rules: {
-        email: this.$RULES.email.rules,
-        password: this.$RULES.password.rules
-      }
-    }
-  },
-  mounted () {
-    this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
-      switch (event) {
-        case 'signIn': {
-          const email = data.signInUserSession.idToken.payload.email
-          this.$store.dispatch('user/fetch', { email })
-            .then((result) => {
-              this.btnLoading = false
-              this.$router.push('/home')
-            })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
+    components: { startImagesLayout },
+    data () {
+        return {
+            ruleForm: {
+                email: '',
+                password: ''
+            },
+            rules: {
+                email: this.$RULES.email.rules,
+                password: this.$RULES.password.rules
+            }
+        }
+    },
+    mounted () {
+        this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
+            switch (event) {
+            case 'signIn': {
+                const email = data.signInUserSession.idToken.payload.email
+                this.$store.dispatch('user/fetch', { email })
+                    .then((result) => {
+                        this.btnLoading = false
+                        this.$router.push('/home')
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                        this.btnLoading = false
+                    })
 
-          break
-        }
-      }
-    })
-  },
-  methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.btnLoading = true
-          this.$store.dispatch('start/signIn', {
-            email: this.ruleForm.email.toLowerCase(),
-            password: this.ruleForm.password
-          })
-            .then(() => {
+                break
+            }
+            }
+        })
+    },
+    methods: {
+        submitForm (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.btnLoading = true
+                    this.$store.dispatch('start/signIn', {
+                        email: this.ruleForm.email.toLowerCase(),
+                        password: this.ruleForm.password
+                    })
+                        .then(() => {
+                        })
+                        .catch((e) => {
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                } else {
+                    return false
+                }
             })
-            .catch((e) => {
-              this.showNotification(e.title, e.msg, e.type)
-              this.btnLoading = false
-            })
-        } else {
-          return false
         }
-      })
     }
-  }
 }
 </script>
