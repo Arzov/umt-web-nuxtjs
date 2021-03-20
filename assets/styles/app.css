@@ -810,18 +810,22 @@ html body {
     .listDisplay .content.patch {
       display: flex;
       text-align: center; }
-      .listDisplay .content.patch .count, .listDisplay .content.patch .date {
+      .listDisplay .content.patch .count, .listDisplay .content.patch .date, .listDisplay .content.patch .loading {
         flex-grow: 1; }
         .dmBody .listDisplay .content.patch .count,
-        .dmBody .listDisplay .content.patch .date {
+        .dmBody .listDisplay .content.patch .date,
+        .dmBody .listDisplay .content.patch .loading {
           border-right: 1px solid #161C27; }
           .dmBody .listDisplay .content.patch .count i,
-          .dmBody .listDisplay .content.patch .date i {
+          .dmBody .listDisplay .content.patch .date i,
+          .dmBody .listDisplay .content.patch .loading i {
             color: #0cecf2; }
-        .lmBody .listDisplay .content.patch .count, .lmBody .listDisplay .content.patch .date {
+        .lmBody .listDisplay .content.patch .count, .lmBody .listDisplay .content.patch .date, .lmBody .listDisplay .content.patch .loading {
           border-right: 1px solid #f1f3ff; }
-          .lmBody .listDisplay .content.patch .count i, .lmBody .listDisplay .content.patch .date i {
+          .lmBody .listDisplay .content.patch .count i, .lmBody .listDisplay .content.patch .date i, .lmBody .listDisplay .content.patch .loading i {
             color: #6457e3; }
+      .listDisplay .content.patch .loading {
+        border-right: 0 !important; }
   .listDisplay .btn {
     margin-left: 16px;
     align-self: center;
@@ -845,6 +849,8 @@ html body {
       width: 32px;
       flex-grow: 1;
       white-space: nowrap; }
+    .listDisplay .pictures.patch.loading {
+      border-right: 0 !important; }
   .listDisplay figure {
     margin: 0 0 0; }
 
@@ -883,40 +889,31 @@ html body {
   margin-left: -50px;
   margin-bottom: 50px; }
 
-.multiSelector .option {
-  box-shadow: 0 0 10px 0 rgba(22, 28, 39, 0.1);
-  border: none;
-  border-radius: 0;
-  height: 42px;
-  width: 100%;
-  position: relative;
-  text-align: center; }
+.dmBody .loadingAvatar.ant-avatar, .lmBody .loadingAvatar.ant-avatar {
+  background-size: 400% 100% !important;
+  animation: ant-skeleton-loading 1.4s ease infinite !important;
+  -webkit-animation: ant-skeleton-loading 1.4s ease infinite !important; }
 
-.multiSelector .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  grid-gap: 16px; }
-.multiSelector .option {
-  display: grid;
-  cursor: pointer;
-  grid-template-columns: 1fr auto;
-  grid-template-areas: "label radio"; }
-  .dmBody .multiSelector .option {
-    background: #1F2835; }
-    .dmBody .multiSelector .option.on {
-      -webkit-text-fill-color: #161C27;
-      background: #0cecf2; }
-  .lmBody .multiSelector .option {
-    background: white; }
-    .lmBody .multiSelector .option.on {
-      -webkit-text-fill-color: white;
-      background: #6457e3; }
-.multiSelector label {
-  font-size: 12px; }
-  .dmBody .multiSelector label {
-    color: white; }
-  .lmBody .multiSelector label {
-    color: #161C27; }
+.dmBody .loadingAvatar.ant-avatar {
+  background: linear-gradient(90deg, #0cecf2 5%, #0271c4 50%, #0cecf2); }
+.lmBody .loadingAvatar.ant-avatar {
+  background: linear-gradient(90deg, #ac9ff9 5%, #6457e3 50%, #ac9ff9); }
+
+.dmBody .loadingText, .lmBody .loadingText {
+  background-size: 400% 100% !important;
+  animation: ant-skeleton-loading 1.4s ease infinite !important;
+  -webkit-animation: ant-skeleton-loading 1.4s ease infinite !important; }
+
+.loadingText {
+  margin-top: 3px;
+  width: 90%;
+  height: 15px; }
+  .loadingText.title {
+    width: 30%; }
+  .dmBody .loadingText {
+    background: linear-gradient(90deg, #0cecf2 5%, #0271c4 50%, #0cecf2); }
+  .lmBody .loadingText {
+    background: linear-gradient(90deg, #ac9ff9 5%, #6457e3 50%, #ac9ff9); }
 
 .header .cornerTopRight {
   max-width: 150px;
@@ -1000,5 +997,8 @@ html body {
   position: absolute;
   bottom: 0px;
   right: 0px; }
+.home .rightContent h3 {
+  text-align: center;
+  margin-bottom: 24px; }
 
 /*# sourceMappingURL=app.css.map */

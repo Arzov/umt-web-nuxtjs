@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <img class="homeTopLeft" src="@/assets/images/home-top-left.svg">
+    <img class="homeBottomRight" src="@/assets/images/home-bottom-right.svg">
     <a-row>
       <a-col class="leftContent" :span="12">
         <h1>¡Hola {{ _userState.firstName }}!</h1>
@@ -20,27 +21,69 @@
         </div>
       </a-col>
       <a-col class="rightContent" :span="12">
-        <div v-for="team in _userState.teams" :key="team.id">
-          <ListDisplay
-            :title="team.name"
-            :picture1="team.picture"
-            desc="A 2 Kilometros"
-            @change="selectOption($event)"
-          />
+        <div v-if="_activeOption === 'challenge'">
+          <h3>DESAFIAR</h3>
+          <div v-if="_userState.primaryTeam">
+            <ListDisplay v-if="loading" :loading="loading" />
+            <div v-if="!loading">
+              <div v-if="_nearTeams.length > 0">
+                <div
+                  v-for="t in _nearTeams"
+                  :key="`t${t.id}`"
+                >
+                  <ListDisplay :team="t" />
+                </div>
+              </div>
+              <div v-else>
+                <!-- TODO: Poner alguna imagen -->
+                <b>¡Lo sentimos!.</b> No encontramos partidos cercanos. Intenta más tarde.
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <!-- TODO: Poner alguna imagen -->
+            <b>¡Lo sentimos!.</b> Debes tener un equipo para poder buscar equipos rivales.
+          </div>
         </div>
-        <ListDisplay
-          title="rpc"
-          desc="A 2 Kilometros"
-        />
-        <ListDisplay
-          title="rpc"
-          desc="A 2 Kilometros"
-          type="patch"
-        />
+        <div v-else-if="_activeOption === 'patch'">
+          <h3>PARCHAR</h3>
+          <ListDisplay v-if="loading" :loading="loading" type="patch" />
+          <div v-if="!loading">
+            <div v-if="_nearMatches.length > 0">
+              <div
+                v-for="m in _nearMatches"
+                :key="`t${m.id}`"
+              >
+                <ListDisplay :match="m" type="patch" />
+              </div>
+            </div>
+            <div v-else>
+              <!-- TODO: Poner alguna imagen -->
+              <b>¡Lo sentimos!.</b> No encontramos partidos cercanos. Intenta más tarde.
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <h3>EQUIPOS</h3>
+          <ListDisplay v-if="loading" :loading="loading" />
+          <div v-if="!loading">
+            <div v-if="_nearTeams.length > 0">
+              <div
+                v-for="t in _nearTeams"
+                :key="`t${t.id}`"
+              >
+                <ListDisplay :team="t" />
+              </div>
+            </div>
+            <div v-else>
+              <!-- TODO: Poner alguna imagen -->
+              <b>¡Lo sentimos!.</b> No encontramos partidos cercanos. Intenta más tarde.
+            </div>
+          </div>
+        </div>
         <ThemeToggle />
       </a-col>
     </a-row>
-    <img class="homeBottomRight" src="@/assets/images/home-bottom-right.svg">
     <Geoloc />
   </div>
 </template>
@@ -53,41 +96,87 @@ export default {
   layout: 'navbar',
   data () {
     return {
+      loading: true,
       options: require('@/static/data/homeOptions.json')
     }
   },
   computed: {
-    activeOption () {
+    _activeOption () {
       return this.options.filter(m => m.active === true)[0].key
+    },
+    _nearTeams () {
+      return this.$store.getters['home/get'].nearTeams
+    },
+    _nearMatches () {
+      return this.$store.getters['home/get'].nearMatches
     }
-    // teamsWithDistance () {
-    //   return this._userState.teams.map((x) => {
-    //     {...x, }
-    //   })
-    // }
   },
   mounted () {
-    this.$store.dispatch('user/listTeams', { email: this._userState.email })
-      .then((result) => {
-      })
+    this.$store.dispatch('user/listTeams')
       .catch((e) => {
         this.showNotification(e.title, e.msg, e.type)
       })
+
+    this.callStore(this._activeOption)
   },
   methods: {
+    callStore (action) {
+      switch (action) {
+        case 'challenge': {
+          if (this._userState.primaryTeam) {
+            this.$store.dispatch('home/nearTeams', { forJoin: false })
+              .then(() => {
+                this.loading = false
+              })
+              .catch((e) => {
+                this.showNotification(e.title, e.msg, e.type)
+              })
+          }
+          break
+        }
+
+        case 'patch': {
+          this.$store.dispatch('home/nearMatches', { forJoin: false })
+            .then(() => {
+              this.loading = false
+            })
+            .catch((e) => {
+              this.showNotification(e.title, e.msg, e.type)
+            })
+          break
+        }
+
+        case 'search': {
+          this.$store.dispatch('home/nearTeams', { forJoin: true })
+            .then(() => {
+              this.loading = false
+            })
+            .catch((e) => {
+              this.showNotification(e.title, e.msg, e.type)
+            })
+          break
+        }
+      }
+    },
     selectOption (e) {
-      this.options = this.options.map((m) => {
-        let active = false
+      // Evita recargar cuando ya esta seleccionada la opcion
+      if (e !== this._activeOption) {
+        this.options = this.options.map((m) => {
+          let active = false
 
-        if (m.key === e) {
-          active = true
-        }
+          if (m.key === e) {
+            active = true
+          }
 
-        return {
-          ...m,
-          active
-        }
-      })
+          return {
+            ...m,
+            active
+          }
+        })
+
+        this.loading = true
+        this.callStore(e)
+      }
     }
   }
 }

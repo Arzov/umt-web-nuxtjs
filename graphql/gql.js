@@ -57,6 +57,23 @@ export const umt = {
         }
       }
     `,
+    getTeam: `
+      query getTeam($id: String!) {
+        getTeam(id: $id) {
+          id
+          name
+          picture
+          formation
+          geohash
+          coords
+          searchingPlayers
+          genderFilter
+          ageMinFilter
+          ageMaxFilter
+          matchFilter
+        }
+      }
+    `,
     listTeams: `
       query listTeams($email: String!, $nextToken: String) {
         listTeams(email: $email, nextToken: $nextToken) {
@@ -72,6 +89,60 @@ export const umt = {
             ageMinFilter
             ageMaxFilter
             matchFilter
+          }
+          nextToken
+        }
+      }
+    `,
+    nearTeams: `
+      query nearTeams($ownTeams: [String], $geohash: String!, $forJoin: Boolean!,
+        $gender: String!, $genderFilter: [String]!, $ageMinFilter: Int!,
+        $ageMaxFilter: Int!, $matchFilter: [String]!, $nextToken: String) {
+        nearTeams(ownTeams: $ownTeams, geohash: $geohash, forJoin: $forJoin,
+          gender: $gender, genderFilter: $genderFilter, ageMinFilter: $ageMinFilter,
+          ageMaxFilter: $ageMaxFilter, matchFilter: $matchFilter, nextToken: $nextToken) {
+          items {
+            id
+            name
+            picture
+            formation
+            geohash
+            coords
+            searchingPlayers
+            genderFilter
+            ageMinFilter
+            ageMaxFilter
+            matchFilter
+          }
+          nextToken
+        }
+      }
+    `,
+    nearMatches: `
+      query nearMatches($geohash: String!, $ownTeams: [String], $gender: String!,
+        $ageMinFilter: Int!, $ageMaxFilter: Int!, $matchFilter: [String]!,
+        $nextToken: String) {
+        nearMatches(geohash: $geohash, ownTeams: $ownTeams, gender: $gender,
+          ageMinFilter: $ageMinFilter, ageMaxFilter: $ageMaxFilter,
+          matchFilter: $matchFilter, nextToken: $nextToken) {
+          items {
+            teamId1
+            teamId2
+            createdOn
+            allowedPatches
+            positions
+            expireOn
+            schedule
+            reqStat
+            geohash
+            coords
+            genderFilter
+            ageMinFilter
+            ageMaxFilter
+            matchFilter
+            stadiumGeohash
+            stadiumId
+            courtId
           }
           nextToken
         }

@@ -29,7 +29,8 @@
             text-align: center;
 
             .count,
-            .date {
+            .date,
+            .loading {
                 flex-grow: 1;
                 .dmBody & {
                     border-right: 1px solid $color-black;
@@ -46,6 +47,10 @@
                         color: $color-purple;
                     }
                 }
+            }
+
+            .loading {
+                border-right: 0 !important;
             }
         }
     }
@@ -87,6 +92,10 @@
                     flex-grow: 1;
                     white-space: nowrap;
                 }
+            }
+
+            &.loading {
+                border-right: 0 !important;
             }
         }
     }
