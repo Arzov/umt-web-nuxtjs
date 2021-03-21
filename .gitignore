@@ -95,3 +95,6 @@ sw.*
 
 # SASS cache
 .sass-cache
+
+# Yarn lock
+yarn.lock
