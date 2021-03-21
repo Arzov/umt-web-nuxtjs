@@ -26,7 +26,7 @@
             svg {
                 color: $color-white;
             }
-            
+
             @extend %date-selector-aspects;
         }
 
@@ -45,7 +45,7 @@
             svg {
                 color: $color-black;
             }
-            
+
             @extend %date-selector-aspects;
         }
 
@@ -74,7 +74,8 @@
     @extend %font-props;
 }
 
-.ant-select-dropdown-content, .ant-select-dropdown {
+.ant-select-dropdown-content,
+.ant-select-dropdown {
     border: none !important;
     border-radius: 0 !important;
 }

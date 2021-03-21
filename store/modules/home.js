@@ -1,58 +1,61 @@
-import { graphqlOperation } from '@aws-amplify/api'
-import { umt } from '@/graphql/gql'
-import errorNotification from '@/static/data/errorNotification.json'
-import awsconfig from '~/aws-exports'
+import { graphqlOperation } from "@aws-amplify/api";
+import { umt } from "@/graphql/gql";
+import errorNotification from "@/static/data/errorNotification.json";
+import awsconfig from "~/aws-exports";
 
 const getLocalStorageState = (key) => {
-    return JSON.parse(localStorage.getItem(key))
-}
+    return JSON.parse(localStorage.getItem(key));
+};
 
 const getDefaultState = () => ({
-    nearTeams: getLocalStorageState('nearTeams') || [],
-    nearTeamsNextToken: getLocalStorageState('nearTeamsNextToken') || null,
-    nearMatches: getLocalStorageState('nearMatches') || [],
-    nearMatchesNextToken: getLocalStorageState('nearMatchesNextToken') || null
-})
+    nearTeams: getLocalStorageState("nearTeams") || [],
+    nearTeamsNextToken: getLocalStorageState("nearTeamsNextToken") || null,
+    nearMatches: getLocalStorageState("nearMatches") || [],
+    nearMatchesNextToken: getLocalStorageState("nearMatchesNextToken") || null,
+});
 
-const state = getDefaultState()
+const state = getDefaultState();
 
 const getters = {
-    get (state) {
-        return state
-    }
-}
+    get(state) {
+        return state;
+    },
+};
 
 const actions = {
-    nearTeams (ctx, data) {
-        const ownTeams = ctx.rootState.user.teams.map((x) => {
-            return x.id
-        })
+    nearTeams(ctx, data) {
+        const ownTeams = ctx.rootState.user.team
+            ? ctx.rootState.user.teams.map((x) => {
+                  return x.id;
+              })
+            : null;
+
         const params = data.forJoin
             ? {
-                ownTeams,
-                geohash: ctx.rootState.user.geohash,
-                forJoin: data.forJoin,
-                gender: ctx.rootState.user.gender,
-                genderFilter: [],
-                ageMinFilter: ctx.rootState.user.ageMinFilter,
-                ageMaxFilter: ctx.rootState.user.ageMaxFilter,
-                matchFilter: ctx.rootState.user.matchFilter,
-                nextToken: ctx.state.nearTeamsNextToken
-            }
+                  ownTeams,
+                  geohash: ctx.rootState.user.geohash,
+                  forJoin: data.forJoin,
+                  gender: ctx.rootState.user.gender,
+                  genderFilter: [],
+                  ageMinFilter: ctx.rootState.user.ageMinFilter,
+                  ageMaxFilter: ctx.rootState.user.ageMaxFilter,
+                  matchFilter: ctx.rootState.user.matchFilter,
+                  nextToken: ctx.state.nearTeamsNextToken,
+              }
             : {
-                ownTeams,
-                geohash: ctx.rootState.user.primaryTeam.geohash,
-                forJoin: data.forJoin,
-                gender: ctx.rootState.user.gender,
-                genderFilter: ctx.rootState.user.primaryTeam.genderFilter,
-                ageMinFilter: ctx.rootState.user.primaryTeam.ageMinFilter,
-                ageMaxFilter: ctx.rootState.user.primaryTeam.ageMaxFilter,
-                matchFilter: ctx.rootState.user.primaryTeam.matchFilter,
-                nextToken: ctx.state.nearTeamsNextToken
-            }
+                  ownTeams,
+                  geohash: ctx.rootState.user.primaryTeam.geohash,
+                  forJoin: data.forJoin,
+                  gender: ctx.rootState.user.gender,
+                  genderFilter: ctx.rootState.user.primaryTeam.genderFilter,
+                  ageMinFilter: ctx.rootState.user.primaryTeam.ageMinFilter,
+                  ageMaxFilter: ctx.rootState.user.primaryTeam.ageMaxFilter,
+                  matchFilter: ctx.rootState.user.primaryTeam.matchFilter,
+                  nextToken: ctx.state.nearTeamsNextToken,
+              };
 
         return new Promise((resolve, reject) => {
-            this.$AWS.Amplify.configure(awsconfig.umt)
+            this.$AWS.Amplify.configure(awsconfig.umt);
             this.$AWS.API.graphql(
                 graphqlOperation(umt.queries.nearTeams, params)
             )
@@ -67,40 +70,42 @@ const actions = {
                                 JSON.parse(x.coords).LON.N,
                                 ctx.rootState.user.coords.LAT.N,
                                 ctx.rootState.user.coords.LON.N
-                            )
-                        }
-                    })
-                    const nearTeamsNextToken = result.data.nearTeams.nextToken
+                            ),
+                        };
+                    });
+                    const nearTeamsNextToken = result.data.nearTeams.nextToken;
 
                     if (nearTeams) {
                         const params = {
                             nearTeams,
-                            nearTeamsNextToken
-                        }
-                        ctx.commit('setState', { params })
-                        resolve()
+                            nearTeamsNextToken,
+                        };
+                        ctx.commit("setState", { params });
+                        resolve();
                     } else {
                         const params = {
                             nearTeams: [],
-                            nearTeamsNextToken
-                        }
-                        ctx.commit('setState', { params })
-                        resolve()
+                            nearTeamsNextToken,
+                        };
+                        ctx.commit("setState", { params });
+                        resolve();
                     }
                 })
                 .catch((err) => {
-                    const response = { ...errorNotification, err }
-                    reject(response)
-                })
-        })
+                    const response = { ...errorNotification, err };
+                    reject(response);
+                });
+        });
     },
-    nearMatches (ctx, data) {
-        const ownTeams = ctx.rootState.user.teams.map((x) => {
-            return x.id
-        })
+    nearMatches(ctx, data) {
+        const ownTeams = ctx.rootState.user.team
+            ? ctx.rootState.user.teams.map((x) => {
+                  return x.id;
+              })
+            : null;
 
         return new Promise((resolve, reject) => {
-            this.$AWS.Amplify.configure(awsconfig.umt)
+            this.$AWS.Amplify.configure(awsconfig.umt);
             this.$AWS.API.graphql(
                 graphqlOperation(umt.queries.nearMatches, {
                     geohash: ctx.rootState.user.geohash,
@@ -109,7 +114,7 @@ const actions = {
                     ageMinFilter: ctx.rootState.user.ageMinFilter,
                     ageMaxFilter: ctx.rootState.user.ageMaxFilter,
                     matchFilter: ctx.rootState.user.matchFilter,
-                    nextToken: ctx.state.nearMatchesNextToken
+                    nextToken: ctx.state.nearMatchesNextToken,
                 })
             )
                 .then(async (result) => {
@@ -125,71 +130,73 @@ const actions = {
                                     JSON.parse(x.coords).LON.N,
                                     ctx.rootState.user.coords.LAT.N,
                                     ctx.rootState.user.coords.LON.N
-                                )
-                            }
-                        })
+                                ),
+                            };
+                        }
+                    );
                     const nearMatchesNextToken =
-                        result.data.nearMatches.nextToken
+                        result.data.nearMatches.nextToken;
 
                     if (nearMatches) {
                         for (const e in nearMatches) {
                             for (let i = 1; i <= 2; i++) {
                                 await this.$AWS.API.graphql(
                                     graphqlOperation(umt.queries.getTeam, {
-                                        id: nearMatches[e][`teamId${i}`]
+                                        id: nearMatches[e][`teamId${i}`],
                                     })
                                 )
                                     .then((result) => {
                                         nearMatches[e][`picture${i}`] =
-                                            result.data.getTeam.picture
+                                            result.data.getTeam.picture;
                                         nearMatches[e][`name${i}`] =
-                                            result.data.getTeam.name
+                                            result.data.getTeam.name;
                                     })
                                     .catch((err) => {
                                         const response = {
-                                            ...errorNotification, err
-                                        }
-                                        reject(response)
-                                    })
+                                            ...errorNotification,
+                                            err,
+                                        };
+                                        reject(response);
+                                    });
                             }
                         }
 
                         const params = {
                             nearMatches,
-                            nearMatchesNextToken
-                        }
-                        ctx.commit('setState', { params })
-                        resolve()
+                            nearMatchesNextToken,
+                        };
+                        ctx.commit("setState", { params });
+                        resolve();
                     } else {
                         const params = {
                             nearMatches: [],
-                            nearMatchesNextToken
-                        }
-                        ctx.commit('setState', { params })
-                        resolve()
+                            nearMatchesNextToken,
+                        };
+                        ctx.commit("setState", { params });
+                        resolve();
                     }
                 })
                 .catch((err) => {
-                    const response = { ...errorNotification, err }
-                    reject(response)
-                })
-        })
-    }
-}
+                    const response = { ...errorNotification, err };
+                    reject(response);
+                });
+        });
+    },
+};
 
 const mutations = {
-    setState (state, { params }) {
+    setState(state, { params }) {
         for (const key in params) {
-            localStorage.setItem(key, JSON.stringify(params[key]))
-            state[key] = params[key]
+            localStorage.setItem(key, JSON.stringify(params[key]));
+            state[key] = params[key];
         }
-    }
-}
+    },
+};
 
 export default {
     namespaced: true,
     actions,
     state,
     getters,
-    mutations
-}
+    mutations,
+};

@@ -1,54 +1,56 @@
-import { graphqlOperation } from '@aws-amplify/api'
-import { arv, umt } from '@/graphql/gql'
-import errorNotification from '@/static/data/errorNotification.json'
-import awsconfig from '~/aws-exports'
+import { graphqlOperation } from "@aws-amplify/api";
+import { arv, umt } from "@/graphql/gql";
+import errorNotification from "@/static/data/errorNotification.json";
+import awsconfig from "~/aws-exports";
 
 const getLocalStorageState = (key) => {
-    return JSON.parse(localStorage.getItem(key))
-}
+    return JSON.parse(localStorage.getItem(key));
+};
 
 const getDefaultState = () => ({
     // DynamoDB
-    email: getLocalStorageState('email') || null,
-    firstName: getLocalStorageState('firstName') || null,
-    lastName: getLocalStorageState('lastName') || null,
-    birthdate: getLocalStorageState('birthdate') || null,
-    gender: getLocalStorageState('gender') || null,
-    picture: getLocalStorageState('picture') || null,
-    coords: getLocalStorageState('coords') || null,
-    geohash: getLocalStorageState('geohash') || null,
-    matchFilter: getLocalStorageState('matchFilter') || null,
-    ageMinFilter: getLocalStorageState('ageMinFilter') || null,
-    ageMaxFilter: getLocalStorageState('ageMaxFilter') || null,
-    positions: getLocalStorageState('positions') || null,
-    foot: getLocalStorageState('foot') || null,
-    skills: getLocalStorageState('skills') || null,
-    weight: getLocalStorageState('weight') || 0,
-    height: getLocalStorageState('height') || 0,
-    providerId: getLocalStorageState('providerId') || null,
-    providers: getLocalStorageState('providers') || null,
-    registerDate: getLocalStorageState('registerDate') || null,
-    verified: getLocalStorageState('verified') || null,
+    email: getLocalStorageState("email") || null,
+    firstName: getLocalStorageState("firstName") || null,
+    lastName: getLocalStorageState("lastName") || null,
+    birthdate: getLocalStorageState("birthdate") || null,
+    gender: getLocalStorageState("gender") || null,
+    picture: getLocalStorageState("picture") || null,
+    coords: getLocalStorageState("coords") || null,
+    geohash: getLocalStorageState("geohash") || null,
+    matchFilter: getLocalStorageState("matchFilter") || null,
+    ageMinFilter: getLocalStorageState("ageMinFilter") || null,
+    ageMaxFilter: getLocalStorageState("ageMaxFilter") || null,
+    positions: getLocalStorageState("positions") || null,
+    foot: getLocalStorageState("foot") || null,
+    skills: getLocalStorageState("skills") || null,
+    weight: getLocalStorageState("weight") || 0,
+    height: getLocalStorageState("height") || 0,
+    providerId: getLocalStorageState("providerId") || null,
+    providers: getLocalStorageState("providers") || null,
+    registerDate: getLocalStorageState("registerDate") || null,
+    verified: getLocalStorageState("verified") || null,
     // Local
-    teams: getLocalStorageState('teams') || null,
-    primaryTeam: getLocalStorageState('primaryTeam') || null
-})
+    teams: getLocalStorageState("teams") || null,
+    primaryTeam: getLocalStorageState("primaryTeam") || null,
+});
 
-const state = getDefaultState()
+const state = getDefaultState();
 
 const getters = {
-    get (state) {
-        return state
-    }
-}
+    get(state) {
+        return state;
+    },
+};
 
 const actions = {
-    fetch (ctx, data) {
+    fetch(ctx, data) {
         return new Promise((resolve, reject) => {
-            this.$AWS.Amplify.configure(awsconfig.arv)
-            this.$AWS.API.graphql(graphqlOperation(arv.queries.getUser, {
-                email: data.email
-            }))
+            this.$AWS.Amplify.configure(awsconfig.arv);
+            this.$AWS.API.graphql(
+                graphqlOperation(arv.queries.getUser, {
+                    email: data.email,
+                })
+            )
                 .then((result) => {
                     const params = {
                         email: result.data.getUser.email,
@@ -60,85 +62,92 @@ const actions = {
                         providerId: JSON.parse(result.data.getUser.providerId),
                         providers: result.data.getUser.providers,
                         registerDate: result.data.getUser.registerDate,
-                        verified: result.data.getUser.verified
-                    }
+                        verified: result.data.getUser.verified,
+                    };
 
-                    // TODO: Si picture == email+profile.png entonces usar
-                    //       this.$AWS.Storage.get() para traer la url de la
-                    //       imagen
+                    // TODO: Upload image to S3 logic
 
-                    ctx.commit('setState', { params })
+                    ctx.commit("setState", { params });
 
-                    this.$AWS.Amplify.configure(awsconfig.umt)
-                    this.$AWS.API.graphql(graphqlOperation(umt.queries.getUser, {
-                        email: data.email
-                    }))
+                    this.$AWS.Amplify.configure(awsconfig.umt);
+                    this.$AWS.API.graphql(
+                        graphqlOperation(umt.queries.getUser, {
+                            email: data.email,
+                        })
+                    )
                         .then((result) => {
                             const params = {
                                 geohash: result.data.getUser.geohash || null,
-                                coords: JSON.parse(result.data.getUser.coords) || null,
-                                ageMinFilter: result.data.getUser.ageMinFilter || null,
-                                ageMaxFilter: result.data.getUser.ageMaxFilter || null,
-                                matchFilter: result.data.getUser.matchFilter || null,
-                                positions: result.data.getUser.positions || null,
+                                coords:
+                                    JSON.parse(result.data.getUser.coords) ||
+                                    null,
+                                ageMinFilter:
+                                    result.data.getUser.ageMinFilter || null,
+                                ageMaxFilter:
+                                    result.data.getUser.ageMaxFilter || null,
+                                matchFilter:
+                                    result.data.getUser.matchFilter || null,
+                                positions:
+                                    result.data.getUser.positions || null,
                                 foot: result.data.getUser.foot || null,
-                                skills: JSON.parse(result.data.getUser.skills) || null,
+                                skills:
+                                    JSON.parse(result.data.getUser.skills) ||
+                                    null,
                                 weight: result.data.getUser.weight || 0,
-                                height: result.data.getUser.height || 0
-                            }
+                                height: result.data.getUser.height || 0,
+                            };
 
-                            ctx.commit('setState', { params })
+                            ctx.commit("setState", { params });
 
-                            resolve(ctx.getters.get)
+                            resolve(ctx.getters.get);
                         })
                         .catch((err) => {
-                            const response = { ...errorNotification, err }
-                            reject(response)
-                        })
+                            const response = { ...errorNotification, err };
+                            reject(response);
+                        });
                 })
                 .catch((err) => {
-                    const response = { ...errorNotification, err }
-                    reject(response)
-                })
-        })
+                    const response = { ...errorNotification, err };
+                    reject(response);
+                });
+        });
     },
-    update (ctx, data) {
-        if (data.api === 'arv') {
+    update(ctx, data) {
+        if (data.api === "arv") {
             return new Promise((resolve, reject) => {
-                const birthdate =
-                    `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
+                const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`;
 
-                this.$AWS.Amplify.configure(awsconfig.arv)
+                this.$AWS.Amplify.configure(awsconfig.arv);
                 this.$AWS.API.graphql(
                     graphqlOperation(arv.mutations.updateUser, {
                         email: data.email,
                         birthdate,
                         gender: data.gender,
                         firstName: data.firstName,
-                        lastName: data.lastName || '',
-                        picture: data.picture || '',
+                        lastName: data.lastName || "",
+                        picture: data.picture || "",
                         providerId: JSON.stringify(ctx.state.providerId),
                         providers: ctx.state.providers,
                         registerDate: ctx.state.registerDate,
-                        verified: ctx.state.verified
+                        verified: ctx.state.verified,
                     })
                 )
                     .then(() => {
                         const params = {
                             birthdate,
-                            gender: data.gender
-                        }
-                        ctx.commit('setState', { params })
-                        resolve()
+                            gender: data.gender,
+                        };
+                        ctx.commit("setState", { params });
+                        resolve();
                     })
                     .catch((err) => {
-                        const response = { ...errorNotification, err }
-                        reject(response)
-                    })
-            })
+                        const response = { ...errorNotification, err };
+                        reject(response);
+                    });
+            });
         } else {
             return new Promise((resolve, reject) => {
-                this.$AWS.Amplify.configure(awsconfig.umt)
+                this.$AWS.Amplify.configure(awsconfig.umt);
                 this.$AWS.API.graphql(
                     graphqlOperation(umt.mutations.updateUser, {
                         latitude: data.latitude,
@@ -151,7 +160,7 @@ const actions = {
                         skills: JSON.stringify(data.skills),
                         foot: data.foot,
                         weight: data.weight,
-                        height: data.height
+                        height: data.height,
                     })
                 )
                     .then((result) => {
@@ -165,72 +174,72 @@ const actions = {
                             foot: result.data.updateUser.foot,
                             skills: JSON.parse(result.data.updateUser.skills),
                             weight: result.data.updateUser.weight,
-                            height: result.data.updateUser.height
-                        }
-                        ctx.commit('setState', { params })
-                        resolve()
+                            height: result.data.updateUser.height,
+                        };
+                        ctx.commit("setState", { params });
+                        resolve();
                     })
                     .catch((err) => {
-                        const response = { ...errorNotification, err }
-                        reject(response)
-                    })
-            })
+                        const response = { ...errorNotification, err };
+                        reject(response);
+                    });
+            });
         }
     },
-    listTeams (ctx) {
+    listTeams(ctx) {
         if (!ctx.state.teams || !ctx.state.primaryTeam) {
             return new Promise((resolve, reject) => {
-                this.$AWS.Amplify.configure(awsconfig.umt)
+                this.$AWS.Amplify.configure(awsconfig.umt);
                 this.$AWS.API.graphql(
-                    graphqlOperation(
-                        umt.queries.listTeams, { email: ctx.state.email }
-                    )
+                    graphqlOperation(umt.queries.listTeams, {
+                        email: ctx.state.email,
+                    })
                 )
                     .then((result) => {
-                        const teams = result.data.listTeams.items
+                        const teams = result.data.listTeams.items;
 
                         if (teams) {
                             const params = {
                                 teams,
-                                primaryTeam: teams[0]
-                            }
-                            ctx.commit('setState', { params })
-                            resolve()
+                                primaryTeam: teams[0],
+                            };
+                            ctx.commit("setState", { params });
+                            resolve();
                         } else {
-                            resolve()
+                            resolve();
                         }
                     })
                     .catch((err) => {
-                        const response = { ...errorNotification, err }
-                        reject(response)
-                    })
-            })
+                        const response = { ...errorNotification, err };
+                        reject(response);
+                    });
+            });
         }
     },
-    resetStates (ctx) {
-        ctx.commit('resetStates')
-    }
-}
+    resetStates(ctx) {
+        ctx.commit("resetStates");
+    },
+};
 
 const mutations = {
-    setState (state, { params }) {
+    setState(state, { params }) {
         for (const key in params) {
-            localStorage.setItem(key, JSON.stringify(params[key]))
-            state[key] = params[key]
+            localStorage.setItem(key, JSON.stringify(params[key]));
+            state[key] = params[key];
         }
     },
-    resetStates (state) {
+    resetStates(state) {
         for (const key in state) {
-            localStorage.removeItem(key)
-            state[key] = null
+            localStorage.removeItem(key);
+            state[key] = null;
         }
-    }
-}
+    },
+};
 
 export default {
     namespaced: true,
     state,
     getters,
     actions,
-    mutations
-}
+    mutations,
+};

@@ -1,21 +1,23 @@
-function checkRequire (rule, value, callback) {
-    const error = 'Ingrese un rango válido.'
+function checkRequire(rule, value, callback) {
+    const error = "Ingrese un rango válido.";
 
-    if (value && value.length === 2) { callback() } else { callback(error) }
+    if (value && value.length === 2) {
+        callback();
+    } else {
+        callback(error);
+    }
 }
 
 export default {
-    title: 'Rango de edad',
+    title: "Rango de edad",
     required: true,
-    placeholder: '',
-    extra: '',
+    placeholder: "",
+    extra: "",
     decorator: [
-        'age',
+        "age",
         {
             initialValue: [18, 22],
-            rules: [
-                { validator: checkRequire }
-            ]
-        }
-    ]
-}
+            rules: [{ validator: checkRequire }],
+        },
+    ],
+};

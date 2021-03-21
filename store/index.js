@@ -1,15 +1,15 @@
-import Vuex from 'vuex'
-import global from './modules/global'
-import user from './modules/user'
-import start from './modules/start'
-import register from './modules/register'
-import emailVerification from './modules/email-verification'
-import resetPassword from './modules/reset-password'
-import recoverPassword from './modules/recover-password'
-import requiredAttributes from './modules/required-attributes'
-import optionalFilters from './modules/optional-filters'
-import optionalAttributes from './modules/optional-attributes'
-import home from './modules/home'
+import Vuex from "vuex";
+import global from "./modules/global";
+import user from "./modules/user";
+import start from "./modules/start";
+import register from "./modules/register";
+import emailVerification from "./modules/email-verification";
+import resetPassword from "./modules/reset-password";
+import recoverPassword from "./modules/recover-password";
+import requiredAttributes from "./modules/required-attributes";
+import optionalFilters from "./modules/optional-filters";
+import optionalAttributes from "./modules/optional-attributes";
+import home from "./modules/home";
 
 const store = () => {
     return new Vuex.Store({
@@ -24,9 +24,9 @@ const store = () => {
             resetPassword,
             optionalFilters,
             optionalAttributes,
-            home
-        }
-    })
-}
+            home,
+        },
+    });
+};
 
-export default store
+export default store;

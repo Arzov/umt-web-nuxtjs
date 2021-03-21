@@ -8,7 +8,11 @@ $color-end: $color-pink;
 
     .img {
         background: -moz-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
-        background: -webkit-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+        background: -webkit-linear-gradient(
+            90deg,
+            $color-ini 0%,
+            $color-end 100%
+        );
         background: linear-gradient(90deg, $color-ini 0%, $color-end 100%);
         width: 180px;
         height: 90px;

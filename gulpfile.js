@@ -7,48 +7,48 @@ const parallelize = require('concurrent-transform')
 
 const config = {
 
-  // Required
-  params: { Bucket: process.env.AWS_BUCKET_NAME },
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    // Required
+    params: { Bucket: process.env.AWS_BUCKET_NAME },
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 
-  // Optional
-  deleteOldVersions: false, // NOT FOR PRODUCTION
-  distribution: process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
-  region: process.env.AWS_DEFAULT_REGION,
-  headers: { /* 'Cache-Control': 'max-age=315360000, no-transform, public', */ },
+    // Optional
+    deleteOldVersions: false, // NOT FOR PRODUCTION
+    distribution: process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
+    region: process.env.AWS_DEFAULT_REGION,
+    headers: { /* 'Cache-Control': 'max-age=315360000, no-transform, public', */ },
 
-  // Sensible Defaults - gitignore these Files and Dirs
-  distDir: 'dist',
-  indexRootPath: true,
-  cacheFileName: '.awspublish',
-  concurrentUploads: 10,
-  wait: true // wait for CloudFront invalidation to complete (about 30-60 seconds)
+    // Sensible Defaults - gitignore these Files and Dirs
+    distDir: 'dist',
+    indexRootPath: true,
+    cacheFileName: '.awspublish',
+    concurrentUploads: 10,
+    wait: true // wait for CloudFront invalidation to complete (about 30-60 seconds)
 }
 
 gulp.task('deploy', function () {
-  // create a new publisher using S3 options
-  // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property
-  const publisher = awspublish.create(config, config)
+    // create a new publisher using S3 options
+    // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property
+    const publisher = awspublish.create(config, config)
 
-  let g = gulp.src('./' + config.distDir + '/**')
-  // publisher will add Content-Length, Content-Type and headers specified above
-  // If not specified it will set x-amz-acl to public-read by default
-  g = g.pipe(parallelize(publisher.publish(config.headers), config.concurrentUploads))
+    let g = gulp.src('./' + config.distDir + '/**')
+    // publisher will add Content-Length, Content-Type and headers specified above
+    // If not specified it will set x-amz-acl to public-read by default
+    g = g.pipe(parallelize(publisher.publish(config.headers), config.concurrentUploads))
 
-  // Invalidate CDN
-  if (config.distribution) {
-    console.log('Configured with CloudFront distribution')
-    g = g.pipe(cloudfront(config))
-  } else {
-    console.log('No CloudFront distribution configured - skipping CDN invalidation')
-  }
+    // Invalidate CDN
+    if (config.distribution) {
+        console.log('Configured with CloudFront distribution')
+        g = g.pipe(cloudfront(config))
+    } else {
+        console.log('No CloudFront distribution configured - skipping CDN invalidation')
+    }
 
-  // Delete removed files
-  if (config.deleteOldVersions) { g = g.pipe(publisher.sync()) }
-  // create a cache file to speed up consecutive uploads
-  g = g.pipe(publisher.cache())
-  // print upload updates to console
-  g = g.pipe(awspublish.reporter())
-  return g
+    // Delete removed files
+    if (config.deleteOldVersions) { g = g.pipe(publisher.sync()) }
+    // create a cache file to speed up consecutive uploads
+    g = g.pipe(publisher.cache())
+    // print upload updates to console
+    g = g.pipe(awspublish.reporter())
+    return g
 })

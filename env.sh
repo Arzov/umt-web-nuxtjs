@@ -1,11 +1,11 @@
 #!/bin/bash
 # ==========================================================
-# Inicializar variables de entorno
-# Author : Franco Barrientos <franco.barrientos@arzov.com>
+# Init environment variables
+# @author : Franco Barrientos <franco.barrientos@arzov.com>
 # ==========================================================
 
 # ----------------------------------------------------------
-#  Exportar variables desde AWS CloudFormation
+#  Import variables from AWS CloudFormation
 # ----------------------------------------------------------
 
 # ARV
@@ -65,7 +65,7 @@ aws cloudformation describe-stacks \
 
 
 # ----------------------------------------------------------
-#  Exportar variables desde GCP
+#  Import variables from GCP
 # ----------------------------------------------------------
 
 # export NUXT_ENV_GCP_API_KEY=XXXX

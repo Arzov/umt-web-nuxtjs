@@ -14,7 +14,8 @@
     background: linear-gradient(90deg, $color-ini 0%, $color-end 100%);
 }
 
-.principalBtn, .principalBtn:focus {
+.principalBtn,
+.principalBtn:focus {
     @extend %btn-aspects;
     @include background($color-purple, $color-pink);
     height: 42px;
@@ -31,7 +32,8 @@
     @include background($color-purple, $color-purple);
 }
 
-.principalBtn::after, .principalBtn:active {
+.principalBtn::after,
+.principalBtn:active {
     @extend %btn-aspects;
     @include background($color-violet, $color-violet);
 }

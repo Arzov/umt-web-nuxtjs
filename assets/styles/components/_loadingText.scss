@@ -14,12 +14,22 @@
     }
 
     .dmBody & {
-        background: linear-gradient(90deg, $color-cian 5%, $color-blue 50%, $color-cian);
+        background: linear-gradient(
+            90deg,
+            $color-cian 5%,
+            $color-blue 50%,
+            $color-cian
+        );
         @extend %loading-text-aspects;
     }
 
     .lmBody & {
-        background: linear-gradient(90deg, $color-violet 5%, $color-purple 50%, $color-violet);
+        background: linear-gradient(
+            90deg,
+            $color-violet 5%,
+            $color-purple 50%,
+            $color-violet
+        );
         @extend %loading-text-aspects;
     }
 }
