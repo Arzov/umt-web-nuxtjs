@@ -17,6 +17,7 @@
             </figure>
 
             <b> - </b>
+
             <figure>
                 <LoadingAvatar v-if="loading" />
                 <a-avatar v-if="!loading" :src="getImage(match.picture2)" />
@@ -46,10 +47,8 @@
             <figure v-if="!loading" class="date">
                 <i>
                     {{
-                        `${match.schedule.day.S.substr(
-                            8,
-                            2
-                        )}/${match.schedule.day.S.substr(5, 2)}`
+                        `${this.$UTILS.getDayDD(match.schedule)} /
+                        ${this.$UTILS.getMonthMM(match.schedule)}`
                     }}
                 </i>
                 <figcaption>Fecha</figcaption>

@@ -51,10 +51,34 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
     return Math.round(d);
 };
 
+const getUTCToLocal = (dateUTC) => {
+    const currDate = new Date(Date.parse(`${dateUTC}`));
+    return currDate;
+};
+
+const getMonthMM = (currDate) => {
+    let currentMonth = currDate.getMonth() + 1;
+    if (currentMonth < 10) {
+        currentMonth = "0" + currentMonth;
+    }
+    return currentMonth;
+};
+
+const getDayDD = (currDate) => {
+    let currentDay = currDate.getDate();
+    if (currentDay < 10) {
+        currentDay = "0" + currentDay;
+    }
+    return currentDay;
+};
+
 export default (ctx, inject) => {
     const UTILS = {
         validateBirthdate,
         getDistance,
+        getUTCToLocal,
+        getMonthMM,
+        getDayDD,
     };
 
     inject("UTILS", UTILS);

@@ -24,7 +24,7 @@ const getters = {
 
 const actions = {
     nearTeams(ctx, data) {
-        const ownTeams = ctx.rootState.user.team
+        const ownTeams = ctx.rootState.user.teams
             ? ctx.rootState.user.teams.map((x) => {
                   return x.id;
               })
@@ -98,7 +98,7 @@ const actions = {
         });
     },
     nearMatches(ctx, data) {
-        const ownTeams = ctx.rootState.user.team
+        const ownTeams = ctx.rootState.user.teams
             ? ctx.rootState.user.teams.map((x) => {
                   return x.id;
               })
@@ -122,7 +122,7 @@ const actions = {
                         (x) => {
                             return {
                                 ...x,
-                                schedule: JSON.parse(x.schedule),
+                                schedule: this.$UTILS.getUTCToLocal(x.schedule),
                                 reqStat: JSON.parse(x.reqStat),
                                 coords: JSON.parse(x.coords),
                                 distance: this.$UTILS.getDistance(
