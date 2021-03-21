@@ -12,8 +12,7 @@ export NUXT_ENV_ROOT_URL=http://localhost:3000
 [ ! -d "node_modules" ] && yarn
 
 # Start sass
-sass --watch ./assets/styles/app.scss:./assets/styles/app.css \
-    --cache-location ./assets/styles/.sass-cache &
+sass --watch ./assets/styles/app.scss:./assets/styles/app.css &
 
 # Start nuxt
-nuxt
+./node_modules/.bin/nuxt -H 0.0.0.0

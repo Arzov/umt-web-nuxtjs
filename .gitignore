@@ -92,3 +92,6 @@ sw.*
 # CSS files
 *.css
 *.css.map
+
+# SASS cache
+.sass-cache

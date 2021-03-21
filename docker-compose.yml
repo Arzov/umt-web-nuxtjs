@@ -4,9 +4,15 @@ services:
   dev-executor:
     image: arzov/umt-web-nuxtjs
     volumes:
-      - ${PWD}:/var/opt:rw
+      - .:/var/opt
     ports:
       - 3000:3000
-    network_mode: bridge
     env_file: env.list
-    tty: true
+    entrypoint: ./run_dev.sh
+  
+  deploy-executor:
+    image: arzov/umt-web-nuxtjs
+    volumes:
+      - .:/var/opt
+    env_file: env.list
+    entrypoint: ./deploy.sh
