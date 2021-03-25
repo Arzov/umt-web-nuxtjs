@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  dev-executor:
+    image: arzov/umt-web-nuxtjs
+    volumes:
+      - .:/var/opt
+    ports:
+      - 3000:3000
+    env_file: env.list
+    entrypoint: ./dev.sh
+  
+  deploy-executor:
+    image: arzov/umt-web-nuxtjs
+    volumes:
+      - .:/var/opt
+    env_file: env.list
+    entrypoint: ./deploy.sh

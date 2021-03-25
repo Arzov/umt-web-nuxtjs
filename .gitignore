@@ -88,3 +88,13 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# CSS files
+*.css
+*.css.map
+
+# SASS cache
+.sass-cache
+
+# Yarn lock
+yarn.lock

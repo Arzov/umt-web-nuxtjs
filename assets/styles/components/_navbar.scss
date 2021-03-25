@@ -17,7 +17,8 @@
         background: $color-white;
     }
 
-    .navbarMenu, .navbarPicture {
+    .navbarMenu,
+    .navbarPicture {
         place-self: center;
     }
 
@@ -42,7 +43,7 @@
         .dmBody & {
             box-shadow: 0 0 0 1px $color-dark-grey;
         }
-    
+
         .lmBody & {
             box-shadow: 0 0 0 1px $color-white;
         }

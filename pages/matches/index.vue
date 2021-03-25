@@ -1,11 +1,9 @@
 <template>
-  <div>
-    Hola
-  </div>
+    <div>Hola</div>
 </template>
 
 <script>
 export default {
-  layout: 'navbar'
-}
+    layout: "navbar",
+};
 </script>

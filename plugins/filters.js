@@ -1,3 +1,3 @@
-import Vue from 'vue'
+import Vue from "vue";
 
-Vue.filter('uppercase', val => val.toUpperCase())
+Vue.filter("uppercase", (val) => val.toUpperCase());
