@@ -4,6 +4,13 @@
     padding: 0px;
 }
 
+@mixin backgroundMsg($color-ini, $color-end) {
+    background: $color-ini;
+    background: -moz-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+    background: -webkit-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+    background: linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+}
+
 .teams {
 
     .leftContent {
@@ -20,7 +27,9 @@
         }
 
         .options {
-            height: 75%;
+            height: 60vh;
+            overflow-y: scroll;
+            overflow-x: none;
             padding: 0px 60px 60px 60px;
         }
     }
@@ -30,15 +39,60 @@
         justify-content: flex-start;
         border-left: 1px solid $color-dark-grey;
 
-        .banner {
-            height: 20%;
-            border-bottom: 1px solid $color-dark-grey;
-        }
-
         .chatContainer {
-            height: 80%;
             background-image: url("../images/chat-background.svg");
-            opacity: 0.4;
+            background-size: 30%;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+
+            .chat-header {
+                height: 20%;
+                border-bottom: 1px solid $color-dark-grey;
+            }
+
+            .chat-body {
+                    padding: 20px 60px 20px 60px;
+                    display:flex;
+                    flex: 1;
+                    min-height: 65%;
+                    max-height: 420px;
+                    overflow-y: scroll;
+                    overflow-x: none;
+                    flex-direction:column;
+
+                .left-message{
+                    max-width: 45%;
+                    margin-bottom: 20px;
+                    @include backgroundMsg($color-blue, $color-cian);
+                    color: $color-white;
+                    padding:.5em;
+                    align-self:flex-start;
+                    border-radius:.8em;
+                    border-bottom-left-radius: 0px;
+                    box-shadow:1px 1px 5px 2px rgba(0,0,0,.5);
+                   /*  transform: skew(-3deg, 0deg); */
+                }
+                .right-message{
+                    max-width: 45%;
+                    margin-bottom: 20px;
+                    padding:.5em;
+                    @include backgroundMsg($color-pink, $color-purple);
+                    color: $color-white;
+                    align-self:flex-end;
+                    border-radius: .8em;
+                    border-bottom-right-radius: 0px;
+                    box-shadow:1px 1px 2px 2px rgba(0,0,0,.5);
+                    /* transform: skew(3deg, 0deg); */
+                }
+            }
+
+            .chat-footer {
+                display: inline-block;
+                height: 15%;
+            }
+            
         }
         
         .bannerInfoTeam {
@@ -94,7 +148,9 @@
         }
 
         .infoTeam {
-            height: auto;
+            height: 65vh;
+            overflow-y: scroll;
+            overflow-x: none;
             justify-content: center;
             align-self: center;
             padding-right: 25%;

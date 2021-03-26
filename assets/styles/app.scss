@@ -27,6 +27,11 @@
 @import "components/loadingText";
 @import "components/avatar";
 @import "components/principalTeamSelector";
+@import "components/bannerChat";
+@import "components/listBtn";
+@import "components/tabs";
+@import "components/collapseBtn";
+@import "components/inputChat";
 
 @import "layouts/corners";
 @import "layouts/header";
@@ -45,3 +50,4 @@
 @import "pages/resetPassword";
 @import "pages/requiredAttributes";
 @import "pages/profile";
+@import "pages/teams";

@@ -2,7 +2,14 @@
   <div class="tabs">
     <a-tabs default-active-key="1" class="tabPane" size="large">
       <a-tabPane key="1" :tab="title1">
-        <h4>JUGADORES</h4>
+        <a-form-model-item>
+          <PrincipalBtn
+            text="+ AGREGAR JUGADOR (3/30)"
+            :loading="btnLoading"
+            @click.native="addPlayer()"
+          />
+        </a-form-model-item>
+        <h3>JUGADORES</h3>
         <br>
         <a-row :gutter="[0, 0]" type="flex">
           <a-col
@@ -19,13 +26,6 @@
             />
           </a-col>
         </a-row>
-        <a-form-model-item>
-          <PrincipalBtn
-            text="+ AGREGAR JUGADOR (3/30)"
-            :loading="btnLoading"
-            @click.native="addPlayer()"
-          />
-        </a-form-model-item>
       </a-tabPane>
       <a-tabPane key="2" :tab="title2">
         Content of Tab Pane 2

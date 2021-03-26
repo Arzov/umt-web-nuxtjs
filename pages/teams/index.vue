@@ -3,33 +3,81 @@
     <a-row>
       <a-col class="leftContent" :span="8">
         <a-row class="shield">
-          <img src="@/assets/images/shield.svg" alt="">
+          <img src="@/assets/images/shield.svg" alt="" />
         </a-row>
         <a-row class="options">
           <TeamTabs title1="ACTIVOS" title2="SOLICITUDES" />
         </a-row>
       </a-col>
       <a-col v-show="isVisible" class="rightContent" :span="16">
-        <a-row class="banner">
-          <div @click="isVisible = !isVisible">
-            <BannerChat />
-          </div>
-        </a-row>
         <a-row class="chatContainer">
-          <div class="chat">
-            <h2>
-              COMPONENTE PARA EL CHAT
-            </h2>
+          <a-row class="chat-header">
+            <div @click="isVisible = !isVisible">
+              <BannerChat />
+            </div>
+          </a-row>
+          <div class="chat-body">
+            <div class="left-message">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex facere
+              iure accusamus dolor culpa, nobis repellendus vitae maiores in,
+              explicabo recusandae eaque obcaecati alias dolore sit velit
+              voluptatibus odio consequuntur.
+            </div>
+            <div class="right-message">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+              maiores temporibus corporis necessitatibus debitis laborum ipsum
+              ullam iste unde dolores quam, maxime cupiditate optio mollitia
+              perspiciatis fugit vel quis ducimus?
+            </div>
+            <div class="left-message">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex facere
+              iure accusamus dolor culpa, nobis repellendus vitae maiores in,
+              explicabo recusandae eaque obcaecati alias dolore sit velit
+              voluptatibus odio consequuntur.
+            </div>
+            <div class="right-message">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+              maiores temporibus corporis necessitatibus debitis laborum ipsum
+              ullam iste unde dolores quam, maxime cupiditate optio mollitia
+              perspiciatis fugit vel quis ducimus?
+            </div>
+            <div class="left-message">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex facere
+              iure accusamus dolor culpa, nobis repellendus vitae maiores in,
+              explicabo recusandae eaque obcaecati alias dolore sit velit
+              voluptatibus odio consequuntur.
+            </div>
+            <div class="right-message">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+              maiores temporibus corporis necessitatibus debitis laborum ipsum
+              ullam iste unde dolores quam, maxime cupiditate optio mollitia
+              perspiciatis fugit vel quis ducimus?
+            </div>
           </div>
+          <a-row class="chat-footer">
+            <InputChat />
+          </a-row>
         </a-row>
       </a-col>
       <a-col v-show="!isVisible" class="rightContent" :span="16">
         <a-row class="bannerInfoTeam">
-          <a-col v-if="this._themePreference === 'light'" class="iconContainer" :span="4">
-            <img src="./../../assets/icons/lm-x-active.svg" alt="" @click="isVisible = !isVisible">
+          <a-col
+            v-if="this._themePreference === 'light'"
+            class="iconContainer"
+            :span="4"
+          >
+            <img
+              src="./../../assets/icons/lm-x-active.svg"
+              alt=""
+              @click="isVisible = !isVisible"
+            />
           </a-col>
           <a-col v-else class="iconContainer" :span="4">
-            <img src="./../../assets/icons/dm-x-active.svg" alt="" @click="isVisible = !isVisible">
+            <img
+              src="./../../assets/icons/dm-x-active.svg"
+              alt=""
+              @click="isVisible = !isVisible"
+            />
           </a-col>
           <a-col class="title" :span="20">
             <center>
@@ -37,12 +85,8 @@
             </center>
           </a-col>
           <a-col class="imgContainer" :span="4">
-            <img src="./../../assets/images/corner-top-right.svg" alt="">
-            <a-avatar
-              size="large"
-              class="teamPicture"
-              :src="teamPicture"
-            />
+            <img src="./../../assets/images/corner-top-right.svg" alt="" />
+            <a-avatar size="large" class="teamPicture" :src="teamPicture" />
           </a-col>
         </a-row>
         <a-row class="infoTeam">
@@ -55,30 +99,30 @@
 
 <script>
 export default {
-  layout: 'navbar',
-  data () {
+  layout: "navbar",
+  data() {
     return {
       isVisible: true,
-      teamName: 'NOMBRE EQUIPO'
-    }
+      teamName: "NOMBRE EQUIPO",
+    };
   },
   computed: {
-    teamPicture () {
+    teamPicture() {
       if (this._userState.primaryTeam && this._userState.primaryTeam.picture) {
-        return this._userState.primaryTeam.picture
+        return this._userState.primaryTeam.picture;
       } else {
-        return this.getImage('team-profile.svg')
+        return this.getImage("team-profile.svg");
       }
-    }
+    },
   },
   methods: {
-    click () {
-      console.log('Probando el click del banner')
+    click() {
+      console.log("Probando el click del banner");
     },
-    getImage (image) {
-      const mode = this._themePreference === 'light' ? 'lm' : 'dm'
-      return require(`@/assets/icons/${mode}-${image}`)
-    }
-  }
-}
+    getImage(image) {
+      const mode = this._themePreference === "light" ? "lm" : "dm";
+      return require(`@/assets/icons/${mode}-${image}`);
+    },
+  },
+};
 </script>

@@ -5,10 +5,18 @@
 }
 
 .bannerChat {
-    height: 100%;
     display: flex;
     flex-direction: row;
+    height: 100%;
     cursor: pointer;
+
+    .dmBody & {
+        background-color: $color-black;
+    }
+
+    .lmBody & {
+        background-color: $color-light-grey;
+    }
 
     .imgContainer {
         @extend %full-width;
