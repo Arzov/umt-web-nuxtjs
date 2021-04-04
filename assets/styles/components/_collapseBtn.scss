@@ -1,20 +1,34 @@
 .collapseBtn {
 
+    .ant-collapse {
+        border: none;
+    }
+
+    .ant-collapse > .ant-collapse-item {
+        border-bottom: none;
+    }
+
     .dmBody & {
 
         .ant-collapse {
-            background-color: $color-white;
+            background-color: $color-dark-grey;
         }
 
         .ant-collapse-header {
+            color: $color-white;
             font-size: 16px;
             font-weight: bold;
             margin-left: 50px;
             margin-top: -30px;
         }
 
-        h2 {
-            color: $color-dark-grey;
+        .ant-collapse-content {
+            border-top: none;
+        }
+
+        .ant-collapse-content-box {
+            background-color: $color-black;
+            color: $color-white;
         }
     }
 

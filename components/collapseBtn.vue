@@ -18,6 +18,7 @@
           desc="Aceptar solicitud"
           picture1="https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/jesus_profile_bw_512x512.jpg"
         />
+        <a-divider class="divider" />
       </a-collapse-panel>
       <img :src="_userState.picture" style="width:35px; border-radius: 20px;" alt="" class="teamIcon">
       <a-collapse-panel key="2" header="MIS SOLICITUDES (2)">
@@ -31,6 +32,7 @@
           title="FC BARCELONA"
           desc="Aceptar solicitud"
         />
+        <a-divider class="divider" />
       </a-collapse-panel>
     </a-collapse>
   </div>

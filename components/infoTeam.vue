@@ -28,7 +28,9 @@
         </a-row>
       </a-tabPane>
       <a-tabPane key="2" :tab="title2">
-        Content of Tab Pane 2
+        <img src="https://image-api.onlineeducation.center/v2/image/max-width/800/blog/4_3_3.jpg" alt=""
+        style="width: 100%;"
+        >
       </a-tabPane>
     </a-tabs>
   </div>

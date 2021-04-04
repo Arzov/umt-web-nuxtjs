@@ -37,10 +37,17 @@
     .rightContent { 
         @extend %full-width;
         justify-content: flex-start;
-        border-left: 1px solid $color-dark-grey;
+
+        .dmBody & {
+            border-left: 1px solid $color-light-grey;
+        }
+    
+        .lmBody & {
+            border-left: 1px solid $color-violet;
+        }        
 
         .chatContainer {
-            background-image: url("../images/chat-background.svg");
+            /* background-image: url("../images/chat-background.svg"); */
             background-size: 30%;
             display: flex;
             width: 100%;
@@ -48,19 +55,27 @@
             flex-direction: column;
 
             .chat-header {
-                height: 20%;
-                border-bottom: 1px solid $color-dark-grey;
+                height: auto;
             }
 
             .chat-body {
+                    background-image: url("../images/chat-background.svg");
+                    background-size: 30%;
                     padding: 20px 60px 20px 60px;
                     display:flex;
-                    flex: 1;
                     min-height: 65%;
                     max-height: 420px;
                     overflow-y: scroll;
-                    overflow-x: none;
+                    overflow-x: none;                    
                     flex-direction:column;
+
+                    .dmBody & {
+                        border-top: 1px solid $color-light-grey;
+                    }
+                
+                    .lmBody & {
+                        border-top: 1px solid $color-violet;
+                    }                   
 
                 .left-message{
                     max-width: 45%;
@@ -89,6 +104,8 @@
             }
 
             .chat-footer {
+                background-image: url("../images/chat-background.svg");
+                background-size: 30%;
                 display: inline-block;
                 height: 15%;
             }
