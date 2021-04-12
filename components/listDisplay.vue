@@ -41,7 +41,7 @@
                 </figcaption>
             </figure>
             <figure v-if="!loading" class="count">
-                <i> {{ match.allowedPatches }} </i>
+                <i> {{ match.patches }} </i>
                 <figcaption>Parches</figcaption>
             </figure>
             <figure v-if="!loading" class="date">

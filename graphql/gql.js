@@ -7,7 +7,7 @@ export const arv = {
             $lastName: String!,
             $providerId: String!,
             $providers: [String]!,
-            $registerDate: String!,
+            $joinedOn: String!,
             $verified: Boolean!,
             $birthdate: String!,
             $gender: String!,
@@ -19,7 +19,7 @@ export const arv = {
               lastName: $lastName,
               providerId: $providerId,
               providers: $providers,
-              registerDate: $registerDate,
+              joinedOn: $joinedOn,
               verified: $verified,
               birthdate: $birthdate,
               gender: $gender,
@@ -39,7 +39,7 @@ export const arv = {
               lastName,
               providerId,
               providers,
-              registerDate,
+              joinedOn,
               verified,
               birthdate,
               gender,
@@ -78,7 +78,7 @@ export const umt = {
               formation
               geohash
               coords
-              searchingPlayers
+              searching
               genderFilter
               ageMinFilter
               ageMaxFilter
@@ -96,7 +96,7 @@ export const umt = {
                 formation
                 geohash
                 coords
-                searchingPlayers
+                searching
                 genderFilter
                 ageMinFilter
                 ageMaxFilter
@@ -136,7 +136,7 @@ export const umt = {
                 formation
                 geohash
                 coords
-                searchingPlayers
+                searching
                 genderFilter
                 ageMinFilter
                 ageMaxFilter
@@ -169,7 +169,7 @@ export const umt = {
                 teamId1
                 teamId2
                 createdOn
-                allowedPatches
+                patches
                 positions
                 expireOn
                 schedule
