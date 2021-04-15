@@ -51,7 +51,7 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
     return Math.round(d);
 };
 
-const getUTCToLocal = (dateUTC) => {
+const getLocalFromUTC = (dateUTC) => {
     const currDate = new Date(Date.parse(`${dateUTC}`));
     return currDate;
 };
@@ -72,13 +72,20 @@ const getDayDD = (currDate) => {
     return currentDay;
 };
 
+const getAgeFromDate = (birthday) => {
+    const ageDifMs = Date.now() - new Date(birthday).getTime();
+    const ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
+
 export default (ctx, inject) => {
     const UTILS = {
         validateBirthdate,
         getDistance,
-        getUTCToLocal,
+        getLocalFromUTC,
         getMonthMM,
         getDayDD,
+        getAgeFromDate,
     };
 
     inject("UTILS", UTILS);

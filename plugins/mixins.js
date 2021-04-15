@@ -79,6 +79,7 @@ export const validGeoloc = {
                             this._userState.coords.LON.N
                         );
 
+                        // update location if is current is greater than 5km
                         if (moveDistance >= 5) {
                             const params = {
                                 api: "umt",

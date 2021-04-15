@@ -41,7 +41,12 @@
                 </figcaption>
             </figure>
             <figure v-if="!loading" class="count">
-                <i> {{ match.patches }} </i>
+                <i>
+                    {{
+                        `${match.patches.CP.N} /
+                        ${match.patches.NP.N}`
+                    }}
+                </i>
                 <figcaption>Parches</figcaption>
             </figure>
             <figure v-if="!loading" class="date">
@@ -54,7 +59,7 @@
                 <figcaption>Fecha</figcaption>
             </figure>
         </div>
-        <div v-if="!loading" class="btn">
+        <div v-if="!loading" class="btn" @click="triggerClick">
             <RoundedTextBtn text="unirse" />
         </div>
     </div>
@@ -71,7 +76,7 @@
                 A {{ team.distance }} kilómetros de distancia
             </div>
         </div>
-        <div v-if="!loading" class="btn">
+        <div v-if="!loading" class="btn" @click="triggerClick">
             <RoundedTextBtn text="solicitar" />
         </div>
     </div>
@@ -95,6 +100,9 @@ export default {
             } else {
                 return image;
             }
+        },
+        triggerClick() {
+            this.$emit("click");
         },
     },
 };

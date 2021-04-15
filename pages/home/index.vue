@@ -31,14 +31,20 @@
                         <ListDisplay v-if="loading" :loading="loading" />
                         <div v-if="!loading">
                             <div v-if="_nearTeams.length > 0">
-                                <div v-for="t in _nearTeams" :key="`t${t.id}`">
-                                    <ListDisplay :team="t" />
+                                <div
+                                    v-for="team in _nearTeams"
+                                    :key="`t${team.id}`"
+                                >
+                                    <ListDisplay
+                                        :team="t"
+                                        @click="sendMatchRequest(team)"
+                                    />
                                 </div>
                             </div>
                             <div v-else>
                                 <!-- TODO: Put image -->
-                                <b>¡Lo sentimos!.</b> No encontramos partidos
-                                cercanos. Intenta más tarde.
+                                <b>¡Lo sentimos!.</b> No encontramos equipos
+                                rivales cercanos. Intenta más tarde.
                             </div>
                         </div>
                     </div>
@@ -57,8 +63,15 @@
                     />
                     <div v-if="!loading">
                         <div v-if="_nearMatches.length > 0">
-                            <div v-for="m in _nearMatches" :key="`t${m.id}`">
-                                <ListDisplay :match="m" type="patch" />
+                            <div
+                                v-for="match in _nearMatches"
+                                :key="`t${match.teamId1}${match.teamId2}`"
+                            >
+                                <ListDisplay
+                                    :match="match"
+                                    type="patch"
+                                    @click="sendMatchPatchRequest(match)"
+                                />
                             </div>
                         </div>
                         <div v-else>
@@ -73,8 +86,14 @@
                     <ListDisplay v-if="loading" :loading="loading" />
                     <div v-if="!loading">
                         <div v-if="_nearTeams.length > 0">
-                            <div v-for="t in _nearTeams" :key="`t${t.id}`">
-                                <ListDisplay :team="t" />
+                            <div
+                                v-for="team in _nearTeams"
+                                :key="`t${team.id}`"
+                            >
+                                <ListDisplay
+                                    :team="team"
+                                    @click="sendTeamMemberRequest(team)"
+                                />
                             </div>
                         </div>
                         <div v-else>
@@ -84,7 +103,6 @@
                         </div>
                     </div>
                 </div>
-                <ThemeToggle />
             </a-col>
         </a-row>
         <Geoloc />
@@ -115,11 +133,14 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch("user/listTeams").catch((e) => {
-            this.showNotification(e.title, e.msg, e.type);
-        });
-
-        this.callStore(this._activeOption);
+        this.$store
+            .dispatch("user/listTeams")
+            .then(() => {
+                this.callStore(this._activeOption);
+            })
+            .catch((e) => {
+                this.showNotification(e.title, e.msg, e.type);
+            });
     },
     methods: {
         callStore(action) {
@@ -182,6 +203,36 @@ export default {
                 this.loading = true;
                 this.callStore(e);
             }
+        },
+        sendMatchRequest(team) {
+            this.$store
+                .dispatch("home/sendMatchRequest", team)
+                .then((e) => {
+                    this.showNotification(e.title, e.msg, e.type);
+                })
+                .catch((e) => {
+                    this.showNotification(e.title, e.msg, e.type);
+                });
+        },
+        sendMatchPatchRequest(match) {
+            this.$store
+                .dispatch("home/sendMatchPatchRequest", match)
+                .then((e) => {
+                    this.showNotification(e.title, e.msg, e.type);
+                })
+                .catch((e) => {
+                    this.showNotification(e.title, e.msg, e.type);
+                });
+        },
+        sendTeamMemberRequest(team) {
+            this.$store
+                .dispatch("home/sendTeamMemberRequest", team)
+                .then((e) => {
+                    this.showNotification(e.title, e.msg, e.type);
+                })
+                .catch((e) => {
+                    this.showNotification(e.title, e.msg, e.type);
+                });
         },
     },
 };
