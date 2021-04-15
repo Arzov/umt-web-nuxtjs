@@ -21,6 +21,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_DEV }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY_DEV }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION_DEV }}
+          AWS_R53_UMT_DOMAIN: ${{ secrets.AWS_R53_UMT_DOMAIN_DEV }}
         run: |
           chmod +x deploy.sh
-          docker-compose up deploy-executor
+          docker-compose up --exit-code-from deploy-executor deploy-executor
