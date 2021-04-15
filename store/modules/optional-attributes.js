@@ -7,7 +7,7 @@ const actions = {
             foot: data.foot,
             positions,
         };
-        // TODO: Review async commits
+
         ctx.commit("user/setState", { params }, { root: true });
         this.$router.push("/optional_filters");
     },

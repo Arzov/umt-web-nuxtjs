@@ -7,7 +7,7 @@ export const arv = {
             $lastName: String!,
             $providerId: String!,
             $providers: [String]!,
-            $registerDate: String!,
+            $joinedOn: String!,
             $verified: Boolean!,
             $birthdate: String!,
             $gender: String!,
@@ -19,7 +19,7 @@ export const arv = {
               lastName: $lastName,
               providerId: $providerId,
               providers: $providers,
-              registerDate: $registerDate,
+              joinedOn: $joinedOn,
               verified: $verified,
               birthdate: $birthdate,
               gender: $gender,
@@ -39,7 +39,7 @@ export const arv = {
               lastName,
               providerId,
               providers,
-              registerDate,
+              joinedOn,
               verified,
               birthdate,
               gender,
@@ -78,7 +78,6 @@ export const umt = {
               formation
               geohash
               coords
-              searchingPlayers
               genderFilter
               ageMinFilter
               ageMaxFilter
@@ -96,7 +95,6 @@ export const umt = {
                 formation
                 geohash
                 coords
-                searchingPlayers
                 genderFilter
                 ageMinFilter
                 ageMaxFilter
@@ -108,10 +106,12 @@ export const umt = {
         `,
         nearTeams: `
           query nearTeams(
+            $email: String!,
             $ownTeams: [String],
             $geohash: String!,
             $forJoin: Boolean!,
             $gender: String!,
+            $age: Int!,
             $genderFilter: [String]!,
             $ageMinFilter: Int!,
             $ageMaxFilter: Int!,
@@ -119,10 +119,12 @@ export const umt = {
             $nextToken: String
           ) {
             nearTeams(
+              email: $email,
               ownTeams: $ownTeams,
               geohash: $geohash,
               forJoin: $forJoin,
               gender: $gender,
+              age: $age,
               genderFilter: $genderFilter,
               ageMinFilter: $ageMinFilter,
               ageMaxFilter: $ageMaxFilter,
@@ -136,7 +138,6 @@ export const umt = {
                 formation
                 geohash
                 coords
-                searchingPlayers
                 genderFilter
                 ageMinFilter
                 ageMaxFilter
@@ -148,18 +149,22 @@ export const umt = {
         `,
         nearMatches: `
           query nearMatches(
+            $email: String!,
             $geohash: String!,
             $ownTeams: [String],
             $gender: String!,
+            $age: Int!,
             $ageMinFilter: Int!,
             $ageMaxFilter: Int!,
             $matchFilter: [String]!,
             $nextToken: String
           ) {
             nearMatches(
+              email: $email,
               geohash: $geohash,
               ownTeams: $ownTeams,
               gender: $gender,
+              age: $age,
               ageMinFilter: $ageMinFilter,
               ageMaxFilter: $ageMaxFilter,
               matchFilter: $matchFilter,
@@ -169,7 +174,7 @@ export const umt = {
                 teamId1
                 teamId2
                 createdOn
-                allowedPatches
+                patches
                 positions
                 expireOn
                 schedule
@@ -269,6 +274,96 @@ export const umt = {
               foot,
               weight,
               height
+            }
+          }
+        `,
+        addMatch: `
+          mutation addMatch(
+            $teamId1: String!,
+            $teamId2: String!,
+            $matchFilter: [String!]!,
+            $genderFilter: [String!]!,
+            $ageMinFilter: Int!,
+            $ageMaxFilter: Int!,
+            $geohash: String!,
+            $latitude: Float!,
+            $longitude: Float!
+          ) {
+            addMatch(
+              teamId1: $teamId1,
+              teamId2: $teamId2,
+              matchFilter: $matchFilter,
+              genderFilter: $genderFilter,
+              ageMinFilter: $ageMinFilter,
+              ageMaxFilter: $ageMaxFilter,
+              geohash: $geohash,
+              latitude: $latitude,
+              longitude: $longitude
+            ) {
+              teamId1,
+              teamId2,
+              createdOn,
+              expireOn,
+              patches,
+              positions,
+              ageMinFilter,
+              ageMaxFilter,
+              matchFilter,
+              schedule,
+              reqStat,
+              geohash,
+              coords,
+              stadiumGeohash,
+              stadiumId,
+              courtId,
+              genderFilter
+            }
+          }
+        `,
+        addMatchPatch: `
+          mutation addMatchPatch(
+            $teamId1: String!,
+            $teamId2: String!,
+            $email: String!,
+            $reqStat: String,
+            $expireOn: String!
+          ) {
+            addMatchPatch(
+              teamId1: $teamId1,
+              teamId2: $teamId2,
+              email: $email,
+              reqStat: $reqStat,
+              expireOn: $expireOn
+            ) {
+              teamId1,
+              teamId2,
+              email,
+              reqStat,
+              joinedOn,
+              expireOn
+            }
+          }
+        `,
+        addTeamMember: `
+          mutation addTeamMember(
+            $teamId: String!,
+            $email: String!,
+            $role: [String],
+            $reqStat: String!
+          ) {
+            addTeamMember(
+              teamId: $teamId,
+              email: $email,
+              role: $role,
+              reqStat: $reqStat
+            ) {
+              teamId,
+              email,
+              position,
+              role,
+              reqStat,
+              number,
+              joinedOn
             }
           }
         `,

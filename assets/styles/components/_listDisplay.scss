@@ -1,6 +1,5 @@
 .listDisplay {
     display: flex;
-    flex: 1;
     align-items: flex-start;
     max-height: 72px;
     padding: 16px;
@@ -22,7 +21,7 @@
 
     .content {
         align-self: center;
-        flex: 1;
+        flex-grow: 1;
 
         &.patch {
             display: flex;
@@ -88,8 +87,7 @@
                 h4 {
                     text-overflow: ellipsis;
                     overflow: hidden;
-                    width: 32px;
-                    flex-grow: 1;
+                    max-width: 42px;
                     white-space: nowrap;
                 }
             }

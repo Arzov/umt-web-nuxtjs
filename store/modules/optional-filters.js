@@ -7,6 +7,7 @@ const actions = {
     save(ctx, data) {
         return new Promise((resolve, reject) => {
             const skills = data.skills ? JSON.stringify(data.skills) : null;
+
             this.$AWS.Amplify.configure(awsconfig.umt);
             this.$AWS.API.graphql(
                 graphqlOperation(umt.mutations.addUser, {
@@ -36,7 +37,7 @@ const actions = {
                         ageMaxFilter: result.data.addUser.ageMaxFilter,
                         matchFilter: result.data.addUser.matchFilter,
                     };
-                    // TODO: Review async commits
+
                     ctx.commit("user/setState", { params }, { root: true });
                     this.$router.push("/home");
                     resolve();

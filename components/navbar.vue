@@ -1,6 +1,9 @@
 <template>
     <div class="navbar">
-        <div />
+        <div class="navbarToggle">
+            <ThemeToggle />
+        </div>
+
         <div class="navbarMenu">
             <div v-for="menu in options" :key="menu.key">
                 <a-tooltip placement="bottom">
@@ -25,7 +28,7 @@
 
         <div class="navbarPicture">
             <a-avatar size="small" class="teamPicture" :src="teamPicture" />
-            <a-avatar size="large" :src="_userState.picture" />
+            <a-avatar size="large" :src="userPicture" />
         </div>
     </div>
 </template>
@@ -49,6 +52,13 @@ export default {
                 return this._userState.primaryTeam.picture;
             } else {
                 return this.getImage("team-profile.svg");
+            }
+        },
+        userPicture() {
+            if (this._userState.picture) {
+                return this._userState.picture;
+            } else {
+                return this.getImage("avatar.svg");
             }
         },
     },
