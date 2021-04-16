@@ -1,38 +1,41 @@
 <template>
     <div class="profile">
         <a-row>
-            <a-col class="leftContent" :span="10">
-                <div class="backBtn">
-                    <BackBtn class="size" />
-                </div>
+            <a-col class="leftContent" :span="8">
+                <BackBtn />
 
-                <Avatar label="Franco" name-team="Man. United | FC Barcelona" />
-                <div class="content">
-                    <!-- TODO: Modificar componentes Avatar y PrincipalTeamSelector, ya que los equipos vendrán desde el backend -->
-                    <br /><br /><br /><br />
-                    <PrincipalTeamSelector label="EQUIPO PRINCIPAL*" />
-                    <br />
-                    <center>
-                        * Tu equipo principal es con el cual desafiarás a otros
-                        equipos rivales.
-                    </center>
-                    <br /><br /><br /><br /><br />
-                    <a-form-model-item>
-                        <PrincipalBtn
-                            text="GUARDAR"
-                            :loading="btnLoading"
-                            @click.native="submitForm('ruleForm')"
-                        />
-                    </a-form-model-item>
-                    <center>
-                        <SignOutBtn />
-                    </center>
-                </div>
+                <ProfileDisplay :user="_userState" />
+
+                <br />
+
+                <PrimaryTeamSelector
+                    :teams="_userState.teams"
+                    :primary-team="_userState.primaryTeam"
+                    @click="setPrimaryTeam"
+                />
+
+                <br />
+
+                <center>
+                    * Tu equipo principal es con el cual desafiarás a otros
+                    equipos rivales.
+                </center>
+
+                <br />
+
+                <PrincipalBtn
+                    text="GUARDAR"
+                    :loading="btnLoading"
+                    @click.native="submitForm('ruleForm')"
+                />
+
+                <br />
+
+                <center>
+                    <SignOutBtn />
+                </center>
             </a-col>
-            <a-col class="rightContent" :span="14">
-                <div class="themeToggle">
-                    <ThemeToggle />
-                </div>
+            <a-col class="rightContent" :span="16">
                 <div class="content">
                     <a-form-model
                         ref="ruleForm"
@@ -140,8 +143,9 @@
 </template>
 
 <script>
+import profileDisplay from "../../components/profileDisplay.vue";
 export default {
-    layout: "none",
+    components: { profileDisplay },
     data() {
         return {
             ruleForm: {
@@ -202,6 +206,9 @@ export default {
                     }
                 );
             }
+        },
+        setPrimaryTeam(team) {
+            this.$store.dispatch("profile/setPrimaryTeam", team);
         },
     },
 };

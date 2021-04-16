@@ -49,6 +49,10 @@ const global = {
                 icon,
             });
         },
+        getIcon(icon) {
+            const mode = this._themePreference === "light" ? "lm" : "dm";
+            return require(`@/assets/icons/${mode}-${icon}`);
+        },
     },
 };
 

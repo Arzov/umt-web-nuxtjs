@@ -16,7 +16,7 @@ export default {
     props: {
         label: { type: String, default: "Selecciona" },
         value: { type: String, default: "" },
-        options: { type: Array, default: () => {} },
+        options: { type: Array, default: () => [] },
     },
     methods: {
         triggerChange(e) {

@@ -72,6 +72,7 @@
 
 <script>
 export default {
+    layout: "themeHeader",
     data() {
         return {
             ruleForm: {

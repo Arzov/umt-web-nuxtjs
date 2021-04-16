@@ -13,12 +13,12 @@
                     <nuxt-link :to="menu.url">
                         <img
                             v-if="menu.key != current"
-                            :src="getImage(menu.icon.normal)"
+                            :src="getIcon(menu.icon.normal)"
                             alt=""
                         />
                         <img
                             v-if="menu.key == current"
-                            :src="getImage(menu.icon.active)"
+                            :src="getIcon(menu.icon.active)"
                             alt=""
                         />
                     </nuxt-link>
@@ -28,7 +28,10 @@
 
         <div class="navbarPicture">
             <a-avatar size="small" class="teamPicture" :src="teamPicture" />
-            <a-avatar size="large" :src="userPicture" />
+
+            <nuxt-link to="profile">
+                <a-avatar size="large" :src="userPicture" />
+            </nuxt-link>
         </div>
     </div>
 </template>
@@ -48,24 +51,13 @@ export default {
             if (
                 this._userState.primaryTeam &&
                 this._userState.primaryTeam.picture
-            ) {
+            )
                 return this._userState.primaryTeam.picture;
-            } else {
-                return this.getImage("team-profile.svg");
-            }
+            else return this.getIcon("team-profile.svg");
         },
         userPicture() {
-            if (this._userState.picture) {
-                return this._userState.picture;
-            } else {
-                return this.getImage("avatar.svg");
-            }
-        },
-    },
-    methods: {
-        getImage(image) {
-            const mode = this._themePreference === "light" ? "lm" : "dm";
-            return require(`@/assets/icons/${mode}-${image}`);
+            if (this._userState.picture) return this._userState.picture;
+            else return this.getIcon("avatar.svg");
         },
     },
 };

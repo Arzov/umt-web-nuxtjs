@@ -20,8 +20,8 @@
 export default {
     props: {
         label: { type: String, default: "Selecciona" },
-        options: { type: Array, default: () => {} },
-        value: { type: Array, default: () => {} },
+        options: { type: Array, default: () => [] },
+        value: { type: Array, default: () => [] },
     },
     data() {
         const val = this.options

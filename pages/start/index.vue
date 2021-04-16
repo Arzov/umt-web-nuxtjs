@@ -61,6 +61,7 @@
 import startImagesLayout from "../../components/startImagesLayout.vue";
 export default {
     components: { startImagesLayout },
+    layout: "themeHeader",
     data() {
         return {
             ruleForm: {
