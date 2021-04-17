@@ -7,6 +7,17 @@ export default {
     props: {
         text: { type: String, default: "Cerrar sesión" },
     },
+
+    mounted() {
+        this.$AWS.Hub.listen("auth", ({ payload: { event, data } }) => {
+            switch (event) {
+                case "signOut":
+                    this.$router.push("/start");
+                    break;
+            }
+        });
+    },
+
     methods: {
         signOut() {
             this.$store

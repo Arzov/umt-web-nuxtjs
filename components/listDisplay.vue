@@ -103,11 +103,7 @@
 </template>
 
 <script>
-import loadingAvatar from "./loadingAvatar.vue";
-
 export default {
-    components: { loadingAvatar },
-
     props: {
         match: { type: Object, default: () => {} },
         team: { type: Object, default: () => {} },
@@ -117,7 +113,7 @@ export default {
 
     methods: {
         getImage(image) {
-            if (image === "") this.getIcon("team-profile.svg");
+            if (image === "") return this.getIcon("team-profile.svg");
             else return image;
         },
         triggerClick() {

@@ -1,5 +1,10 @@
 {
-    "GK": { "value": "GK", "text": "PO", "desc": "Portero", "color": "Cian" },
+    "GK": {
+        "value": "GK",
+        "text": "PO",
+        "desc": "Portero",
+        "color": "Cian"
+    },
     "LB": {
         "value": "LB",
         "text": "DFI",

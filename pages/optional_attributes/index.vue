@@ -39,7 +39,7 @@
                     <br />
                     <a-row :gutter="[48, 48]" type="flex">
                         <a-col
-                            v-for="k in require('../../static/data/positionOptions.json')"
+                            v-for="k in require('@/static/data/positionOptions.json')"
                             :key="`c${k.value}`"
                             :span="4.8"
                         >
@@ -57,14 +57,12 @@
                         <OptionSelector
                             v-model="ruleForm.foot"
                             label="PIE HÁBIL"
-                            :options="
-                                require('../../static/data/footOptions.json')
-                            "
+                            :options="require('@/static/data/footOptions.json')"
                         />
                     </a-form-model-item>
                     <a-row :gutter="16" type="flex">
                         <a-col :span="12">
-                            <a-form-model-item :prop="this.$RULES.height.name">
+                            <a-form-model-item :prop="$RULES.height.name">
                                 <MetricInput
                                     v-model="ruleForm.height"
                                     label="ESTATURA"
@@ -73,7 +71,7 @@
                             </a-form-model-item>
                         </a-col>
                         <a-col :span="12">
-                            <a-form-model-item :prop="this.$RULES.weight.name">
+                            <a-form-model-item :prop="$RULES.weight.name">
                                 <MetricInput
                                     v-model="ruleForm.weight"
                                     label="PESO"
@@ -104,6 +102,7 @@
 <script>
 export default {
     layout: "corners",
+
     data() {
         return {
             ruleForm: {
@@ -118,6 +117,7 @@ export default {
             },
         };
     },
+
     methods: {
         submitForm(formName, isSkip) {
             this.$refs[formName].validate((valid) => {

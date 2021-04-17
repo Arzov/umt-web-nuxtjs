@@ -18,6 +18,13 @@
                 />
             </a-col>
         </a-row>
+
+        <br />
+
+        <center>
+            * Tu equipo principal es con el cual desafiarás a otros equipos
+            rivales.
+        </center>
     </div>
 </template>
 

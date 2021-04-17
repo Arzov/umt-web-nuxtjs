@@ -7,20 +7,17 @@ const global = {
             btnLoading: false,
         };
     },
+
     computed: {
         _userState() {
             return this.$store.getters["user/get"];
         },
+
         _globalState() {
             return this.$store.getters["global/get"];
         },
-        _themePreference() {
-            return this._globalState.themePreference;
-        },
-        _allowGeoloc() {
-            return this._globalState.allowGeoloc;
-        },
     },
+
     methods: {
         showNotification(title, msg, type) {
             let icon = <a-icon type="close-circle" />;
@@ -49,8 +46,11 @@ const global = {
                 icon,
             });
         },
+
         getIcon(icon) {
-            const mode = this._themePreference === "light" ? "lm" : "dm";
+            const mode =
+                this._globalState.themePreference === "light" ? "lm" : "dm";
+
             return require(`@/assets/icons/${mode}-${icon}`);
         },
     },
@@ -58,22 +58,10 @@ const global = {
 
 Vue.mixin(global);
 
-export const signOut = {
-    mounted() {
-        this.$AWS.Hub.listen("auth", ({ payload: { event, data } }) => {
-            switch (event) {
-                case "signOut":
-                    this.$router.push("/start");
-                    break;
-            }
-        });
-    },
-};
-
 export const validGeoloc = {
     mounted() {
         if ("geolocation" in navigator) {
-            if (this._allowGeoloc) {
+            if (this._globalState.allowGeoloc) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const moveDistance = this.$UTILS.getDistance(

@@ -23,11 +23,18 @@ export default {
         options: { type: Array, default: () => [] },
         value: { type: Array, default: () => [] },
     },
+
     data() {
-        const val = this.options
-            .map((x) => {
-                if (x.stat === "on") {
-                    return x.value;
+        const opts = this.options.map((option) => {
+            if (this.value.includes(option.key))
+                return { ...option, stat: "on" };
+            else return option;
+        });
+
+        const val = opts
+            .map((option) => {
+                if (option.stat === "on") {
+                    return option.value;
                 }
             })
             .filter(function (el) {
@@ -35,10 +42,11 @@ export default {
             });
 
         return {
-            opts: this.options,
+            opts,
             val,
         };
     },
+
     methods: {
         toggle(v, i) {
             if (this.opts[i].stat === "on") {

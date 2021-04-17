@@ -136,6 +136,7 @@ const actions = {
                         const params = {
                             birthdate,
                             gender: data.gender,
+                            picture: data.picture || "",
                         };
                         ctx.commit("setState", { params });
                         resolve();

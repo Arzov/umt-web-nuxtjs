@@ -1,5 +1,7 @@
 <template>
-    <div :class="_themePreference === 'light' ? 'lmBody' : 'dmBody'">
+    <div
+        :class="_globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'"
+    >
         <Navbar />
         <Nuxt class="page" />
     </div>

@@ -1,5 +1,7 @@
 <template>
-    <div :class="_themePreference === 'light' ? 'lmBody' : 'dmBody'">
+    <div
+        :class="_globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'"
+    >
         <div class="header">
             <ThemeToggle />
         </div>
