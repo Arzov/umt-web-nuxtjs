@@ -8,12 +8,18 @@
             "
             class="logo"
         />
-        <img class="footballShoes" src="../assets/images/football-shoes.svg" />
+
+        <br />
+
+        <img class="footballShoes" src="@/assets/images/football-shoes.svg" />
+
+        <br />
+
         <img
             :src="
                 _globalState.themePreference === 'light'
-                    ? require('../assets/images/lm-points.svg')
-                    : require('../assets/images/dm-points.svg')
+                    ? require('@/assets/images/lm-points.svg')
+                    : require('@/assets/images/dm-points.svg')
             "
             class="points"
         />

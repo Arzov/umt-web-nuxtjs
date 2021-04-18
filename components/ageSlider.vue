@@ -3,11 +3,11 @@
         <label>
             <h4>
                 {{ label }}
-                <p v-if="value[1] == 60" class="range">
-                    {{ textRange.min }} - {{ textRange.max }}+
+                <p v-if="value[1] === 60" class="range">
+                    {{ _textRange.min }} - {{ _textRange.max }}+
                 </p>
                 <p v-else class="range">
-                    {{ textRange.min }} - {{ textRange.max }}
+                    {{ _textRange.min }} - {{ _textRange.max }}
                 </p>
             </h4>
         </label>
@@ -27,9 +27,7 @@ export default {
         label: { type: String, default: "Rango" },
         value: {
             type: Array,
-            default: () => {
-                return [18, 22];
-            },
+            required: true,
         },
         fullRange: {
             type: Object,
@@ -41,18 +39,18 @@ export default {
             },
         },
     },
-    data() {
-        return {
-            textRange: {
+
+    computed: {
+        _textRange() {
+            return {
                 min: this.value[0],
                 max: this.value[1],
-            },
-        };
+            };
+        },
     },
+
     methods: {
         triggerChange(e) {
-            this.textRange.min = e[0];
-            this.textRange.max = e[1];
             this.$emit("input", e);
             this.$emit("change", e);
         },

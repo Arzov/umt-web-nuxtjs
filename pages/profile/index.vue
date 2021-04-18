@@ -105,28 +105,9 @@
                         :model="ruleForm"
                         :rules="rules"
                     >
-                        <h4>POSICIONES DE JUEGO</h4>
-
-                        <br />
-
-                        <a-row :gutter="[48, 48]" type="flex">
-                            <a-col
-                                v-for="k in require('@/static/data/positionOptions.json')"
-                                :key="`c${k.value}`"
-                                :span="4.8"
-                            >
-                                <PositionBtn
-                                    :key="`p${k.value}`"
-                                    :text="k.text"
-                                    :color="k.color"
-                                    :value="k.value"
-                                    @change="setPosition($event)"
-                                />
-                            </a-col>
-                        </a-row>
-
-                        <br />
-
+                        <a-form-model-item>
+                            <PositionSelector v-model="ruleForm.positions" />
+                        </a-form-model-item>
                         <a-form-model-item>
                             <OptionSelector
                                 v-model="ruleForm.foot"
@@ -182,10 +163,10 @@ export default {
                 },
                 gender: "M",
                 foot: "R",
-                positions: [],
+                positions: [""],
                 weight: 0,
                 height: 0,
-                matchFilter: ["7v7"],
+                matchFilter: ["5v5"],
                 ageFilter: [18, 22],
             },
 
@@ -208,8 +189,10 @@ export default {
         this.ruleForm.positions = this._userState.positions;
         this.ruleForm.foot = this._userState.foot;
         this.ruleForm.matchFilter = this._userState.matchFilter;
-        this.ruleForm.ageFilter[0] = this._userState.ageMinFilter;
-        this.ruleForm.ageFilter[1] = this._userState.ageMaxFilter;
+        this.ruleForm.ageFilter = [
+            this._userState.ageMinFilter,
+            this._userState.ageMaxFilter,
+        ];
     },
 
     methods: {
@@ -234,17 +217,6 @@ export default {
                         });
                 } else return false;
             });
-        },
-        setPosition(e) {
-            if (e.value !== null) {
-                this.ruleForm.positions.push(e.value);
-            } else {
-                this.ruleForm.positions = this.ruleForm.positions.filter(
-                    (value) => {
-                        return value !== e.key;
-                    }
-                );
-            }
         },
         setPrimaryTeam(team) {
             this.$store.dispatch("profile/setPrimaryTeam", team);
