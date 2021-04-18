@@ -1,8 +1,7 @@
 <template>
-    <div :class="_themePreference === 'light' ? 'lmBody' : 'dmBody'">
-        <div class="header">
-            <ThemeToggle />
-        </div>
+    <div
+        :class="_globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'"
+    >
         <Nuxt class="page" />
     </div>
 </template>

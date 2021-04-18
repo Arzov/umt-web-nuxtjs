@@ -1,57 +1,72 @@
-{
-    "GK": { "value": "GK", "text": "PO", "desc": "Portero", "color": "Cian" },
-    "LB": {
+[
+    {
+        "value": "GK",
+        "text": "PO",
+        "desc": "Portero",
+        "color": "Cian",
+        "stat": "off"
+    },
+    {
         "value": "LB",
         "text": "DFI",
         "desc": "Defensa izquierdo",
-        "color": "Violet"
+        "color": "Violet",
+        "stat": "off"
     },
-    "CB": {
+    {
         "value": "CB",
         "text": "DFC",
         "desc": "Defensa central",
-        "color": "Violet"
+        "color": "Violet",
+        "stat": "off"
     },
-    "RB": {
+    {
         "value": "RB",
         "text": "DFD",
         "desc": "Defensa derecho",
-        "color": "Violet"
+        "color": "Violet",
+        "stat": "off"
     },
-    "LM": {
+    {
         "value": "LM",
         "text": "MI",
         "desc": "Medio campo izquierdo",
-        "color": "Pink"
+        "color": "Pink",
+        "stat": "off"
     },
-    "CM": {
+    {
         "value": "CM",
         "text": "MC",
         "desc": "Medio campo",
-        "color": "Pink"
+        "color": "Pink",
+        "stat": "off"
     },
-    "RM": {
+    {
         "value": "RM",
         "text": "MD",
         "desc": "Medio campo derecho",
-        "color": "Pink"
+        "color": "Pink",
+        "stat": "off"
     },
-    "LW": {
+    {
         "value": "LW",
         "text": "DI",
         "desc": "Delantero izquierdo",
-        "color": "Purple"
+        "color": "Purple",
+        "stat": "off"
     },
-    "CF": {
+    {
         "value": "CF",
         "text": "DC",
         "desc": "Delantero centro",
-        "color": "Purple"
+        "color": "Purple",
+        "stat": "off"
     },
-    "RW": {
+    {
         "value": "RW",
         "text": "DD",
         "desc": "Delantero derecho",
-        "color": "Purple"
+        "color": "Purple",
+        "stat": "off"
     }
-}
+]

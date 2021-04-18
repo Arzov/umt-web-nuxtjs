@@ -32,10 +32,10 @@ $position-colors: (
             @extend %positionBtn-props;
         }
 
-        .positionBtn#{$key}On,
-        .positionBtn#{$key}On:hover,
-        .positionBtn#{$key}On:active,
-        .positionBtn#{$key}On:focus,
+        .positionBtn#{$key}.on,
+        .positionBtn#{$key}.on:hover,
+        .positionBtn#{$key}.on:active,
+        .positionBtn#{$key}.on:focus,
         .positionBtn#{$key}:disabled,
         .positionBtn#{$key}:disabled:hover {
             background-color: map-get($value, "color");

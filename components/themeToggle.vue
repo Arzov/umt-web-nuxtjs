@@ -2,7 +2,7 @@
     <a class="themeToggle" block @click="switchTheme">
         <img
             :src="
-                _themePreference === 'light'
+                _globalState.themePreference === 'light'
                     ? require('../assets/icons/lm-theme.svg')
                     : require('../assets/icons/dm-theme.svg')
             "

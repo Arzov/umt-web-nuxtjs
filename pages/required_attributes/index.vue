@@ -54,11 +54,9 @@
 </template>
 
 <script>
-import { signOut } from "@/plugins/mixins";
-
 export default {
     layout: "corners",
-    mixins: [signOut],
+
     data() {
         return {
             ruleForm: {
@@ -74,6 +72,7 @@ export default {
             },
         };
     },
+
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {

@@ -238,7 +238,6 @@ const actions = {
     sendMatchPatchRequest(ctx, data) {
         return new Promise((resolve, reject) => {
             this.$AWS.Amplify.configure(awsconfig.umt);
-            console.log(umt.mutations.addMatchPatch);
             this.$AWS.API.graphql(
                 graphqlOperation(umt.mutations.addMatchPatch, {
                     teamId1: data.teamId1,

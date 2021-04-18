@@ -3,7 +3,9 @@
         v-model="visible"
         class="geoloc"
         centered
-        :wrap-class-name="_themePreference === 'light' ? 'lmBody' : 'dmBody'"
+        :wrap-class-name="
+            _globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'
+        "
         :mask-closable="false"
         :closable="false"
         :footer="false"
@@ -13,9 +15,9 @@
                 <img
                     class="pin"
                     :src="
-                        _themePreference === 'light'
-                            ? require('../assets/icons/lm-pin.svg')
-                            : require('../assets/icons/dm-pin.svg')
+                        _globalState.themePreference === 'light'
+                            ? require('@/assets/icons/lm-pin.svg')
+                            : require('@/assets/icons/dm-pin.svg')
                     "
                 />
             </div>
@@ -36,9 +38,9 @@
                 <img
                     class="pin"
                     :src="
-                        _themePreference === 'light'
-                            ? require('../assets/icons/lm-pin.svg')
-                            : require('../assets/icons/dm-pin.svg')
+                        _globalState.themePreference === 'light'
+                            ? require('@/assets/icons/lm-pin.svg')
+                            : require('@/assets/icons/dm-pin.svg')
                     "
                 />
             </div>
@@ -73,7 +75,7 @@ export default {
     },
     computed: {
         visible() {
-            return !this._allowGeoloc;
+            return !this._globalState.allowGeoloc;
         },
     },
     methods: {
