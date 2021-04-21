@@ -98,3 +98,6 @@ sw.*
 
 # Yarn lock
 yarn.lock
+
+#vs code
+.vscode
