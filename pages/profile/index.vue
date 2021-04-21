@@ -34,7 +34,7 @@
             </a-col>
 
             <a-col class="rightContent" :span="16">
-                <div class="content">
+                <ScrollContainer>
                     <center>
                         <label><h3>ATRIBUTOS</h3></label>
                     </center>
@@ -145,7 +145,7 @@
                             />
                         </a-form-model-item>
                     </a-form-model>
-                </div>
+                </ScrollContainer>
             </a-col>
         </a-row>
     </div>

@@ -12,6 +12,7 @@
                 <h1 style="font-weight: 400; margin-bottom: 48px">
                     Busca nuevos desafíos.
                 </h1>
+
                 <div v-for="menu in options" :key="menu.key">
                     <CardBtn
                         :key="menu.key"
@@ -25,84 +26,94 @@
                 </div>
             </a-col>
             <a-col class="rightContent" :span="12">
-                <div v-if="_activeOption === 'challenge'">
-                    <h3>DESAFIAR</h3>
-                    <div v-if="_userState.primaryTeam">
+                <ScrollContainer @bottomScroll="callStore(_activeOption, true)">
+                    <!-- Challenge -->
+
+                    <div v-if="_activeOption === 'challenge'">
+                        <h3>DESAFIAR</h3>
+                        <div v-if="_userState.primaryTeam">
+                            <ListDisplay v-if="loading" :loading="loading" />
+                            <div v-if="!loading">
+                                <div v-if="_nearTeams.length">
+                                    <div
+                                        v-for="team in _nearTeams"
+                                        :key="`t${team.id}`"
+                                    >
+                                        <ListDisplay
+                                            :team="team"
+                                            @click="sendMatchRequest(team)"
+                                        />
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <!-- TODO: Put image -->
+                                    <b>¡Lo sentimos!.</b> No encontramos equipos
+                                    rivales cercanos. Intenta más tarde.
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <!-- TODO: Put image -->
+                            <b>¡Lo sentimos!.</b> Debes tener un equipo para
+                            poder buscar equipos rivales.
+                        </div>
+                    </div>
+
+                    <!-- Patch -->
+
+                    <div v-else-if="_activeOption === 'patch'">
+                        <h3>PARCHAR</h3>
+                        <ListDisplay
+                            v-if="loading"
+                            :loading="loading"
+                            type="patch"
+                        />
+                        <div v-if="!loading">
+                            <div v-if="_nearMatches.length">
+                                <div
+                                    v-for="match in _nearMatches"
+                                    :key="`m${match.teamId1}${match.teamId2}`"
+                                >
+                                    <ListDisplay
+                                        :match="match"
+                                        type="patch"
+                                        @click="sendMatchPatchRequest(match)"
+                                    />
+                                </div>
+                            </div>
+                            <div v-else>
+                                <!-- TODO: Put image -->
+                                <b>¡Lo sentimos!.</b> No encontramos partidos
+                                cercanos. Intenta más tarde.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Join team -->
+
+                    <div v-else>
+                        <h3>EQUIPOS</h3>
                         <ListDisplay v-if="loading" :loading="loading" />
                         <div v-if="!loading">
-                            <div v-if="_nearTeams.length > 0">
+                            <div v-if="_nearTeamsForJoin.length">
                                 <div
-                                    v-for="team in _nearTeams"
+                                    v-for="team in _nearTeamsForJoin"
                                     :key="`t${team.id}`"
                                 >
                                     <ListDisplay
-                                        :team="t"
-                                        @click="sendMatchRequest(team)"
+                                        :team="team"
+                                        @click="sendTeamMemberRequest(team)"
                                     />
                                 </div>
                             </div>
                             <div v-else>
                                 <!-- TODO: Put image -->
                                 <b>¡Lo sentimos!.</b> No encontramos equipos
-                                rivales cercanos. Intenta más tarde.
+                                cercanos. Intenta más tarde.
                             </div>
                         </div>
                     </div>
-                    <div v-else>
-                        <!-- TODO: Put image -->
-                        <b>¡Lo sentimos!.</b> Debes tener un equipo para poder
-                        buscar equipos rivales.
-                    </div>
-                </div>
-                <div v-else-if="_activeOption === 'patch'">
-                    <h3>PARCHAR</h3>
-                    <ListDisplay
-                        v-if="loading"
-                        :loading="loading"
-                        type="patch"
-                    />
-                    <div v-if="!loading">
-                        <div v-if="_nearMatches.length > 0">
-                            <div
-                                v-for="match in _nearMatches"
-                                :key="`t${match.teamId1}${match.teamId2}`"
-                            >
-                                <ListDisplay
-                                    :match="match"
-                                    type="patch"
-                                    @click="sendMatchPatchRequest(match)"
-                                />
-                            </div>
-                        </div>
-                        <div v-else>
-                            <!-- TODO: Put image -->
-                            <b>¡Lo sentimos!.</b> No encontramos partidos
-                            cercanos. Intenta más tarde.
-                        </div>
-                    </div>
-                </div>
-                <div v-else>
-                    <h3>EQUIPOS</h3>
-                    <ListDisplay v-if="loading" :loading="loading" />
-                    <div v-if="!loading">
-                        <div v-if="_nearTeams.length > 0">
-                            <div
-                                v-for="team in _nearTeams"
-                                :key="`t${team.id}`"
-                            >
-                                <ListDisplay
-                                    :team="team"
-                                    @click="sendTeamMemberRequest(team)"
-                                />
-                            </div>
-                        </div>
-                        <div v-else>
-                            <!-- TODO: Put image -->
-                            <b>¡Lo sentimos!.</b> No encontramos equipos
-                            cercanos. Intenta más tarde.
-                        </div>
-                    </div>
-                </div>
+                </ScrollContainer>
             </a-col>
         </a-row>
         <Geoloc />
@@ -111,16 +122,21 @@
 
 <script>
 import { validGeoloc } from "@/plugins/mixins";
+import scrollContainer from "../../components/scrollContainer.vue";
 
 export default {
+    components: { scrollContainer },
     mixins: [validGeoloc],
+
     layout: "navbar",
+
     data() {
         return {
             loading: true,
             options: require("@/static/data/homeOptions.json"),
         };
     },
+
     computed: {
         _activeOption() {
             return this.options.filter((m) => m.active === true)[0].key;
@@ -128,10 +144,14 @@ export default {
         _nearTeams() {
             return this.$store.getters["home/get"].nearTeams;
         },
+        _nearTeamsForJoin() {
+            return this.$store.getters["home/get"].nearTeamsForJoin;
+        },
         _nearMatches() {
             return this.$store.getters["home/get"].nearMatches;
         },
     },
+
     mounted() {
         this.$store
             .dispatch("user/listTeams")
@@ -142,13 +162,19 @@ export default {
                 this.showNotification(e.title, e.msg, e.type);
             });
     },
+
     methods: {
-        callStore(action) {
+        callStore(action, isInfiniteScroll) {
+            this.loading = true;
+
             switch (action) {
                 case "challenge": {
                     if (this._userState.primaryTeam) {
                         this.$store
-                            .dispatch("home/nearTeams", { forJoin: false })
+                            .dispatch("home/nearTeams", {
+                                forJoin: false,
+                                isInfiniteScroll,
+                            })
                             .then(() => {
                                 this.loading = false;
                             })
@@ -161,7 +187,10 @@ export default {
 
                 case "patch": {
                     this.$store
-                        .dispatch("home/nearMatches", { forJoin: false })
+                        .dispatch("home/nearMatches", {
+                            forJoin: false,
+                            isInfiniteScroll,
+                        })
                         .then(() => {
                             this.loading = false;
                         })
@@ -173,7 +202,10 @@ export default {
 
                 case "search": {
                     this.$store
-                        .dispatch("home/nearTeams", { forJoin: true })
+                        .dispatch("home/nearTeams", {
+                            forJoin: true,
+                            isInfiniteScroll,
+                        })
                         .then(() => {
                             this.loading = false;
                         })
@@ -184,6 +216,7 @@ export default {
                 }
             }
         },
+
         selectOption(e) {
             // Avoid reload when action is already selected
             if (e !== this._activeOption) {
@@ -200,10 +233,10 @@ export default {
                     };
                 });
 
-                this.loading = true;
                 this.callStore(e);
             }
         },
+
         sendMatchRequest(team) {
             this.$store
                 .dispatch("home/sendMatchRequest", team)
@@ -214,6 +247,7 @@ export default {
                     this.showNotification(e.title, e.msg, e.type);
                 });
         },
+
         sendMatchPatchRequest(match) {
             this.$store
                 .dispatch("home/sendMatchPatchRequest", match)
@@ -224,6 +258,7 @@ export default {
                     this.showNotification(e.title, e.msg, e.type);
                 });
         },
+
         sendTeamMemberRequest(team) {
             this.$store
                 .dispatch("home/sendTeamMemberRequest", team)

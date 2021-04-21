@@ -1,15 +1,11 @@
 .profile {
     .rightContent {
-        border-left: 1px solid mix($color-violet, $color-light-grey, 20%);
+        .dmBody & {
+            border-left: 1px solid rgba($color-dark-grey, 100%);
+        }
 
-        .content {
-            height: 80vh;
-            padding-left: 50px;
-            padding-right: 50px;
-            padding-bottom: 100px;
-
-            overflow-y: scroll;
-            overflow-x: hidden;
+        .lmBody & {
+            border-left: 1px solid rgba($color-purple, 20%);
         }
     }
 }
