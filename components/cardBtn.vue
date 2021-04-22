@@ -1,6 +1,6 @@
 <template>
     <div :class="`cardBtn ${active ? 'active' : ''}`" @click="toggle">
-        <img :src="getImage(icon)" />
+        <img :src="active ? getIcon(icon.active) : getIcon(icon.normal)" />
         <div class="content">
             <h2 class="title">
                 {{ title }}
@@ -25,11 +25,6 @@ export default {
         value: { type: String, default: null },
     },
     methods: {
-        getImage(icon) {
-            const mode = this._themePreference === "light" ? "lm" : "dm";
-            const type = this.active ? icon.active : icon.normal;
-            return require(`@/assets/icons/${mode}-${type}`);
-        },
         toggle() {
             this.$emit("change", this.value);
         },

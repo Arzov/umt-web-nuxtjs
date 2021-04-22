@@ -2,7 +2,7 @@
     <a class="google" block @click="toGoogleLogin">
         <img
             :src="
-                _themePreference === 'light'
+                _globalState.themePreference === 'light'
                     ? require('../assets/icons/lm-google.svg')
                     : require('../assets/icons/dm-google.svg')
             "

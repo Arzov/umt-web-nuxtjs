@@ -27,7 +27,7 @@ const getDefaultState = () => ({
     height: getLocalStorageState("height") || 0,
     providerId: getLocalStorageState("providerId") || null,
     providers: getLocalStorageState("providers") || null,
-    registerDate: getLocalStorageState("registerDate") || null,
+    joinedOn: getLocalStorageState("joinedOn") || null,
     verified: getLocalStorageState("verified") || null,
     // Local
     teams: getLocalStorageState("teams") || null,
@@ -61,7 +61,7 @@ const actions = {
                         picture: result.data.getUser.picture,
                         providerId: JSON.parse(result.data.getUser.providerId),
                         providers: result.data.getUser.providers,
-                        registerDate: result.data.getUser.registerDate,
+                        joinedOn: result.data.getUser.joinedOn,
                         verified: result.data.getUser.verified,
                     };
 
@@ -128,7 +128,7 @@ const actions = {
                         picture: data.picture || "",
                         providerId: JSON.stringify(ctx.state.providerId),
                         providers: ctx.state.providers,
-                        registerDate: ctx.state.registerDate,
+                        joinedOn: ctx.state.joinedOn,
                         verified: ctx.state.verified,
                     })
                 )
@@ -136,6 +136,7 @@ const actions = {
                         const params = {
                             birthdate,
                             gender: data.gender,
+                            picture: data.picture || "",
                         };
                         ctx.commit("setState", { params });
                         resolve();

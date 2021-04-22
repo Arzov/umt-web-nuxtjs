@@ -1,6 +1,6 @@
 export default ({ app, route, store, redirect }) => {
     const currentPath = route.name.split("-")[0]; // split by '-' for dynamic pages
-    const userState = store.getters["user/get"];
+    const _userState = store.getters["user/get"];
 
     app.$AWS.Auth.currentSession()
         .then(() => {
@@ -21,13 +21,13 @@ export default ({ app, route, store, redirect }) => {
                  * the view Home. This only happens in the Start view and only
                  * when started with social media.
                  */
-                if (userState.email) {
+                if (_userState.email) {
                     redirect("/home");
                 }
             }
 
             // Check mandatory/optionals fields
-            else if (!userState.birthdate) {
+            else if (!_userState.birthdate) {
                 /**
                  * It is redirected only if you are not on the corresponding page.
                  * This validation goes at this point and not in the parent 'else if' since
@@ -37,11 +37,11 @@ export default ({ app, route, store, redirect }) => {
                 if (currentPath !== "required_attributes") {
                     redirect("/required_attributes");
                 }
-            } else if (!userState.foot) {
+            } else if (!_userState.foot) {
                 if (currentPath !== "optional_attributes") {
                     redirect("/optional_attributes");
                 }
-            } else if (!userState.ageMinFilter) {
+            } else if (!_userState.ageMinFilter) {
                 if (currentPath !== "optional_filters") {
                     redirect("/optional_filters");
                 }

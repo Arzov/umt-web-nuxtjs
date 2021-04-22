@@ -18,8 +18,15 @@
     }
 
     .navbarMenu,
-    .navbarPicture {
+    .navbarPicture,
+    .navbarToggle {
         place-self: center;
+
+        .themeToggle {
+            img {
+                width: 24px;
+            }
+        }
     }
 
     .navbarMenu > div {

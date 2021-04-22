@@ -2,7 +2,7 @@
     <a class="facebook" block @click="toFacebookLogin">
         <img
             :src="
-                _themePreference === 'light'
+                _globalState.themePreference === 'light'
                     ? require('../assets/icons/lm-facebook.svg')
                     : require('../assets/icons/dm-facebook.svg')
             "

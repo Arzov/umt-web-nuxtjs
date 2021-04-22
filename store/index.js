@@ -10,6 +10,7 @@ import requiredAttributes from "./modules/required-attributes";
 import optionalFilters from "./modules/optional-filters";
 import optionalAttributes from "./modules/optional-attributes";
 import home from "./modules/home";
+import profile from "./modules/profile";
 
 const store = () => {
     return new Vuex.Store({
@@ -25,6 +26,7 @@ const store = () => {
             optionalFilters,
             optionalAttributes,
             home,
+            profile,
         },
     });
 };
