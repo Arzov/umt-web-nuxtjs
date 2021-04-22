@@ -99,5 +99,5 @@ sw.*
 # Yarn lock
 yarn.lock
 
-#vs code
+# VS code
 .vscode
