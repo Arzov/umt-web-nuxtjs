@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Matias",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/matias_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "DFD"
+    },
+    {
+        "name": "Jesús",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/jesus_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "PO"
+    },
+    {
+        "name": "Franco",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/franco_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "DC"
+    },
+    {
+        "name": "Diego",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/matias_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "DFD"
+    },
+    {
+        "name": "Esteban",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/jesus_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "PO"
+    },
+    {
+        "name": "Sergio",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/franco_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "DC"
+    },
+    {
+        "name": "Juan",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/matias_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "DFD"
+    },
+    {
+        "name": "Pedro",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/jesus_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "PO"
+    },
+    {
+        "name": "Favio",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/franco_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "DC"
+    },
+    {
+        "name": "Rodrigo",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/matias_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "DFD"
+    },
+    {
+        "name": "Andrés",
+        "img": "https://media.githubusercontent.com/media/Arzov/umt-web-uxi/develop/mockup/images/jesus_profile_bw_512x512.jpg",
+        "roles": ["DT", "ADMIN"],
+        "position": "PO"
+    }
+]

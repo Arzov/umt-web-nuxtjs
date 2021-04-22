@@ -1,0 +1,72 @@
+%non-selectable {
+    -moz-user-select: none; 
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    /* Esconde la barra horizontal inferior que marca la pestaña activa */
+    .ant-tabs-ink-bar {
+        height: 0px;
+    }
+
+    /* Esconde la linea horizontal inferior que viene por defecto */
+    .ant-tabs-bar {
+        border-bottom: 0px;
+    }
+
+    .ant-tabs-nav-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+     
+    .dmBody & {
+        
+        .ant-tabs-nav .ant-tabs-tab-active {
+            color: $color-cian;
+            font-weight: 900;
+            @extend %non-selectable;
+        }
+        .ant-tabs-tab {
+            color: $color-white;
+            font-weight: 900;
+            @extend %non-selectable;
+        }
+        .tabPane {
+            color: $color-white;
+            width: 100%;
+
+            .divider {
+                background-color: rgb(150, 150, 150);
+            }
+        }
+    }
+
+    .lmBody & {
+
+        .ant-tabs-nav .ant-tabs-tab-active {
+            color: $color-purple;
+            font-weight: 900;
+            @extend %non-selectable;
+        }
+        .ant-tabs-tab {
+            color: $color-black;
+            font-weight: 900;
+            @extend %non-selectable;
+        }
+        .tabPane {
+            color: $color-black;      
+            width: 100%;      
+
+            .divider {
+                background-color: rgb(150, 150, 150);
+            }
+        }
+    }
+}

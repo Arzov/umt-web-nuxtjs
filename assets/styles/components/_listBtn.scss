@@ -1,0 +1,48 @@
+.listBtn {
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0px 0px 0px 0px rgba($color-black, 0.1);
+    max-height: 50px;
+    margin-bottom: 5%;
+    overflow: hidden;
+
+    .dmBody & {
+    }
+
+    .lmBody & {
+    }
+
+    .ant-avatar {
+        align-self: center;
+        margin-right: 16px;
+    }
+
+    .contentContainer {
+
+        .content {
+
+            .title {
+            }
+    
+            .desc {
+                font-weight: bold;
+                font-style: italic;
+            }
+        }
+
+        .time {
+            text-align: right;
+        }
+
+        .icon {
+            .iconRow {
+                text-align: right;
+                img {
+                    margin-left: 10px;
+                    width: 35px;
+                    height: 35px;
+                }
+            }            
+        }
+    }
+}

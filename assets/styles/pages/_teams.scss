@@ -1,0 +1,178 @@
+%full-width {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+}
+
+@mixin backgroundMsg($color-ini, $color-end) {
+    background: $color-ini;
+    background: -moz-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+    background: -webkit-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+    background: linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+}
+
+.teams {
+
+    .leftContent {
+        @extend %full-width;
+        justify-content: flex-start;
+
+        .shield {
+            height: 200px;
+
+            img {
+                padding-top: 30px;
+                width: 300px;
+            }
+        }
+
+        .options {
+            height: 60vh;
+            overflow-y: scroll;
+            overflow-x: none;
+            padding: 0px 60px 60px 60px;
+        }
+    }
+
+    .rightContent { 
+        @extend %full-width;
+        justify-content: flex-start;
+
+        .dmBody & {
+            border-left: 1px solid $color-light-grey;
+        }
+    
+        .lmBody & {
+            border-left: 1px solid $color-violet;
+        }        
+
+        .chatContainer {
+            /* background-image: url("../images/chat-background.svg"); */
+            background-size: 30%;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+
+            .chat-header {
+                height: auto;
+            }
+
+            .chat-body {
+                    background-image: url("../images/chat-background.svg");
+                    background-size: 30%;
+                    padding: 20px 60px 20px 60px;
+                    display:flex;
+                    min-height: 65%;
+                    max-height: 420px;
+                    overflow-y: scroll;
+                    overflow-x: none;                    
+                    flex-direction:column;
+
+                    .dmBody & {
+                        border-top: 1px solid $color-light-grey;
+                    }
+                
+                    .lmBody & {
+                        border-top: 1px solid $color-violet;
+                    }                   
+
+                .left-message{
+                    max-width: 45%;
+                    margin-bottom: 20px;
+                    @include backgroundMsg($color-blue, $color-cian);
+                    color: $color-white;
+                    padding:.5em;
+                    align-self:flex-start;
+                    border-radius:.8em;
+                    border-bottom-left-radius: 0px;
+                    box-shadow:1px 1px 5px 2px rgba(0,0,0,.5);
+                   /*  transform: skew(-3deg, 0deg); */
+                }
+                .right-message{
+                    max-width: 45%;
+                    margin-bottom: 20px;
+                    padding:.5em;
+                    @include backgroundMsg($color-pink, $color-purple);
+                    color: $color-white;
+                    align-self:flex-end;
+                    border-radius: .8em;
+                    border-bottom-right-radius: 0px;
+                    box-shadow:1px 1px 2px 2px rgba(0,0,0,.5);
+                    /* transform: skew(3deg, 0deg); */
+                }
+            }
+
+            .chat-footer {
+                background-image: url("../images/chat-background.svg");
+                background-size: 30%;
+                display: inline-block;
+                height: 15%;
+            }
+            
+        }
+        
+        .bannerInfoTeam {
+            height: 150px;
+            display: flex;
+            flex-direction: row;
+        
+            .iconContainer {
+                @extend %full-width;
+                align-items: center;
+                justify-content: center;
+                width: 15%;
+        
+                img {
+                    width: 35%;
+                    height: 35%;
+                    cursor: pointer;
+                }
+            }    
+        
+            .title {
+                @extend %full-width;
+                justify-content: center;
+                width: 70%;
+            }
+
+            .imgContainer {
+                @extend %full-width;
+                width: 15%;
+        
+                img {
+                    width: 75%;
+                    height: 100%;
+                }
+        
+                .teamPicture {
+                    position: absolute;
+                    top: 45%;
+                    right: 0;
+                    left: 10%;
+                    bottom: 0;
+                    z-index: 1;
+            
+                    .dmBody & {
+                        box-shadow: 0 0 0 1px $color-dark-grey;
+                    }
+                
+                    .lmBody & {
+                        box-shadow: 0 0 0 1px $color-white;
+                    }
+                }
+            }    
+        }
+
+        .infoTeam {
+            height: 65vh;
+            overflow-y: scroll;
+            overflow-x: none;
+            justify-content: center;
+            align-self: center;
+            padding-right: 25%;
+            padding-left: 25%;
+        }
+    }
+    
+}
