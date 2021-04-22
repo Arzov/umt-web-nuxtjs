@@ -1,11 +1,13 @@
 <template>
     <a-modal
+        v-model="value"
         class="geoloc"
         centered
-        :wrap-class-name="_themePreference === 'light' ? 'lmBody' : 'dmBody'"
+        :wrap-class-name="
+            _globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'
+        "
         :mask-closable="false"
         :footer="false"
-        v-model="value"
         @cancel="onCancel"
     >
         <center>
@@ -42,12 +44,13 @@
 <script>
 export default {
     props: {
-        value: { type: Boolean, required: true }
+        value: { type: Boolean, required: true },
     },
     methods: {
         getImage(image) {
             if (image === "") {
-                const mode = this._themePreference === "light" ? "lm" : "dm";
+                const mode =
+                    this._globalState.themePreference === "light" ? "lm" : "dm";
                 return require(`@/assets/icons/${mode}-avatar.svg`);
             } else {
                 return image;
@@ -55,7 +58,7 @@ export default {
         },
         onCancel() {
             this.$emit("input", false);
-        }
-    }
+        },
+    },
 };
 </script>

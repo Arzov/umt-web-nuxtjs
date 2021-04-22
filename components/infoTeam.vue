@@ -44,17 +44,17 @@ export default {
     props: {
         title1: {
             type: String,
-            default: "Tab1"
+            default: "Tab1",
         },
         title2: {
             type: String,
-            default: "Tab2"
-        }
+            default: "Tab2",
+        },
     },
     data() {
         return {
             loading: false,
-            visible: false
+            visible: false,
         };
     },
     methods: {
@@ -64,7 +64,7 @@ export default {
         toggleModal() {
             console.log("Probando click para agregar jugadores");
             this.visible = !this.visible;
-        }
-    }
+        },
+    },
 };
 </script>
