@@ -11,6 +11,7 @@
                 <PositionBtn
                     :key="`p${position.value}`"
                     :text="position.text"
+                    :label="position.desc"
                     :color="position.color"
                     :value="position.value"
                     :status="position.stat"

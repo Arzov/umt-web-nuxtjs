@@ -1,16 +1,22 @@
 <template>
-    <a-button :class="`positionBtn${color} ${stat}`" @click="toggle">
-        <b>{{ text }}</b>
-    </a-button>
+    <a-tooltip placement="bottom">
+        <template slot="title">
+            <span>{{ label }}</span>
+        </template>
+        <a-button :class="`positionBtn${color} ${stat}`" @click="toggle">
+            <b>{{ text }}</b>
+        </a-button>
+    </a-tooltip>
 </template>
 
 <script>
 export default {
     props: {
+        label: { type: String, default: "" },
         text: { type: String, default: "" },
         color: { type: String, default: "" },
         status: { type: String, default: "off" },
-        value: { type: String, default: null },
+        value: { type: String, required: true },
     },
 
     data() {
