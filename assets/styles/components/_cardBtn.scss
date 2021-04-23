@@ -26,10 +26,10 @@
 
     .lmBody & {
         background-color: $color-light-grey;
-        border-bottom: 1px solid mix($color-violet, $color-light-grey, 20%);
+        border-bottom: 1px solid rgba($color-violet, 20%);
 
         &:hover {
-            background-color: mix($color-violet, $color-light-grey, 20%);
+            background-color: rgba($color-violet, 20%);
         }
 
         &.active {

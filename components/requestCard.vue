@@ -1,5 +1,5 @@
 <template>
-    <div class="listBtn">
+    <div class="requestCard">
         <!-- AVATAR -->
         <div v-if="pictures.length == 1">
             <a-avatar size="large" :src="getImage(pictures[0])" />
@@ -12,25 +12,37 @@
             <a-avatar :src="getImage(pictures[1])" />
         </div>
 
-        <!-- CONTENT -->
+        <!-- CONTENT CONTAINER -->
         <a-row class="contentContainer">
-            <a-col class="content" :span="18">
-                <!-- TITLE -->
+            <!-- CONTENT -->
+            <a-col class="content" :span="14">
                 <a-row class="title">
                     <h2>
                         {{ title }}
                     </h2>
                 </a-row>
 
-                <!-- DESCRIPTION -->
                 <a-row class="desc">
                     {{ desc }}
                 </a-row>
             </a-col>
 
-            <!-- DATE TIME -->
-            <a-col class="time" :span="6">
-                {{ time }}
+            <!-- BUTTONS -->
+            <a-col class="icon" :span="10">
+                <a-row class="iconRow">
+                    <img
+                        v-if="action == 'in'"
+                        src="@/assets/icons/check-circle.svg"
+                        alt=""
+                        @click="accept"
+                    />
+
+                    <img
+                        src="@/assets/icons/x-circle.svg"
+                        alt=""
+                        @click="reject"
+                    />
+                </a-row>
             </a-col>
         </a-row>
     </div>
@@ -42,8 +54,8 @@ export default {
         pictures: { type: Array, default: () => [""] },
         title: { type: String, default: "" },
         desc: { type: String, default: "" },
-        time: { type: String, default: "" },
         type: { type: String, default: "user" },
+        action: { type: String, default: "in" },
     },
     methods: {
         getImage(image) {
@@ -57,6 +69,12 @@ export default {
 
             if (image === "") return this.getIcon(icon);
             else return image;
+        },
+        accept() {
+            this.$emit("accept");
+        },
+        reject() {
+            this.$emit("reject");
         },
     },
 };

@@ -1,9 +1,8 @@
-.listBtn {
+.requestCard {
     display: flex;
     align-items: flex-start;
     height: 72px;
     margin-bottom: 16px;
-    cursor: pointer;
 
     .dmBody & {
         border-bottom: 1px solid $color-dark-grey;
@@ -26,17 +25,15 @@
             }
         }
 
-        .time {
-            text-align: right;
-        }
-
         .icon {
             .iconRow {
                 text-align: right;
+
                 img {
                     margin-left: 10px;
-                    width: 35px;
-                    height: 35px;
+                    width: 24px;
+                    height: 24px;
+                    cursor: pointer;
                 }
             }
         }

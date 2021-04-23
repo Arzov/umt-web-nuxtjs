@@ -1,7 +1,7 @@
 .listDisplay {
     display: flex;
     align-items: flex-start;
-    max-height: 72px;
+    height: 72px;
     padding: 16px;
     box-shadow: 0px 0px 10px 0px rgba($color-black, 0.1);
     margin-bottom: 24px;
@@ -21,10 +21,6 @@
 
     .content {
         align-self: center;
-
-        // flex: 1;
-        // overflow: hidden;
-
         flex-grow: 1;
 
         &.patch {
