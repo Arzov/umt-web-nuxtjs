@@ -19,9 +19,9 @@
                             ? require('@/assets/icons/lm-pin.svg')
                             : require('@/assets/icons/dm-pin.svg')
                     "
-                />
+                >
             </div>
-            <br />
+            <br>
             <a-row type="flex" justify="center" align="top">
                 <p><b>¡Ubicación denegada!</b></p>
                 <p>
@@ -42,9 +42,9 @@
                             ? require('@/assets/icons/lm-pin.svg')
                             : require('@/assets/icons/dm-pin.svg')
                     "
-                />
+                >
             </div>
-            <br />
+            <br>
             <a-row type="flex" justify="center" align="top">
                 <p><b>Comparte tu ubicación</b></p>
                 <p>
@@ -65,29 +65,29 @@
 </template>
 
 <script>
-import errorNotification from "@/static/data/errorNotification.json";
+import errorNotification from '@/static/data/errorNotification.json'
 
 export default {
-    data() {
+    data () {
         return {
-            isDenied: false,
-        };
+            isDenied: false
+        }
     },
     computed: {
-        visible() {
-            return !this._globalState.allowGeoloc;
-        },
+        visible () {
+            return !this._globalState.allowGeoloc
+        }
     },
     methods: {
-        back() {
-            this.isDenied = false;
+        back () {
+            this.isDenied = false
         },
-        getPosition() {
-            this.btnLoading = true;
+        getPosition () {
+            this.btnLoading = true
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const params = {
-                        api: "umt",
+                        api: 'umt',
                         email: this._userState.email,
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
@@ -98,43 +98,43 @@ export default {
                         skills: this._userState.skills,
                         foot: this._userState.foot,
                         weight: this._userState.weight,
-                        height: this._userState.height,
-                    };
+                        height: this._userState.height
+                    }
 
                     this.$store
-                        .dispatch("user/update", params)
+                        .dispatch('user/update', params)
                         .then(() => {
                             const params = {
-                                allowGeoloc: true,
-                            };
-                            this.btnLoading = false;
-                            this.$store.dispatch("global/setGeoloc", params);
+                                allowGeoloc: true
+                            }
+                            this.btnLoading = false
+                            this.$store.dispatch('global/setGeoloc', params)
                         })
                         .catch((e) => {
                             // FIXME: Fix notification style
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
                 },
                 (err) => {
-                    this.btnLoading = false;
+                    this.btnLoading = false
                     switch (err.code) {
-                        case err.PERMISSION_DENIED:
-                            this.isDenied = true;
-                            break;
+                    case err.PERMISSION_DENIED:
+                        this.isDenied = true
+                        break
 
-                        default:
-                            // FIXME: Fix notification style
-                            this.showNotification(
-                                errorNotification.title,
-                                errorNotification.msg,
-                                errorNotification.type
-                            );
-                            break;
+                    default:
+                        // FIXME: Fix notification style
+                        this.showNotification(
+                            errorNotification.title,
+                            errorNotification.msg,
+                            errorNotification.type
+                        )
+                        break
                     }
                 }
-            );
-        },
-    },
-};
+            )
+        }
+    }
+}
 </script>

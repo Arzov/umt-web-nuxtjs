@@ -3,7 +3,7 @@
         <a-row>
             <a-col class="leftContent" :span="8">
                 <a-row class="shield">
-                    <img src="@/assets/images/shield.svg" alt="" />
+                    <img src="@/assets/images/shield.svg" alt="">
                 </a-row>
 
                 <a-tabs
@@ -14,8 +14,15 @@
                     <a-tabPane :key="1" tab="ACTIVOS">
                         <ScrollContainer>
                             <ListBtn
-                                title="FC BARCELONA"
-                                desc="Matias: Hola chicos, todos listos?"
+                                v-for="(team, i) in _userState.teams"
+                                :key="`t${team.id}${i}`"
+                                :title="team.name"
+                                :desc="
+                                    _teamsChatMessages.lenght
+                                        && _teamsChatMessages[i].messages.lenght
+                                        ? `${_teamsChatMessages[i].messages[1].author}`
+                                        : ''
+                                "
                                 time="2021-04-12T21:36:23.570Z"
                                 @click.native="click()"
                             />
@@ -62,7 +69,7 @@
                             <img
                                 src="@/assets/images/corner-top-right.svg"
                                 style="width: 24px"
-                            />
+                            >
 
                             <a-avatar
                                 size="large"
@@ -104,7 +111,7 @@
                                 <img
                                     src="@/assets/icons/emoticon.svg"
                                     style="width: 24px"
-                                />
+                                >
                             </div>
                             <div class="inputText">
                                 <PrincipalInput
@@ -116,7 +123,7 @@
                                 <img
                                     src="@/assets/icons/send.svg"
                                     style="width: 24px"
-                                />
+                                >
                             </div>
                         </div>
                     </a-row>
@@ -133,14 +140,14 @@
                                 src="@/assets/icons/lm-x-active.svg"
                                 alt=""
                                 @click="showInfoTeam = !showInfoTeam"
-                            />
+                            >
                         </a-col>
                         <a-col v-else class="iconContainer" :span="4">
                             <img
                                 src="@/assets/icons/dm-x-active.svg"
                                 alt=""
                                 @click="showInfoTeam = !showInfoTeam"
-                            />
+                            >
                         </a-col>
                         <a-col class="title" :span="20">
                             <center>
@@ -151,7 +158,7 @@
                             <img
                                 src="@/assets/images/corner-top-right.svg"
                                 alt=""
-                            />
+                            >
                             <a-avatar
                                 size="large"
                                 class="teamPicture"
@@ -176,7 +183,7 @@
                                     </a-form-model-item>
                                     <Modal v-model="visible" />
                                     <h3>JUGADORES</h3>
-                                    <br />
+                                    <br>
                                     <a-row :gutter="[0, 0]" type="flex">
                                         <a-col
                                             v-for="k in require('@/static/data/players.json')"
@@ -204,37 +211,51 @@
 
 <script>
 export default {
-    layout: "navbar",
+    layout: 'navbar',
 
-    data() {
+    data () {
         return {
             showInfoTeam: false,
-            teamName: "NOMBRE EQUIPO",
-            visible: false,
-        };
+            teamName: 'NOMBRE EQUIPO',
+            visible: false
+        }
     },
 
     computed: {
-        teamPicture() {
+        teamPicture () {
             if (
                 this._userState.primaryTeam &&
                 this._userState.primaryTeam.picture
             ) {
-                return this._userState.primaryTeam.picture;
-            } else {
-                return this.getIcon("team-profile.svg");
+                return this._userState.primaryTeam.picture
+            }
+            else {
+                return this.getIcon('team-profile.svg')
             }
         },
+
+        _teamsChatMessages () {
+            return this.$store.getters['teams/get'].teamsChatMessages
+        }
+    },
+
+    async mounted () {
+        try {
+            await this.$store.dispatch('teams/listTeamChats')
+        }
+        catch (e) {
+            this.showNotification(e.title, e.msg, e.type)
+        }
     },
 
     methods: {
-        click() {
-            console.log("Probando el click del banner");
+        click () {
+            console.log('Probando el click del banner')
         },
-        toggleModal() {
-            console.log("Probando click para agregar jugadores");
-            this.visible = !this.visible;
-        },
-    },
-};
+        toggleModal () {
+            console.log('Probando click para agregar jugadores')
+            this.visible = !this.visible
+        }
+    }
+}
 </script>

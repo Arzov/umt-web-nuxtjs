@@ -1,23 +1,23 @@
-function checkRequire(rule, value, callback) {
-    const error = "Seleccione un tipo de match.";
+function checkRequire (rule, value, callback) {
+    const error = 'Seleccione un tipo de match.'
 
     if (value) {
-        callback();
+        callback()
     } else {
-        callback(error);
+        callback(error)
     }
 }
 
 export default {
-    title: "Tipo de juego",
+    title: 'Tipo de juego',
     required: true,
-    placeholder: "",
-    extra: "",
+    placeholder: '',
+    extra: '',
     decorator: [
-        "match",
+        'match',
         {
-            initialValue: "7v7",
-            rules: [{ validator: checkRequire }],
-        },
-    ],
-};
+            initialValue: '7v7',
+            rules: [{ validator: checkRequire }]
+        }
+    ]
+}

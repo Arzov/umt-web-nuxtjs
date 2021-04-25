@@ -19,7 +19,7 @@
             </a-col>
         </a-row>
 
-        <br />
+        <br>
 
         <center>
             * Tu equipo principal es con el cual desafiarás a otros equipos
@@ -31,19 +31,22 @@
 <script>
 export default {
     props: {
-        label: { type: String, default: "EQUIPO PRINCIPAL*" },
+        label: { type: String, default: 'EQUIPO PRINCIPAL*' },
         primaryTeam: { type: Object, default: () => {} },
-        teams: { type: Array, default: () => [] },
+        teams: { type: Array, default: () => [] }
     },
     methods: {
-        isTeamSelected(team) {
+        isTeamSelected (team) {
             if (this.primaryTeam) {
-                return team.id === this.primaryTeam.id;
-            } else return false;
+                return team.id === this.primaryTeam.id
+            }
+            else {
+                return false
+            }
         },
-        triggerClick(team) {
-            this.$emit("click", team);
-        },
-    },
-};
+        triggerClick (team) {
+            this.$emit('click', team)
+        }
+    }
+}
 </script>

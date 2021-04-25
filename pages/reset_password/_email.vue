@@ -3,7 +3,7 @@
         <a-row>
             <a-col class="leftContent" :span="12">
                 <div class="image">
-                    <img class="lock" src="../../assets/images/lock.svg" />
+                    <img class="lock" src="../../assets/images/lock.svg">
                 </div>
                 <center>
                     Ingresa tu código de seguridad enviado a tu email registrado
@@ -15,7 +15,7 @@
             <a-col class="rightContent" :span="12">
                 <BackBtn />
                 <h1>Cambia tu contraseña</h1>
-                <br />
+                <br>
                 <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
                     <center>
                         Ingresa tu código enviado a
@@ -23,7 +23,7 @@
                             <i>{{ email }}</i>
                         </nuxt-link>
                     </center>
-                    <br />
+                    <br>
                     <a-form-model-item :prop="this.$RULES.code.name">
                         <CodeInput v-model="ruleForm.code" />
                     </a-form-model-item>
@@ -56,66 +56,68 @@
 
 <script>
 export default {
-    layout: "corners",
-    asyncData({ params }) {
+    layout: 'corners',
+    asyncData ({ params }) {
         return {
-            email: params.email,
-        };
-    },
-    validate({ params, query, store }) {
-        if (params.email) {
-            return true;
-        } else {
-            return false;
+            email: params.email
         }
     },
-    data() {
+    validate ({ params, query, store }) {
+        if (params.email) {
+            return true
+        }
+        else {
+            return false
+        }
+    },
+    data () {
         return {
             ruleForm: {
-                code: "",
-                password: "",
+                code: '',
+                password: ''
             },
             rules: {
                 code: this.$RULES.code.rules,
-                password: this.$RULES.password.rules,
-            },
-        };
+                password: this.$RULES.password.rules
+            }
+        }
     },
     methods: {
-        submitForm(formName) {
+        submitForm (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.btnLoading = true;
+                    this.btnLoading = true
                     this.$store
-                        .dispatch("resetPassword/reset", {
+                        .dispatch('resetPassword/reset', {
                             email: this.email.toLowerCase(),
                             code: this.ruleForm.code,
-                            password: this.ruleForm.password,
+                            password: this.ruleForm.password
                         })
                         .then(() => {
-                            this.btnLoading = false;
+                            this.btnLoading = false
                         })
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
-                } else {
-                    return false;
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
                 }
-            });
+                else {
+                    return false
+                }
+            })
         },
-        resendCode() {
+        resendCode () {
             this.$store
-                .dispatch("resetPassword/resendCode", {
-                    email: this.email.toLowerCase(),
+                .dispatch('resetPassword/resendCode', {
+                    email: this.email.toLowerCase()
                 })
                 .then((r) => {
-                    this.showNotification(r.title, r.msg, r.type);
+                    this.showNotification(r.title, r.msg, r.type)
                 })
                 .catch((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
-                });
-        },
-    },
-};
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+        }
+    }
+}
 </script>

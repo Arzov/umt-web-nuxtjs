@@ -1,9 +1,9 @@
-import errorNotification from "@/static/data/errorNotification.json";
+import errorNotification from '@/static/data/errorNotification.json'
 
 const actions = {
-    signUp(ctx, data) {
+    signUp (ctx, data) {
         return new Promise((resolve, reject) => {
-            const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`;
+            const birthdate = `${data.birthdate.year}-${data.birthdate.month}-${data.birthdate.day}`
 
             this.$AWS.Auth.signUp({
                 username: data.email,
@@ -12,55 +12,55 @@ const actions = {
                     email: data.email,
                     name: data.firstName,
                     birthdate,
-                    gender: data.gender,
-                },
+                    gender: data.gender
+                }
             })
                 .then(() => {
-                    this.$router.push(`/email_verification/${data.email}`);
-                    resolve();
+                    this.$router.push(`/email_verification/${data.email}`)
+                    resolve()
                 })
                 .catch((err) => {
-                    let response = {};
+                    let response = {}
 
                     switch (err.code) {
-                        // AWS Lambda PreSignup validation
-                        case "UserLambdaValidationException": {
-                            response = {
-                                type: "warning",
-                                title: "¡Correo ya registrado!",
-                                msg: err.message.split("#")[1],
-                            };
-                            break;
+                    // AWS Lambda PreSignup validation
+                    case 'UserLambdaValidationException': {
+                        response = {
+                            type: 'warning',
+                            title: '¡Correo ya registrado!',
+                            msg: err.message.split('#')[1]
                         }
-
-                        // User already exist
-                        case "UsernameExistsException": {
-                            response = {
-                                type: "warning",
-                                title: "¡Correo ya registrado!",
-                                msg: `
-                                El correo ya se encuentra registrado.
-                                Intenta iniciar sesión.
-                            `,
-                            };
-                            break;
-                        }
-
-                        // Unknown error
-                        default: {
-                            response = errorNotification;
-                            break;
-                        }
+                        break
                     }
 
-                    response = { ...response, err };
-                    reject(response);
-                });
-        });
-    },
-};
+                    // User already exist
+                    case 'UsernameExistsException': {
+                        response = {
+                            type: 'warning',
+                            title: '¡Correo ya registrado!',
+                            msg: `
+                                El correo ya se encuentra registrado.
+                                Intenta iniciar sesión.
+                            `
+                        }
+                        break
+                    }
+
+                    // Unknown error
+                    default: {
+                        response = errorNotification
+                        break
+                    }
+                    }
+
+                    response = { ...response, err }
+                    reject(response)
+                })
+        })
+    }
+}
 
 export default {
     namespaced: true,
-    actions,
-};
+    actions
+}

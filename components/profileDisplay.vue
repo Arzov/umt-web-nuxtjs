@@ -18,20 +18,27 @@
 <script>
 export default {
     props: {
-        user: { type: Object, default: () => {} },
+        user: { type: Object, default: () => {} }
     },
     computed: {
-        _userPicture() {
-            if (this.user.picture) return this.user.picture;
-            else return this.getIcon("avatar.svg");
+        _userPicture () {
+            if (this.user.picture) {
+                return this.user.picture
+            }
+            else {
+                return this.getIcon('avatar.svg')
+            }
         },
-        _teamsNames() {
+        _teamsNames () {
             if (this.user.teams) {
                 return this.user.teams.map((team) => {
-                    return team.name;
-                });
-            } else return null;
-        },
-    },
-};
+                    return team.name
+                })
+            }
+            else {
+                return null
+            }
+        }
+    }
+}
 </script>

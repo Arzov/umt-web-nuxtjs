@@ -11,14 +11,16 @@
         @cancel="onCancel"
     >
         <center>
-            <h1 style="color: white">Agrega un jugador</h1>
+            <h1 style="color: white">
+                Agrega un jugador
+            </h1>
         </center>
-        <br />
+        <br>
         <h2 style="color: white">
             Invita a tus amigos o jugadores individuales a ser parte de tu
             equipo.
         </h2>
-        <br />
+        <br>
         <a-row style="display: flex">
             <PrincipalInput
                 placeholder="Ingresa el email del jugador"
@@ -28,12 +30,14 @@
                 src="@/assets/icons/dm-search.svg"
                 alt=""
                 style="position: absolute; right: 10px; top: 5px; width: 20px"
-            />
+            >
         </a-row>
-        <br />
+        <br>
         <a-row>
             <a-avatar size="large" :src="getImage('')" />
-            <h4 style="color: white">Svenko</h4>
+            <h4 style="color: white">
+                Svenko
+            </h4>
             <div>
                 <RoundedTextBtn text="solicitar" />
             </div>
@@ -44,21 +48,22 @@
 <script>
 export default {
     props: {
-        value: { type: Boolean, required: true },
+        value: { type: Boolean, required: true }
     },
     methods: {
-        getImage(image) {
-            if (image === "") {
+        getImage (image) {
+            if (image === '') {
                 const mode =
-                    this._globalState.themePreference === "light" ? "lm" : "dm";
-                return require(`@/assets/icons/${mode}-avatar.svg`);
-            } else {
-                return image;
+                    this._globalState.themePreference === 'light' ? 'lm' : 'dm'
+                return require(`@/assets/icons/${mode}-avatar.svg`)
+            }
+            else {
+                return image
             }
         },
-        onCancel() {
-            this.$emit("input", false);
-        },
-    },
-};
+        onCancel () {
+            this.$emit('input', false)
+        }
+    }
+}
 </script>

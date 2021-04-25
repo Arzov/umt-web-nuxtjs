@@ -15,12 +15,12 @@
                             v-if="menu.key != current"
                             :src="getIcon(menu.icon.normal)"
                             alt=""
-                        />
+                        >
                         <img
                             v-if="menu.key == current"
                             :src="getIcon(menu.icon.active)"
                             alt=""
-                        />
+                        >
                     </nuxt-link>
                 </a-tooltip>
             </div>
@@ -38,27 +38,34 @@
 
 <script>
 export default {
-    data() {
+    data () {
         return {
-            options: require("@/static/data/navbarOptions.json"),
-        };
+            options: require('@/static/data/navbarOptions.json')
+        }
     },
     computed: {
-        current() {
-            return this.$route.name;
+        current () {
+            return this.$route.name
         },
-        teamPicture() {
+        teamPicture () {
             if (
                 this._userState.primaryTeam &&
                 this._userState.primaryTeam.picture
-            )
-                return this._userState.primaryTeam.picture;
-            else return this.getIcon("team-profile.svg");
+            ) {
+                return this._userState.primaryTeam.picture
+            }
+            else {
+                return this.getIcon('team-profile.svg')
+            }
         },
-        userPicture() {
-            if (this._userState.picture) return this._userState.picture;
-            else return this.getIcon("avatar.svg");
-        },
-    },
-};
+        userPicture () {
+            if (this._userState.picture) {
+                return this._userState.picture
+            }
+            else {
+                return this.getIcon('avatar.svg')
+            }
+        }
+    }
+}
 </script>

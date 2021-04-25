@@ -11,7 +11,7 @@
                     <nuxt-link to="/recover_password"> Recupérala. </nuxt-link>
                 </b>
 
-                <br />
+                <br>
                 <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
                     <a-form-model-item :prop="this.$RULES.email.name">
                         <PrincipalInput
@@ -40,17 +40,15 @@
                 </a-form-model>
                 <center>
                     - O ingresa con tus redes sociales -
-                    <br />
-                    <br />
+                    <br>
+                    <br>
                     <div class="socialLogin">
                         <Google />
                         <Facebook />
                     </div>
-                    <br />
-                    <b
-                        >¿No tienes cuenta?
-                        <nuxt-link to="/register"> Regístrate. </nuxt-link></b
-                    >
+                    <br>
+                    <b>¿No tienes cuenta?
+                        <nuxt-link to="/register"> Regístrate. </nuxt-link></b>
                 </center>
             </a-col>
         </a-row>
@@ -58,63 +56,64 @@
 </template>
 
 <script>
-import startImagesLayout from "../../components/startImagesLayout.vue";
+import startImagesLayout from '../../components/startImagesLayout.vue'
 export default {
     components: { startImagesLayout },
-    layout: "themeHeader",
-    data() {
+    layout: 'themeHeader',
+    data () {
         return {
             ruleForm: {
-                email: "",
-                password: "",
+                email: '',
+                password: ''
             },
             rules: {
                 email: this.$RULES.email.rules,
-                password: this.$RULES.password.rules,
-            },
-        };
-    },
-    mounted() {
-        this.$AWS.Hub.listen("auth", ({ payload: { event, data } }) => {
-            switch (event) {
-                case "signIn": {
-                    const email = data.signInUserSession.idToken.payload.email;
-                    this.$store
-                        .dispatch("user/fetch", { email })
-                        .then((result) => {
-                            this.btnLoading = false;
-                            this.$router.push("/home");
-                        })
-                        .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
-
-                    break;
-                }
+                password: this.$RULES.password.rules
             }
-        });
+        }
+    },
+    mounted () {
+        this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
+            switch (event) {
+            case 'signIn': {
+                const email = data.signInUserSession.idToken.payload.email
+                this.$store
+                    .dispatch('user/fetch', { email })
+                    .then((result) => {
+                        this.btnLoading = false
+                        this.$router.push('/home')
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                        this.btnLoading = false
+                    })
+
+                break
+            }
+            }
+        })
     },
     methods: {
-        submitForm(formName) {
+        submitForm (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.btnLoading = true;
+                    this.btnLoading = true
                     this.$store
-                        .dispatch("start/signIn", {
+                        .dispatch('start/signIn', {
                             email: this.ruleForm.email.toLowerCase(),
-                            password: this.ruleForm.password,
+                            password: this.ruleForm.password
                         })
                         .then(() => {})
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
-                } else {
-                    return false;
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
                 }
-            });
-        },
-    },
-};
+                else {
+                    return false
+                }
+            })
+        }
+    }
+}
 </script>

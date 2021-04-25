@@ -10,7 +10,7 @@
 
                 <ProfileDisplay :user="_userState" />
 
-                <br />
+                <br>
 
                 <PrimaryTeamSelector
                     :teams="_userState.teams"
@@ -18,7 +18,7 @@
                     @click="setPrimaryTeam"
                 />
 
-                <br />
+                <br>
 
                 <PrincipalBtn
                     text="GUARDAR"
@@ -26,7 +26,7 @@
                     @click.native="submitForm('ruleForm')"
                 />
 
-                <br />
+                <br>
 
                 <center>
                     <SignOutBtn />
@@ -39,7 +39,7 @@
                         <label><h3>ATRIBUTOS</h3></label>
                     </center>
 
-                    <br />
+                    <br>
 
                     <a-form-model
                         ref="ruleForm"
@@ -91,14 +91,14 @@
                         </center>
                     </a-form-model>
 
-                    <br />
-                    <br />
+                    <br>
+                    <br>
 
                     <center>
                         <label><h3>HABILIDADES</h3></label>
                     </center>
 
-                    <br />
+                    <br>
 
                     <a-form-model
                         ref="ruleForm"
@@ -119,14 +119,14 @@
                         </a-form-model-item>
                     </a-form-model>
 
-                    <br />
-                    <br />
+                    <br>
+                    <br>
 
                     <center>
                         <label><h3>FILTROS</h3></label>
                     </center>
 
-                    <br />
+                    <br>
 
                     <a-form-model ref="ruleForm" :model="ruleForm">
                         <a-form-model-item>
@@ -153,74 +153,77 @@
 
 <script>
 export default {
-    data() {
+    data () {
         return {
             ruleForm: {
                 birthdate: {
                     day: undefined,
                     month: undefined,
-                    year: undefined,
+                    year: undefined
                 },
-                gender: "M",
-                foot: "R",
-                positions: [""],
+                gender: 'M',
+                foot: 'R',
+                positions: [''],
                 weight: 0,
                 height: 0,
-                matchFilter: ["5v5"],
-                ageFilter: [18, 22],
+                matchFilter: ['5v5'],
+                ageFilter: [18, 22]
             },
 
             rules: {
                 birthdate: this.$RULES.birthdate.rules,
                 height: this.$RULES.height.rules,
-                weight: this.$RULES.weight.rules,
-            },
-        };
+                weight: this.$RULES.weight.rules
+            }
+        }
     },
 
-    mounted() {
+    mounted () {
         // Init data from store
-        this.ruleForm.birthdate.day = this._userState.birthdate.split("-")[2];
-        this.ruleForm.birthdate.month = this._userState.birthdate.split("-")[1];
-        this.ruleForm.birthdate.year = this._userState.birthdate.split("-")[0];
-        this.ruleForm.gender = this._userState.gender;
-        this.ruleForm.weight = this._userState.weight;
-        this.ruleForm.height = this._userState.height;
-        this.ruleForm.positions = this._userState.positions;
-        this.ruleForm.foot = this._userState.foot;
-        this.ruleForm.matchFilter = this._userState.matchFilter;
+        this.ruleForm.birthdate.day = this._userState.birthdate.split('-')[2]
+        this.ruleForm.birthdate.month = this._userState.birthdate.split('-')[1]
+        this.ruleForm.birthdate.year = this._userState.birthdate.split('-')[0]
+        this.ruleForm.gender = this._userState.gender
+        this.ruleForm.weight = this._userState.weight
+        this.ruleForm.height = this._userState.height
+        this.ruleForm.positions = this._userState.positions
+        this.ruleForm.foot = this._userState.foot
+        this.ruleForm.matchFilter = this._userState.matchFilter
         this.ruleForm.ageFilter = [
             this._userState.ageMinFilter,
-            this._userState.ageMaxFilter,
-        ];
+            this._userState.ageMaxFilter
+        ]
     },
 
     methods: {
-        submitForm(formName) {
+        submitForm (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.btnLoading = true;
+                    this.btnLoading = true
 
                     this.$store
-                        .dispatch("profile/update", this.ruleForm)
+                        .dispatch('profile/update', this.ruleForm)
                         .then(() => {
                             this.showNotification(
-                                "¡Cambios guardados!",
-                                "Tus cambios fueron guardados exitósamente.",
-                                "success"
-                            );
-                            this.btnLoading = false;
+                                '¡Cambios guardados!',
+                                'Tus cambios fueron guardados exitósamente.',
+                                'success'
+                            )
+                            this.btnLoading = false
                         })
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
-                } else return false;
-            });
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
+                }
+                else {
+                    return false
+                }
+            })
         },
-        setPrimaryTeam(team) {
-            this.$store.dispatch("profile/setPrimaryTeam", team);
-        },
-    },
-};
+        setPrimaryTeam (team) {
+            this.$store.dispatch('profile/setPrimaryTeam', team)
+        }
+    }
+}
 </script>

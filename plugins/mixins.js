@@ -1,66 +1,66 @@
-import Vue from "vue";
-import errorNotification from "@/static/data/errorNotification.json";
+import Vue from 'vue'
+import errorNotification from '@/static/data/errorNotification.json'
 
 const global = {
-    data() {
+    data () {
         return {
-            btnLoading: false,
-        };
+            btnLoading: false
+        }
     },
 
     computed: {
-        _userState() {
-            return this.$store.getters["user/get"];
+        _userState () {
+            return this.$store.getters['user/get']
         },
 
-        _globalState() {
-            return this.$store.getters["global/get"];
-        },
+        _globalState () {
+            return this.$store.getters['global/get']
+        }
     },
 
     methods: {
-        showNotification(title, msg, type) {
-            let icon = <a-icon type="close-circle" />;
+        showNotification (title, msg, type) {
+            let icon = <a-icon type="close-circle" />
 
             switch (type) {
-                case "success":
-                    icon = <a-icon type="check-circle" />;
-                    break;
+            case 'success':
+                icon = <a-icon type="check-circle" />
+                break
 
-                case "warning":
-                    icon = <a-icon type="warning" />;
-                    break;
+            case 'warning':
+                icon = <a-icon type="warning" />
+                break
 
-                case "info":
-                    icon = <a-icon type="info-circle" />;
-                    break;
+            case 'info':
+                icon = <a-icon type="info-circle" />
+                break
             }
 
-            this.$notification.destroy();
+            this.$notification.destroy()
 
             this.$notification.open({
                 message: title,
                 description: msg,
-                class: "notification",
+                class: 'notification',
                 getContainer: () => this.$el,
-                icon,
-            });
+                icon
+            })
         },
 
-        getIcon(icon) {
+        getIcon (icon) {
             const mode =
-                this._globalState.themePreference === "light" ? "lm" : "dm";
+                this._globalState.themePreference === 'light' ? 'lm' : 'dm'
 
-            return require(`@/assets/icons/${mode}-${icon}`);
-        },
-    },
-};
+            return require(`@/assets/icons/${mode}-${icon}`)
+        }
+    }
+}
 
-Vue.mixin(global);
+Vue.mixin(global)
 
 export const validGeoloc = {
-    mounted() {
-        if ("geolocation" in navigator) {
+    mounted () {
+        if ('geolocation' in navigator) {
             if (this._globalState.allowGeoloc) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -69,12 +69,12 @@ export const validGeoloc = {
                             position.coords.longitude,
                             this._userState.coords.LAT.N,
                             this._userState.coords.LON.N
-                        );
+                        )
 
                         // update location if is current is greater than 5km
                         if (moveDistance >= 5) {
                             const params = {
-                                api: "umt",
+                                api: 'umt',
                                 email: this._userState.email,
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude,
@@ -85,56 +85,57 @@ export const validGeoloc = {
                                 skills: this._userState.skills,
                                 foot: this._userState.foot,
                                 weight: this._userState.weight,
-                                height: this._userState.height,
-                            };
+                                height: this._userState.height
+                            }
 
                             this.$store
-                                .dispatch("user/update", params)
+                                .dispatch('user/update', params)
                                 .then(() => {
                                     const params = {
-                                        allowGeoloc: true,
-                                    };
+                                        allowGeoloc: true
+                                    }
                                     this.$store.dispatch(
-                                        "global/setGeoloc",
+                                        'global/setGeoloc',
                                         params
-                                    );
+                                    )
                                 })
                                 .catch((e) => {
                                     this.showNotification(
                                         e.title,
                                         e.msg,
                                         e.type
-                                    );
-                                });
+                                    )
+                                })
                         }
                     },
                     (err) => {
                         const params = {
-                            allowGeoloc: false,
-                        };
-                        this.$store.dispatch("global/setGeoloc", params);
+                            allowGeoloc: false
+                        }
+                        this.$store.dispatch('global/setGeoloc', params)
 
                         switch (err.code) {
-                            case err.PERMISSION_DENIED:
-                                break;
+                        case err.PERMISSION_DENIED:
+                            break
 
-                            default:
-                                this.showNotification(
-                                    errorNotification.title,
-                                    errorNotification.msg,
-                                    errorNotification.type
-                                );
-                                break;
+                        default:
+                            this.showNotification(
+                                errorNotification.title,
+                                errorNotification.msg,
+                                errorNotification.type
+                            )
+                            break
                         }
                     }
-                );
+                )
             }
-        } else {
-            this.showNotification(
-                "¡Geolocalización no disponible!",
-                "No puedes usar la app en este dispositivo.",
-                errorNotification.type
-            );
         }
-    },
-};
+        else {
+            this.showNotification(
+                '¡Geolocalización no disponible!',
+                'No puedes usar la app en este dispositivo.',
+                errorNotification.type
+            )
+        }
+    }
+}

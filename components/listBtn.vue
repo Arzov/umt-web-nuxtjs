@@ -39,25 +39,29 @@
 <script>
 export default {
     props: {
-        pictures: { type: Array, default: () => [""] },
-        title: { type: String, default: "" },
-        desc: { type: String, default: "" },
-        time: { type: String, default: "" },
-        type: { type: String, default: "user" },
+        pictures: { type: Array, default: () => [''] },
+        title: { type: String, default: '' },
+        desc: { type: String, default: '' },
+        time: { type: String, default: '' },
+        type: { type: String, default: 'user' }
     },
     methods: {
-        getImage(image) {
-            let icon = "team-profile.svg";
+        getImage (image) {
+            let icon = 'team-profile.svg'
 
             switch (this.type) {
-                case "user":
-                    icon = "avatar.svg";
-                    break;
+            case 'user':
+                icon = 'avatar.svg'
+                break
             }
 
-            if (image === "") return this.getIcon(icon);
-            else return image;
-        },
-    },
-};
+            if (image === '') {
+                return this.getIcon(icon)
+            }
+            else {
+                return image
+            }
+        }
+    }
+}
 </script>

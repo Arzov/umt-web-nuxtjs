@@ -28,7 +28,7 @@ export const arv = {
               email
             }
           }
-        `,
+        `
     },
     queries: {
         getUser: `
@@ -46,9 +46,9 @@ export const arv = {
               picture
             }
           }
-        `,
-    },
-};
+        `
+    }
+}
 
 export const umt = {
     queries: {
@@ -193,6 +193,27 @@ export const umt = {
             }
           }
         `,
+        listTeamChats: `
+          query listTeamChats(
+            $id: String!,
+            $nextToken: String
+          ) {
+            listTeamChats(
+              id: $id,
+              nextToken: $nextToken
+            ) {
+              items {
+                teamId
+                email
+                sentOn
+                expireOn
+                author
+                msg
+              }
+              nextToken
+            }
+          }
+      `
     },
     mutations: {
         addUser: `
@@ -366,6 +387,6 @@ export const umt = {
               joinedOn
             }
           }
-        `,
-    },
-};
+        `
+    }
+}

@@ -1,34 +1,34 @@
-import errorNotification from "@/static/data/errorNotification.json";
+import errorNotification from '@/static/data/errorNotification.json'
 
 const actions = {
-    save(ctx, data) {
+    save (ctx, data) {
         return new Promise((resolve, reject) => {
             ctx.dispatch(
-                "user/update",
+                'user/update',
                 {
-                    api: "arv",
+                    api: 'arv',
                     email: data.email,
                     birthdate: data.birthdate,
                     gender: data.gender,
                     firstName: data.firstName,
                     lastName: data.lastName,
-                    picture: data.picture,
+                    picture: data.picture
                 },
                 { root: true }
             )
                 .then(() => {
-                    this.$router.push("/home");
-                    resolve();
+                    this.$router.push('/home')
+                    resolve()
                 })
                 .catch((err) => {
-                    const response = { ...errorNotification, err };
-                    reject(response);
-                });
-        });
-    },
-};
+                    const response = { ...errorNotification, err }
+                    reject(response)
+                })
+        })
+    }
+}
 
 export default {
     namespaced: true,
-    actions,
-};
+    actions
+}

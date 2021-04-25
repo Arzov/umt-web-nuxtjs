@@ -5,28 +5,28 @@
 <script>
 export default {
     props: {
-        text: { type: String, default: "Cerrar sesión" },
+        text: { type: String, default: 'Cerrar sesión' }
     },
 
-    mounted() {
-        this.$AWS.Hub.listen("auth", ({ payload: { event, data } }) => {
+    mounted () {
+        this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
             switch (event) {
-                case "signOut":
-                    this.$router.push("/start");
-                    break;
+            case 'signOut':
+                this.$router.push('/start')
+                break
             }
-        });
+        })
     },
 
     methods: {
-        signOut() {
+        signOut () {
             this.$store
-                .dispatch("global/signOut")
+                .dispatch('global/signOut')
                 .then(() => {})
                 .catch((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
-                });
-        },
-    },
-};
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+        }
+    }
+}
 </script>

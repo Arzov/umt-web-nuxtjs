@@ -35,13 +35,13 @@
                         src="@/assets/icons/check-circle.svg"
                         alt=""
                         @click="accept"
-                    />
+                    >
 
                     <img
                         src="@/assets/icons/x-circle.svg"
                         alt=""
                         @click="reject"
-                    />
+                    >
                 </a-row>
             </a-col>
         </a-row>
@@ -51,31 +51,35 @@
 <script>
 export default {
     props: {
-        pictures: { type: Array, default: () => [""] },
-        title: { type: String, default: "" },
-        desc: { type: String, default: "" },
-        type: { type: String, default: "user" },
-        action: { type: String, default: "in" },
+        pictures: { type: Array, default: () => [''] },
+        title: { type: String, default: '' },
+        desc: { type: String, default: '' },
+        type: { type: String, default: 'user' },
+        action: { type: String, default: 'in' }
     },
     methods: {
-        getImage(image) {
-            let icon = "team-profile.svg";
+        getImage (image) {
+            let icon = 'team-profile.svg'
 
             switch (this.type) {
-                case "user":
-                    icon = "avatar.svg";
-                    break;
+            case 'user':
+                icon = 'avatar.svg'
+                break
             }
 
-            if (image === "") return this.getIcon(icon);
-            else return image;
+            if (image === '') {
+                return this.getIcon(icon)
+            }
+            else {
+                return image
+            }
         },
-        accept() {
-            this.$emit("accept");
+        accept () {
+            this.$emit('accept')
         },
-        reject() {
-            this.$emit("reject");
-        },
-    },
-};
+        reject () {
+            this.$emit('reject')
+        }
+    }
+}
 </script>

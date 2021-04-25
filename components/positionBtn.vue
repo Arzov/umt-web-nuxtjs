@@ -12,29 +12,30 @@
 <script>
 export default {
     props: {
-        label: { type: String, default: "" },
-        text: { type: String, default: "" },
-        color: { type: String, default: "" },
-        status: { type: String, default: "off" },
-        value: { type: String, required: true },
+        label: { type: String, default: '' },
+        text: { type: String, default: '' },
+        color: { type: String, default: '' },
+        status: { type: String, default: 'off' },
+        value: { type: String, required: true }
     },
 
-    data() {
+    data () {
         return {
-            stat: this.status,
-        };
+            stat: this.status
+        }
     },
 
     methods: {
-        toggle() {
-            if (this.stat === "off") {
-                this.stat = "on";
-                this.$emit("change", { key: this.value, value: this.value });
-            } else {
-                this.stat = "off";
-                this.$emit("change", { key: this.value, value: null });
+        toggle () {
+            if (this.stat === 'off') {
+                this.stat = 'on'
+                this.$emit('change', { key: this.value, value: this.value })
             }
-        },
-    },
-};
+            else {
+                this.stat = 'off'
+                this.$emit('change', { key: this.value, value: null })
+            }
+        }
+    }
+}
 </script>

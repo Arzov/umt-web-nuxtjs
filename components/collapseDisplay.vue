@@ -20,16 +20,20 @@
 <script>
 export default {
     props: {
-        image: { type: String, default: "" },
-        icon: { type: String, default: "" },
-        label: { type: String, default: "" },
+        image: { type: String, default: '' },
+        icon: { type: String, default: '' },
+        label: { type: String, default: '' }
     },
 
     methods: {
-        getImage(image, icon) {
-            if (image === "") return this.getIcon(icon);
-            else return image;
-        },
-    },
-};
+        getImage (image, icon) {
+            if (image === '') {
+                return this.getIcon(icon)
+            }
+            else {
+                return image
+            }
+        }
+    }
+}
 </script>
