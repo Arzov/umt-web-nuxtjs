@@ -1,20 +1,37 @@
 import errorNotification from '@/static/data/errorNotification.json'
 
+
+// actions
+
 const actions = {
+
     verify (ctx, data) {
+
         return new Promise((resolve, reject) => {
+
             this.$AWS.Auth.confirmSignUp(data.email, data.code, {
                 forceAliasCreation: true
             })
+
+                // success validation
                 .then(() => {
+
+                    // TODO: should show a success notification before redirect
                     this.$router.push('/start')
+
                     resolve()
                 })
+
+
+                // error in validation
                 .catch((err) => {
+
                     let response = {}
 
                     switch (err.code) {
-                    // Email already validated
+
+                    // email already validated
+
                     case 'NotAuthorizedException': {
                         response = {
                             type: 'warning',
@@ -27,30 +44,34 @@ const actions = {
                         break
                     }
 
-                    // Invalid email
+
+                    // invalid email
+
                     case 'UserNotFoundException': {
                         response = {
-                            type: 'error',
-                            title: '¡Correo incorrecto!',
-                            msg: `
-                                El correo electrónico ingresado es incorrecto.
-                            `
+                            type    : 'error',
+                            title   : '¡Correo incorrecto!',
+                            msg     : 'El correo electrónico ingresado es incorrecto.'
                         }
                         break
                     }
 
-                    // Wrong code or bad character
+
+                    // wrong code or bad character
+
                     case 'CodeMismatchException':
                     case 'InvalidParameterException': {
                         response = {
-                            type: 'error',
-                            title: '¡Código incorrecto!',
-                            msg: 'El código ingresado es incorrecto.'
+                            type    : 'error',
+                            title   : '¡Código incorrecto!',
+                            msg     : 'El código ingresado es incorrecto.'
                         }
                         break
                     }
 
-                    // Resend limit exceeded
+
+                    // resend limit exceeded
+
                     case 'LimitExceededException': {
                         response = {
                             type: 'warning',
@@ -63,7 +84,9 @@ const actions = {
                         break
                     }
 
-                    // Unknown error
+
+                    // unknown error
+
                     default: {
                         response = errorNotification
                         break
@@ -75,9 +98,16 @@ const actions = {
                 })
         })
     },
+
+
     resendCode (ctx, data) {
+
         return new Promise((resolve, reject) => {
+
             this.$AWS.Auth.resendSignUp(data.email)
+
+
+                // success resend code
                 .then(() => {
                     const response = {
                         type: 'success',
@@ -87,25 +117,33 @@ const actions = {
                             ${data.email}.
                         `
                     }
+
                     resolve(response)
                 })
+
+
+                // error request
                 .catch((err) => {
+
                     let response = {}
 
                     switch (err.code) {
-                    // Invalid email
+
+
+                    // invalid email
+
                     case 'UserNotFoundException': {
                         response = {
-                            type: 'error',
-                            title: '¡Correo incorrecto!',
-                            msg: `
-                                El correo electrónico ingresado es incorrecto.
-                            `
+                            type    : 'error',
+                            title   : '¡Correo incorrecto!',
+                            msg     : 'El correo electrónico ingresado es incorrecto.'
                         }
                         break
                     }
 
-                    // Email already validated
+
+                    // email already validated
+
                     case 'InvalidParameterException': {
                         response = {
                             type: 'warning',
@@ -118,7 +156,9 @@ const actions = {
                         break
                     }
 
-                    // Resend limit exceeded
+
+                    // resend limit exceeded
+
                     case 'LimitExceededException': {
                         response = {
                             type: 'warning',
@@ -131,7 +171,9 @@ const actions = {
                         break
                     }
 
-                    // Unknown error
+
+                    // unknown error
+
                     default: {
                         response = errorNotification
                         break
@@ -144,6 +186,9 @@ const actions = {
         })
     }
 }
+
+
+// export modules
 
 export default {
     namespaced: true,

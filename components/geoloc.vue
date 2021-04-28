@@ -108,7 +108,7 @@ export default {
                                 allowGeoloc: true
                             }
                             this.btnLoading = false
-                            this.$store.dispatch('global/setGeoloc', params)
+                            this.$store.dispatch('global/setState', params)
                         })
                         .catch((e) => {
                             // FIXME: Fix notification style

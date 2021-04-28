@@ -3,351 +3,521 @@ import { umt } from '@/graphql/gql'
 import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
+
+// get default state values
+
 const getDefaultState = () => ({
-    nearTeams: [],
-    nearTeamsNextToken: null,
-    nearTeamsForJoin: [],
-    nearTeamsForJoinNextToken: null,
-    nearMatches: [],
-    nearMatchesNextToken: null
+    nearTeams                   : JSON.stringify([]),
+    nearTeamsNextToken          : null,
+    nearTeamsForJoin            : JSON.stringify([]),
+    nearTeamsForJoinNextToken   : null,
+    nearMatches                 : JSON.stringify([]),
+    nearMatchesNextToken        : null
 })
+
+
+// state
 
 const state = getDefaultState()
 
+
+// getters
+
 const getters = {
     get (state) {
-        return state
+        return {
+            ...state,
+            nearTeams           : JSON.parse(state.nearTeams),
+            nearTeamsForJoin    : JSON.parse(state.nearTeamsForJoin),
+            nearMatches         : JSON.parse(state.nearMatches)
+        }
     }
 }
 
+
+// actions
+
 const actions = {
+
     nearTeams (ctx, data) {
+
+        // load states
+
+        const userState = ctx.rootGetters['user/get']
+        const homeState = ctx.getters.get
+
+
+        // if is not inifinite scroll, it's mean a new fresh request
+
         if (!data.isInfiniteScroll) {
+
+            // refresh states
+
             ctx.commit('resetStates')
         }
 
-        const ownTeams = ctx.rootState.user.teams
-            ? ctx.rootState.user.teams.map((team) => {
+
+        const ownTeams = userState.teams
+            ? userState.teams.map((team) => {
                 return team.id
             })
+
             : null
+
+
+        // params to call AWS
 
         let params = {
             ownTeams,
-            email: ctx.rootState.user.email,
-            forJoin: data.forJoin,
-            gender: ctx.rootState.user.gender,
-            age: this.$UTILS.getAgeFromDate(ctx.rootState.user.birthdate)
+            email   : userState.email,
+            forJoin : data.forJoin,
+            gender  : userState.gender,
+            age     : this.$UTILS.getAgeFromDate(userState.birthdate)
         }
+
 
         params = data.forJoin
             ? {
                 ...params,
-                geohash: ctx.rootState.user.geohash,
-                genderFilter: [],
-                ageMinFilter: ctx.rootState.user.ageMinFilter,
-                ageMaxFilter: ctx.rootState.user.ageMaxFilter,
-                matchFilter: ctx.rootState.user.matchFilter,
-                nextToken: ctx.state.nearTeamsForJoinNextToken
+                geohash         : userState.geohash,
+                genderFilter    : [],
+                ageMinFilter    : userState.ageMinFilter,
+                ageMaxFilter    : userState.ageMaxFilter,
+                matchFilter     : userState.matchFilter,
+                nextToken       : homeState.nearTeamsForJoinNextToken
             }
+
             : {
                 ...params,
-                geohash: ctx.rootState.user.primaryTeam.geohash,
-                genderFilter: ctx.rootState.user.primaryTeam.genderFilter,
-                ageMinFilter: ctx.rootState.user.primaryTeam.ageMinFilter,
-                ageMaxFilter: ctx.rootState.user.primaryTeam.ageMaxFilter,
-                matchFilter: ctx.rootState.user.primaryTeam.matchFilter,
-                nextToken: ctx.state.nearTeamsNextToken
+                geohash         : userState.primaryTeam.geohash,
+                genderFilter    : userState.primaryTeam.genderFilter,
+                ageMinFilter    : userState.primaryTeam.ageMinFilter,
+                ageMaxFilter    : userState.primaryTeam.ageMaxFilter,
+                matchFilter     : userState.primaryTeam.matchFilter,
+                nextToken       : homeState.nearTeamsNextToken
             }
+
 
         return new Promise((resolve, reject) => {
-            // There are no more items to show
-            if (
-                !ctx.state.nearTeamsNextToken &&
-                ctx.state.nearTeams.length &&
-                !data.forJoin
-            ) {
-                resolve()
-            }
-            // There are no more items to show (forJoin)
-            else if (
-                !ctx.state.nearTeamsForJoinNextToken &&
-                ctx.state.nearTeamsForJoin.length
-            ) {
-                resolve()
-            }
-            else {
-                this.$AWS.Amplify.configure(awsconfig.umt)
 
-                this.$AWS.API.graphql(
-                    graphqlOperation(umt.queries.nearTeams, params)
-                )
-                    .then((result) => {
-                        const stateNearTeams = data.forJoin
-                            ? ctx.state.nearTeamsForJoin
-                            : ctx.state.nearTeams
+            this.$AWS.Amplify.configure(awsconfig.umt)
 
-                        const nearTeams = stateNearTeams.concat(
-                            result.data.nearTeams.items.map((team) => {
-                                return {
-                                    ...team,
-                                    formation: JSON.parse(team.formation),
-                                    coords: JSON.parse(team.coords),
-                                    distance: this.$UTILS.getDistance(
-                                        JSON.parse(team.coords).LAT.N,
-                                        JSON.parse(team.coords).LON.N,
-                                        ctx.rootState.user.coords.LAT.N,
-                                        ctx.rootState.user.coords.LON.N
-                                    )
-                                }
-                            })
-                        )
+            this.$AWS.API.graphql(
+                graphqlOperation(umt.queries.nearTeams, params)
+            )
 
-                        const nextToken = result.data.nearTeams.nextToken
+                // success
+                .then((result) => {
 
-                        const params = data.forJoin
-                            ? {
-                                nearTeamsForJoin: nearTeams,
-                                nearTeamsForJoinNextToken: nextToken
-                            }
-                            : {
-                                nearTeams,
-                                nearTeamsNextToken: nextToken
-                            }
+                    const stateNearTeams = data.forJoin
+                        ? homeState.nearTeamsForJoin
+                        : homeState.nearTeams
 
-                        ctx.commit('setState', { params })
-                        resolve()
+                    const nearTeamsResult = result.data.nearTeams
+
+                    // format new teams
+
+                    nearTeamsResult.items = nearTeamsResult.items.map((team) => {
+                        return {
+                            ...team,
+                            formation   : JSON.parse(team.formation),
+                            coords      : JSON.parse(team.coords),
+                            distance    : this.$UTILS.getDistance(
+                                JSON.parse(team.coords).LAT.N,
+                                JSON.parse(team.coords).LON.N,
+                                userState.coords.LAT.N,
+                                userState.coords.LON.N
+                            )
+                        }
                     })
-                    .catch((err) => {
-                        const response = { ...errorNotification, err }
-                        reject(response)
-                    })
-            }
+
+                    // concat new teams loaded to state
+
+                    const fullNearTeams = [
+                        ...stateNearTeams,
+                        ...nearTeamsResult.items
+                    ]
+
+                    // deduplicate teams (https://dev.to/marinamosti/removing-duplicates-in-an-array-of-objects-in-js-with-sets-3fep)
+
+                    const nearTeams = fullNearTeams.reduce((acc, current) => {
+                        const x = acc.find(item => item.id === current.id)
+
+                        if (!x) {
+                            return acc.concat([current])
+                        }
+
+                        else {
+                            return acc
+                        }
+                    }, [])
+
+
+                    // set nextToken
+
+                    const nextToken = nearTeamsResult.nextToken
+
+                    const params = data.forJoin
+                        ? {
+                            nearTeamsForJoin            : nearTeams,
+                            nearTeamsForJoinNextToken   : nextToken
+                        }
+
+                        : {
+                            nearTeams,
+                            nearTeamsNextToken: nextToken
+                        }
+
+
+                    // save into store
+
+                    ctx.commit('setState', { params })
+                    resolve()
+                })
+
+
+                // error
+                .catch((err) => {
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+                })
+
         })
     },
 
+
     nearMatches (ctx, data) {
+
+        // load states
+
+        const userState = ctx.rootGetters['user/get']
+        const homeState = ctx.getters.get
+
+
+        // if is not inifinite scroll, it's mean a new fresh request
+
         if (!data.isInfiniteScroll) {
+
+            // refresh states
+
             ctx.commit('resetStates')
         }
 
-        const ownTeams = ctx.rootState.user.teams
-            ? ctx.rootState.user.teams.map((team) => {
+        const ownTeams = userState.teams
+            ? userState.teams.map((team) => {
                 return team.id
             })
+
             : null
 
+
         return new Promise((resolve, reject) => {
-            if (!ctx.state.nearMatchesNextToken && ctx.state.nearMatches.length) {
-                resolve()
-            }
-            else {
-                this.$AWS.Amplify.configure(awsconfig.umt)
-                this.$AWS.API.graphql(
-                    graphqlOperation(umt.queries.nearMatches, {
-                        email: ctx.rootState.user.email,
-                        geohash: ctx.rootState.user.geohash,
-                        ownTeams,
-                        gender: ctx.rootState.user.gender,
-                        age: this.$UTILS.getAgeFromDate(
-                            ctx.rootState.user.birthdate
-                        ),
-                        ageMinFilter: ctx.rootState.user.ageMinFilter,
-                        ageMaxFilter: ctx.rootState.user.ageMaxFilter,
-                        matchFilter: ctx.rootState.user.matchFilter,
-                        nextToken: ctx.state.nearMatchesNextToken
+
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(umt.queries.nearMatches, {
+                    email           : userState.email,
+                    geohash         : userState.geohash,
+                    gender          : userState.gender,
+                    age             : this.$UTILS.getAgeFromDate(userState.birthdate),
+                    ageMinFilter    : userState.ageMinFilter,
+                    ageMaxFilter    : userState.ageMaxFilter,
+                    matchFilter     : userState.matchFilter,
+                    nextToken       : homeState.nearMatchesNextToken,
+                    ownTeams
+                })
+            )
+
+                // success
+                .then(async (result) => {
+
+                    const nearMatchesResult = result.data.nearMatches
+
+                    // format result
+
+                    nearMatchesResult.items = nearMatchesResult.items.map((match) => {
+                        return {
+                            ...match,
+                            patches     : JSON.parse(match.patches),
+                            schedule    : this.$UTILS.getLocalFromUTC(match.schedule),
+                            reqStat     : JSON.parse(match.reqStat),
+                            coords      : JSON.parse(match.coords),
+                            distance    : this.$UTILS.getDistance(
+                                JSON.parse(match.coords).LAT.N,
+                                JSON.parse(match.coords).LON.N,
+                                userState.coords.LAT.N,
+                                userState.coords.LON.N
+                            )
+                        }
                     })
-                )
-                    .then(async (result) => {
-                        const nearMatches = result.data.nearMatches.items.map(
-                            (match) => {
-                                return {
-                                    ...match,
-                                    patches: JSON.parse(match.patches),
-                                    schedule: this.$UTILS.getLocalFromUTC(
-                                        match.schedule
-                                    ),
-                                    reqStat: JSON.parse(match.reqStat),
-                                    coords: JSON.parse(match.coords),
-                                    distance: this.$UTILS.getDistance(
-                                        JSON.parse(match.coords).LAT.N,
-                                        JSON.parse(match.coords).LON.N,
-                                        ctx.rootState.user.coords.LAT.N,
-                                        ctx.rootState.user.coords.LON.N
-                                    )
-                                }
-                            }
+
+                    // concat new matches loaded to state
+
+                    const fullNearMatches = [
+                        ...homeState.nearMatches,
+                        ...nearMatchesResult.items
+                    ]
+
+                    // deduplicate matches (https://dev.to/marinamosti/removing-duplicates-in-an-array-of-objects-in-js-with-sets-3fep)
+
+                    const nearMatches = fullNearMatches.reduce((acc, current) => {
+                        const x = acc.find(item =>
+                            `${item.teamId1}${item.teamId2}` ===
+                            `${current.teamId1}${current.teamId2}`
                         )
 
-                        const nearMatchesNextToken =
-                            result.data.nearMatches.nextToken
-
-                        for (const e in nearMatches) {
-                            // Fetch each team information
-                            for (let i = 1; i <= 2; i++) {
-                                await this.$AWS.API.graphql(
-                                    graphqlOperation(umt.queries.getTeam, {
-                                        id: nearMatches[e][`teamId${i}`]
-                                    })
-                                )
-                                    .then((result) => {
-                                        nearMatches[e][`picture${i}`] =
-                                            result.data.getTeam.picture
-
-                                        nearMatches[e][`name${i}`] =
-                                            result.data.getTeam.name
-                                    })
-                                    .catch((err) => {
-                                        const response = {
-                                            ...errorNotification,
-                                            err
-                                        }
-                                        reject(response)
-                                    })
-                            }
+                        if (!x) {
+                            return acc.concat([current])
                         }
 
-                        const params = {
-                            nearMatches,
-                            nearMatchesNextToken
+                        else {
+                            return acc
                         }
+                    }, [])
 
-                        ctx.commit('setState', { params })
-                        resolve()
-                    })
-                    .catch((err) => {
-                        const response = { ...errorNotification, err }
-                        reject(response)
-                    })
-            }
+
+                    // fetch picture and name for each team of the match
+
+                    for (const e in nearMatches) {
+
+                        for (let i = 1; i <= 2; i++) {
+
+                            await this.$AWS.API.graphql(
+                                graphqlOperation(umt.queries.getTeam, {
+                                    id: nearMatches[e][`teamId${i}`]
+                                })
+                            )
+                                .then((result) => {
+                                    nearMatches[e][`picture${i}`] = result.data.getTeam.picture
+                                    nearMatches[e][`name${i}`] = result.data.getTeam.name
+                                })
+
+
+                                .catch((err) => {
+                                    const response = { ...errorNotification, err }
+
+                                    reject(response)
+                                })
+                        }
+                    }
+
+                    // nextToken
+
+                    const nearMatchesNextToken = nearMatchesResult.nextToken
+
+
+                    // save into store
+
+                    const params = {
+                        nearMatches,
+                        nearMatchesNextToken
+                    }
+
+                    ctx.commit('setState', { params })
+                    resolve()
+                })
+
+
+                // error
+                .catch((err) => {
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+                })
+
         })
     },
 
+
     sendMatchRequest (ctx, data) {
+
+        // load states
+
+        const userState = ctx.rootGetters['user/get']
+        const homeState = ctx.getters.get
+
+
         return new Promise((resolve, reject) => {
+
             this.$AWS.Amplify.configure(awsconfig.umt)
+
             this.$AWS.API.graphql(
                 graphqlOperation(umt.mutations.addMatch, {
-                    teamId1: ctx.rootState.user.primaryTeam.id,
-                    teamId2: data.id,
-                    matchFilter: ctx.rootState.user.primaryTeam.matchFilter,
-                    genderFilter: ctx.rootState.user.primaryTeam.genderFilter,
-                    ageMinFilter: ctx.rootState.user.primaryTeam.ageMinFilter,
-                    ageMaxFilter: ctx.rootState.user.primaryTeam.ageMaxFilter,
-                    geohash: ctx.rootState.user.geohash,
-                    latitude: ctx.rootState.user.coords.LAT.N,
-                    longitude: ctx.rootState.user.coords.LON.N
+                    teamId1         : userState.primaryTeam.id,
+                    teamId2         : data.id,
+                    matchFilter     : userState.primaryTeam.matchFilter,
+                    genderFilter    : userState.primaryTeam.genderFilter,
+                    ageMinFilter    : userState.primaryTeam.ageMinFilter,
+                    ageMaxFilter    : userState.primaryTeam.ageMaxFilter,
+                    geohash         : userState.geohash,
+                    latitude        : userState.coords.LAT.N,
+                    longitude       : userState.coords.LON.N
                 })
             )
+
+                // success
                 .then(() => {
+
                     const response = {
-                        type: 'success',
-                        title: '¡Solicitud enviada!',
-                        msg: `
-                            La solicitud al equipo rival fue enviada.
-                        `
+                        type    : 'success',
+                        title   : '¡Solicitud enviada!',
+                        msg     : 'La solicitud al equipo rival fue enviada.'
                     }
 
                     const params = {
-                        nearTeams: ctx.state.nearTeams.filter(
+
+                        // remove requested team from near teams list
+
+                        nearTeams: homeState.nearTeams.filter(
                             team => team.id !== data.id
                         )
                     }
+
                     ctx.commit('setState', { params })
 
                     resolve(response)
                 })
+
+
+                // error
                 .catch((err) => {
                     const response = { ...errorNotification, err }
+
                     reject(response)
                 })
         })
     },
 
+
     sendMatchPatchRequest (ctx, data) {
+
+        // load states
+
+        const userState = ctx.rootGetters['user/get']
+        const homeState = ctx.getters.get
+
+
         return new Promise((resolve, reject) => {
+
             this.$AWS.Amplify.configure(awsconfig.umt)
+
             this.$AWS.API.graphql(
                 graphqlOperation(umt.mutations.addMatchPatch, {
-                    teamId1: data.teamId1,
-                    teamId2: data.teamId2,
-                    email: ctx.rootState.user.email,
-                    expireOn: data.expireOn,
-                    reqStat: JSON.stringify({
+                    teamId1     : data.teamId1,
+                    teamId2     : data.teamId2,
+                    email       : userState.email,
+                    expireOn    : data.expireOn,
+                    reqStat     : JSON.stringify({
                         MR: { S: 'A' },
                         PR: { S: 'A' }
                     })
                 })
             )
+
+                // success
                 .then(() => {
+
                     const response = {
-                        type: 'success',
-                        title: '¡Felicitaciones!',
-                        msg: `
+                        type    : 'success',
+                        title   : '¡Felicitaciones!',
+                        msg     : `
                             Te has unido al match. Que disfrutes jugando con tus
                             compañeros de equipo.
                         `
                     }
 
                     const params = {
-                        nearMatches: ctx.state.nearMatches.filter(
-                            match =>
-                                `${match.teamId1}${match.teamId2}` !==
-                                `${data.teamId1}${data.teamId2}`
+
+                        // remove requested match from near matches list
+
+                        nearMatches: homeState.nearMatches.filter(match =>
+                            `${match.teamId1}${match.teamId2}` !==
+                            `${data.teamId1}${data.teamId2}`
                         )
                     }
+
                     ctx.commit('setState', { params })
 
                     resolve(response)
                 })
+
+
+                // error
                 .catch((err) => {
                     const response = { ...errorNotification, err }
+
                     reject(response)
                 })
         })
     },
 
+
     sendTeamMemberRequest (ctx, data) {
+
+        // load states
+
+        const userState = ctx.rootGetters['user/get']
+        const homeState = ctx.getters.get
+
+
         return new Promise((resolve, reject) => {
+
             this.$AWS.Amplify.configure(awsconfig.umt)
+
             this.$AWS.API.graphql(
                 graphqlOperation(umt.mutations.addTeamMember, {
-                    teamId: data.id,
-                    email: ctx.rootState.user.email,
-                    role: null,
-                    reqStat: JSON.stringify({
+                    teamId  : data.id,
+                    email   : userState.email,
+                    role    : null,
+                    reqStat : JSON.stringify({
                         TR: { S: 'P' },
                         PR: { S: 'A' }
                     })
                 })
             )
+
+
+                // success
                 .then(() => {
+
                     const response = {
-                        type: 'success',
-                        title: '¡Solicitud enviada!',
-                        msg: `
-                            La solicitud al equipo fue enviada.
-                        `
+                        type    : 'success',
+                        title   : '¡Solicitud enviada!',
+                        msg     : 'La solicitud al equipo fue enviada.'
                     }
 
                     const params = {
-                        nearTeams: ctx.state.nearTeams.filter(
+
+                        // remove requested team from near teams list
+
+                        nearTeams: homeState.nearTeams.filter(
                             team => team.id !== data.id
                         )
                     }
+
                     ctx.commit('setState', { params })
 
                     resolve(response)
                 })
+
+
+                // error
                 .catch((err) => {
                     const response = { ...errorNotification, err }
+
                     reject(response)
                 })
         })
     }
 }
 
+
+// mutations
+
 const mutations = {
+
     setState (state, { params }) {
         for (const key in params) {
             state[key] = params[key]
@@ -358,6 +528,9 @@ const mutations = {
         Object.assign(state, getDefaultState())
     }
 }
+
+
+// export modules
 
 export default {
     namespaced: true,

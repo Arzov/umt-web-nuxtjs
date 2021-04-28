@@ -1,5 +1,7 @@
 <template>
     <div class="teams">
+        <ModalAddTeam v-model="showAddTeam" />
+        <ModalAddPlayer v-model="showAddPlayer" />
         <a-row>
             <a-col class="leftContent" :span="8">
                 <a-row class="shield">
@@ -12,26 +14,35 @@
                     size="large"
                 >
                     <a-tabPane :key="1" tab="ACTIVOS">
-                        <ScrollContainer>
+                        <ScrollContainer v-if="_teamsChatMessages.length">
                             <ListBtn
                                 v-for="(team, i) in _userState.teams"
-                                :key="`t${team.id}${i}`"
+                                :key="`t${team.id}`"
                                 :title="team.name"
                                 :desc="
-                                    _teamsChatMessages.lenght
-                                        && _teamsChatMessages[i].messages.lenght
-                                        ? `${_teamsChatMessages[i].messages[1].author}`
+                                    _teamsChatMessages[i].messages.length
+                                        ? `${_teamsChatMessages[i].messages[0].author}: ${_teamsChatMessages[i].messages[0].msg}`
+                                        : 'No hay mensajes'
+                                "
+                                :time="
+                                    _teamsChatMessages[i].messages.length
+                                        ? _teamsChatMessages[i].messages[0].sentOn
                                         : ''
                                 "
-                                time="2021-04-12T21:36:23.570Z"
                                 @click.native="click()"
                             />
-                            <PrincipalBtn
-                                text="+ CREAR EQUIPO (1/3)"
-                                :loading="btnLoading"
-                                @click.native="createTeam()"
-                            />
                         </ScrollContainer>
+                        <center v-else>
+                            No perteneces a ningún equipo aún.
+                        </center>
+
+                        <br>
+
+                        <PrincipalBtn
+                            text="+ CREAR EQUIPO (1/3)"
+                            :loading="btnLoading"
+                            @click.native="showModalAddTeam()"
+                        />
                     </a-tabPane>
                     <a-tabPane :key="2" tab="SOLICITUDES">
                         <ScrollContainer>
@@ -178,10 +189,10 @@
                                         <PrincipalBtn
                                             text="+ AGREGAR JUGADOR (3/30)"
                                             :loading="btnLoading"
-                                            @click.native="toggleModal()"
+                                            @click.native="showModalAddPlayer()"
                                         />
                                     </a-form-model-item>
-                                    <Modal v-model="visible" />
+
                                     <h3>JUGADORES</h3>
                                     <br>
                                     <a-row :gutter="[0, 0]" type="flex">
@@ -217,7 +228,8 @@ export default {
         return {
             showInfoTeam: false,
             teamName: 'NOMBRE EQUIPO',
-            visible: false
+            showAddTeam: false,
+            showAddPlayer: false
         }
     },
 
@@ -229,6 +241,7 @@ export default {
             ) {
                 return this._userState.primaryTeam.picture
             }
+
             else {
                 return this.getIcon('team-profile.svg')
             }
@@ -240,21 +253,26 @@ export default {
     },
 
     async mounted () {
-        try {
-            await this.$store.dispatch('teams/listTeamChats')
-        }
-        catch (e) {
-            this.showNotification(e.title, e.msg, e.type)
-        }
+        await this.$store.dispatch('teams/listTeamChats')
+            .catch((e) => {
+                console.log(e)
+                this.showNotification(e.title, e.msg, e.type)
+            })
     },
 
     methods: {
+        showModalAddTeam () {
+            console.log('Probando el click del banner')
+            this.showAddTeam = !this.showAddTeam
+        },
+
+        showModalAddPlayer () {
+            console.log('Probando click para agregar jugadores')
+            this.showAddPlayer = !this.showAddPlayer
+        },
+
         click () {
             console.log('Probando el click del banner')
-        },
-        toggleModal () {
-            console.log('Probando click para agregar jugadores')
-            this.visible = !this.visible
         }
     }
 }

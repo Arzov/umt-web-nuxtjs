@@ -1,8 +1,15 @@
-export const passwordRules = [
+const passwordRules = [
+
+    // required validation
+
     {
         required: true,
         message: 'Ingresa una contraseña.'
     },
+
+
+    // password must have 6 characters at least
+
     {
         min: 6,
         message: 'La contraseña debe tener al menos 6 caracteres.',
@@ -10,10 +17,11 @@ export const passwordRules = [
     }
 ]
 
+
 export default {
-    name: 'password',
-    placeholder: 'Ingresa tu contraseña',
-    type: 'password',
-    autocomplete: 'off',
-    rules: passwordRules
+    name            : 'password',
+    placeholder     : 'Ingresa tu contraseña',
+    type            : 'password',
+    autocomplete    : 'off',
+    rules           : passwordRules
 }

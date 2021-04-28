@@ -6,7 +6,9 @@ import code from './rules/code.js'
 import height from './rules/height.js'
 import weight from './rules/weight.js'
 
+
 export default (ctx, inject) => {
+
     const RULES = {
         email,
         password,

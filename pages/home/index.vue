@@ -122,10 +122,8 @@
 
 <script>
 import { validGeoloc } from '@/plugins/mixins'
-import scrollContainer from '../../components/scrollContainer.vue'
 
 export default {
-    components: { scrollContainer },
     mixins: [validGeoloc],
 
     layout: 'navbar',

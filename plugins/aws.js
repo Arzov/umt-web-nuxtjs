@@ -4,7 +4,9 @@ import { API } from '@aws-amplify/api'
 import { Storage } from '@aws-amplify/storage'
 import awsconfig from '~/aws-exports'
 
+
 export default (ctx, inject) => {
+
     const AWS = {
         Amplify,
         Auth,
