@@ -248,6 +248,7 @@ export default {
         },
 
         _teamsChatMessages () {
+            console.log(this.$store.getters['teams/get'])
             return this.$store.getters['teams/get'].teamsChatMessages
         }
     },

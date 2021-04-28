@@ -41,23 +41,28 @@ const getters = {
 // actions
 
 const actions = {
+
     async listTeamChats (ctx, data) {
 
         this.$AWS.Amplify.configure(awsconfig.umt)
 
 
-        // validate that the user has teams
+        // init states
 
         const userTeams = ctx.rootGetters['user/get'].teams
+        const teamsState = ctx.getters.get
+
+
+        // validate that the user has teams
 
         if (!userTeams) {
             return null
         }
 
 
-        // init states
+        // init messages for each team
 
-        let teamsChatMessages = JSON.parse(ctx.state.teamsChatMessages)
+        let teamsChatMessages = teamsState.teamsChatMessages
 
         if (!teamsChatMessages.length) {
             teamsChatMessages = userTeams.map((team) => {
@@ -99,7 +104,7 @@ const actions = {
 
 
                 const params = {
-                    teamsChatMessages: JSON.stringify(teamsChatMessages)
+                    teamsChatMessages
                 }
 
                 ctx.commit('setState', { params })
@@ -120,6 +125,7 @@ const actions = {
     createTeam (ctx, data) {
 
         const userState = ctx.rootGetters['user/get']
+        const teamsState = ctx.getters.get
 
         return new Promise((resolve, reject) => {
 
@@ -143,51 +149,94 @@ const actions = {
             this.$AWS.API.graphql(
                 graphqlOperation(umt.mutations.addTeam, params)
             )
-                .then((result) => {
 
+                // success
+                .then(async (result) => {
+
+                    const addTeamResult = result.data.addTeam
                     const userTeams = userState.teams ? [...userState.teams] : []
+
+
+                    // set team in chat list
+
+                    teamsState.teamsChatMessages.push({
+                        id          : addTeamResult.id,
+                        messages    : [],
+                        nextToken   : null
+                    })
+
+                    params = { teamsChatMessages: teamsState.teamsChatMessages }
+
+                    ctx.commit('setState', { params })
 
 
                     // set teams in user store
 
-                    userTeams.push(
-                        {
-                            id              : result.data.addTeam.id,
-                            name            : result.data.addTeam.name,
-                            picture         : result.data.addTeam.picture,
-                            formation       : JSON.parse(result.data.addTeam.formation),
-                            geohash         : result.data.addTeam.geohash,
-                            coords          : JSON.parse(result.data.addTeam.coords),
-                            genderFilter    : result.data.addTeam.genderFilter,
-                            ageMinFilter    : result.data.addTeam.ageMinFilter,
-                            ageMaxFilter    : result.data.addTeam.ageMaxFilter,
-                            matchFilter     : result.data.addTeam.matchFilter
-                        }
-                    )
+                    userTeams.push({
+                        id              : addTeamResult.id,
+                        name            : addTeamResult.name,
+                        picture         : addTeamResult.picture,
+                        formation       : JSON.parse(addTeamResult.formation),
+                        geohash         : addTeamResult.geohash,
+                        coords          : JSON.parse(addTeamResult.coords),
+                        genderFilter    : addTeamResult.genderFilter,
+                        ageMinFilter    : addTeamResult.ageMinFilter,
+                        ageMaxFilter    : addTeamResult.ageMaxFilter,
+                        matchFilter     : addTeamResult.matchFilter
+                    })
 
-                    params = { teams: JSON.stringify(userTeams) }
+                    params = { teams: userTeams }
 
                     ctx.commit('user/setState', { params }, { root: true })
+
+
+                    // add the user to the team
+
+                    try {
+                        await this.$AWS.API.graphql(
+                            graphqlOperation(
+                                umt.mutations.addTeamMember,
+                                {
+                                    teamId  : addTeamResult.id,
+                                    email   : userState.email,
+                                    role    : ['Admin', 'Player', 'Captain'],
+                                    reqStat : JSON.stringify({ TR:{ S:'A' }, PR:{ S:'A' } })
+                                }
+                            )
+                        )
+                    }
+
+                    catch (err) {
+                        const response = { ...errorNotification, err }
+
+                        // TODO: remove the team created
+
+                        throw response
+                    }
 
 
                     // set primary team only if its the first team added
 
                     if (userTeams.length === 1) {
 
-                        params = { primaryTeam: JSON.stringify(userTeams[0]) }
+                        params = { primaryTeam: userTeams[0] }
 
                         ctx.commit('user/setState', { params }, { root: true })
                     }
 
                     const response = {
-                        type: 'success',
-                        title: '¡Equipo creado!',
-                        msg: 'El equipo fue creado exitosamente.'
+                        type    : 'success',
+                        title   : '¡Equipo creado!',
+                        msg     : 'El equipo fue creado exitosamente.'
                     }
 
                     resolve(response)
                 })
+
+
+                // error
                 .catch((err) => {
+
                     let response = { ...errorNotification, err }
 
                     try {
@@ -200,9 +249,9 @@ const actions = {
 
                         case 'TeamExistException': {
                             response = {
-                                type: 'error',
-                                title: '¡El equipo ya existe!',
-                                msg: error.message,
+                                type    : 'error',
+                                title   : '¡El equipo ya existe!',
+                                msg     : error.message,
                                 err
                             }
 

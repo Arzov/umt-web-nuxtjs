@@ -67,7 +67,6 @@ export default {
                     this.btnLoading = false
                 })
                 .catch((e) => {
-                    console.log(e)
                     this.showNotification(e.title, e.msg, e.type)
                     this.btnLoading = false
                 })
