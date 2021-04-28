@@ -107,13 +107,14 @@ const getLocalFromUTC = (dateUTC) => {
 
 /**
  * Get month from date in `MM` format
- * @param {Date} currDate Date to parse
+ * @param {String} currDate Date to parse
  */
 const getMonthMM = (currDate) => {
 
-    let currentMonth = currDate.getMonth() + 1
+    let currentMonth = getLocalFromUTC(currDate).getMonth() + 1
 
     // left padding 0 to month less than 10
+
     if (currentMonth < 10) {
         currentMonth = '0' + currentMonth
     }
@@ -124,13 +125,14 @@ const getMonthMM = (currDate) => {
 
 /**
  * Get day from date in `DD` format
- * @param {Date} currDate Date to parse
+ * @param {String} currDate Date to parse
  */
 const getDayDD = (currDate) => {
 
-    let currentDay = currDate.getDate()
+    let currentDay = getLocalFromUTC(currDate).getDate()
 
     // left padding 0 to day less than 10
+
     if (currentDay < 10) {
         currentDay = '0' + currentDay
     }

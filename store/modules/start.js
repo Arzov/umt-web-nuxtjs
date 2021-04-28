@@ -22,6 +22,7 @@ const actions = {
 
                 // error
                 .catch((err) => {
+
                     let response = {}
 
                     switch (err.code) {

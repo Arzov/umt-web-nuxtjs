@@ -1,16 +1,11 @@
 import errorNotification from '@/static/data/errorNotification.json'
 
 
-// parse localStorage function
-
-const getLocalStorageState = key => JSON.parse(localStorage.getItem(key))
-
-
 // get default states values
 
 const getDefaultState = () => ({
-    themePreference : getLocalStorageState('themePreference') || 'dark',
-    allowGeoloc     : getLocalStorageState('allowGeoloc') || false
+    themePreference : localStorage.getItem('themePreference') || '"dark"',
+    allowGeoloc     : localStorage.getItem('allowGeoloc') || false
 })
 
 
@@ -22,8 +17,18 @@ const state = getDefaultState
 // getters
 
 const getters = {
+
     get (state) {
-        return state
+
+        // parse all state
+
+        const parseState = { ...state }
+
+        Object.keys(parseState).map(function (key, index) {
+            parseState[key] = JSON.parse(parseState[key])
+        })
+
+        return parseState
     }
 }
 
@@ -104,16 +109,18 @@ const mutations = {
 
     setState (state, { params }) {
 
+        // save and stringify all elements to be reactive
+
         for (const key in params) {
 
-            // set state in localStorage
+            // save to localStorage
 
             localStorage.setItem(key, JSON.stringify(params[key]))
 
 
-            // set state in storage
+            // save to store
 
-            state[key] = params[key]
+            state[key] = JSON.stringify(params[key])
         }
     },
 

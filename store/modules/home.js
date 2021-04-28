@@ -7,11 +7,11 @@ import awsconfig from '~/aws-exports'
 // get default state values
 
 const getDefaultState = () => ({
-    nearTeams                   : JSON.stringify([]),
+    nearTeams                   : '[]',
     nearTeamsNextToken          : null,
-    nearTeamsForJoin            : JSON.stringify([]),
+    nearTeamsForJoin            : '[]',
     nearTeamsForJoinNextToken   : null,
-    nearMatches                 : JSON.stringify([]),
+    nearMatches                 : '[]',
     nearMatchesNextToken        : null
 })
 
@@ -24,13 +24,18 @@ const state = getDefaultState()
 // getters
 
 const getters = {
+
     get (state) {
-        return {
-            ...state,
-            nearTeams           : JSON.parse(state.nearTeams),
-            nearTeamsForJoin    : JSON.parse(state.nearTeamsForJoin),
-            nearMatches         : JSON.parse(state.nearMatches)
-        }
+
+        // parse all state
+
+        const parseState = { ...state }
+
+        Object.keys(parseState).map(function (key, index) {
+            parseState[key] = JSON.parse(parseState[key])
+        })
+
+        return parseState
     }
 }
 
@@ -241,7 +246,7 @@ const actions = {
                         return {
                             ...match,
                             patches     : JSON.parse(match.patches),
-                            schedule    : this.$UTILS.getLocalFromUTC(match.schedule),
+                            schedule    : match.schedule,
                             reqStat     : JSON.parse(match.reqStat),
                             coords      : JSON.parse(match.coords),
                             distance    : this.$UTILS.getDistance(
@@ -492,7 +497,7 @@ const actions = {
 
                         // remove requested team from near teams list
 
-                        nearTeams: homeState.nearTeams.filter(
+                        nearTeamsForJoin: homeState.nearTeamsForJoin.filter(
                             team => team.id !== data.id
                         )
                     }
@@ -519,8 +524,14 @@ const actions = {
 const mutations = {
 
     setState (state, { params }) {
+
+        // save and stringify all elements to be reactive
+
         for (const key in params) {
-            state[key] = params[key]
+
+            // save to store
+
+            state[key] = JSON.stringify(params[key])
         }
     },
 

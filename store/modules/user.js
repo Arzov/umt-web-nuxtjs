@@ -4,13 +4,6 @@ import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
 
-// get localStorage values
-
-const getLocalStorageState = (key) => {
-    return JSON.parse(localStorage.getItem(key))
-}
-
-
 // get default states values
 
 const getDefaultState = () => ({
@@ -18,32 +11,32 @@ const getDefaultState = () => ({
 
     // dynamoDB
 
-    email           : getLocalStorageState('email') || null,
-    firstName       : getLocalStorageState('firstName') || null,
-    lastName        : getLocalStorageState('lastName') || null,
-    birthdate       : getLocalStorageState('birthdate') || null,
-    gender          : getLocalStorageState('gender') || null,
-    picture         : getLocalStorageState('picture') || null,
-    coords          : JSON.stringify(getLocalStorageState('coords')) || null,
-    geohash         : getLocalStorageState('geohash') || null,
-    matchFilter     : JSON.stringify(getLocalStorageState('matchFilter')) || null,
-    ageMinFilter    : getLocalStorageState('ageMinFilter') || null,
-    ageMaxFilter    : getLocalStorageState('ageMaxFilter') || null,
-    positions       : JSON.stringify(getLocalStorageState('positions')) || null,
-    foot            : getLocalStorageState('foot') || null,
-    skills          : JSON.stringify(getLocalStorageState('skills')) || null,
-    weight          : getLocalStorageState('weight') || 0,
-    height          : getLocalStorageState('height') || 0,
-    providerId      : JSON.stringify(getLocalStorageState('providerId')) || null,
-    providers       : JSON.stringify(getLocalStorageState('providers')) || null,
-    joinedOn        : getLocalStorageState('joinedOn') || null,
-    verified        : getLocalStorageState('verified') || null,
+    email           : localStorage.getItem('email') || null,
+    firstName       : localStorage.getItem('firstName') || null,
+    lastName        : localStorage.getItem('lastName') || null,
+    birthdate       : localStorage.getItem('birthdate') || null,
+    gender          : localStorage.getItem('gender') || null,
+    picture         : localStorage.getItem('picture') || null,
+    coords          : localStorage.getItem('coords') || null,
+    geohash         : localStorage.getItem('geohash') || null,
+    matchFilter     : localStorage.getItem('matchFilter') || null,
+    ageMinFilter    : localStorage.getItem('ageMinFilter') || null,
+    ageMaxFilter    : localStorage.getItem('ageMaxFilter') || null,
+    positions       : localStorage.getItem('positions') || null,
+    foot            : localStorage.getItem('foot') || null,
+    skills          : localStorage.getItem('skills') || null,
+    weight          : localStorage.getItem('weight') || 0,
+    height          : localStorage.getItem('height') || 0,
+    providerId      : localStorage.getItem('providerId') || null,
+    providers       : localStorage.getItem('providers') || null,
+    joinedOn        : localStorage.getItem('joinedOn') || null,
+    verified        : localStorage.getItem('verified') || null,
 
 
     // local
 
-    teams       : JSON.stringify(getLocalStorageState('teams')) || null,
-    primaryTeam : JSON.stringify(getLocalStorageState('primaryTeam')) || null
+    teams       : localStorage.getItem('teams') || null,
+    primaryTeam : localStorage.getItem('primaryTeam') || null
 })
 
 
@@ -55,18 +48,18 @@ const state = getDefaultState()
 // getters
 
 const getters = {
+
     get (state) {
-        return {
-            ...state,
-            coords      : JSON.parse(state.coords),
-            matchFilter : JSON.parse(state.matchFilter),
-            positions   : JSON.parse(state.positions),
-            skills      : JSON.parse(state.skills),
-            providerId  : JSON.parse(state.providerId),
-            providers   : JSON.parse(state.providers),
-            teams       : JSON.parse(state.teams),
-            primaryTeam : JSON.parse(state.primaryTeam)
-        }
+
+        // parse all state
+
+        const parseState = { ...state }
+
+        Object.keys(parseState).map(function (key, index) {
+            parseState[key] = JSON.parse(parseState[key])
+        })
+
+        return parseState
     }
 }
 
@@ -147,7 +140,7 @@ const actions = {
 
                             ctx.commit('setState', { params })
 
-                            resolve(ctx.getters.get)
+                            resolve()
                         })
 
 
@@ -359,6 +352,8 @@ const mutations = {
 
     setState (state, { params }) {
 
+        // save and stringify all elements to be reactive
+
         for (const key in params) {
 
             // save to localStorage
@@ -368,7 +363,7 @@ const mutations = {
 
             // save to store
 
-            state[key] = params[key]
+            state[key] = JSON.stringify(params[key])
         }
     },
 
@@ -384,7 +379,7 @@ const mutations = {
 
             // remove from store
 
-            state[key] = null
+            Object.assign(state, getDefaultState())
         }
     }
 }

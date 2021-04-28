@@ -4,13 +4,13 @@ import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
 
-// functions
+// get default state value
 
 const getDefaultState = () => ({
 
     // array and object must be stringified to be reactive
 
-    teamsChatMessages: JSON.stringify([])
+    teamsChatMessages: '[]'
 })
 
 
@@ -22,11 +22,18 @@ const state = getDefaultState()
 // getters
 
 const getters = {
+
     get (state) {
-        return {
-            ...state,
-            teamsChatMessages: JSON.parse(state.teamsChatMessages)
-        }
+
+        // parse all state
+
+        const parseState = { ...state }
+
+        Object.keys(parseState).map(function (key, index) {
+            parseState[key] = JSON.parse(parseState[key])
+        })
+
+        return parseState
     }
 }
 
@@ -224,8 +231,14 @@ const actions = {
 
 const mutations = {
     setState (state, { params }) {
+
+        // save and stringify all elements to be reactive
+
         for (const key in params) {
-            state[key] = params[key]
+
+            // save to store
+
+            state[key] = JSON.stringify(params[key])
         }
     }
 }

@@ -79,7 +79,7 @@ export default {
                 const email = data.signInUserSession.idToken.payload.email
                 this.$store
                     .dispatch('user/fetch', { email })
-                    .then((result) => {
+                    .then(() => {
                         this.btnLoading = false
                         this.$router.push('/home')
                     })
