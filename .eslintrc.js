@@ -20,11 +20,12 @@ module.exports = {
     // custom rules
 
     rules: {
-        indent                      : ['error', 4],
-        'vue/html-indent'           : ['error', 4],
-        'brace-style'               : 'off',
-        'no-multiple-empty-lines'   : 'off',
-        'key-spacing'               : 'off',
-        'padded-blocks'             : 'off'
+        indent                                          : ['error', 4],
+        'vue/html-indent'                               : ['error', 4],
+        'brace-style'                                   : 'off',
+        'no-multiple-empty-lines'                       : 'off',
+        'key-spacing'                                   : 'off',
+        'padded-blocks'                                 : 'off',
+        'vue/multiline-html-element-content-newline'    : 'off'
     }
 }

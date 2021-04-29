@@ -1,9 +1,21 @@
 <template>
     <div class="teams">
+
+
+        <!-- MODALS -->
+
         <ModalAddTeam v-model="showAddTeam" />
         <ModalAddPlayer v-model="showAddPlayer" />
+
+
+        <!-- CONTENT -->
+
         <a-row>
+
+            <!-- LEFT SIDE MENU -->
+
             <a-col class="leftContent" :span="8">
+
                 <a-row class="shield">
                     <img src="@/assets/images/shield.svg" alt="">
                 </a-row>
@@ -29,6 +41,8 @@
                                         ? _teamsChatMessages[i].messages[0].sentOn
                                         : ''
                                 "
+                                type="team"
+                                :pictures="[team.picture]"
                                 @click.native="click()"
                             />
                         </ScrollContainer>
@@ -44,31 +58,40 @@
                             @click.native="showModalAddTeam()"
                         />
                     </a-tabPane>
+
                     <a-tabPane :key="2" tab="SOLICITUDES">
-                        <ScrollContainer>
+                        <ScrollContainer v-if="_teamsRequests.length || _teamMemberRequests.length">
                             <CollapseDisplay
+                                v-for="(team, i) in _userState.teams"
+                                :key="`r${team.id}`"
                                 icon="team-profile.svg"
-                                label="TEAM (2)"
+                                :label="`${team.name} (${_teamsRequests[i].requests.length})`"
                             >
                                 <RequestCard
-                                    title="Matias"
-                                    desc="Solicitud enviada"
-                                    :pictures="['']"
+                                    v-for="(teamMember) in _teamsRequests[i].requests"
+                                    :key="`tm${teamMember.teamId}${teamMember.email}`"
+                                    :title="teamMember.name"
+                                    :desc="teamMember.reqStat.TR == 'A' ?
+                                        'Solicitud enviada' : 'Aceptar solicitud'"
+                                    :pictures="[teamMember.picture]"
                                     type="user"
-                                    action="out"
-                                />
-
-                                <RequestCard
-                                    title="Matias"
-                                    desc="Aceptar solicitud"
-                                    :pictures="['', '']"
-                                    type="match"
+                                    :action="teamMember.reqStat.TR == 'A' ?
+                                        'out' : 'in'"
+                                    @accept="acceptRequest('teamMember')"
+                                    @reject="rejectRequest('matchPatch')"
                                 />
                             </CollapseDisplay>
                         </ScrollContainer>
+                        <center v-else>
+                            No tienes solicitudes.
+                        </center>
                     </a-tabPane>
+
                 </a-tabs>
             </a-col>
+
+
+            <!-- RIGHT CONTENT -->
 
             <a-col class="rightContent" :span="16">
                 <a-row v-if="!showInfoTeam" class="chatContainer">
@@ -248,15 +271,26 @@ export default {
         },
 
         _teamsChatMessages () {
-            console.log(this.$store.getters['teams/get'])
             return this.$store.getters['teams/get'].teamsChatMessages
+        },
+
+        _teamsRequests () {
+            return this.$store.getters['teams/get'].teamsRequests
+        },
+
+        _teamMemberRequests () {
+            return this.$store.getters['teams/get'].teamMemberRequests
         }
     },
 
     async mounted () {
         await this.$store.dispatch('teams/listTeamChats')
             .catch((e) => {
-                console.log(e)
+                this.showNotification(e.title, e.msg, e.type)
+            })
+
+        await this.$store.dispatch('teams/teamRequests')
+            .catch((e) => {
                 this.showNotification(e.title, e.msg, e.type)
             })
     },
@@ -270,6 +304,14 @@ export default {
         showModalAddPlayer () {
             console.log('Probando click para agregar jugadores')
             this.showAddPlayer = !this.showAddPlayer
+        },
+
+        acceptRequest (action) {
+            console.log('aceptar')
+        },
+
+        rejectRequest (action) {
+            console.log('rechazo')
         },
 
         click () {

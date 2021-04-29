@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { umt } from '@/graphql/gql'
+import { umt, arv } from '@/graphql/gql'
 import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
@@ -10,7 +10,9 @@ const getDefaultState = () => ({
 
     // array and object must be stringified to be reactive
 
-    teamsChatMessages: '[]'
+    teamsChatMessages   : '[]',
+    teamsRequests       : '[]',
+    teamMemberRequests  : '[]'
 })
 
 
@@ -111,10 +113,112 @@ const actions = {
             }
 
             catch (err) {
-                const response = {
-                    ...errorNotification,
-                    err
+                const response = { ...errorNotification, err }
+
+                throw response
+            }
+        }
+    },
+
+
+    async teamRequests (ctx, data) {
+
+        // init states
+
+        const userTeams = ctx.rootGetters['user/get'].teams
+        const teamsState = ctx.getters.get
+
+
+        // validate that the user has teams
+
+        if (!userTeams) {
+            return null
+        }
+
+
+        // init requests for each team
+
+        let teamsRequests = teamsState.teamsRequests
+
+        if (!teamsRequests.length) {
+            teamsRequests = userTeams.map((team) => {
+                return {
+                    id          : team.id,
+                    requests    : [],
+                    nextToken   : null
                 }
+            })
+        }
+
+
+        // fetch each team's requests
+
+        for (const i in userTeams) {
+
+            try {
+
+                this.$AWS.Amplify.configure(awsconfig.umt)
+
+                const result = await this.$AWS.API.graphql(
+                    graphqlOperation(
+                        umt.queries.teamRequests,
+                        {
+                            id          : userTeams[i].id,
+                            nextToken   : teamsRequests[i].nextToken
+                        }
+                    )
+                )
+
+                const teamRequestsResult = result.data.teamRequests.items
+                teamsRequests[i].nextToken = result.data.teamRequests.nextToken
+
+
+                // add data
+
+                if (teamRequestsResult) {
+
+                    for (const teamMember of teamRequestsResult) {
+
+                        // fetch user picture
+
+                        this.$AWS.Amplify.configure(awsconfig.arv)
+
+                        try {
+
+                            const userInfo = await this.$AWS.API.graphql(
+                                graphqlOperation(arv.queries.getUser, {
+                                    email: teamMember.email
+                                })
+                            )
+
+
+                            // append to state
+
+                            teamsRequests[i].requests.push({
+                                ...teamMember,
+                                picture: userInfo.data.getUser.picture,
+                                reqStat: JSON.parse(teamMember.reqStat)
+                            })
+                        }
+
+                        catch (err) {
+                            const response = { ...errorNotification, err }
+
+                            throw response
+                        }
+                    }
+                }
+
+
+                // save in store
+
+                const params = { teamsRequests }
+
+                ctx.commit('setState', { params })
+            }
+
+            catch (err) {
+                const response = { ...errorNotification, err }
 
                 throw response
             }

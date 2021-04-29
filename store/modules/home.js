@@ -413,6 +413,7 @@ const actions = {
                     teamId1     : data.teamId1,
                     teamId2     : data.teamId2,
                     email       : userState.email,
+                    name        : userState.firstName,
                     expireOn    : data.expireOn,
                     reqStat     : JSON.stringify({
                         MR: { S: 'A' },
@@ -475,6 +476,7 @@ const actions = {
                 graphqlOperation(umt.mutations.addTeamMember, {
                     teamId  : data.id,
                     email   : userState.email,
+                    name    : userState.firstName,
                     role    : null,
                     reqStat : JSON.stringify({
                         TR: { S: 'P' },
