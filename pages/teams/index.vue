@@ -60,31 +60,57 @@
                     </a-tabPane>
 
                     <a-tabPane :key="2" tab="SOLICITUDES">
-                        <ScrollContainer v-if="_teamsRequests.length || _teamMemberRequests.length">
+                        <ScrollContainer>
+                            <div v-if="_teamsRequests.length || _teamMemberRequests.length">
+                                <CollapseDisplay
+                                    v-for="(team, i) in _userState.teams"
+
+                                    :key="`r${team.id}`"
+                                    icon="team-profile.svg"
+                                    :label="`${team.name} (${_teamsRequests[i].requests.length})`"
+                                >
+                                    <RequestCard
+                                        v-for="teamMember in _teamsRequests[i].requests"
+                                        :key="`tm${teamMember.teamId}${teamMember.email}`"
+                                        :title="teamMember.name"
+                                        :desc="teamMember.reqStat.TR.S == 'A' ?
+                                            'Solicitud enviada' : 'Aceptar solicitud'"
+                                        :pictures="[teamMember.picture]"
+                                        type="user"
+                                        :action="teamMember.reqStat.TR.S == 'A' ?
+                                            'out' : 'in'"
+                                        @accept="acceptRequest(teamMember)"
+                                        @reject="rejectRequest(teamMember)"
+                                    />
+                                </CollapseDisplay>
+                            </div>
+                            <div v-else />
+
                             <CollapseDisplay
-                                v-for="(team, i) in _userState.teams"
-                                :key="`r${team.id}`"
-                                icon="team-profile.svg"
-                                :label="`${team.name} (${_teamsRequests[i].requests.length})`"
+                                icon="avatar.svg"
+                                :label="`${_userState.firstName} (${_teamMemberRequests.requests.length})`"
                             >
                                 <RequestCard
-                                    v-for="(teamMember) in _teamsRequests[i].requests"
+                                    v-for="teamMember in _teamMemberRequests.requests"
                                     :key="`tm${teamMember.teamId}${teamMember.email}`"
                                     :title="teamMember.name"
-                                    :desc="teamMember.reqStat.TR == 'A' ?
-                                        'Solicitud enviada' : 'Aceptar solicitud'"
+                                    :desc="teamMember.reqStat.TR.S == 'A' ?
+                                        'Aceptar solicitud' : 'Solicitud enviada'"
                                     :pictures="[teamMember.picture]"
-                                    type="user"
-                                    :action="teamMember.reqStat.TR == 'A' ?
-                                        'out' : 'in'"
-                                    @accept="acceptRequest('teamMember')"
-                                    @reject="rejectRequest('matchPatch')"
+                                    type="team"
+                                    :action="teamMember.reqStat.TR.S == 'A' ?
+                                        'in' : 'out'"
+                                    @accept="acceptRequest({
+                                        ...teamMember,
+                                        name: _userState.firstName
+                                    })"
+                                    @reject="rejectRequest({
+                                        ...teamMember,
+                                        name: _userState.firstName
+                                    })"
                                 />
                             </CollapseDisplay>
                         </ScrollContainer>
-                        <center v-else>
-                            No tienes solicitudes.
-                        </center>
                     </a-tabPane>
 
                 </a-tabs>
@@ -293,6 +319,11 @@ export default {
             .catch((e) => {
                 this.showNotification(e.title, e.msg, e.type)
             })
+
+        await this.$store.dispatch('teams/teamMemberRequests')
+            .catch((e) => {
+                this.showNotification(e.title, e.msg, e.type)
+            })
     },
 
     methods: {
@@ -306,12 +337,35 @@ export default {
             this.showAddPlayer = !this.showAddPlayer
         },
 
-        acceptRequest (action) {
-            console.log('aceptar')
+        acceptRequest (teamMember) {
+            this.$store
+                .dispatch('teams/updateTeamMember', {
+                    ...teamMember,
+                    action  : 'accept',
+                    reqStat : { PR: { S: 'A' }, TR : { S : 'A' } }
+                })
+                .then((e) => {
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+                .catch((e) => {
+                    this.showNotification(e.title, e.msg, e.type)
+                })
         },
 
-        rejectRequest (action) {
-            console.log('rechazo')
+        rejectRequest (teamMember) {
+            this.$store
+                .dispatch('teams/updateTeamMember', {
+                    ...teamMember,
+                    action  : 'reject',
+                    reqStat : { PR: { S: 'C' }, TR : { S : 'C' } }
+                })
+                .then((e) => {
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+                .catch((e) => {
+                    console.log(e)
+                    this.showNotification(e.title, e.msg, e.type)
+                })
         },
 
         click () {

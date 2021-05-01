@@ -12,7 +12,10 @@ const getDefaultState = () => ({
 
     teamsChatMessages   : '[]',
     teamsRequests       : '[]',
-    teamMemberRequests  : '[]'
+    teamMemberRequests  : JSON.stringify({
+        requests    : [],
+        nextToken   : null
+    })
 })
 
 
@@ -123,6 +126,8 @@ const actions = {
 
     async teamRequests (ctx, data) {
 
+        // TODO: Make nextToken logic!
+
         // init states
 
         const userTeams = ctx.rootGetters['user/get'].teams
@@ -159,7 +164,7 @@ const actions = {
 
                 this.$AWS.Amplify.configure(awsconfig.umt)
 
-                const result = await this.$AWS.API.graphql(
+                let result = await this.$AWS.API.graphql(
                     graphqlOperation(
                         umt.queries.teamRequests,
                         {
@@ -169,15 +174,15 @@ const actions = {
                     )
                 )
 
-                const teamRequestsResult = result.data.teamRequests.items
-                teamsRequests[i].nextToken = result.data.teamRequests.nextToken
+                result = result.data.teamRequests
+                teamsRequests[i].nextToken = result.nextToken
 
 
                 // add data
 
-                if (teamRequestsResult) {
+                if (result.items) {
 
-                    for (const teamMember of teamRequestsResult) {
+                    for (const teamMember of result.items) {
 
                         // fetch user picture
 
@@ -196,8 +201,9 @@ const actions = {
 
                             teamsRequests[i].requests.push({
                                 ...teamMember,
-                                picture: userInfo.data.getUser.picture,
-                                reqStat: JSON.parse(teamMember.reqStat)
+                                picture     : userInfo.data.getUser.picture,
+                                reqStat     : JSON.parse(teamMember.reqStat),
+                                position    : JSON.parse(teamMember.position)
                             })
                         }
 
@@ -222,6 +228,93 @@ const actions = {
 
                 throw response
             }
+        }
+    },
+
+
+    async teamMemberRequests (ctx, data) {
+
+        // TODO: Make nextToken logic!
+
+        // init states
+
+        const userState = ctx.rootGetters['user/get']
+        const teamsState = ctx.getters.get
+
+
+        // init requests
+
+        const teamMemberRequests = teamsState.teamMemberRequests
+
+
+        // fetch team's requests to the player
+
+        try {
+
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            let result = await this.$AWS.API.graphql(
+                graphqlOperation(
+                    umt.queries.teamMemberRequests,
+                    {
+                        email       : userState.email,
+                        nextToken   : teamMemberRequests.nextToken
+                    }
+                )
+            )
+
+            result = result.data.teamMemberRequests
+            teamMemberRequests.nextToken = result.nextToken
+
+
+            // add data
+
+            if (result.items) {
+
+                for (const teamMember of result.items) {
+
+                    // fetch team picture
+
+                    try {
+
+                        const teamInfo = await this.$AWS.API.graphql(
+                            graphqlOperation(umt.queries.getTeam, {
+                                id: teamMember.teamId
+                            })
+                        )
+
+
+                        // append to state
+
+                        teamMemberRequests.requests.push({
+                            ...teamMember,
+                            name        : teamInfo.data.getTeam.name,
+                            picture     : teamInfo.data.getTeam.picture,
+                            reqStat     : JSON.parse(teamMember.reqStat),
+                            position    : JSON.parse(teamMember.position)
+                        })
+                    }
+
+                    catch (err) {
+                        const response = { ...errorNotification, err }
+
+                        throw response
+                    }
+                }
+            }
+
+
+            // save in store
+
+            const params = { teamMemberRequests }
+
+            ctx.commit('setState', { params })
+        }
+
+        catch (err) {
+            const response = { ...errorNotification, err }
+
+            throw response
         }
     },
 
@@ -374,6 +467,98 @@ const actions = {
                     catch (e) {
                         reject(response)
                     }
+                })
+        })
+    },
+
+
+    updateTeamMember (ctx, data) {
+
+        // load states
+
+        const teamsState = ctx.getters.get
+
+
+        return new Promise((resolve, reject) => {
+
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(umt.mutations.updateTeamMember, {
+                    teamId      : data.teamId,
+                    email       : data.email,
+                    name        : data.name,
+                    role        : data.role,
+                    reqStat     : JSON.stringify(data.reqStat),
+                    position    : JSON.stringify(data.position),
+                    number      : data.number
+                })
+            )
+
+
+                // success
+                .then(() => {
+
+                    // build response message
+
+                    let response = {
+                        type    : 'success',
+                        title   : '¡Solicitud aceptada!',
+                        msg     : 'La solicitud ha sido aceptada.'
+                    }
+
+                    if (data.action === 'reject') {
+                        response = {
+                            ...response,
+                            title   : '¡Solicitud cancelada!',
+                            msg     : 'La solicitud ha sido cancelada.'
+                        }
+                    }
+
+
+                    // remove request from store
+
+                    const newTeamMemberRequests = {
+                        ...teamsState.teamMemberRequests,
+                        requests: teamsState.teamMemberRequests.requests.filter(
+                            teamMember =>
+                                `${teamMember.teamId}${teamMember.email}` !==
+                                `${data.teamId}${data.email}`
+                        )
+                    }
+
+
+                    const newTeamsRequests = teamsState.teamsRequests.map((team) => {
+
+                        return {
+                            ...team,
+                            requests: team.requests.filter(
+                                teamMember =>
+                                    `${teamMember.teamId}${teamMember.email}` !==
+                                    `${data.teamId}${data.email}`
+                            )
+                        }
+                    })
+
+
+                    // update store
+
+                    const params = {
+                        teamMemberRequests  : newTeamMemberRequests,
+                        teamsRequests       : newTeamsRequests
+                    }
+
+                    ctx.commit('setState', { params })
+
+                    resolve(response)
+                })
+
+
+                // error
+                .catch((err) => {
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
                 })
         })
     }
