@@ -23,12 +23,15 @@
         }
 
         .ant-collapse-content {
+            background-color: $color-black;
             border-top: none;
         }
 
         .ant-collapse-content-box {
+            margin-top: 20px;
             background-color: $color-black;
             color: $color-white;
+            padding: 0px !important;
         }
     }
 
@@ -47,6 +50,11 @@
 
         .ant-collapse-content {
             background-color: $color-light-grey;
+        }
+
+        .ant-collapse-content-box {
+            margin-top: 20px;
+            padding: 0px !important;
         }
     }
 

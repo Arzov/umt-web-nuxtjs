@@ -7,11 +7,12 @@
     margin-bottom: 24px;
 
     .dmBody & {
-        background-color: $color-dark-grey;
+        background-color: $color-black;
     }
 
     .lmBody & {
-        background-color: $color-white;
+        background-color: $color-light-grey;
+        box-shadow: none;
     }
 
     .ant-avatar {
@@ -41,6 +42,10 @@
                     i {
                         color: $color-cian;
                     }
+
+                    figcaption, p {
+                        color: $color-light-grey;
+                    }
                 }
 
                 .lmBody & {
@@ -48,6 +53,10 @@
 
                     i {
                         color: $color-purple;
+                    }
+
+                    figcaption, p {
+                        color: $color-dark-grey;
                     }
                 }
             }
@@ -64,6 +73,14 @@
         position: relative;
     }
 
+    .iconRow {
+        img {
+            margin-left: 10px;
+            width: 35px;
+            height: 35px;
+        }
+    }
+
     .pictures {
         &.patch {
             display: -webkit-inline-box;
@@ -71,10 +88,26 @@
 
             .dmBody & {
                 border-right: 1px solid $color-black;
+                
+                figure {
+                    h4,
+                    h5,
+                    h6 {
+                        color: $color-light-grey;
+                    }
+                }
             }
 
             .lmBody & {
                 border-right: 1px solid $color-light-grey;
+
+                figure {
+                    h4,
+                    h5,
+                    h6 {
+                        color: $color-dark-grey;
+                    }
+                }
             }
 
             figcaption {
@@ -88,7 +121,9 @@
             }
 
             figure {
-                h4 {
+                h4,
+                h5,
+                h6 {
                     text-overflow: ellipsis;
                     overflow: hidden;
                     max-width: 42px;

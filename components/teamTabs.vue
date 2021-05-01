@@ -29,7 +29,10 @@
                 </a-form-model-item>
             </a-tabPane>
             <a-tabPane key="2" :tab="title2">
-                <CollapseBtn />
+                <CollapseBtn
+                    total-team-request="2"
+                    total-individual-request="2"
+                />
             </a-tabPane>
         </a-tabs>
     </div>

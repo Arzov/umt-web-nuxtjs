@@ -12,7 +12,6 @@
 }
 
 .teams {
-
     .leftContent {
         @extend %full-width;
         justify-content: flex-start;
@@ -26,6 +25,15 @@
             }
         }
 
+        .cup {
+            height: 200px;
+
+            img {
+                padding-top: 30px;
+                width: 200px;
+            }
+        }
+
         .options {
             height: 60vh;
             overflow-y: scroll;
@@ -34,17 +42,17 @@
         }
     }
 
-    .rightContent { 
+    .rightContent {
         @extend %full-width;
         justify-content: flex-start;
 
         .dmBody & {
             border-left: 1px solid $color-light-grey;
         }
-    
+
         .lmBody & {
             border-left: 1px solid $color-violet;
-        }        
+        }
 
         .chatContainer {
             /* background-image: url("../images/chat-background.svg"); */
@@ -59,46 +67,46 @@
             }
 
             .chat-body {
-                    background-image: url("../images/chat-background.svg");
-                    background-size: 30%;
-                    padding: 20px 60px 20px 60px;
-                    display:flex;
-                    min-height: 65%;
-                    max-height: 420px;
-                    overflow-y: scroll;
-                    overflow-x: none;                    
-                    flex-direction:column;
+                background-image: url("../images/chat-background.svg");
+                background-size: 30%;
+                padding: 20px 60px 20px 60px;
+                display: flex;
+                min-height: 65%;
+                max-height: 420px;
+                overflow-y: scroll;
+                overflow-x: none;
+                flex-direction: column;
 
-                    .dmBody & {
-                        border-top: 1px solid $color-light-grey;
-                    }
-                
-                    .lmBody & {
-                        border-top: 1px solid $color-violet;
-                    }                   
+                .dmBody & {
+                    border-top: 1px solid $color-light-grey;
+                }
 
-                .left-message{
+                .lmBody & {
+                    border-top: 1px solid $color-violet;
+                }
+
+                .left-message {
                     max-width: 45%;
                     margin-bottom: 20px;
                     @include backgroundMsg($color-blue, $color-cian);
                     color: $color-white;
-                    padding:.5em;
-                    align-self:flex-start;
-                    border-radius:.8em;
+                    padding: 0.5em;
+                    align-self: flex-start;
+                    border-radius: 0.8em;
                     border-bottom-left-radius: 0px;
-                    box-shadow:1px 1px 5px 2px rgba(0,0,0,.5);
-                   /*  transform: skew(-3deg, 0deg); */
+                    box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
+                    /*  transform: skew(-3deg, 0deg); */
                 }
-                .right-message{
+                .right-message {
                     max-width: 45%;
                     margin-bottom: 20px;
-                    padding:.5em;
+                    padding: 0.5em;
                     @include backgroundMsg($color-pink, $color-purple);
                     color: $color-white;
-                    align-self:flex-end;
-                    border-radius: .8em;
+                    align-self: flex-end;
+                    border-radius: 0.8em;
                     border-bottom-right-radius: 0px;
-                    box-shadow:1px 1px 2px 2px rgba(0,0,0,.5);
+                    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
                     /* transform: skew(3deg, 0deg); */
                 }
             }
@@ -109,27 +117,26 @@
                 display: inline-block;
                 height: 15%;
             }
-            
         }
-        
+
         .bannerInfoTeam {
             height: 150px;
             display: flex;
             flex-direction: row;
-        
+
             .iconContainer {
                 @extend %full-width;
                 align-items: center;
                 justify-content: center;
                 width: 15%;
-        
+
                 img {
                     width: 35%;
                     height: 35%;
                     cursor: pointer;
                 }
-            }    
-        
+            }
+
             .title {
                 @extend %full-width;
                 justify-content: center;
@@ -139,12 +146,12 @@
             .imgContainer {
                 @extend %full-width;
                 width: 15%;
-        
+
                 img {
                     width: 75%;
                     height: 100%;
                 }
-        
+
                 .teamPicture {
                     position: absolute;
                     top: 45%;
@@ -152,16 +159,16 @@
                     left: 10%;
                     bottom: 0;
                     z-index: 1;
-            
+
                     .dmBody & {
                         box-shadow: 0 0 0 1px $color-dark-grey;
                     }
-                
+
                     .lmBody & {
                         box-shadow: 0 0 0 1px $color-white;
                     }
                 }
-            }    
+            }
         }
 
         .infoTeam {
@@ -174,5 +181,4 @@
             padding-left: 25%;
         }
     }
-    
 }
