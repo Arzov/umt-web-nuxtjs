@@ -13,7 +13,7 @@
                 <a-row class="chatContainer">
                     <a-row class="chat-header">
                         <div @click="isVisible = !isVisible">
-                            <BannerChat />
+                            <BannerChat type="matches" />
                         </div>
                     </a-row>
                     <div class="chat-body">
@@ -67,28 +67,37 @@
             </a-col>
             <a-col v-show="!isVisible" class="rightContent" :span="16">
                 <a-row class="bannerInfoTeam">
-                    <a-col
-                        v-if="this._globalState.themePreference === 'light'"
-                        class="iconContainer"
-                        :span="4"
-                    >
+                    <a-col class="iconContainer" :span="4">
                         <img
-                            src="./../../assets/icons/lm-x-active.svg"
-                            alt=""
-                            @click="isVisible = !isVisible"
-                        />
-                    </a-col>
-                    <a-col v-else class="iconContainer" :span="4">
-                        <img
-                            src="./../../assets/icons/dm-x-active.svg"
+                            :src="getImage('x-active.svg')"
                             alt=""
                             @click="isVisible = !isVisible"
                         />
                     </a-col>
                     <a-col class="title" :span="20">
-                        <center>
-                            <h2>{{ teamName }}</h2>
-                        </center>
+                        <a-row type="flex" justify="center" align="middle">
+                            <a-col :span="6" align="center">
+                                <img
+                                    :src="teamPicture"
+                                    alt=""
+                                    style="width: 50px"
+                                />
+                                <br />
+                                <h4>{{ teamName }}</h4>
+                            </a-col>
+                            <a-col>
+                                <p>VS</p>
+                            </a-col>
+                            <a-col :span="6" align="center">
+                                <img
+                                    :src="teamPicture"
+                                    alt=""
+                                    style="width: 50px"
+                                />
+                                <br />
+                                <h4>{{ teamName }}</h4>
+                            </a-col>
+                        </a-row>
                     </a-col>
                     <a-col class="imgContainer" :span="4">
                         <img
@@ -103,7 +112,102 @@
                     </a-col>
                 </a-row>
                 <a-row class="infoTeam">
-                    <InfoTeam title1="INFORMACIÓN" title2="FORMACIÓN" />
+                    <CardBtn
+                        icon-assets="calendar.svg"
+                        title="Fecha del partido"
+                        desc="27/09/2020 20:30"
+                        icon-customizable="true"
+                        @click.native="click()"
+                    />
+                    <CardBtn
+                        icon-assets="expire.svg"
+                        title="Fecha de expiración"
+                        desc="27/09/2020 20:30"
+                        icon-customizable="true"
+                        @click.native="click()"
+                    />
+                    <CardBtn
+                        icon-assets="patch-active.svg"
+                        title="Parches"
+                        desc="1/3"
+                        icon-customizable="true"
+                        @click.native="click()"
+                    />
+                    <CardBtn
+                        icon-assets="football-active.svg"
+                        title="Tipo de partido"
+                        desc="7v7"
+                        icon-customizable="true"
+                        @click.native="click()"
+                    />
+                    <CardBtn
+                        icon-assets="court.svg"
+                        title="Lugar del partido"
+                        desc="CLUB DEPORTIVO INDEPENDIENTE"
+                        icon-customizable="true"
+                        @click.native="click()"
+                    />
+                    <br />
+                    <center><h4>Jugadores</h4></center>
+                    <br />
+                    <a-row type="flex" justify="center" align="middle">
+                        <a-col align="center" :span="4">
+                            <div class="navbarPicture">
+                                <a-avatar
+                                    size="small"
+                                    class="teamPicture"
+                                    :src="teamPicture"
+                                />
+
+                                <nuxt-link to="profile">
+                                    <a-avatar size="large" :src="userPicture" />
+                                </nuxt-link>
+                            </div>
+                            <h4>Nombre</h4>
+                        </a-col>
+                        <a-col align="center" :span="4">
+                            <div class="navbarPicture">
+                                <a-avatar
+                                    size="small"
+                                    class="teamPicture"
+                                    :src="teamPicture"
+                                />
+
+                                <nuxt-link to="profile">
+                                    <a-avatar size="large" :src="userPicture" />
+                                </nuxt-link>
+                            </div>
+                            <h4>Nombre</h4>
+                        </a-col>
+                        <a-col align="center" :span="4">
+                            <div class="navbarPicture">
+                                <a-avatar
+                                    size="small"
+                                    class="teamPicture"
+                                    :src="teamPicture"
+                                />
+
+                                <nuxt-link to="profile">
+                                    <a-avatar size="large" :src="userPicture" />
+                                </nuxt-link>
+                            </div>
+                            <h4>Nombre</h4>
+                        </a-col>
+                        <img
+                            src="@/assets/icons/plus-circle.svg"
+                            alt=""
+                            style="width: 25px; margin-left: 15px"
+                            @click="addPlayer()"
+                        />
+                    </a-row>
+                    <br />
+                    <a-form-model-item>
+                        <PrincipalBtn
+                            text="GUARDAR"
+                            :loading="btnLoading"
+                            @click.native="createTeam()"
+                        />
+                    </a-form-model-item>
                 </a-row>
             </a-col>
         </a-row>
@@ -133,7 +237,13 @@ export default {
     },
     methods: {
         click() {
-            console.log("Probando el click del banner");
+            console.log("Card btn clicked");
+        },
+        addPlayer() {
+            console.log("Add player btn clicked");
+        },
+        createTeam() {
+            console.log("Save btn clicked");
         },
         getImage(image) {
             const mode =
