@@ -54,6 +54,7 @@ export default {
     methods: {
         onCancel () {
             this.$emit('input', false)
+            this.$emit('change', false)
         },
 
         createTeam () {

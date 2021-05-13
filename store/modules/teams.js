@@ -561,6 +561,72 @@ const actions = {
                     reject(response)
                 })
         })
+    },
+
+
+    addTeamChat (ctx, data) {
+
+        // load states
+
+        const teamsState = ctx.getters.get
+        const userState = ctx.rootGetters['user/get']
+
+
+        // append message to chat
+
+        const newTeamsChatMessages = teamsState.teamsChatMessages.map((team) => {
+            if (team.id === data.teamId) {
+                team.messages.unshift({
+                    teamId  : data.teamId,
+                    email   : userState.email,
+                    sentOn  : new Date().toISOString(),
+                    author  : userState.firstName,
+                    msg     : data.msg
+                })
+            }
+
+            return team
+        })
+
+        // update store
+
+        const params = {
+            teamsChatMessages: newTeamsChatMessages
+        }
+
+        ctx.commit('setState', { params })
+
+
+        // save into dynamoDB
+
+        return new Promise((resolve, reject) => {
+
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(umt.mutations.addTeamChat, {
+                    teamId  : data.teamId,
+                    email   : userState.email,
+                    author  : userState.firstName,
+                    msg     : data.msg
+                })
+            )
+
+
+                // success
+                .then((result) => {
+
+                    resolve()
+                })
+
+
+                // error
+                .catch((err) => {
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+                })
+        })
     }
 }
 

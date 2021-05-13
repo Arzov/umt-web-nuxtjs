@@ -19,23 +19,23 @@ const getDefaultState = () => ({
     picture         : localStorage.getItem('picture') || null,
     coords          : localStorage.getItem('coords') || null,
     geohash         : localStorage.getItem('geohash') || null,
-    matchFilter     : localStorage.getItem('matchFilter') || null,
+    matchFilter     : localStorage.getItem('matchFilter') || '[]',
     ageMinFilter    : localStorage.getItem('ageMinFilter') || null,
     ageMaxFilter    : localStorage.getItem('ageMaxFilter') || null,
-    positions       : localStorage.getItem('positions') || null,
+    positions       : localStorage.getItem('positions') || '[]',
     foot            : localStorage.getItem('foot') || null,
     skills          : localStorage.getItem('skills') || null,
     weight          : localStorage.getItem('weight') || 0,
     height          : localStorage.getItem('height') || 0,
     providerId      : localStorage.getItem('providerId') || null,
-    providers       : localStorage.getItem('providers') || null,
+    providers       : localStorage.getItem('providers') || '[]',
     joinedOn        : localStorage.getItem('joinedOn') || null,
     verified        : localStorage.getItem('verified') || null,
 
 
     // local
 
-    teams       : localStorage.getItem('teams') || null,
+    teams       : localStorage.getItem('teams') || '[]',
     primaryTeam : localStorage.getItem('primaryTeam') || null
 })
 

@@ -7,10 +7,30 @@
 
     .dmBody & {
         border-bottom: 1px solid $color-dark-grey;
+        color: $color-white;
+
+        &.on {
+            background: $color-cian;
+            color: $color-black;
+
+            h2 {
+                color: $color-black;
+            }
+        }
     }
 
     .lmBody & {
         border-bottom: 1px solid rgba($color-violet, 20%);
+        color: $color-black;
+
+        &.on {
+            background: $color-purple;
+            color: $color-white;
+
+            h2 {
+                color: $color-white;
+            }
+        }
     }
 
     .ant-avatar {

@@ -62,7 +62,7 @@ const actions = {
         }
 
 
-        const ownTeams = userState.teams
+        const ownTeams = userState.teams.length
             ? userState.teams.map((team) => {
                 return team.id
             })
@@ -209,7 +209,7 @@ const actions = {
             ctx.commit('resetStates')
         }
 
-        const ownTeams = userState.teams
+        const ownTeams = userState.teams.length
             ? userState.teams.map((team) => {
                 return team.id
             })
