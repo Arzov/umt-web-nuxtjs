@@ -117,35 +117,89 @@
                         title="Fecha del partido"
                         desc="27/09/2020 20:30"
                         icon-customizable="true"
-                        @click.native="click()"
+                        @click.native="setMatchDate()"
                     />
+                    <ModalDef
+                        v-model="modalVisible1"
+                        title="Fecha del partido"
+                        desc="Entre los equipos pueden decidir en qué fecha y hora 
+                        se jugará el partido. La fecha debe ser dentro del rango 
+                        permitido, esto es, antes de la fecha de expiración."
+                    >
+                        <a-row type="flex" justify="space-around">
+                            <a-date-picker
+                                :value="valueDate"
+                                @change="onChangeDate"
+                            />
+                            <a-time-picker
+                                format="HH:mm"
+                                :minute-step="30"
+                                :value="valueTime"
+                                @change="onChangeTime"
+                            />
+                        </a-row>
+                    </ModalDef>
                     <CardBtn
                         icon-assets="expire.svg"
                         title="Fecha de expiración"
                         desc="27/09/2020 20:30"
                         icon-customizable="true"
-                        @click.native="click()"
+                        @click.native="setExpirationDate()"
+                    />
+                    <ModalDef
+                        v-model="modalVisible2"
+                        title="Fecha de expiración"
+                        desc="Fecha en que el partido caducará (14 días desde la creación del partido). 
+                        Los equipos deberán fijar una fecha del encuentro del plazo.
+                        Una vez pasada la fecha de expiración, el partido se eliminará automáticamente."
                     />
                     <CardBtn
                         icon-assets="patch-active.svg"
                         title="Parches"
                         desc="1/3"
                         icon-customizable="true"
-                        @click.native="click()"
+                        @click.native="setPatches()"
                     />
+                    <ModalDef
+                        v-model="modalVisible3"
+                        title="Parches"
+                        desc="Entre los equipos pueden decidir cuantos parches pueden necesitar para 
+                        el partido. Se puede asignar un máximo de 8 parches en total.
+                        Si el valor de este campo es mayor que 0, el partido se publicará para que 
+                        jugadores individuales puedan unirse."
+                    >
+                        <a-row
+                            type="flex"
+                            justify="center"
+                            align="middle"
+                            style="
+                                border: 1px solid white;
+                                height: 50px;
+                                margin-right: 150px;
+                                margin-left: 150px;
+                                justify-content: space-around;
+                            "
+                        >
+                            <a-button @click="decreasePatches">
+                                <a-icon type="minus" />
+                            </a-button>
+                            <div>{{ valuePatches }}</div>
+                            <a-button @click="increasePatches">
+                                <a-icon type="plus" />
+                            </a-button>
+                        </a-row>
+                    </ModalDef>
                     <CardBtn
                         icon-assets="football-active.svg"
                         title="Tipo de partido"
                         desc="7v7"
                         icon-customizable="true"
-                        @click.native="click()"
                     />
                     <CardBtn
                         icon-assets="court.svg"
                         title="Lugar del partido"
                         desc="CLUB DEPORTIVO INDEPENDIENTE"
                         icon-customizable="true"
-                        @click.native="click()"
                     />
                     <br />
                     <center><h4>Jugadores</h4></center>
@@ -199,6 +253,41 @@
                             style="width: 25px; margin-left: 15px"
                             @click="addPlayer()"
                         />
+                        <ModalDef
+                            v-model="modalVisibleAddPlayer"
+                            title="Agrega un jugador"
+                            desc="Invita a jugadores individuales que conozcas. Los jugadores
+                            que invites contarán como un parche en el partido."
+                        >
+                            <br />
+                            <a-row style="display: flex">
+                                <PrincipalInput
+                                    placeholder="Ingresa el email del jugador"
+                                    style="width: 100%"
+                                />
+                                <img
+                                    src="@/assets/icons/dm-search.svg"
+                                    alt=""
+                                    style="
+                                        position: absolute;
+                                        right: 10px;
+                                        top: 5px;
+                                        width: 20px;
+                                    "
+                                />
+                            </a-row>
+                            <br />
+                            <a-row>
+                                <a-avatar
+                                    size="large"
+                                    :src="getImage('avatar.svg')"
+                                />
+                                <h4 style="color: white">Svenko</h4>
+                                <div>
+                                    <RoundedTextBtn text="solicitar" />
+                                </div>
+                            </a-row>
+                        </ModalDef>
                     </a-row>
                     <br />
                     <a-form-model-item>
@@ -221,6 +310,13 @@ export default {
         return {
             isVisible: true,
             teamName: "NOMBRE EQUIPO",
+            modalVisible1: false,
+            modalVisible2: false,
+            modalVisible3: false,
+            modalVisibleAddPlayer: false,
+            valueDate: null,
+            valueTime: null,
+            valuePatches: 0,
         };
     },
     computed: {
@@ -236,11 +332,21 @@ export default {
         },
     },
     methods: {
-        click() {
-            console.log("Card btn clicked");
+        setMatchDate() {
+            console.log("Card to set match date clicked");
+            this.modalVisible1 = !this.modalVisible1;
+        },
+        setExpirationDate() {
+            console.log("Card to set expiration date clicked");
+            this.modalVisible2 = !this.modalVisible2;
+        },
+        setPatches() {
+            console.log("Card to set patches clicked");
+            this.modalVisible3 = !this.modalVisible3;
         },
         addPlayer() {
             console.log("Add player btn clicked");
+            this.modalVisibleAddPlayer = !this.modalVisibleAddPlayer;
         },
         createTeam() {
             console.log("Save btn clicked");
@@ -249,6 +355,24 @@ export default {
             const mode =
                 this._globalState.themePreference === "light" ? "lm" : "dm";
             return require(`@/assets/icons/${mode}-${image}`);
+        },
+        onChangeDate(date, dateString) {
+            console.log(date, dateString);
+            this.valueDate = date;
+        },
+        onChangeTime(time) {
+            console.log(time.toString());
+            this.valueTime = time;
+        },
+        decreasePatches() {
+            if (this.valuePatches > 0) {
+                this.valuePatches--;
+            }
+        },
+        increasePatches() {
+            if (this.valuePatches < 8) {
+                this.valuePatches++;
+            }
         },
     },
 };
