@@ -1,16 +1,24 @@
-function checkWeight(rule, value, callback) {
-    const error = "Ingresa un peso menor a 500 kg.";
+const checkWeight = (rule, value, callback) => {
 
-    if (value >= 500) {
-        callback(error);
-    } else {
-        callback();
+    const error = 'Ingresa un peso menor a 300 kg.'
+
+
+    // max. weight 300 allowed
+
+    if (value >= 300) {
+        callback(error)
+    }
+
+
+    // no error
+
+    else {
+        callback()
     }
 }
 
-export const weightRules = [{ validator: checkWeight }];
 
 export default {
-    name: "weight",
-    rules: weightRules,
-};
+    name    : 'weight',
+    rules   : [{ validator: checkWeight }]
+}

@@ -6,7 +6,7 @@
                     <img
                         class="mailbox"
                         src="../../assets/images/mailbox.svg"
-                    />
+                    >
                 </div>
                 <center>
                     Ingresa tu código secreto enviado a tu email registrado en
@@ -16,7 +16,7 @@
             <a-col class="rightContent" :span="12">
                 <BackBtn />
                 <h1>Verifica tu email</h1>
-                <br />
+                <br>
                 <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
                     <center>
                         Ingresa tu código de verificación enviado a
@@ -24,11 +24,11 @@
                             <i>{{ email }}</i>
                         </nuxt-link>
                     </center>
-                    <br />
+                    <br>
                     <a-form-model-item :prop="this.$RULES.code.name">
                         <CodeInput v-model="ruleForm.code" />
                     </a-form-model-item>
-                    <br />
+                    <br>
                     <a-form-model-item>
                         <PrincipalBtn
                             text="ENVIAR"
@@ -50,63 +50,65 @@
 
 <script>
 export default {
-    layout: "corners",
-    asyncData({ params }) {
+    layout: 'corners',
+    asyncData ({ params }) {
         return {
-            email: params.email,
-        };
-    },
-    validate({ params, query, store, redirect }) {
-        if (params.email) {
-            return true;
-        } else {
-            redirect("/start");
+            email: params.email
         }
     },
-    data() {
+    validate ({ params, query, store, redirect }) {
+        if (params.email) {
+            return true
+        }
+        else {
+            redirect('/start')
+        }
+    },
+    data () {
         return {
             ruleForm: {
-                code: "",
+                code: ''
             },
             rules: {
-                code: this.$RULES.code.rules,
-            },
-        };
+                code: this.$RULES.code.rules
+            }
+        }
     },
     methods: {
-        submitForm(formName) {
+        submitForm (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.btnLoading = true;
+                    this.btnLoading = true
                     this.$store
-                        .dispatch("emailVerification/verify", {
+                        .dispatch('emailVerification/verify', {
                             email: this.email.toLowerCase(),
-                            code: this.ruleForm.code,
+                            code: this.ruleForm.code
                         })
                         .then(() => {
-                            this.btnLoading = false;
+                            this.btnLoading = false
                         })
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
-                } else {
-                    return false;
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
                 }
-            });
+                else {
+                    return false
+                }
+            })
         },
-        resendCode() {
+        resendCode () {
             this.$store
-                .dispatch("emailVerification/resendCode", {
-                    email: this.email.toLowerCase(),
+                .dispatch('emailVerification/resendCode', {
+                    email: this.email.toLowerCase()
                 })
                 .then((r) => {
-                    this.showNotification(r.title, r.msg, r.type);
+                    this.showNotification(r.title, r.msg, r.type)
                 })
                 .catch((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
-                });
-        },
-    },
-};
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+        }
+    }
+}
 </script>

@@ -1,18 +1,25 @@
-import { validateBirthdate } from "../utils";
+import { validateBirthdate } from '../utils'
+
 
 const checkDate = (rule, value, callback) => {
-    const response = validateBirthdate(value);
+
+    const response = validateBirthdate(value)
+
+    // invalid input
 
     if (!response.status) {
-        callback(response.msg);
-    } else {
-        callback();
+        callback(response.msg)
     }
-};
 
-export const birthdateRules = [{ validator: checkDate }];
+    // no error
+
+    else {
+        callback()
+    }
+}
+
 
 export default {
-    name: "birthdate",
-    rules: birthdateRules,
-};
+    name    : 'birthdate',
+    rules   : [{ validator: checkDate }]
+}

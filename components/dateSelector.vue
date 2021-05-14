@@ -50,62 +50,63 @@
 <script>
 export default {
     props: {
-        label: { type: String, default: "Fecha" },
+        label: { type: String, default: 'Fecha' },
         value: {
             type: Object,
             default: () => {
                 return {
                     day: undefined,
                     month: undefined,
-                    year: undefined,
-                };
-            },
-        },
+                    year: undefined
+                }
+            }
+        }
     },
-    data() {
+    data () {
         return {
             monthOptions: [
-                { key: "Enero", value: "01" },
-                { key: "Febrero", value: "02" },
-                { key: "Marzo", value: "03" },
-                { key: "Abril", value: "04" },
-                { key: "Mayo", value: "05" },
-                { key: "Junio", value: "06" },
-                { key: "Julio", value: "07" },
-                { key: "Agosto", value: "08" },
-                { key: "Septiembre", value: "09" },
-                { key: "Octubre", value: "10" },
-                { key: "Noviembre", value: "11" },
-                { key: "Diciembre", value: "12" },
-            ],
-        };
+                { key: 'Enero', value: '01' },
+                { key: 'Febrero', value: '02' },
+                { key: 'Marzo', value: '03' },
+                { key: 'Abril', value: '04' },
+                { key: 'Mayo', value: '05' },
+                { key: 'Junio', value: '06' },
+                { key: 'Julio', value: '07' },
+                { key: 'Agosto', value: '08' },
+                { key: 'Septiembre', value: '09' },
+                { key: 'Octubre', value: '10' },
+                { key: 'Noviembre', value: '11' },
+                { key: 'Diciembre', value: '12' }
+            ]
+        }
     },
     computed: {
-        dayOptions() {
+        dayOptions () {
             return Array.from({ length: 31 }, (value, index) => {
-                const d = 1 + index;
+                const d = 1 + index
 
                 if (d < 10) {
-                    return "0" + String(d);
-                } else {
-                    return String(d);
+                    return '0' + String(d)
                 }
-            });
+                else {
+                    return String(d)
+                }
+            })
         },
-        yearOptions() {
-            const year = new Date().getFullYear();
+        yearOptions () {
+            const year = new Date().getFullYear()
             return Array.from(
                 { length: year - 1899 },
                 (value, index) => 1900 + index
-            ).reverse();
-        },
+            ).reverse()
+        }
     },
     methods: {
-        triggerChange(key, value) {
-            const out = { ...this.value, [key]: value };
-            this.$emit("input", out);
-            this.$emit("change", out);
-        },
-    },
-};
+        triggerChange (key, value) {
+            const out = { ...this.value, [key]: value }
+            this.$emit('input', out)
+            this.$emit('change', out)
+        }
+    }
+}
 </script>

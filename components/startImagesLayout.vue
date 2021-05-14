@@ -7,13 +7,13 @@
                     : require('../static/dm-logo.svg')
             "
             class="logo"
-        />
+        >
 
-        <br />
+        <br>
 
-        <img class="footballShoes" src="@/assets/images/football-shoes.svg" />
+        <img class="footballShoes" src="@/assets/images/football-shoes.svg">
 
-        <br />
+        <br>
 
         <img
             :src="
@@ -22,6 +22,6 @@
                     : require('@/assets/images/dm-points.svg')
             "
             class="points"
-        />
+        >
     </div>
 </template>

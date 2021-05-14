@@ -11,6 +11,7 @@
                 <PositionBtn
                     :key="`p${position.value}`"
                     :text="position.text"
+                    :label="position.desc"
                     :color="position.color"
                     :value="position.value"
                     :status="position.stat"
@@ -24,59 +25,65 @@
 <script>
 export default {
     props: {
-        label: { type: String, default: "POSICIONES DE JUEGO" },
+        label: { type: String, default: 'POSICIONES DE JUEGO' },
         options: {
             type: Array,
-            default: () => require("@/static/data/positionOptions.json"),
+            default: () => require('@/static/data/positionOptions.json')
         },
-        value: { type: Array, required: true },
+        value: { type: Array, required: true }
     },
 
-    data() {
+    data () {
         return {
-            opts: [],
-        };
+            opts: []
+        }
     },
 
     watch: {
-        value() {
-            this.opts = this.initOptions();
-        },
+        value () {
+            this.opts = this.initOptions()
+        }
     },
 
-    mounted() {
-        this.opts = this.initOptions();
+    mounted () {
+        this.opts = this.initOptions()
     },
 
     methods: {
-        setPosition(e) {
-            let output = JSON.parse(JSON.stringify(this.value));
+        setPosition (e) {
+            let output = JSON.parse(JSON.stringify(this.value))
 
             if (e.value !== null) {
-                output.push(e.value);
+                output.push(e.value)
                 output = output.filter((value) => {
-                    return value !== "";
-                });
-            } else {
+                    return value !== ''
+                })
+            }
+            else {
                 output = output.filter((value) => {
-                    return value !== e.key && value !== "";
-                });
+                    return value !== e.key && value !== ''
+                })
 
                 // fill empty array just for dynamoDB
-                if (output.length <= 1 || output[0] === "") output = [""];
+                if (output.length <= 1 || output[0] === '') {
+                    output = ['']
+                }
             }
 
-            this.$emit("input", output);
-            this.$emit("change", output);
+            this.$emit('input', output)
+            this.$emit('change', output)
         },
 
-        initOptions() {
+        initOptions () {
             return this.options.map((option) => {
-                if (this.value.includes(option.value))
-                    return { ...option, stat: "on" };
-                else return { ...option, stat: "off" };
-            });
-        },
-    },
-};
+                if (this.value.includes(option.value)) {
+                    return { ...option, stat: 'on' }
+                }
+                else {
+                    return { ...option, stat: 'off' }
+                }
+            })
+        }
+    }
+}
 </script>

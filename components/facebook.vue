@@ -6,18 +6,18 @@
                     ? require('../assets/icons/lm-facebook.svg')
                     : require('../assets/icons/dm-facebook.svg')
             "
-        />
+        >
     </a>
 </template>
 
 <script>
-import Auth from "@aws-amplify/auth";
+import Auth from '@aws-amplify/auth'
 
 export default {
     methods: {
-        toFacebookLogin() {
-            Auth.federatedSignIn({ provider: "Facebook" });
-        },
-    },
-};
+        toFacebookLogin () {
+            Auth.federatedSignIn({ provider: 'Facebook' })
+        }
+    }
+}
 </script>

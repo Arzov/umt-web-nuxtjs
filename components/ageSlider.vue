@@ -24,36 +24,36 @@
 <script>
 export default {
     props: {
-        label: { type: String, default: "Rango" },
+        label: { type: String, default: 'Rango' },
         value: {
             type: Array,
-            required: true,
+            required: true
         },
         fullRange: {
             type: Object,
             default: () => {
                 return {
                     min: 18,
-                    max: 60,
-                };
-            },
-        },
+                    max: 60
+                }
+            }
+        }
     },
 
     computed: {
-        _textRange() {
+        _textRange () {
             return {
                 min: this.value[0],
-                max: this.value[1],
-            };
-        },
+                max: this.value[1]
+            }
+        }
     },
 
     methods: {
-        triggerChange(e) {
-            this.$emit("input", e);
-            this.$emit("change", e);
-        },
-    },
-};
+        triggerChange (e) {
+            this.$emit('input', e)
+            this.$emit('change', e)
+        }
+    }
+}
 </script>

@@ -7,13 +7,13 @@
                         class="footballCircle"
                         load="lazy"
                         src="@/assets/images/football-circle.svg"
-                    />
+                    >
                 </div>
                 <center>
                     Tus habilidades nos permitirán conocerte mejor y también te
                     darás a conocer frente a otros jugadores.
                 </center>
-                <br />
+                <br>
                 <div class="positionsDescriptions">
                     <div
                         v-for="k in require('@/static/data/positionOptions.json')"
@@ -33,7 +33,7 @@
             </a-col>
             <a-col class="rightContent" :span="12">
                 <h1>Habilidades y características</h1>
-                <br />
+                <br>
                 <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
                     <a-form-model-item>
                         <PositionSelector v-model="ruleForm.positions" />
@@ -86,43 +86,44 @@
 
 <script>
 export default {
-    layout: "corners",
+    layout: 'corners',
 
-    data() {
+    data () {
         return {
             ruleForm: {
-                foot: "R",
-                positions: [""],
+                foot: 'R',
+                positions: [''],
                 weight: 0,
-                height: 0,
+                height: 0
             },
             rules: {
                 height: this.$RULES.height.rules,
-                weight: this.$RULES.weight.rules,
-            },
-        };
+                weight: this.$RULES.weight.rules
+            }
+        }
     },
 
     methods: {
-        submitForm(formName, isSkip) {
+        submitForm (formName, isSkip) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     if (!isSkip) {
-                        this.btnLoading = true;
+                        this.btnLoading = true
                     }
-                    this.$store.dispatch("optionalAttributes/save", {
+                    this.$store.dispatch('optionalAttributes/save', {
                         foot: this.ruleForm.foot,
                         positions: this.ruleForm.positions,
                         weight: this.ruleForm.weight,
-                        height: this.ruleForm.height,
-                    });
+                        height: this.ruleForm.height
+                    })
 
-                    this.btnLoading = false;
-                } else {
-                    return false;
+                    this.btnLoading = false
                 }
-            });
-        },
-    },
-};
+                else {
+                    return false
+                }
+            })
+        }
+    }
+}
 </script>

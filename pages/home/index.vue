@@ -1,10 +1,10 @@
 <template>
     <div class="home">
-        <img class="homeTopLeft" src="@/assets/images/home-top-left.svg" />
+        <img class="homeTopLeft" src="@/assets/images/home-top-left.svg">
         <img
             class="homeBottomRight"
             src="@/assets/images/home-bottom-right.svg"
-        />
+        >
         <a-row>
             <a-col class="leftContent" :span="12">
                 <h1>¡Hola {{ _userState.firstName }}!</h1>
@@ -121,154 +121,152 @@
 </template>
 
 <script>
-import { validGeoloc } from "@/plugins/mixins";
-import scrollContainer from "../../components/scrollContainer.vue";
+import { validGeoloc } from '@/plugins/mixins'
 
 export default {
-    components: { scrollContainer },
     mixins: [validGeoloc],
 
-    layout: "navbar",
+    layout: 'navbar',
 
-    data() {
+    data () {
         return {
             loading: true,
-            options: require("@/static/data/homeOptions.json"),
-        };
+            options: require('@/static/data/homeOptions.json')
+        }
     },
 
     computed: {
-        _activeOption() {
-            return this.options.filter((m) => m.active === true)[0].key;
+        _activeOption () {
+            return this.options.filter(m => m.active === true)[0].key
         },
-        _nearTeams() {
-            return this.$store.getters["home/get"].nearTeams;
+        _nearTeams () {
+            return this.$store.getters['home/get'].nearTeams
         },
-        _nearTeamsForJoin() {
-            return this.$store.getters["home/get"].nearTeamsForJoin;
+        _nearTeamsForJoin () {
+            return this.$store.getters['home/get'].nearTeamsForJoin
         },
-        _nearMatches() {
-            return this.$store.getters["home/get"].nearMatches;
-        },
+        _nearMatches () {
+            return this.$store.getters['home/get'].nearMatches
+        }
     },
 
-    mounted() {
+    mounted () {
         this.$store
-            .dispatch("user/listTeams")
+            .dispatch('user/listTeams')
             .then(() => {
-                this.callStore(this._activeOption);
+                this.callStore(this._activeOption)
             })
             .catch((e) => {
-                this.showNotification(e.title, e.msg, e.type);
-            });
+                this.showNotification(e.title, e.msg, e.type)
+            })
     },
 
     methods: {
-        callStore(action, isInfiniteScroll) {
-            this.loading = true;
+        callStore (action, isInfiniteScroll) {
+            this.loading = true
 
             switch (action) {
-                case "challenge": {
-                    if (this._userState.primaryTeam) {
-                        this.$store
-                            .dispatch("home/nearTeams", {
-                                forJoin: false,
-                                isInfiniteScroll,
-                            })
-                            .then(() => {
-                                this.loading = false;
-                            })
-                            .catch((e) => {
-                                this.showNotification(e.title, e.msg, e.type);
-                            });
-                    }
-                    break;
-                }
-
-                case "patch": {
+            case 'challenge': {
+                if (this._userState.primaryTeam) {
                     this.$store
-                        .dispatch("home/nearMatches", {
+                        .dispatch('home/nearTeams', {
                             forJoin: false,
-                            isInfiniteScroll,
+                            isInfiniteScroll
                         })
                         .then(() => {
-                            this.loading = false;
+                            this.loading = false
                         })
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                        });
-                    break;
+                            this.showNotification(e.title, e.msg, e.type)
+                        })
                 }
+                break
+            }
 
-                case "search": {
-                    this.$store
-                        .dispatch("home/nearTeams", {
-                            forJoin: true,
-                            isInfiniteScroll,
-                        })
-                        .then(() => {
-                            this.loading = false;
-                        })
-                        .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                        });
-                    break;
-                }
+            case 'patch': {
+                this.$store
+                    .dispatch('home/nearMatches', {
+                        forJoin: false,
+                        isInfiniteScroll
+                    })
+                    .then(() => {
+                        this.loading = false
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                break
+            }
+
+            case 'search': {
+                this.$store
+                    .dispatch('home/nearTeams', {
+                        forJoin: true,
+                        isInfiniteScroll
+                    })
+                    .then(() => {
+                        this.loading = false
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                break
+            }
             }
         },
 
-        selectOption(e) {
+        selectOption (e) {
             // Avoid reload when action is already selected
             if (e !== this._activeOption) {
                 this.options = this.options.map((m) => {
-                    let active = false;
+                    let active = false
 
                     if (m.key === e) {
-                        active = true;
+                        active = true
                     }
 
                     return {
                         ...m,
-                        active,
-                    };
-                });
+                        active
+                    }
+                })
 
-                this.callStore(e);
+                this.callStore(e)
             }
         },
 
-        sendMatchRequest(team) {
+        sendMatchRequest (team) {
             this.$store
-                .dispatch("home/sendMatchRequest", team)
+                .dispatch('home/sendMatchRequest', team)
                 .then((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
+                    this.showNotification(e.title, e.msg, e.type)
                 })
                 .catch((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
-                });
+                    this.showNotification(e.title, e.msg, e.type)
+                })
         },
 
-        sendMatchPatchRequest(match) {
+        sendMatchPatchRequest (match) {
             this.$store
-                .dispatch("home/sendMatchPatchRequest", match)
+                .dispatch('home/sendMatchPatchRequest', match)
                 .then((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
+                    this.showNotification(e.title, e.msg, e.type)
                 })
                 .catch((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
-                });
+                    this.showNotification(e.title, e.msg, e.type)
+                })
         },
 
-        sendTeamMemberRequest(team) {
+        sendTeamMemberRequest (team) {
             this.$store
-                .dispatch("home/sendTeamMemberRequest", team)
+                .dispatch('home/sendTeamMemberRequest', team)
                 .then((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
+                    this.showNotification(e.title, e.msg, e.type)
                 })
                 .catch((e) => {
-                    this.showNotification(e.title, e.msg, e.type);
-                });
-        },
-    },
-};
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+        }
+    }
+}
 </script>

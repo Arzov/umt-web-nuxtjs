@@ -6,7 +6,7 @@
                     <img
                         class="whistle"
                         src="../../assets/images/whistle.svg"
-                    />
+                    >
                 </div>
 
                 <center>
@@ -19,7 +19,7 @@
             </a-col>
             <a-col class="rightContent" :span="12">
                 <h1>¿A qué rivales o equipos buscas?</h1>
-                <br />
+                <br>
                 <a-form-model ref="ruleForm" :model="ruleForm">
                     <a-form-model-item>
                         <MultiSelector
@@ -57,24 +57,24 @@
 
 <script>
 export default {
-    layout: "corners",
-    data() {
+    layout: 'corners',
+    data () {
         return {
             ruleForm: {
-                matchFilter: ["5v5"],
-                ageFilter: [18, 22],
-            },
-        };
+                matchFilter: ['5v5'],
+                ageFilter: [18, 22]
+            }
+        }
     },
     methods: {
-        submitForm(formName, isSkip) {
+        submitForm (formName, isSkip) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     if (!isSkip) {
-                        this.btnLoading = true;
+                        this.btnLoading = true
                     }
                     this.$store
-                        .dispatch("optionalFilters/save", {
+                        .dispatch('optionalFilters/save', {
                             email: this._userState.email,
                             matchFilter: this.ruleForm.matchFilter,
                             ageFilter: this.ruleForm.ageFilter,
@@ -82,20 +82,21 @@ export default {
                             skills: this._userState.skills,
                             foot: this._userState.foot,
                             weight: this._userState.weight,
-                            height: this._userState.height,
+                            height: this._userState.height
                         })
                         .then(() => {
-                            this.btnLoading = false;
+                            this.btnLoading = false
                         })
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
-                } else {
-                    return false;
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
                 }
-            });
-        },
-    },
-};
+                else {
+                    return false
+                }
+            })
+        }
+    }
+}
 </script>

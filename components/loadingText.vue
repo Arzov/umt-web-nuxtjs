@@ -5,7 +5,7 @@
 <script>
 export default {
     props: {
-        type: { type: String, default: "paragraph" },
-    },
-};
+        type: { type: String, default: 'paragraph' }
+    }
+}
 </script>

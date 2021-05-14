@@ -1,0 +1,41 @@
+.requestCard {
+    display: flex;
+    align-items: flex-start;
+    height: 72px;
+    margin-bottom: 16px;
+
+    .dmBody & {
+        border-bottom: 1px solid $color-dark-grey;
+    }
+
+    .lmBody & {
+        border-bottom: 1px solid rgba($color-violet, 20%);
+    }
+
+    .ant-avatar {
+        align-self: center;
+        margin-right: 16px;
+    }
+
+    .contentContainer {
+        .content {
+            .desc {
+                font-weight: 400;
+                font-style: italic;
+            }
+        }
+
+        .icon {
+            .iconRow {
+                text-align: right;
+
+                img {
+                    margin-left: 10px;
+                    width: 24px;
+                    height: 24px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

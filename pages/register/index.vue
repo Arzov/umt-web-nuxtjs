@@ -7,7 +7,7 @@
             <a-col class="rightContent" :span="12">
                 <BackBtn />
                 <h1>Registro</h1>
-                <br />
+                <br>
                 <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
                     <a-form-model-item :prop="this.$RULES.firstName.name">
                         <PrincipalInput
@@ -53,7 +53,7 @@
                         *Tu edad y sexo permitirán a otros rivales encontrarte y
                         desafiarte en un match.
                     </center>
-                    <br />
+                    <br>
                     <a-form-model-item>
                         <PrincipalBtn
                             text="REGISTRAR"
@@ -63,7 +63,9 @@
                     </a-form-model-item>
                 </a-form-model>
                 <center>
-                    <nuxt-link to="/"> Términos y condiciones </nuxt-link>
+                    <nuxt-link to="/">
+                        Términos y condiciones
+                    </nuxt-link>
                 </center>
             </a-col>
         </a-row>
@@ -72,53 +74,54 @@
 
 <script>
 export default {
-    layout: "themeHeader",
-    data() {
+    layout: 'themeHeader',
+    data () {
         return {
             ruleForm: {
-                firstName: "",
-                email: "",
-                password: "",
+                firstName: '',
+                email: '',
+                password: '',
                 birthdate: {
                     day: undefined,
                     month: undefined,
-                    year: undefined,
+                    year: undefined
                 },
-                gender: "M",
+                gender: 'M'
             },
             rules: {
                 firstName: this.$RULES.firstName.rules,
                 email: this.$RULES.email.rules,
                 password: this.$RULES.password.rules,
-                birthdate: this.$RULES.birthdate.rules,
-            },
-        };
+                birthdate: this.$RULES.birthdate.rules
+            }
+        }
     },
     methods: {
-        submitForm(formName) {
+        submitForm (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.btnLoading = true;
+                    this.btnLoading = true
                     this.$store
-                        .dispatch("register/signUp", {
+                        .dispatch('register/signUp', {
                             firstName: this.ruleForm.firstName,
                             email: this.ruleForm.email.toLowerCase(),
                             password: this.ruleForm.password,
                             birthdate: this.ruleForm.birthdate,
-                            gender: this.ruleForm.gender,
+                            gender: this.ruleForm.gender
                         })
                         .then(() => {
-                            this.btnLoading = false;
+                            this.btnLoading = false
                         })
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
-                } else {
-                    return false;
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
                 }
-            });
-        },
-    },
-};
+                else {
+                    return false
+                }
+            })
+        }
+    }
+}
 </script>

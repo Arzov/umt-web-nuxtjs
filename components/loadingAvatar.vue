@@ -5,7 +5,7 @@
 <script>
 export default {
     props: {
-        size: { type: String, default: "default" },
-    },
-};
+        size: { type: String, default: 'default' }
+    }
+}
 </script>

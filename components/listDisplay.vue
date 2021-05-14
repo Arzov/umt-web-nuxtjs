@@ -108,17 +108,21 @@ export default {
         match: { type: Object, default: () => {} },
         team: { type: Object, default: () => {} },
         loading: { type: Boolean, default: false },
-        type: { type: String, default: "challenge" },
+        type: { type: String, default: 'challenge' }
     },
 
     methods: {
-        getImage(image) {
-            if (image === "") return this.getIcon("team-profile.svg");
-            else return image;
+        getImage (image) {
+            if (image === '') {
+                return this.getIcon('team-profile.svg')
+            }
+            else {
+                return image
+            }
         },
-        triggerClick() {
-            this.$emit("click");
-        },
-    },
-};
+        triggerClick () {
+            this.$emit('click')
+        }
+    }
+}
 </script>

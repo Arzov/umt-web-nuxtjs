@@ -1,77 +1,142 @@
-import errorNotification from "@/static/data/errorNotification.json";
+import errorNotification from '@/static/data/errorNotification.json'
 
-const getLocalStorageState = (key) => JSON.parse(localStorage.getItem(key));
+
+// get default states values
 
 const getDefaultState = () => ({
-    themePreference: getLocalStorageState("themePreference") || "dark",
-    allowGeoloc: getLocalStorageState("allowGeoloc") || false,
-});
+    themePreference : localStorage.getItem('themePreference') || '"dark"',
+    allowGeoloc     : localStorage.getItem('allowGeoloc') || false
+})
 
-const state = getDefaultState;
+
+// state
+
+const state = getDefaultState
+
+
+// getters
 
 const getters = {
-    get(state) {
-        return state;
-    },
-};
+
+    get (state) {
+
+        // parse all state
+
+        const parseState = { ...state }
+
+        Object.keys(parseState).map(function (key, index) {
+            parseState[key] = JSON.parse(parseState[key])
+        })
+
+        return parseState
+    }
+}
+
+
+// actions
 
 const actions = {
-    setTheme(ctx, data) {
-        const params = {
-            themePreference: "dark",
-        };
 
-        if (ctx.getters.get.themePreference === "light") {
-            ctx.commit("setState", { params });
-        } else {
-            params.themePreference = "light";
-            ctx.commit("setState", { params });
+    setTheme (ctx) {
+
+        const params = {
+            themePreference: 'dark'
+        }
+
+
+        // turn dark
+
+        if (ctx.getters.get.themePreference === 'light') {
+            ctx.commit('setState', { params })
+        }
+
+
+        // turn light
+
+        else {
+            params.themePreference = 'light'
+            ctx.commit('setState', { params })
         }
     },
-    setGeoloc(ctx, data) {
-        const params = {
-            allowGeoloc: data.allowGeoloc,
-        };
-        ctx.commit("setState", { params });
+
+
+    setState (ctx, data) {
+        const params = data
+
+        ctx.commit('setState', { params })
     },
-    resetStates(ctx) {
-        ctx.commit("resetStates");
+
+
+    resetStates (ctx) {
+        ctx.commit('resetStates')
     },
-    signOut(ctx, data) {
-        ctx.commit("resetStates");
-        ctx.commit("user/resetStates", {}, { root: true });
+
+
+    signOut (ctx, data) {
+
+        // reset states
+
+        ctx.commit('resetStates')
+        ctx.commit('user/resetStates', {}, { root: true })
+
+
+        // trigger signout event
 
         return new Promise((resolve, reject) => {
+
             this.$AWS.Auth.signOut()
+
+                // success
                 .then(() => {
-                    resolve();
+                    resolve()
                 })
+
+
+                // error
                 .catch((err) => {
-                    const response = { ...errorNotification, err };
-                    reject(response);
-                });
-        });
-    },
-};
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+                })
+        })
+    }
+}
+
+
+// mutations
 
 const mutations = {
-    setState(state, { params }) {
+
+    setState (state, { params }) {
+
+        // save and stringify all elements to be reactive
+
         for (const key in params) {
-            if (["themePreference", "allowGeoloc"].includes(key)) {
-                localStorage.setItem(key, JSON.stringify(params[key]));
-            }
-            state[key] = params[key];
+
+            // save to localStorage
+
+            localStorage.setItem(key, JSON.stringify(params[key]))
+
+
+            // save to store
+
+            state[key] = JSON.stringify(params[key])
         }
     },
-    resetStates(state) {
-        Object.assign(state, getDefaultState());
-    },
-};
+
+
+    resetStates (state) {
+        Object.assign(state, getDefaultState())
+    }
+}
+
+
+// export modules
 
 export default {
     namespaced: true,
     state,
     getters,
     actions,
-    mutations,
-};
+    mutations
+}

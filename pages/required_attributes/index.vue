@@ -6,7 +6,7 @@
                     <img
                         class="cupTriangle"
                         src="../../assets/images/cup-triangle.svg"
-                    />
+                    >
                 </div>
                 <center>
                     Necesitamos estos datos para que otros rivales te puedan
@@ -15,7 +15,7 @@
             </a-col>
             <a-col class="rightContent" :span="12">
                 <h1>Datos necesarios</h1>
-                <br />
+                <br>
                 <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
                     <a-form-model-item :prop="this.$RULES.birthdate.name">
                         <DateSelector
@@ -36,7 +36,7 @@
                         *Tu edad y sexo permitirán a otros rivales encontrarte y
                         desafiarte en un match.
                     </center>
-                    <br />
+                    <br>
                     <a-form-model-item>
                         <PrincipalBtn
                             text="CONTINUAR"
@@ -55,50 +55,51 @@
 
 <script>
 export default {
-    layout: "corners",
+    layout: 'corners',
 
-    data() {
+    data () {
         return {
             ruleForm: {
                 birthdate: {
                     day: undefined,
                     month: undefined,
-                    year: undefined,
+                    year: undefined
                 },
-                gender: "M",
+                gender: 'M'
             },
             rules: {
-                birthdate: this.$RULES.birthdate.rules,
-            },
-        };
+                birthdate: this.$RULES.birthdate.rules
+            }
+        }
     },
 
     methods: {
-        submitForm(formName) {
+        submitForm (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.btnLoading = true;
+                    this.btnLoading = true
                     this.$store
-                        .dispatch("requiredAttributes/save", {
+                        .dispatch('requiredAttributes/save', {
                             email: this._userState.email,
                             firstName: this._userState.firstName,
                             lastName: this._userState.lastName,
                             picture: this._userState.picture,
                             birthdate: this.ruleForm.birthdate,
-                            gender: this.ruleForm.gender,
+                            gender: this.ruleForm.gender
                         })
                         .then(() => {
-                            this.btnLoading = false;
+                            this.btnLoading = false
                         })
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type);
-                            this.btnLoading = false;
-                        });
-                } else {
-                    return false;
+                            this.showNotification(e.title, e.msg, e.type)
+                            this.btnLoading = false
+                        })
                 }
-            });
-        },
-    },
-};
+                else {
+                    return false
+                }
+            })
+        }
+    }
+}
 </script>

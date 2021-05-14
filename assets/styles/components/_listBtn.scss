@@ -1,15 +1,36 @@
 .listBtn {
     display: flex;
-    flex-direction: row;
-    box-shadow: 0px 0px 0px 0px rgba($color-black, 0.1);
-    max-height: 50px;
-    margin-bottom: 5%;
-    overflow: hidden;
+    align-items: flex-start;
+    height: 72px;
+    margin-bottom: 16px;
+    cursor: pointer;
 
     .dmBody & {
+        border-bottom: 1px solid $color-dark-grey;
+        color: $color-white;
+
+        &.on {
+            background: $color-cian;
+            color: $color-black;
+
+            h2 {
+                color: $color-black;
+            }
+        }
     }
 
     .lmBody & {
+        border-bottom: 1px solid rgba($color-violet, 20%);
+        color: $color-black;
+
+        &.on {
+            background: $color-purple;
+            color: $color-white;
+
+            h2 {
+                color: $color-white;
+            }
+        }
     }
 
     .ant-avatar {
@@ -18,14 +39,9 @@
     }
 
     .contentContainer {
-
         .content {
-
-            .title {
-            }
-    
             .desc {
-                font-weight: bold;
+                font-weight: 400;
                 font-style: italic;
             }
         }
@@ -42,7 +58,7 @@
                     width: 35px;
                     height: 35px;
                 }
-            }            
+            }
         }
     }
 }
