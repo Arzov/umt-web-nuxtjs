@@ -9,7 +9,7 @@
                 style="width: 35px"
                 alt=""
                 class="teamIcon"
-            />
+            >
             <a-collapse-panel key="1" :header="title1">
                 <RequestBtn
                     title="Matias"
@@ -30,7 +30,7 @@
                 style="width: 35px; border-radius: 20px"
                 alt=""
                 class="teamIcon"
-            />
+            >
             <a-collapse-panel key="2" :header="title2">
                 <RequestBtn
                     title="BAYERN"
@@ -53,7 +53,7 @@
                 style="width: 35px"
                 alt=""
                 class="teamIcon"
-            />
+            >
             <a-collapse-panel key="1" :header="title1">
                 <RequestBtn
                     title="BAYERN"
@@ -74,7 +74,7 @@
                 style="width: 35px; border-radius: 20px"
                 alt=""
                 class="teamIcon"
-            />
+            >
             <a-collapse-panel key="2" :header="title2">
                 <div v-if="matches.length">
                     <div
@@ -82,7 +82,7 @@
                         :key="`m${match.teamId1}${match.teamId2}`"
                     >
                         <PatchRequest :match="match" />
-                        <a-divider class="divider"></a-divider>
+                        <a-divider class="divider" />
                     </div>
                 </div>
                 <div v-else>
@@ -102,7 +102,7 @@
                 style="width: 35px"
                 alt=""
                 class="teamIcon"
-            />
+            >
             <a-collapse-panel key="1" :header="title1">
                 <ListBtn
                     title="FC BARCELONA"
@@ -117,14 +117,14 @@
                     time="Miércoles 16:30"
                     @click.native="click()"
                 />
-                <br />
+                <br>
             </a-collapse-panel>
             <img
                 :src="_userState.picture"
                 style="width: 35px; border-radius: 20px"
                 alt=""
                 class="teamIcon"
-            />
+            >
             <a-collapse-panel key="2" :header="title2">
                 <div v-if="matches.length">
                     <ListBtn
@@ -142,7 +142,7 @@
                         type="versus"
                         @click.native="click()"
                     />
-                    <br />
+                    <br>
                 </div>
                 <div v-else>
                     <h3>¡Lo sentimos! No hay solicitudes por el momento</h3>
@@ -156,59 +156,59 @@
 <script>
 export default {
     props: {
-        teamName: { type: String, default: "TEAM" },
-        secondaryTabTitle: { type: String, default: "MIS SOLICITUDES" },
+        teamName: { type: String, default: 'TEAM' },
+        secondaryTabTitle: { type: String, default: 'MIS SOLICITUDES' },
         totalTeamRequest: {
             type: Number,
-            default: 0,
+            default: 0
         } /* TODO: debe cambiarse por la cantidad de solicitudes totales */,
         totalIndividualRequest: { type: Number, default: 0 },
-        type: { type: String, default: "teams" },
+        type: { type: String, default: 'teams' }
     },
-    data() {
+    data () {
         return {
-            activeKey: ["1"],
-            title1: this.teamName + " (" + this.totalTeamRequest + ")",
+            activeKey: ['1'],
+            title1: this.teamName + ' (' + this.totalTeamRequest + ')',
             title2:
                 this.secondaryTabTitle +
-                " (" +
+                ' (' +
                 this.totalIndividualRequest +
-                ")",
+                ')',
             matches: [
                 {
-                    name1: "Team 1",
-                    name2: "Team 2",
+                    name1: 'Team 1',
+                    name2: 'Team 2'
                 },
                 {
-                    name1: "Team 1",
-                    name2: "Team 2",
-                },
-            ],
-        };
+                    name1: 'Team 1',
+                    name2: 'Team 2'
+                }
+            ]
+        }
     },
     computed: {
-        _nearMatches() {
-            return this.$store.getters["home/get"].nearMatches;
-        },
+        _nearMatches () {
+            return this.$store.getters['home/get'].nearMatches
+        }
     },
     watch: {
-        activeKey(key) {
-            console.log(key);
-        },
+        activeKey (key) {
+            console.log(key)
+        }
     },
     methods: {
-        getImage(image) {
-            if (image === "") {
+        getImage (image) {
+            if (image === '') {
                 const mode =
-                    this._globalState.themePreference === "light" ? "lm" : "dm";
-                return require(`@/assets/icons/${mode}-team-profile.svg`);
+                    this._globalState.themePreference === 'light' ? 'lm' : 'dm'
+                return require(`@/assets/icons/${mode}-team-profile.svg`)
             } else {
-                return image;
+                return image
             }
         },
-        click() {
-            console.log("Probando click de listDisplay para el chat");
-        },
-    },
-};
+        click () {
+            console.log('Probando click de listDisplay para el chat')
+        }
+    }
+}
 </script>

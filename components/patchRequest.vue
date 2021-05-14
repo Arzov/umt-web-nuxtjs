@@ -63,8 +63,8 @@
                     src="@/assets/icons/check-circle.svg"
                     alt=""
                     @click="accept"
-                />
-                <img src="@/assets/icons/x-circle.svg" alt="" @click="reject" />
+                >
+                <img src="@/assets/icons/x-circle.svg" alt="" @click="reject">
             </a-row>
         </div>
     </div>
@@ -74,23 +74,23 @@
 export default {
     props: {
         match: { type: Object, default: () => {} },
-        loading: { type: Boolean, default: false },
+        loading: { type: Boolean, default: false }
     },
 
     methods: {
-        getImage(image) {
-            if (image === "") return this.getIcon("team-profile.svg");
-            else return image;
+        getImage (image) {
+            if (image === '') { return this.getIcon('team-profile.svg') }
+            else { return image }
         },
-        triggerClick() {
-            this.$emit("click");
+        triggerClick () {
+            this.$emit('click')
         },
-        accept() {
-            console.log("Click de botón para aceptar");
+        accept () {
+            console.log('Click de botón para aceptar')
         },
-        reject() {
-            console.log("Click de botón para rechazar");
-        },
-    },
-};
+        reject () {
+            console.log('Click de botón para rechazar')
+        }
+    }
+}
 </script>

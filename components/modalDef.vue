@@ -12,8 +12,10 @@
     >
         <div v-if="_globalState.themePreference === 'light'">
             <center>
-                <h1 style="color: black">{{ title }}</h1>
-                <br />
+                <h1 style="color: black">
+                    {{ title }}
+                </h1>
+                <br>
                 <h2 style="color: black">
                     {{ desc }}
                 </h2>
@@ -22,17 +24,19 @@
 
         <div v-else>
             <center>
-                <h1 style="color: white">{{ title }}</h1>
-                <br />
+                <h1 style="color: white">
+                    {{ title }}
+                </h1>
+                <br>
                 <h2 style="color: white">
                     {{ desc }}
                 </h2>
             </center>
         </div>
 
-        <br />
+        <br>
         <div>
-            <slot> </slot>
+            <slot />
         </div>
     </a-modal>
 </template>
@@ -41,22 +45,22 @@
 export default {
     props: {
         value: { type: Boolean, required: true },
-        title: { type: String, default: "Title" },
-        desc: { type: String, default: "Description" },
+        title: { type: String, default: 'Title' },
+        desc: { type: String, default: 'Description' }
     },
     methods: {
-        getImage(image) {
-            if (image === "") {
+        getImage (image) {
+            if (image === '') {
                 const mode =
-                    this._globalState.themePreference === "light" ? "lm" : "dm";
-                return require(`@/assets/icons/${mode}-avatar.svg`);
+                    this._globalState.themePreference === 'light' ? 'lm' : 'dm'
+                return require(`@/assets/icons/${mode}-avatar.svg`)
             } else {
-                return image;
+                return image
             }
         },
-        onCancel() {
-            this.$emit("input", false);
-        },
-    },
-};
+        onCancel () {
+            this.$emit('input', false)
+        }
+    }
+}
 </script>

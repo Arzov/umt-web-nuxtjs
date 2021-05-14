@@ -15,11 +15,11 @@
                     time="Miércoles 16:30"
                     @click.native="click()"
                 />
-                <br />
+                <br>
                 <center>
                     * Sólo puedes pertenecer o crear un máximo de 3 equipos.
                 </center>
-                <br />
+                <br>
                 <a-form-model-item>
                     <PrincipalBtn
                         text="+ CREAR EQUIPO (1/3)"
@@ -43,20 +43,20 @@ export default {
     props: {
         title1: {
             type: String,
-            default: "Tab1",
+            default: 'Tab1'
         },
         title2: {
             type: String,
-            default: "Tab2",
-        },
+            default: 'Tab2'
+        }
     },
     methods: {
-        click() {
-            console.log("Probando click de listDisplay para el chat");
+        click () {
+            console.log('Probando click de listDisplay para el chat')
         },
-        createTeam() {
-            console.log("Probando click para crear equipos");
-        },
-    },
-};
+        createTeam () {
+            console.log('Probando click para crear equipos')
+        }
+    }
+}
 </script>

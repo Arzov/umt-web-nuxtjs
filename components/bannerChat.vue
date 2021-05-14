@@ -2,21 +2,21 @@
     <div>
         <a-row class="bannerChat">
             <a-col class="imgContainer" :span="4">
-                <img src="../assets/images/corner-top-right.svg" alt="" />
+                <img src="../assets/images/corner-top-right.svg" alt="">
                 <a-avatar size="large" class="teamPicture" :src="teamPicture" />
             </a-col>
             <a-col v-if="type === 'teams'" class="content" :span="20">
                 <center>
                     <h2>{{ teamName }}</h2>
                 </center>
-                <br />
+                <br>
                 <center>Haz click aquí para más info</center>
             </a-col>
             <a-col v-else class="content" :span="20">
                 <center>
                     <h2>{{ teamName }}</h2>
                 </center>
-                <br />
+                <br>
                 <a-row type="flex" justify="space-between">
                     <a-col :span="4">
                         <a-row type="flex" align="top">
@@ -24,7 +24,7 @@
                                 :src="getImage('patch-active.svg')"
                                 style="width: 30%; margin-right: 10px"
                                 alt=""
-                            />
+                            >
                             <h3>1/3</h3>
                         </a-row>
                     </a-col>
@@ -34,7 +34,7 @@
                                 :src="getImage('calendar.svg')"
                                 style="width: 30%; margin-right: 10px"
                                 alt=""
-                            />
+                            >
                             <a-col>
                                 <h3>20/09</h3>
                                 <h2>18:30</h2>
@@ -47,7 +47,7 @@
                                 :src="getImage('expire.svg')"
                                 style="width: 30%; margin-right: 10px"
                                 alt=""
-                            />
+                            >
                             <a-col>
                                 <h3>27/09</h3>
                                 <h2>20:30</h2>
@@ -60,8 +60,10 @@
                                 :src="getImage('court.svg')"
                                 style="width: 30%; margin-right: 10px"
                                 alt=""
-                            />
-                            <a-col :span="4"> <h3>CLUB DEPORTIVO</h3> </a-col>
+                            >
+                            <a-col :span="4">
+                                <h3>CLUB DEPORTIVO</h3>
+                            </a-col>
                         </a-row>
                     </a-col>
                     <a-col :span="4">
@@ -70,7 +72,7 @@
                                 :src="getImage('football-active.svg')"
                                 style="width: 30%; margin-right: 10px"
                                 alt=""
-                            />
+                            >
                             <h3>7v7</h3>
                         </a-row>
                     </a-col>
@@ -83,28 +85,28 @@
 <script>
 export default {
     props: {
-        teamName: { type: String, default: "NOMBRE EQUIPO" },
+        teamName: { type: String, default: 'NOMBRE EQUIPO' },
         active: { type: Boolean, default: false },
-        type: { type: String, default: "teams" },
+        type: { type: String, default: 'teams' }
     },
     computed: {
-        teamPicture() {
+        teamPicture () {
             if (
                 this._userState.primaryTeam &&
                 this._userState.primaryTeam.picture
             ) {
-                return this._userState.primaryTeam.picture;
+                return this._userState.primaryTeam.picture
             } else {
-                return this.getImage("team-profile.svg");
+                return this.getImage('team-profile.svg')
             }
-        },
+        }
     },
     methods: {
-        getImage(image) {
+        getImage (image) {
             const mode =
-                this._globalState.themePreference === "light" ? "lm" : "dm";
-            return require(`@/assets/icons/${mode}-${image}`);
-        },
-    },
-};
+                this._globalState.themePreference === 'light' ? 'lm' : 'dm'
+            return require(`@/assets/icons/${mode}-${image}`)
+        }
+    }
+}
 </script>

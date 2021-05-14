@@ -3,7 +3,7 @@
         <a-row>
             <a-col class="leftContent" :span="8">
                 <a-row class="cup">
-                    <img src="@/assets/images/cup.svg" alt="" />
+                    <img src="@/assets/images/cup.svg" alt="">
                 </a-row>
                 <a-row class="options">
                     <MatchesTabs title1="ACTIVOS" title2="SOLICITUDES" />
@@ -72,7 +72,7 @@
                             :src="getImage('x-active.svg')"
                             alt=""
                             @click="isVisible = !isVisible"
-                        />
+                        >
                     </a-col>
                     <a-col class="title" :span="20">
                         <a-row type="flex" justify="center" align="middle">
@@ -81,8 +81,8 @@
                                     :src="teamPicture"
                                     alt=""
                                     style="width: 50px"
-                                />
-                                <br />
+                                >
+                                <br>
                                 <h4>{{ teamName }}</h4>
                             </a-col>
                             <a-col>
@@ -93,8 +93,8 @@
                                     :src="teamPicture"
                                     alt=""
                                     style="width: 50px"
-                                />
-                                <br />
+                                >
+                                <br>
                                 <h4>{{ teamName }}</h4>
                             </a-col>
                         </a-row>
@@ -103,7 +103,7 @@
                         <img
                             src="./../../assets/images/corner-top-right.svg"
                             alt=""
-                        />
+                        >
                         <a-avatar
                             size="large"
                             class="teamPicture"
@@ -122,8 +122,8 @@
                     <ModalDef
                         v-model="modalVisible1"
                         title="Fecha del partido"
-                        desc="Entre los equipos pueden decidir en qué fecha y hora 
-                        se jugará el partido. La fecha debe ser dentro del rango 
+                        desc="Entre los equipos pueden decidir en qué fecha y hora
+                        se jugará el partido. La fecha debe ser dentro del rango
                         permitido, esto es, antes de la fecha de expiración."
                     >
                         <a-row type="flex" justify="space-around">
@@ -149,7 +149,7 @@
                     <ModalDef
                         v-model="modalVisible2"
                         title="Fecha de expiración"
-                        desc="Fecha en que el partido caducará (14 días desde la creación del partido). 
+                        desc="Fecha en que el partido caducará (14 días desde la creación del partido).
                         Los equipos deberán fijar una fecha del encuentro del plazo.
                         Una vez pasada la fecha de expiración, el partido se eliminará automáticamente."
                     />
@@ -163,9 +163,9 @@
                     <ModalDef
                         v-model="modalVisible3"
                         title="Parches"
-                        desc="Entre los equipos pueden decidir cuantos parches pueden necesitar para 
+                        desc="Entre los equipos pueden decidir cuantos parches pueden necesitar para
                         el partido. Se puede asignar un máximo de 8 parches en total.
-                        Si el valor de este campo es mayor que 0, el partido se publicará para que 
+                        Si el valor de este campo es mayor que 0, el partido se publicará para que
                         jugadores individuales puedan unirse."
                     >
                         <a-row
@@ -201,9 +201,9 @@
                         desc="CLUB DEPORTIVO INDEPENDIENTE"
                         icon-customizable="true"
                     />
-                    <br />
+                    <br>
                     <center><h4>Jugadores</h4></center>
-                    <br />
+                    <br>
                     <a-row type="flex" justify="center" align="middle">
                         <a-col align="center" :span="4">
                             <div class="navbarPicture">
@@ -252,14 +252,14 @@
                             alt=""
                             style="width: 25px; margin-left: 15px"
                             @click="addPlayer()"
-                        />
+                        >
                         <ModalDef
                             v-model="modalVisibleAddPlayer"
                             title="Agrega un jugador"
                             desc="Invita a jugadores individuales que conozcas. Los jugadores
                             que invites contarán como un parche en el partido."
                         >
-                            <br />
+                            <br>
                             <a-row style="display: flex">
                                 <PrincipalInput
                                     placeholder="Ingresa el email del jugador"
@@ -274,22 +274,24 @@
                                         top: 5px;
                                         width: 20px;
                                     "
-                                />
+                                >
                             </a-row>
-                            <br />
+                            <br>
                             <a-row>
                                 <a-avatar
                                     size="large"
                                     :src="getImage('avatar.svg')"
                                 />
-                                <h4 style="color: white">Svenko</h4>
+                                <h4 style="color: white">
+                                    Svenko
+                                </h4>
                                 <div>
                                     <RoundedTextBtn text="solicitar" />
                                 </div>
                             </a-row>
                         </ModalDef>
                     </a-row>
-                    <br />
+                    <br>
                     <a-form-model-item>
                         <PrincipalBtn
                             text="GUARDAR"
@@ -305,75 +307,75 @@
 
 <script>
 export default {
-    layout: "navbar",
-    data() {
+    layout: 'navbar',
+    data () {
         return {
             isVisible: true,
-            teamName: "NOMBRE EQUIPO",
+            teamName: 'NOMBRE EQUIPO',
             modalVisible1: false,
             modalVisible2: false,
             modalVisible3: false,
             modalVisibleAddPlayer: false,
             valueDate: null,
             valueTime: null,
-            valuePatches: 0,
-        };
+            valuePatches: 0
+        }
     },
     computed: {
-        teamPicture() {
+        teamPicture () {
             if (
                 this._userState.primaryTeam &&
                 this._userState.primaryTeam.picture
             ) {
-                return this._userState.primaryTeam.picture;
+                return this._userState.primaryTeam.picture
             } else {
-                return this.getImage("team-profile.svg");
+                return this.getImage('team-profile.svg')
             }
-        },
+        }
     },
     methods: {
-        setMatchDate() {
-            console.log("Card to set match date clicked");
-            this.modalVisible1 = !this.modalVisible1;
+        setMatchDate () {
+            console.log('Card to set match date clicked')
+            this.modalVisible1 = !this.modalVisible1
         },
-        setExpirationDate() {
-            console.log("Card to set expiration date clicked");
-            this.modalVisible2 = !this.modalVisible2;
+        setExpirationDate () {
+            console.log('Card to set expiration date clicked')
+            this.modalVisible2 = !this.modalVisible2
         },
-        setPatches() {
-            console.log("Card to set patches clicked");
-            this.modalVisible3 = !this.modalVisible3;
+        setPatches () {
+            console.log('Card to set patches clicked')
+            this.modalVisible3 = !this.modalVisible3
         },
-        addPlayer() {
-            console.log("Add player btn clicked");
-            this.modalVisibleAddPlayer = !this.modalVisibleAddPlayer;
+        addPlayer () {
+            console.log('Add player btn clicked')
+            this.modalVisibleAddPlayer = !this.modalVisibleAddPlayer
         },
-        createTeam() {
-            console.log("Save btn clicked");
+        createTeam () {
+            console.log('Save btn clicked')
         },
-        getImage(image) {
+        getImage (image) {
             const mode =
-                this._globalState.themePreference === "light" ? "lm" : "dm";
-            return require(`@/assets/icons/${mode}-${image}`);
+                this._globalState.themePreference === 'light' ? 'lm' : 'dm'
+            return require(`@/assets/icons/${mode}-${image}`)
         },
-        onChangeDate(date, dateString) {
-            console.log(date, dateString);
-            this.valueDate = date;
+        onChangeDate (date, dateString) {
+            console.log(date, dateString)
+            this.valueDate = date
         },
-        onChangeTime(time) {
-            console.log(time.toString());
-            this.valueTime = time;
+        onChangeTime (time) {
+            console.log(time.toString())
+            this.valueTime = time
         },
-        decreasePatches() {
+        decreasePatches () {
             if (this.valuePatches > 0) {
-                this.valuePatches--;
+                this.valuePatches--
             }
         },
-        increasePatches() {
+        increasePatches () {
             if (this.valuePatches < 8) {
-                this.valuePatches++;
+                this.valuePatches++
             }
-        },
-    },
-};
+        }
+    }
+}
 </script>

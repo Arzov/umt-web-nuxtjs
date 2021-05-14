@@ -26,17 +26,17 @@ export default {
     props: {
         title1: {
             type: String,
-            default: "Tab1",
+            default: 'Tab1'
         },
         title2: {
             type: String,
-            default: "Tab2",
-        },
+            default: 'Tab2'
+        }
     },
     methods: {
-        click() {
-            console.log("Probando click de listDisplay para el chat");
-        },
-    },
-};
+        click () {
+            console.log('Probando click de listDisplay para el chat')
+        }
+    }
+}
 </script>
