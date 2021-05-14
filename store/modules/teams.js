@@ -707,6 +707,85 @@ const actions = {
 
         }
 
+    },
+
+
+    searchPlayer (ctx, data) {
+
+        return new Promise((resolve, reject) => {
+
+            this.$AWS.Amplify.configure(awsconfig.arv)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(arv.queries.getUser, {
+                    email: data.email
+                })
+            )
+
+
+                // success
+                .then((result) => {
+                    resolve(result.data.getUser)
+                })
+
+
+                // error
+                .catch((err) => {
+
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+
+                })
+        })
+    },
+
+
+    addPlayer (ctx, data) {
+
+        return new Promise((resolve, reject) => {
+
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(umt.mutations.addTeamMember, {
+                    teamId  : data.teamId,
+                    email   : data.email,
+                    name    : data.firstName,
+                    role    : null,
+                    reqStat : JSON.stringify({
+                        TR: { S: 'A' },
+                        PR: { S: 'P' }
+                    })
+                })
+            )
+
+
+                // success
+                .then(() => {
+
+                    const response = {
+                        type    : 'success',
+                        title   : '¡Solicitud enviada!',
+                        msg     : 'La solicitud al jugador fue enviada.'
+                    }
+
+                    resolve(response)
+
+                })
+
+
+                // error
+                .catch((err) => {
+
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+
+                })
+
+        })
+
     }
 
 }

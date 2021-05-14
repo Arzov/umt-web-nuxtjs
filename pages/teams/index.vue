@@ -6,7 +6,7 @@
         <!-- MODALS -->
 
         <ModalAddTeam v-model="showAddTeam" />
-        <ModalAddPlayer v-model="showAddPlayer" />
+        <ModalAddPlayer v-model="showAddPlayer" :team-id="_activeTeam ? _activeTeam.id : ''" />
 
 
         <!-- CONTENT -->
