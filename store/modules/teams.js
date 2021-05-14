@@ -15,7 +15,8 @@ const getDefaultState = () => ({
     teamMemberRequests  : JSON.stringify({
         requests    : [],
         nextToken   : null
-    })
+    }),
+    teamMembers         : '[]'
 })
 
 
@@ -627,7 +628,87 @@ const actions = {
                     reject(response)
                 })
         })
+    },
+
+
+    async listTeamMembers (ctx, data) {
+
+        // TODO: Make nextToken logic!
+
+        this.$AWS.Amplify.configure(awsconfig.umt)
+
+
+        try {
+
+            let result = await this.$AWS.API.graphql(
+                graphqlOperation(
+                    umt.queries.listTeamMembers,
+                    {
+                        teamId      : data.teamId,
+                        nextToken   : null
+                    }
+                )
+            )
+
+            result = result.data.listTeamMembers.items
+            // TODO: Fix this! teamsChatMessages[i].nextToken = result.data.listTeamChats.nextToken
+
+
+            for (const i in result) {
+
+                const teamMember = result[i]
+
+
+                // fetch player picture
+
+                try {
+
+                    this.$AWS.Amplify.configure(awsconfig.arv)
+
+                    const playerInfo = await this.$AWS.API.graphql(
+                        graphqlOperation(arv.queries.getUser, {
+                            email: teamMember.email
+                        })
+                    )
+
+
+                    // append to state
+
+                    result[i] = {
+                        ...teamMember,
+                        picture: playerInfo.data.getUser.picture
+                    }
+
+                }
+
+                catch (err) {
+
+                    const response = { ...errorNotification, err }
+
+                    throw response
+
+                }
+            }
+
+
+            const params = {
+                teamMembers: result
+            }
+
+            ctx.commit('setState', { params })
+
+        }
+
+        catch (err) {
+
+            const response = { ...errorNotification, err }
+
+            throw response
+
+        }
+
     }
+
 }
 
 

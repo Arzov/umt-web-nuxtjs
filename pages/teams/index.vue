@@ -165,7 +165,7 @@
                             <a-avatar
                                 size="large"
                                 class="teamPicture"
-                                :src="_activeTeam.picture != '' ? _activeTeam.picture : getIcon('team-profile.svg')"
+                                :src="_activeTeam.picture"
                             />
 
                         </a-col>
@@ -259,22 +259,12 @@
                     <a-row>
 
                         <a-col
-                            v-if="_globalState.themePreference === 'light'"
                             class="iconContainer"
                             :span="4"
                         >
 
                             <img
-                                src="@/assets/icons/lm-x-active.svg"
-                                @click="showInfoTeam = !showInfoTeam"
-                            >
-
-                        </a-col>
-
-                        <a-col v-else class="iconContainer" :span="4">
-
-                            <img
-                                src="@/assets/icons/dm-x-active.svg"
+                                :src="getIcon('x-active.svg')"
                                 @click="showInfoTeam = !showInfoTeam"
                             >
 
@@ -283,7 +273,7 @@
                         <a-col class="title" :span="20">
 
                             <center>
-                                <h2>{{ _userState.primaryTeam.name }}</h2>
+                                <h2>{{ _activeTeam.name }}</h2>
                             </center>
 
                         </a-col>
@@ -297,7 +287,7 @@
                             <a-avatar
                                 size="large"
                                 class="teamPicture"
-                                :src="teamPicture"
+                                :src="_activeTeam.picture"
                             />
 
                         </a-col>
@@ -307,51 +297,37 @@
 
                     <a-row>
 
-                        <a-tabs
-                            class="tabDisplay tabPane"
-                            size="large"
-                            :default-active-key="1"
-                        >
+                        <ScrollContainer>
 
-                            <a-tabPane :key="1" tab="ACTIVOS">
+                            <PrincipalBtn
+                                text="+ AGREGAR JUGADOR (3/30)"
+                                :loading="btnLoading"
+                                @click.native="showModalAddPlayer()"
+                            />
 
-                                <ScrollContainer>
+                            <h3>JUGADORES</h3>
 
-                                    <PrincipalBtn
-                                        text="+ AGREGAR JUGADOR (3/30)"
-                                        :loading="btnLoading"
-                                        @click.native="showModalAddPlayer()"
+                            <br>
+
+                            <a-row :gutter="[0, 0]" type="flex">
+
+                                <a-col
+                                    v-for="player in _teamMembers"
+                                    :key="`r${player.email}`"
+                                    :span="24"
+                                >
+
+                                    <ListBtn
+                                        :key="`l${player.email}`"
+                                        :desc="player.name"
+                                        :pictures="[player.picture]"
                                     />
 
-                                    <h3>JUGADORES</h3>
+                                </a-col>
 
-                                    <br>
+                            </a-row>
 
-                                    <a-row :gutter="[0, 0]" type="flex">
-
-                                        <a-col
-                                            v-for="k in require('@/static/data/players.json')"
-                                            :key="`r${k.name}`"
-                                            :span="24"
-                                        >
-
-                                            <ListBtn
-                                                :key="`l${k.name}`"
-                                                :desc="k.name"
-                                                :picture1="k.img"
-                                                :value="k.name"
-                                                @click.native="click()"
-                                            />
-
-                                        </a-col>
-
-                                    </a-row>
-
-                                </ScrollContainer>
-
-                            </a-tabPane>
-
-                        </a-tabs>
+                        </ScrollContainer>
 
                     </a-row>
 
@@ -392,22 +368,19 @@ export default {
 
     computed: {
 
-        teamPicture () {
-
-            if (
-                this._userState.primaryTeam &&
-                this._userState.primaryTeam.picture
-            ) { return this._userState.primaryTeam.picture }
-
-            else { return this.getIcon('team-profile.svg') }
-
-        },
-
 
         _activeTeam () {
 
             if (this._userState.teams.length) {
-                return this._userState.teams[this.activeTeamChat]
+
+                const team = this._userState.teams[this.activeTeamChat]
+
+                // set default team picture if empty
+
+                team.picture = team.picture || this.getIcon('team-profile.svg')
+
+                return team
+
             }
 
             else { return null }
@@ -426,6 +399,11 @@ export default {
 
         _teamMemberRequests () {
             return this.$store.getters['teams/get'].teamMemberRequests
+        },
+
+
+        _teamMembers () {
+            return this.$store.getters['teams/get'].teamMembers
         }
 
     },
@@ -449,6 +427,9 @@ export default {
             .catch((e) => {
                 this.showNotification(e.title, e.msg, e.type)
             })
+
+
+        await this.setChat(0)
 
     },
 
@@ -501,8 +482,21 @@ export default {
         },
 
 
-        setChat (i) {
+        async setChat (i) {
+
             this.activeTeamChat = i
+
+            if (this._activeTeam) {
+
+                await this.$store.dispatch('teams/listTeamMembers', {
+                    teamId: this._activeTeam.id
+                })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+
+            }
+
         },
 
 
@@ -510,11 +504,10 @@ export default {
 
             if (this.inputMessage !== '') {
 
-                this.$store
-                    .dispatch('teams/addTeamChat', {
-                        teamId  : this._activeTeam.id,
-                        msg     : this.inputMessage
-                    })
+                this.$store.dispatch('teams/addTeamChat', {
+                    teamId  : this._activeTeam.id,
+                    msg     : this.inputMessage
+                })
                     .catch((e) => {
                         this.showNotification(e.title, e.msg, e.type)
                     })
