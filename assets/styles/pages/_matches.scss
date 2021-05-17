@@ -1,0 +1,165 @@
+%matches-full-width {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+@mixin backgroundMsg($color-ini, $color-end) {
+    background: $color-ini;
+    background: -moz-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+    background: -webkit-linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+    background: linear-gradient(90deg, $color-ini 0%, $color-end 100%);
+}
+
+.matches {
+    .leftContent {
+        @extend %matches-full-width;
+        justify-content: flex-start;
+
+        .cup {
+            img {
+                margin-top: 10px;
+                max-width: 130px;
+            }
+        }
+    }
+
+    .rightContent {
+        @extend %matches-full-width;
+        justify-content: flex-start;
+
+        .dmBody & {
+            border-left: 1px solid $color-light-grey;
+        }
+
+        .lmBody & {
+            border-left: 1px solid $color-violet;
+        }
+
+        .chatContainer {
+            background-size: 30%;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+
+            .chatHeader {
+                height: auto;
+            }
+
+            .chatBody {
+                background-image: url("../images/chat-background.svg");
+                background-size: 30%;
+                padding: 20px 60px 20px 60px;
+                display: flex;
+                min-height: 65%;
+                // max-height: 500px;
+                // overflow-y: scroll;
+                // overflow-x: none;
+                flex-direction: column;
+
+                .dmBody & {
+                    border-top: 1px solid $color-light-grey;
+                }
+
+                .lmBody & {
+                    border-top: 1px solid $color-violet;
+                }
+
+                .leftMessage {
+                    max-width: 45%;
+                    margin-bottom: 20px;
+                    @include backgroundMsg($color-blue, $color-cian);
+                    color: $color-white;
+                    padding: 0.5em;
+                    align-self: flex-start;
+                    border-radius: 0.8em;
+                    border-bottom-left-radius: 0px;
+                    box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
+                    /*  transform: skew(-3deg, 0deg); */
+                }
+                .rightMessage {
+                    max-width: 45%;
+                    margin-bottom: 20px;
+                    padding: 0.5em;
+                    @include backgroundMsg($color-pink, $color-purple);
+                    color: $color-white;
+                    align-self: flex-end;
+                    border-radius: 0.8em;
+                    border-bottom-right-radius: 0px;
+                    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+                    /* transform: skew(3deg, 0deg); */
+                }
+            }
+
+            .chatFooter {
+                background-image: url("../images/chat-background.svg");
+                background-size: 30%;
+                display: inline-block;
+                height: 15%;
+            }
+        }
+
+        .bannerInfoTeam {
+            height: 150px;
+            display: flex;
+            flex-direction: row;
+
+            .iconContainer {
+                @extend %matches-full-width;
+                align-items: center;
+                justify-content: center;
+                width: 15%;
+
+                img {
+                    width: 35%;
+                    height: 35%;
+                    cursor: pointer;
+                }
+            }
+
+            .title {
+                @extend %matches-full-width;
+                justify-content: center;
+                width: 70%;
+            }
+
+            .imgContainer {
+                @extend %matches-full-width;
+                width: 15%;
+
+                img {
+                    width: 75%;
+                    height: 100%;
+                }
+
+                .teamPicture {
+                    position: absolute;
+                    top: 45%;
+                    right: 0;
+                    left: 10%;
+                    bottom: 0;
+                    z-index: 1;
+
+                    .dmBody & {
+                        box-shadow: 0 0 0 1px $color-dark-grey;
+                    }
+
+                    .lmBody & {
+                        box-shadow: 0 0 0 1px $color-white;
+                    }
+                }
+            }
+        }
+
+        .infoTeam {
+            height: 65vh;
+            overflow-y: scroll;
+            overflow-x: none;
+            justify-content: center;
+            align-self: center;
+            padding-right: 25%;
+            padding-left: 25%;
+        }
+    }
+}

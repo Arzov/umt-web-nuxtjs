@@ -1,22 +1,41 @@
 <template>
-    <div class="teams">
+    <div class="matches">
+
         <a-row>
+
             <a-col class="leftContent" :span="8">
+
                 <a-row class="cup">
+
                     <img src="@/assets/images/cup.svg" alt="">
+
                 </a-row>
+
                 <a-row class="options">
+
                     <MatchesTabs title1="ACTIVOS" title2="SOLICITUDES" />
+
                 </a-row>
+
             </a-col>
+
+
             <a-col v-show="isVisible" class="rightContent" :span="16">
+
                 <a-row class="chatContainer">
+
+
                     <a-row class="chat-header">
+
                         <div @click="isVisible = !isVisible">
                             <BannerChat type="matches" />
                         </div>
+
                     </a-row>
+
+
                     <div class="chat-body">
+
                         <div class="left-message">
                             Lorem ipsum dolor sit amet consectetur adipisicing
                             elit. Ex facere iure accusamus dolor culpa, nobis
@@ -59,59 +78,95 @@
                             dolores quam, maxime cupiditate optio mollitia
                             perspiciatis fugit vel quis ducimus?
                         </div>
+
                     </div>
+
+
                     <a-row class="chat-footer">
                         <InputChat />
                     </a-row>
+
                 </a-row>
+
             </a-col>
+
+
             <a-col v-show="!isVisible" class="rightContent" :span="16">
+
                 <a-row class="bannerInfoTeam">
+
                     <a-col class="iconContainer" :span="4">
+
                         <img
                             :src="getImage('x-active.svg')"
                             alt=""
                             @click="isVisible = !isVisible"
                         >
+
                     </a-col>
+
+
                     <a-col class="title" :span="20">
+
                         <a-row type="flex" justify="center" align="middle">
+
                             <a-col :span="6" align="center">
+
                                 <img
                                     :src="teamPicture"
                                     alt=""
                                     style="width: 50px"
                                 >
+
                                 <br>
+
                                 <h4>{{ teamName }}</h4>
+
                             </a-col>
+
                             <a-col>
                                 <p>VS</p>
                             </a-col>
+
                             <a-col :span="6" align="center">
+
                                 <img
                                     :src="teamPicture"
                                     alt=""
                                     style="width: 50px"
                                 >
+
                                 <br>
+
                                 <h4>{{ teamName }}</h4>
+
                             </a-col>
+
                         </a-row>
+
                     </a-col>
+
+
                     <a-col class="imgContainer" :span="4">
+
                         <img
                             src="./../../assets/images/corner-top-right.svg"
                             alt=""
                         >
+
                         <a-avatar
                             size="large"
                             class="teamPicture"
                             :src="teamPicture"
                         />
+
                     </a-col>
+
                 </a-row>
+
+
                 <a-row class="infoTeam">
+
                     <CardBtn
                         icon-assets="calendar.svg"
                         title="Fecha del partido"
@@ -119,6 +174,8 @@
                         icon-customizable="true"
                         @click.native="setMatchDate()"
                     />
+
+
                     <ModalDef
                         v-model="modalVisible1"
                         title="Fecha del partido"
@@ -126,19 +183,26 @@
                         se jugará el partido. La fecha debe ser dentro del rango
                         permitido, esto es, antes de la fecha de expiración."
                     >
+
                         <a-row type="flex" justify="space-around">
+
                             <a-date-picker
                                 :value="valueDate"
                                 @change="onChangeDate"
                             />
+
                             <a-time-picker
                                 format="HH:mm"
                                 :minute-step="30"
                                 :value="valueTime"
                                 @change="onChangeTime"
                             />
+
                         </a-row>
+
                     </ModalDef>
+
+
                     <CardBtn
                         icon-assets="expire.svg"
                         title="Fecha de expiración"
@@ -146,6 +210,8 @@
                         icon-customizable="true"
                         @click.native="setExpirationDate()"
                     />
+
+
                     <ModalDef
                         v-model="modalVisible2"
                         title="Fecha de expiración"
@@ -153,6 +219,8 @@
                         Los equipos deberán fijar una fecha del encuentro del plazo.
                         Una vez pasada la fecha de expiración, el partido se eliminará automáticamente."
                     />
+
+
                     <CardBtn
                         icon-assets="patch-active.svg"
                         title="Parches"
@@ -160,6 +228,8 @@
                         icon-customizable="true"
                         @click.native="setPatches()"
                     />
+
+
                     <ModalDef
                         v-model="modalVisible3"
                         title="Parches"
@@ -168,6 +238,7 @@
                         Si el valor de este campo es mayor que 0, el partido se publicará para que
                         jugadores individuales puedan unirse."
                     >
+
                         <a-row
                             type="flex"
                             justify="center"
@@ -180,33 +251,49 @@
                                 justify-content: space-around;
                             "
                         >
+
                             <a-button @click="decreasePatches">
                                 <a-icon type="minus" />
                             </a-button>
+
                             <div>{{ valuePatches }}</div>
+
                             <a-button @click="increasePatches">
                                 <a-icon type="plus" />
                             </a-button>
+
                         </a-row>
+
                     </ModalDef>
+
+
                     <CardBtn
                         icon-assets="football-active.svg"
                         title="Tipo de partido"
                         desc="7v7"
                         icon-customizable="true"
                     />
+
+
                     <CardBtn
                         icon-assets="court.svg"
                         title="Lugar del partido"
                         desc="CLUB DEPORTIVO INDEPENDIENTE"
                         icon-customizable="true"
                     />
+
                     <br>
+
                     <center><h4>Jugadores</h4></center>
+
                     <br>
+
                     <a-row type="flex" justify="center" align="middle">
+
                         <a-col align="center" :span="4">
+
                             <div class="navbarPicture">
+
                                 <a-avatar
                                     size="small"
                                     class="teamPicture"
@@ -216,11 +303,18 @@
                                 <nuxt-link to="profile">
                                     <a-avatar size="large" :src="userPicture" />
                                 </nuxt-link>
+
                             </div>
+
                             <h4>Nombre</h4>
+
                         </a-col>
+
+
                         <a-col align="center" :span="4">
+
                             <div class="navbarPicture">
+
                                 <a-avatar
                                     size="small"
                                     class="teamPicture"
@@ -230,11 +324,18 @@
                                 <nuxt-link to="profile">
                                     <a-avatar size="large" :src="userPicture" />
                                 </nuxt-link>
+
                             </div>
+
                             <h4>Nombre</h4>
+
                         </a-col>
+
+
                         <a-col align="center" :span="4">
+
                             <div class="navbarPicture">
+
                                 <a-avatar
                                     size="small"
                                     class="teamPicture"
@@ -244,27 +345,38 @@
                                 <nuxt-link to="profile">
                                     <a-avatar size="large" :src="userPicture" />
                                 </nuxt-link>
+
                             </div>
+
                             <h4>Nombre</h4>
+
                         </a-col>
+
+
                         <img
                             src="@/assets/icons/plus-circle.svg"
                             alt=""
                             style="width: 25px; margin-left: 15px"
                             @click="addPlayer()"
                         >
+
+
                         <ModalDef
                             v-model="modalVisibleAddPlayer"
                             title="Agrega un jugador"
                             desc="Invita a jugadores individuales que conozcas. Los jugadores
                             que invites contarán como un parche en el partido."
                         >
+
                             <br>
+
                             <a-row style="display: flex">
+
                                 <PrincipalInput
                                     placeholder="Ingresa el email del jugador"
                                     style="width: 100%"
                                 />
+
                                 <img
                                     src="@/assets/icons/dm-search.svg"
                                     alt=""
@@ -275,34 +387,52 @@
                                         width: 20px;
                                     "
                                 >
+
                             </a-row>
+
                             <br>
+
                             <a-row>
+
                                 <a-avatar
                                     size="large"
                                     :src="getImage('avatar.svg')"
                                 />
+
                                 <h4 style="color: white">
                                     Svenko
                                 </h4>
+
                                 <div>
                                     <RoundedTextBtn text="solicitar" />
                                 </div>
+
                             </a-row>
+
                         </ModalDef>
+
                     </a-row>
+
                     <br>
+
                     <a-form-model-item>
+
                         <PrincipalBtn
                             text="GUARDAR"
                             :loading="btnLoading"
                             @click.native="createTeam()"
                         />
+
                     </a-form-model-item>
+
                 </a-row>
+
             </a-col>
+
         </a-row>
+
     </div>
+
 </template>
 
 <script>
@@ -333,6 +463,17 @@ export default {
             }
         }
     },
+
+    async mounted () {
+
+        await this.$store.dispatch('matches/listMatches')
+            .catch((e) => {
+                this.showNotification(e.title, e.msg, e.type)
+            })
+
+    },
+
+
     methods: {
         setMatchDate () {
             console.log('Card to set match date clicked')
