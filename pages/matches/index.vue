@@ -11,16 +11,125 @@
 
                 </a-row>
 
-                <a-row class="options">
+                <a-tabs
+                    class="tabDisplay tabPane"
+                    size="large"
+                    :default-active-key="1"
+                >
 
-                    <MatchesTabs title1="ACTIVOS" title2="SOLICITUDES" />
+                    <!-- ACTIVE MATCHES -->
 
-                </a-row>
+                    <a-tabPane :key="1" tab="ACTIVOS">
+
+                        <ScrollContainer>
+
+                            <CollapseDisplay
+                                v-for="(team, i) in _userState.teams"
+                                :key="`r${team.id}`"
+                                :label="`${team.name} (${_actives.teams[i] ? _actives.teams[i].matches.length : 0})`"
+                                icon="team-profile.svg"
+                            >
+
+                                <div v-if="_actives.teams[i]">
+
+                                    <ListBtn
+                                        v-for="(opponent, j) in _actives.teams[i].matches"
+                                        :key="`t${opponent.id}`"
+                                        :title="opponent.id"
+                                        :desc="opponent.chat.messages.length
+                                            ? `${opponent.chat.messages[0].author}: ${opponent.chat.messages[0].msg}`
+                                            : 'No hay mensajes'
+                                        "
+                                        :time="opponent.chat.messages.length
+                                            ? opponent.chat.messages[0].sentOn
+                                            : ''
+                                        "
+                                        :pictures="[opponent.picture]"
+                                        :is-active="activeMatchChat == j ? true : false"
+                                        type="team"
+                                        @click.native="setChat(j)"
+                                    />
+
+                                </div>
+
+                            </CollapseDisplay>
+
+                            <CollapseDisplay
+                                icon="avatar.svg"
+                                :label="`${_userState.firstName} (${_actives.user.matches.length})`"
+                            >
+
+                                <ListBtn
+                                    v-for="(opponent, j) in _actives.user.matches"
+                                    :key="`t${opponent.id}`"
+                                    :title="opponent.id"
+                                    :desc="opponent.chat.messages.length
+                                        ? `${opponent.chat.messages[0].author}: ${opponent.chat.messages[0].msg}`
+                                        : 'No hay mensajes'
+                                    "
+                                    :time="opponent.chat.messages.length
+                                        ? opponent.chat.messages[0].sentOn
+                                        : ''
+                                    "
+                                    :pictures="[opponent.picture]"
+                                    :is-active="activeMatchChat == j ? true : false"
+                                    type="team"
+                                    @click.native="setChat(j)"
+                                />
+
+                            </CollapseDisplay>
+
+                        </ScrollContainer>
+
+                    </a-tabPane>
+
+
+                    <!-- PENDING REQUESTS -->
+
+                    <!-- <a-tabPane :key="2" tab="ACTIVOS">
+
+                        <ScrollContainer v-if="_teamsChatMessages.length">
+
+                            <ListBtn
+                                v-for="(team, i) in _userState.teams"
+                                :key="`t${team.id}`"
+                                :title="team.name"
+                                :desc="_teamsChatMessages[i].messages.length
+                                    ? `${_teamsChatMessages[i].messages[0].author}: ${_teamsChatMessages[i].messages[0].msg}`
+                                    : 'No hay mensajes'
+                                "
+                                :time="_teamsChatMessages[i].messages.length
+                                    ? _teamsChatMessages[i].messages[0].sentOn
+                                    : ''
+                                "
+                                :pictures="[team.picture]"
+                                :is-active="activeTeamChat == i ? true : false"
+                                type="team"
+                                @click.native="setChat(i)"
+                            />
+
+                        </ScrollContainer>
+
+                        <center v-else>
+                            No perteneces a ningún equipo aún.
+                        </center>
+
+                        <br>
+
+                        <PrincipalBtn
+                            text="+ CREAR EQUIPO (1/3)"
+                            :loading="btnLoading"
+                            @click.native="showModalAddTeam()"
+                        />
+
+                    </a-tabPane> -->
+
+                </a-tabs>
 
             </a-col>
 
 
-            <a-col v-show="isVisible" class="rightContent" :span="16">
+            <!-- <a-col v-show="isVisible" class="rightContent" :span="16">
 
                 <a-row class="chatContainer">
 
@@ -427,7 +536,7 @@
 
                 </a-row>
 
-            </a-col>
+            </a-col> -->
 
         </a-row>
 
@@ -437,37 +546,63 @@
 
 <script>
 export default {
+
     layout: 'navbar',
+
+
     data () {
         return {
-            isVisible: true,
-            teamName: 'NOMBRE EQUIPO',
-            modalVisible1: false,
-            modalVisible2: false,
-            modalVisible3: false,
-            modalVisibleAddPlayer: false,
-            valueDate: null,
-            valueTime: null,
-            valuePatches: 0
+            // isVisible: true,
+            // teamName: 'NOMBRE EQUIPO',
+            // modalVisible1: false,
+            // modalVisible2: false,
+            // modalVisible3: false,
+            // modalVisibleAddPlayer: false,
+            // valueDate: null,
+            // valueTime: null,
+            // valuePatches: 0,
+            activeMatchChat  : 0
         }
     },
+
+
     computed: {
-        teamPicture () {
-            if (
-                this._userState.primaryTeam &&
-                this._userState.primaryTeam.picture
-            ) {
-                return this._userState.primaryTeam.picture
-            } else {
-                return this.getImage('team-profile.svg')
+
+        _activeTeam () {
+
+            if (this._userState.teams.length) {
+
+                const team = this._userState.teams[this.activeTeamChat]
+
+                // set default team picture if empty
+
+                team.picture = team.picture || this.getIcon('team-profile.svg')
+
+                return team
+
             }
+
+            else { return null }
+        },
+
+        _actives () {
+            return this.$store.getters['matches/get'].actives
         }
+
     },
+
 
     async mounted () {
 
         await this.$store.dispatch('matches/listMatches')
             .catch((e) => {
+                console.log(e)
+                this.showNotification(e.title, e.msg, e.type)
+            })
+
+        await this.$store.dispatch('matches/listRequests')
+            .catch((e) => {
+                console.log(e)
                 this.showNotification(e.title, e.msg, e.type)
             })
 
@@ -475,48 +610,67 @@ export default {
 
 
     methods: {
-        setMatchDate () {
-            console.log('Card to set match date clicked')
-            this.modalVisible1 = !this.modalVisible1
-        },
-        setExpirationDate () {
-            console.log('Card to set expiration date clicked')
-            this.modalVisible2 = !this.modalVisible2
-        },
-        setPatches () {
-            console.log('Card to set patches clicked')
-            this.modalVisible3 = !this.modalVisible3
-        },
-        addPlayer () {
-            console.log('Add player btn clicked')
-            this.modalVisibleAddPlayer = !this.modalVisibleAddPlayer
-        },
-        createTeam () {
-            console.log('Save btn clicked')
-        },
-        getImage (image) {
-            const mode =
-                this._globalState.themePreference === 'light' ? 'lm' : 'dm'
-            return require(`@/assets/icons/${mode}-${image}`)
-        },
-        onChangeDate (date, dateString) {
-            console.log(date, dateString)
-            this.valueDate = date
-        },
-        onChangeTime (time) {
-            console.log(time.toString())
-            this.valueTime = time
-        },
-        decreasePatches () {
-            if (this.valuePatches > 0) {
-                this.valuePatches--
-            }
-        },
-        increasePatches () {
-            if (this.valuePatches < 8) {
-                this.valuePatches++
-            }
+        // setMatchDate () {
+        //     console.log('Card to set match date clicked')
+        //     this.modalVisible1 = !this.modalVisible1
+        // },
+        // setExpirationDate () {
+        //     console.log('Card to set expiration date clicked')
+        //     this.modalVisible2 = !this.modalVisible2
+        // },
+        // setPatches () {
+        //     console.log('Card to set patches clicked')
+        //     this.modalVisible3 = !this.modalVisible3
+        // },
+        // addPlayer () {
+        //     console.log('Add player btn clicked')
+        //     this.modalVisibleAddPlayer = !this.modalVisibleAddPlayer
+        // },
+        // createTeam () {
+        //     console.log('Save btn clicked')
+        // },
+        // getImage (image) {
+        //     const mode =
+        //         this._globalState.themePreference === 'light' ? 'lm' : 'dm'
+        //     return require(`@/assets/icons/${mode}-${image}`)
+        // },
+        // onChangeDate (date, dateString) {
+        //     console.log(date, dateString)
+        //     this.valueDate = date
+        // },
+        // onChangeTime (time) {
+        //     console.log(time.toString())
+        //     this.valueTime = time
+        // },
+        // decreasePatches () {
+        //     if (this.valuePatches > 0) {
+        //         this.valuePatches--
+        //     }
+        // },
+        // increasePatches () {
+        //     if (this.valuePatches < 8) {
+        //         this.valuePatches++
+        //     }
+        // }
+
+        setChat (i) {
+
+            this.activeMatchChat = i
+
+            // if (this._activeTeam) {
+
+            //     await this.$store.dispatch('teams/listTeamMembers', {
+            //         teamId: this._activeTeam.id
+            //     })
+            //         .catch((e) => {
+            //             this.showNotification(e.title, e.msg, e.type)
+            //         })
+
+            // }
+
         }
+
     }
+
 }
 </script>
