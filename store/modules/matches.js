@@ -23,6 +23,155 @@ const getDefaultState = () => ({
 })
 
 
+// deduplicate results from api by keys
+// ref: https://dev.to/marinamosti/removing-duplicates-in-an-array-of-objects-in-js-with-sets-3fep
+
+const deduplicate = (acc, current, key1, key2) => {
+
+    const x = acc.find(item => `${item[key1]}${item[key2]}` === `${current[key1]}${current[key2]}`)
+
+    if (!x) {
+        return acc.concat([current])
+    }
+
+    else {
+        return acc
+    }
+
+}
+
+
+// fetch messages from a match's chat
+
+const fetchMessages = async (ctx, match) => {
+
+    try {
+
+        // init match chat if not exist
+
+        if (!('chat' in match)) {
+
+            match.chat = {
+                messages    : [],
+                nextToken   : null
+            }
+
+        }
+
+
+        let result = await ctx.$AWS.API.graphql(
+            graphqlOperation(
+                umt.queries.listMatchChats,
+                {
+                    teamId1     : match.teamId1,
+                    teamId2     : match.teamId2,
+                    nextToken   : match.chat.nextToken
+                }
+            )
+        )
+
+        result = result.data.listMatchChats
+
+
+        match.chat.nextToken = result.nextToken
+
+
+        // append data to state
+
+        if (result.items) {
+
+            match.chat.messages = [
+                ...match.chat.messages,
+                ...result.items
+            ]
+
+        }
+
+
+        // deduplicate
+
+        match.chat.messages = match.chat.messages.reduce((acc, current) => {
+
+            return deduplicate(acc, current, 'sentOn', 'email')
+
+        }, [])
+
+    }
+
+    catch (err) {
+
+        const response = { ...errorNotification, err }
+
+        throw response
+
+    }
+
+}
+
+
+// fetch team info
+
+const fetchTeamInfo = async (ctx, id) => {
+
+    try {
+
+        let result = await ctx.$AWS.API.graphql(
+            graphqlOperation(
+                umt.queries.getTeam,
+                {
+                    id
+                }
+            )
+        )
+
+        result = result.data.getTeam
+
+        return { name: result.name, picture: result.picture }
+
+    }
+
+    catch (err) {
+
+        const response = { ...errorNotification, err }
+
+        throw response
+
+    }
+
+}
+
+
+// set opponent info into the match
+
+const setOpponentInfo = async (ctx, team, match) => {
+
+    const opponentInfo = await fetchTeamInfo(
+        ctx,
+        team.teamId === match.teamId1 ? match.teamId2 : match.teamId1
+    )
+
+    match.name = opponentInfo.name
+    match.picture = opponentInfo.picture
+
+}
+
+
+// set teams info into the match
+
+const setTeamsInfo = async (ctx, match) => {
+
+    const teamInfo1 = await fetchTeamInfo(ctx, match.teamId1)
+    const teamInfo2 = await fetchTeamInfo(ctx, match.teamId2)
+
+    match.name1 = teamInfo1.name
+    match.picture1 = teamInfo1.picture
+
+    match.name2 = teamInfo2.name
+    match.picture2 = teamInfo2.picture
+
+}
+
+
 // state
 
 const state = getDefaultState()
@@ -52,93 +201,6 @@ const getters = {
 const actions = {
 
     async listMatches (ctx, data) {
-
-
-        // deduplicate results from api by keys
-        // ref: https://dev.to/marinamosti/removing-duplicates-in-an-array-of-objects-in-js-with-sets-3fep
-
-        const deduplicate = (acc, current, key1, key2) => {
-
-            const x = acc.find(item => `${item[key1]}${item[key2]}` === `${current[key1]}${current[key2]}`)
-
-            if (!x) {
-                return acc.concat([current])
-            }
-
-            else {
-                return acc
-            }
-
-        }
-
-
-        // fetch messages from a match's chat
-
-        const fetchMessages = async (match) => {
-
-            try {
-
-                // init match chat if not exist
-
-                if (!('chat' in match)) {
-
-                    match.chat = {
-                        messages    : [],
-                        nextToken   : null
-                    }
-
-                }
-
-
-                let result = await this.$AWS.API.graphql(
-                    graphqlOperation(
-                        umt.queries.listMatchChats,
-                        {
-                            teamId1     : match.teamId1,
-                            teamId2     : match.teamId2,
-                            nextToken   : match.chat.nextToken
-                        }
-                    )
-                )
-
-                result = result.data.listMatchChats
-
-
-                match.chat.nextToken = result.nextToken
-
-
-                // append data to state
-
-                if (result.items) {
-
-                    match.chat.messages = [
-                        ...match.chat.messages,
-                        ...result.items
-                    ]
-
-                }
-
-
-                // deduplicate
-
-                match.chat.messages = match.chat.messages.reduce((acc, current) => {
-
-                    return deduplicate(acc, current, 'sentOn', 'email')
-
-                }, [])
-
-            }
-
-            catch (err) {
-
-                const response = { ...errorNotification, err }
-
-                throw response
-
-            }
-
-        }
-
 
         this.$AWS.Amplify.configure(awsconfig.umt)
 
@@ -192,9 +254,18 @@ const actions = {
 
                 if (result.items) {
 
+                    // convert into object some elements
+
                     team.matches = [
                         ...team.matches,
-                        ...result.items
+                        ...result.items.map((x) => {
+                            return {
+                                ...x,
+                                coords  : JSON.parse(x.coords),
+                                patches : JSON.parse(x.patches),
+                                reqStat : JSON.parse(x.reqStat)
+                            }
+                        })
                     ]
 
                 }
@@ -209,11 +280,12 @@ const actions = {
                 }, [])
 
 
-                // fetc each match's messages
+                // fetch each match's messages and opponent info
 
                 for await (const match of team.matches) {
 
-                    fetchMessages(match)
+                    fetchMessages(this, match)
+                    setOpponentInfo(this, team, match)
 
                 }
 
@@ -254,9 +326,18 @@ const actions = {
 
             if (result.items) {
 
+                // convert into object some elements
+
                 actives.user.matches = [
                     ...actives.user.matches,
-                    ...result.items
+                    ...result.items.map((x) => {
+                        return {
+                            ...x,
+                            coords  : JSON.parse(x.coords),
+                            patches : JSON.parse(x.patches),
+                            reqStat : JSON.parse(x.reqStat)
+                        }
+                    })
                 ]
 
             }
@@ -271,11 +352,12 @@ const actions = {
             }, [])
 
 
-            // fetc each match's messages
+            // fetch each match's messages and teams info
 
             for await (const match of actives.user.matches) {
 
                 fetchMessages(match)
+                setTeamsInfo(match)
 
             }
 
@@ -298,25 +380,6 @@ const actions = {
 
 
     async listRequests (ctx, data) {
-
-
-        // deduplicate results from api by keys
-        // ref: https://dev.to/marinamosti/removing-duplicates-in-an-array-of-objects-in-js-with-sets-3fep
-
-        const deduplicate = (acc, current, key1, key2) => {
-
-            const x = acc.find(item => `${item[key1]}${item[key2]}` === `${current[key1]}${current[key2]}`)
-
-            if (!x) {
-                return acc.concat([current])
-            }
-
-            else {
-                return acc
-            }
-
-        }
-
 
         this.$AWS.Amplify.configure(awsconfig.umt)
 
@@ -372,7 +435,14 @@ const actions = {
 
                     team.matches = [
                         ...team.matches,
-                        ...result.items
+                        ...result.items.map((x) => {
+                            return {
+                                ...x,
+                                coords  : JSON.parse(x.coords),
+                                patches : JSON.parse(x.patches),
+                                reqStat : JSON.parse(x.reqStat)
+                            }
+                        })
                     ]
 
                 }
@@ -385,6 +455,15 @@ const actions = {
                     return deduplicate(acc, current, 'teamId1', 'teamId2')
 
                 }, [])
+
+
+                // fetch each match's opponent info
+
+                for await (const match of team.matches) {
+
+                    setOpponentInfo(this, team, match)
+
+                }
 
             }
 
@@ -425,7 +504,14 @@ const actions = {
 
                 requests.user.matches = [
                     ...requests.user.matches,
-                    ...result.items
+                    ...result.items.map((x) => {
+                        return {
+                            ...x,
+                            coords  : JSON.parse(x.coords),
+                            patches : JSON.parse(x.patches),
+                            reqStat : JSON.parse(x.reqStat)
+                        }
+                    })
                 ]
 
             }
@@ -438,6 +524,15 @@ const actions = {
                 return deduplicate(acc, current, 'teamId1', 'teamId2')
 
             }, [])
+
+
+            // fetch each match's teams info
+
+            for await (const match of requests.user.matches) {
+
+                setTeamsInfo(match)
+
+            }
 
         }
 

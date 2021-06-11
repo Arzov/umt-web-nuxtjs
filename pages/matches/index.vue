@@ -86,43 +86,63 @@
 
                     <!-- PENDING REQUESTS -->
 
-                    <!-- <a-tabPane :key="2" tab="ACTIVOS">
+                    <a-tabPane :key="2" tab="SOLICITUDES">
 
-                        <ScrollContainer v-if="_teamsChatMessages.length">
+                        <ScrollContainer>
 
-                            <ListBtn
+                            <CollapseDisplay
                                 v-for="(team, i) in _userState.teams"
-                                :key="`t${team.id}`"
-                                :title="team.name"
-                                :desc="_teamsChatMessages[i].messages.length
-                                    ? `${_teamsChatMessages[i].messages[0].author}: ${_teamsChatMessages[i].messages[0].msg}`
-                                    : 'No hay mensajes'
-                                "
-                                :time="_teamsChatMessages[i].messages.length
-                                    ? _teamsChatMessages[i].messages[0].sentOn
-                                    : ''
-                                "
-                                :pictures="[team.picture]"
-                                :is-active="activeTeamChat == i ? true : false"
-                                type="team"
-                                @click.native="setChat(i)"
-                            />
+                                :key="`r${team.id}`"
+                                :label="`${team.name} (${_requests.teams[i] ? _requests.teams[i].matches.length : 0})`"
+                                icon="team-profile.svg"
+                            >
+
+                                <div v-if="_requests.teams[i]">
+
+                                    <RequestCard
+                                        v-for="(match, j) in _requests.teams[i].matches"
+                                        :key="`tm${j}`"
+                                        :title="match.teamId1"
+                                        :desc="match.reqStat.RR.S == 'A' ? 'Solicitud enviada' : 'Aceptar solicitud'"
+                                        :pictures="[match.picture]"
+                                        :action="match.reqStat.RR.S == 'A' ? 'out' : 'in'"
+                                        type="user"
+                                        @accept="acceptRequest(match)"
+                                        @reject="rejectRequest(match)"
+                                    />
+
+                                </div>
+
+                            </CollapseDisplay>
+
+                            <!-- <CollapseDisplay
+                                icon="avatar.svg"
+                                :label="`${_userState.firstName} (${_actives.user.matches.length})`"
+                            >
+
+                                <ListBtn
+                                    v-for="(opponent, j) in _actives.user.matches"
+                                    :key="`t${opponent.id}`"
+                                    :title="opponent.id"
+                                    :desc="opponent.chat.messages.length
+                                        ? `${opponent.chat.messages[0].author}: ${opponent.chat.messages[0].msg}`
+                                        : 'No hay mensajes'
+                                    "
+                                    :time="opponent.chat.messages.length
+                                        ? opponent.chat.messages[0].sentOn
+                                        : ''
+                                    "
+                                    :pictures="[opponent.picture]"
+                                    :is-active="activeMatchChat == j ? true : false"
+                                    type="team"
+                                    @click.native="setChat(j)"
+                                />
+
+                            </CollapseDisplay> -->
 
                         </ScrollContainer>
 
-                        <center v-else>
-                            No perteneces a ningún equipo aún.
-                        </center>
-
-                        <br>
-
-                        <PrincipalBtn
-                            text="+ CREAR EQUIPO (1/3)"
-                            :loading="btnLoading"
-                            @click.native="showModalAddTeam()"
-                        />
-
-                    </a-tabPane> -->
+                    </a-tabPane>
 
                 </a-tabs>
 
@@ -587,6 +607,10 @@ export default {
 
         _actives () {
             return this.$store.getters['matches/get'].actives
+        },
+
+        _requests () {
+            return this.$store.getters['matches/get'].requests
         }
 
     },
@@ -667,6 +691,18 @@ export default {
             //         })
 
             // }
+
+        },
+
+        acceptRequest (match) {
+
+            console.log(match)
+
+        },
+
+        rejectRequest (match) {
+
+            console.log(match)
 
         }
 
