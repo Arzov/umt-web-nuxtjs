@@ -25,7 +25,7 @@
 
                             <CollapseDisplay
                                 v-for="(team, i) in _userState.teams"
-                                :key="`r${team.id}`"
+                                :key="`a${i}`"
                                 :label="`${team.name} (${_actives.teams[i] ? _actives.teams[i].matches.length : 0})`"
                                 icon="team-profile.svg"
                             >
@@ -33,18 +33,18 @@
                                 <div v-if="_actives.teams[i]">
 
                                     <ListBtn
-                                        v-for="(opponent, j) in _actives.teams[i].matches"
-                                        :key="`t${opponent.id}`"
-                                        :title="opponent.id"
-                                        :desc="opponent.chat.messages.length
-                                            ? `${opponent.chat.messages[0].author}: ${opponent.chat.messages[0].msg}`
+                                        v-for="(match, j) in _actives.teams[i].matches"
+                                        :key="`tm${j}`"
+                                        :title="match.name"
+                                        :desc="match.chat.messages.length
+                                            ? `${match.chat.messages[0].author}: ${match.chat.messages[0].msg}`
                                             : 'No hay mensajes'
                                         "
-                                        :time="opponent.chat.messages.length
-                                            ? opponent.chat.messages[0].sentOn
+                                        :time="match.chat.messages.length
+                                            ? match.chat.messages[0].sentOn
                                             : ''
                                         "
-                                        :pictures="[opponent.picture]"
+                                        :pictures="[match.picture]"
                                         :is-active="activeMatchChat == j ? true : false"
                                         type="team"
                                         @click.native="setChat(j)"
@@ -56,22 +56,23 @@
 
                             <CollapseDisplay
                                 icon="avatar.svg"
+                                :image="_userState.picture"
                                 :label="`${_userState.firstName} (${_actives.user.matches.length})`"
                             >
 
                                 <ListBtn
-                                    v-for="(opponent, j) in _actives.user.matches"
-                                    :key="`t${opponent.id}`"
-                                    :title="opponent.id"
-                                    :desc="opponent.chat.messages.length
-                                        ? `${opponent.chat.messages[0].author}: ${opponent.chat.messages[0].msg}`
+                                    v-for="(match, j) in _actives.user.matches"
+                                    :key="`tm${j}`"
+                                    :title="`${match.name1} - ${match.name2}`"
+                                    :desc="match.chat.messages.length
+                                        ? `${match.chat.messages[0].author}: ${match.chat.messages[0].msg}`
                                         : 'No hay mensajes'
                                     "
-                                    :time="opponent.chat.messages.length
-                                        ? opponent.chat.messages[0].sentOn
+                                    :time="match.chat.messages.length
+                                        ? match.chat.messages[0].sentOn
                                         : ''
                                     "
-                                    :pictures="[opponent.picture]"
+                                    :pictures="[match.picture1, match.picture2]"
                                     :is-active="activeMatchChat == j ? true : false"
                                     type="team"
                                     @click.native="setChat(j)"
@@ -92,7 +93,7 @@
 
                             <CollapseDisplay
                                 v-for="(team, i) in _userState.teams"
-                                :key="`r${team.id}`"
+                                :key="`r${i}`"
                                 :label="`${team.name} (${_requests.teams[i] ? _requests.teams[i].matches.length : 0})`"
                                 icon="team-profile.svg"
                             >
@@ -102,11 +103,11 @@
                                     <RequestCard
                                         v-for="(match, j) in _requests.teams[i].matches"
                                         :key="`tm${j}`"
-                                        :title="match.teamId1"
-                                        :desc="match.reqStat.RR.S == 'A' ? 'Solicitud enviada' : 'Aceptar solicitud'"
+                                        :title="match.name"
+                                        :desc="match.teamId1 === team.id ? 'Solicitud enviada' : 'Aceptar solicitud'"
+                                        :action="match.teamId1 === team.id ? 'out' : 'in'"
                                         :pictures="[match.picture]"
-                                        :action="match.reqStat.RR.S == 'A' ? 'out' : 'in'"
-                                        type="user"
+                                        type="team"
                                         @accept="acceptRequest(match)"
                                         @reject="rejectRequest(match)"
                                     />
@@ -115,30 +116,25 @@
 
                             </CollapseDisplay>
 
-                            <!-- <CollapseDisplay
+                            <CollapseDisplay
                                 icon="avatar.svg"
-                                :label="`${_userState.firstName} (${_actives.user.matches.length})`"
+                                :image="_userState.picture"
+                                :label="`${_userState.firstName} (${_requests.user.matches.length})`"
                             >
 
-                                <ListBtn
-                                    v-for="(opponent, j) in _actives.user.matches"
-                                    :key="`t${opponent.id}`"
-                                    :title="opponent.id"
-                                    :desc="opponent.chat.messages.length
-                                        ? `${opponent.chat.messages[0].author}: ${opponent.chat.messages[0].msg}`
-                                        : 'No hay mensajes'
-                                    "
-                                    :time="opponent.chat.messages.length
-                                        ? opponent.chat.messages[0].sentOn
-                                        : ''
-                                    "
-                                    :pictures="[opponent.picture]"
-                                    :is-active="activeMatchChat == j ? true : false"
+                                <RequestCard
+                                    v-for="(match, j) in _requests.user.matches"
+                                    :key="`tm${j}`"
+                                    :title="`${match.name1} - ${match.name2}`"
+                                    :desc="'Aceptar solicitud'"
+                                    :pictures="[match.picture1, match.picture2]"
+                                    action="in"
                                     type="team"
-                                    @click.native="setChat(j)"
+                                    @accept="acceptRequest(match)"
+                                    @reject="rejectRequest(match)"
                                 />
 
-                            </CollapseDisplay> -->
+                            </CollapseDisplay>
 
                         </ScrollContainer>
 
