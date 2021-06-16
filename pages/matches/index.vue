@@ -108,8 +108,8 @@
                                         :action="match.teamId1 === team.id ? 'out' : 'in'"
                                         :pictures="[match.picture]"
                                         type="team"
-                                        @accept="acceptRequest(match)"
-                                        @reject="rejectRequest(match)"
+                                        @accept="acceptRequest(match, null)"
+                                        @reject="rejectRequest(match, null)"
                                     />
 
                                 </div>
@@ -130,8 +130,8 @@
                                     :pictures="[match.picture1, match.picture2]"
                                     action="in"
                                     type="team"
-                                    @accept="acceptRequest(match)"
-                                    @reject="rejectRequest(match)"
+                                    @accept="acceptRequest(null, match)"
+                                    @reject="rejectRequest(null, match)"
                                 />
 
                             </CollapseDisplay>
@@ -616,13 +616,11 @@ export default {
 
         await this.$store.dispatch('matches/listMatches')
             .catch((e) => {
-                console.log(e)
                 this.showNotification(e.title, e.msg, e.type)
             })
 
         await this.$store.dispatch('matches/listRequests')
             .catch((e) => {
-                console.log(e)
                 this.showNotification(e.title, e.msg, e.type)
             })
 
@@ -630,48 +628,84 @@ export default {
 
 
     methods: {
-        // setMatchDate () {
-        //     console.log('Card to set match date clicked')
-        //     this.modalVisible1 = !this.modalVisible1
-        // },
-        // setExpirationDate () {
-        //     console.log('Card to set expiration date clicked')
-        //     this.modalVisible2 = !this.modalVisible2
-        // },
-        // setPatches () {
-        //     console.log('Card to set patches clicked')
-        //     this.modalVisible3 = !this.modalVisible3
-        // },
-        // addPlayer () {
-        //     console.log('Add player btn clicked')
-        //     this.modalVisibleAddPlayer = !this.modalVisibleAddPlayer
-        // },
-        // createTeam () {
-        //     console.log('Save btn clicked')
-        // },
-        // getImage (image) {
-        //     const mode =
-        //         this._globalState.themePreference === 'light' ? 'lm' : 'dm'
-        //     return require(`@/assets/icons/${mode}-${image}`)
-        // },
-        // onChangeDate (date, dateString) {
-        //     console.log(date, dateString)
-        //     this.valueDate = date
-        // },
-        // onChangeTime (time) {
-        //     console.log(time.toString())
-        //     this.valueTime = time
-        // },
-        // decreasePatches () {
-        //     if (this.valuePatches > 0) {
-        //         this.valuePatches--
-        //     }
-        // },
-        // increasePatches () {
-        //     if (this.valuePatches < 8) {
-        //         this.valuePatches++
-        //     }
-        // }
+
+        acceptRequest (match, matchPatch) {
+
+            if (match) {
+
+                this.$store
+                    .dispatch('matches/updateMatch', {
+                        ...match,
+                        action  : 'accept',
+                        reqStat : { AR: { S: 'A' }, RR : { S : 'A' } }
+                    })
+                    .then((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                    .catch((e) => {
+                        console.log(e)
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+
+            }
+
+            else if (matchPatch) {
+
+                this.$store
+                    .dispatch('matches/updateMatchPatch', {
+                        ...matchPatch,
+                        action  : 'accept',
+                        reqStat : { MR: { S: 'A' }, PR : { S : 'A' } }
+                    })
+                    .then((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+            }
+
+        },
+
+
+        rejectRequest (match, matchPatch) {
+
+
+            if (match) {
+
+                this.$store
+                    .dispatch('matches/updateMatch', {
+                        ...match,
+                        action  : 'reject',
+                        reqStat : { AR: { S: 'C' }, RR : { S : 'C' } }
+                    })
+                    .then((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+
+            }
+
+            else if (matchPatch) {
+
+                this.$store
+                    .dispatch('matches/updateMatchPatch', {
+                        ...matchPatch,
+                        action  : 'accept',
+                        reqStat : { MR: { S: 'C' }, PR : { S : 'C' } }
+                    })
+                    .then((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+            }
+
+        },
+
 
         setChat (i) {
 
@@ -687,18 +721,6 @@ export default {
             //         })
 
             // }
-
-        },
-
-        acceptRequest (match) {
-
-            console.log(match)
-
-        },
-
-        rejectRequest (match) {
-
-            console.log(match)
 
         }
 

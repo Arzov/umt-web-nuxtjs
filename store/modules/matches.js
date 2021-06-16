@@ -507,8 +507,6 @@ const actions = {
                     ...result.items.map((x) => {
                         return {
                             ...x,
-                            coords  : JSON.parse(x.coords),
-                            patches : JSON.parse(x.patches),
                             reqStat : JSON.parse(x.reqStat)
                         }
                     })
@@ -549,6 +547,129 @@ const actions = {
 
         ctx.commit('setState', { params })
 
+    },
+
+
+    updateMatch (ctx, data) {
+
+        const matchesState = ctx.getters.get
+
+        return new Promise((resolve, reject) => {
+
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(umt.mutations.updateMatch, {
+                    ...data,
+                    coords  : JSON.stringify(data.coords),
+                    patches : JSON.stringify(data.patches),
+                    reqStat : JSON.stringify(data.reqStat)
+                })
+            )
+
+
+                // success
+                .then(() => {
+
+                    // build response message
+
+                    if (data.action === 'reject') {
+
+                        const response = {
+                            type    : 'success',
+                            title   : '¡Solicitud cancelada!',
+                            msg     : 'La solicitud ha sido cancelada.'
+                        }
+
+
+                        // remove request from requests
+
+                        for (const team of matchesState.requests.teams) {
+
+                            team.matches = team.matches.filter(
+                                match => `${match.teamId1}${match.teamId2}` !== `${data.teamId1}${data.teamId2}`
+                            )
+
+                        }
+
+
+                        // update store
+
+                        const params = {
+                            requests: matchesState.requests
+                        }
+
+                        ctx.commit('setState', { params })
+
+
+                        resolve(response)
+
+                    }
+
+                    else {
+
+                        const response = {
+                            type    : 'success',
+                            title   : '¡Solicitud aceptada!',
+                            msg     : 'La solicitud ha sido aceptada.'
+                        }
+
+
+                        // remove request from requests
+
+                        for (const team of matchesState.requests.teams) {
+
+                            team.matches = team.matches.filter(
+                                match => `${match.teamId1}${match.teamId2}` !== `${data.teamId1}${data.teamId2}`
+                            )
+
+                        }
+
+
+                        // add request to actives
+
+                        for (const team of matchesState.actives.teams) {
+
+                            team.matches = [
+                                ...team.matches,
+                                {
+                                    ...data,
+                                    chat: {
+                                        messages    : [],
+                                        nextToken   : null
+                                    }
+                                }
+                            ]
+
+                        }
+
+
+                        // update store
+
+                        const params = {
+                            requests    : matchesState.requests,
+                            actives     : matchesState.actives
+                        }
+
+                        ctx.commit('setState', { params })
+
+
+                        resolve(response)
+
+                    }
+
+                })
+
+
+                // error
+                .catch((err) => {
+
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+
+                })
+        })
     }
 
 }
