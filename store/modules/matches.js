@@ -230,7 +230,7 @@ const actions = {
 
         // fetch each team's actives matches
 
-        for await (const team of actives.teams) {
+        for (const team of actives.teams) {
 
             try {
 
@@ -282,10 +282,10 @@ const actions = {
 
                 // fetch each match's messages and opponent info
 
-                for await (const match of team.matches) {
+                for (const match of team.matches) {
 
-                    fetchMessages(this, match)
-                    setOpponentInfo(this, team, match)
+                    await fetchMessages(this, match)
+                    await setOpponentInfo(this, team, match)
 
                 }
 
@@ -354,10 +354,10 @@ const actions = {
 
             // fetch each match's messages and teams info
 
-            for await (const match of actives.user.matches) {
+            for (const match of actives.user.matches) {
 
-                fetchMessages(match)
-                setTeamsInfo(match)
+                await fetchMessages(this, match)
+                await setTeamsInfo(this, match)
 
             }
 
@@ -409,7 +409,7 @@ const actions = {
 
         // fetch each team's requests
 
-        for await (const team of requests.teams) {
+        for (const team of requests.teams) {
 
             try {
 
@@ -459,9 +459,9 @@ const actions = {
 
                 // fetch each match's opponent info
 
-                for await (const match of team.matches) {
+                for (const match of team.matches) {
 
-                    setOpponentInfo(this, team, match)
+                    await setOpponentInfo(this, team, match)
 
                 }
 
@@ -526,9 +526,9 @@ const actions = {
 
             // fetch each match's teams info
 
-            for await (const match of requests.user.matches) {
+            for (const match of requests.user.matches) {
 
-                setTeamsInfo(match)
+                await setTeamsInfo(this, match)
 
             }
 
@@ -640,6 +640,158 @@ const actions = {
                                     }
                                 }
                             ]
+
+                        }
+
+
+                        // update store
+
+                        const params = {
+                            requests    : matchesState.requests,
+                            actives     : matchesState.actives
+                        }
+
+                        ctx.commit('setState', { params })
+
+
+                        resolve(response)
+
+                    }
+
+                })
+
+
+                // error
+                .catch((err) => {
+
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+
+                })
+        })
+    },
+
+
+    updateMatchPatch (ctx, data) {
+
+        const matchesState = ctx.getters.get
+
+        return new Promise((resolve, reject) => {
+
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(umt.mutations.updateMatchPatch, {
+                    ...data,
+                    reqStat : JSON.stringify(data.reqStat)
+                })
+            )
+
+
+                // success
+                .then(async () => {
+
+                    // build response message
+
+                    if (data.action === 'reject') {
+
+                        const response = {
+                            type    : 'success',
+                            title   : '¡Solicitud cancelada!',
+                            msg     : 'La solicitud ha sido cancelada.'
+                        }
+
+
+                        // remove request from requests
+
+                        matchesState.requests.user.matches = matchesState.requests.user.matches.filter(
+                            match => `${match.teamId1}${match.teamId2}` !== `${data.teamId1}${data.teamId2}`
+                        )
+
+
+                        // update store
+
+                        const params = {
+                            requests: matchesState.requests
+                        }
+
+                        ctx.commit('setState', { params })
+
+
+                        resolve(response)
+
+                    }
+
+                    else {
+
+                        const response = {
+                            type    : 'success',
+                            title   : '¡Solicitud aceptada!',
+                            msg     : 'La solicitud ha sido aceptada.'
+                        }
+
+
+                        // remove request from requests
+
+                        matchesState.requests.user.matches = matchesState.requests.user.matches.filter(
+                            match => `${match.teamId1}${match.teamId2}` !== `${data.teamId1}${data.teamId2}`
+                        )
+
+
+                        // fetch match's info to add to actives later
+
+                        try {
+
+                            let result = await this.$AWS.API.graphql(
+                                graphqlOperation(
+                                    umt.queries.getMatch,
+                                    {
+                                        teamId1: data.teamId1,
+                                        teamId2: data.teamId2
+                                    }
+                                )
+                            )
+
+                            result = result.data.getMatch
+
+
+                            // append data to actives
+
+                            if (result) {
+
+                                matchesState.actives.user.matches = [
+                                    ...matchesState.actives.user.matches,
+                                    {
+                                        ...result,
+                                        coords  : JSON.parse(result.coords),
+                                        patches : JSON.parse(result.patches),
+                                        reqStat : JSON.parse(result.reqStat),
+                                        chat    : {
+                                            messages    : [],
+                                            nextToken   : null
+                                        }
+                                    }
+                                ]
+
+                            }
+
+
+                            // fetch each match's teams info
+
+                            for (const match of matchesState.actives.user.matches) {
+
+                                await setTeamsInfo(this, match)
+
+                            }
+
+                        }
+
+                        catch (err) {
+
+                            const response = { ...errorNotification, err }
+
+                            throw response
 
                         }
 

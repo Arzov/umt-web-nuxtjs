@@ -649,7 +649,7 @@ export default {
 
             }
 
-            else if (matchPatch) {
+            else {
 
                 this.$store
                     .dispatch('matches/updateMatchPatch', {
@@ -688,12 +688,12 @@ export default {
 
             }
 
-            else if (matchPatch) {
+            else {
 
                 this.$store
                     .dispatch('matches/updateMatchPatch', {
                         ...matchPatch,
-                        action  : 'accept',
+                        action  : 'reject',
                         reqStat : { MR: { S: 'C' }, PR : { S : 'C' } }
                     })
                     .then((e) => {
