@@ -50,6 +50,7 @@ export const umt = {
         ...require(`${root}${mutations}updateTeamMember`),
         ...require(`${root}${mutations}addTeamChat`),
         ...require(`${root}${mutations}updateMatch`),
-        ...require(`${root}${mutations}updateMatchPatch`)
+        ...require(`${root}${mutations}updateMatchPatch`),
+        ...require(`${root}${mutations}addMatchChat`)
     }
 }

@@ -141,21 +141,6 @@ const fetchTeamInfo = async (ctx, id) => {
 }
 
 
-// set opponent info into the match
-
-const setOpponentInfo = async (ctx, team, match) => {
-
-    const opponentInfo = await fetchTeamInfo(
-        ctx,
-        team.teamId === match.teamId1 ? match.teamId2 : match.teamId1
-    )
-
-    match.name = opponentInfo.name
-    match.picture = opponentInfo.picture
-
-}
-
-
 // set teams info into the match
 
 const setTeamsInfo = async (ctx, match) => {
@@ -285,7 +270,7 @@ const actions = {
                 for (const match of team.matches) {
 
                     await fetchMessages(this, match)
-                    await setOpponentInfo(this, team, match)
+                    await setTeamsInfo(this, match)
 
                 }
 
@@ -461,7 +446,7 @@ const actions = {
 
                 for (const match of team.matches) {
 
-                    await setOpponentInfo(this, team, match)
+                    await setTeamsInfo(this, match)
 
                 }
 
@@ -810,6 +795,91 @@ const actions = {
 
                     }
 
+                })
+
+
+                // error
+                .catch((err) => {
+
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+
+                })
+        })
+    },
+
+
+    sendMessage (ctx, data) {
+
+        // load states
+
+        const matchesState = ctx.getters.get
+        const userState = ctx.rootGetters['user/get']
+
+
+        // append message to chat
+
+        matchesState.actives.teams = matchesState.actives.teams.map((team) => {
+
+            if (team.teamId === data.teamId1 || team.teamId === data.teamId2) {
+
+                team.matches = team.matches.map((match) => {
+
+                    if (match.teamId1 === data.teamId1 && match.teamId2 === data.teamId2) {
+
+                        match.chat.messages.unshift({
+                            teamId1 : data.teamId1,
+                            teamId2 : data.teamId2,
+                            email   : userState.email,
+                            sentOn  : new Date().toISOString(),
+                            author  : userState.firstName,
+                            msg     : data.msg
+                        })
+
+                    }
+
+                    return match
+
+                })
+
+            }
+
+            return team
+
+        })
+
+
+        // update store
+
+        const params = {
+            actives: matchesState.actives
+        }
+
+        ctx.commit('setState', { params })
+
+
+        // save into dynamoDB
+
+        return new Promise((resolve, reject) => {
+
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(umt.mutations.addMatchChat, {
+                    teamId1 : data.teamId1,
+                    teamId2 : data.teamId2,
+                    email   : userState.email,
+                    author  : userState.firstName,
+                    msg     : data.msg,
+                    expireOn: data.expireOn
+                })
+            )
+
+
+                // success
+                .then(() => {
+                    resolve()
                 })
 
 
