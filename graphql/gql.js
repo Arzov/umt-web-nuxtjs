@@ -37,7 +37,8 @@ export const umt = {
         ...require(`${root}${queries}listMatchChats`),
         ...require(`${root}${queries}matchRequests`),
         ...require(`${root}${queries}matchPatchRequests`),
-        ...require(`${root}${queries}getMatch`)
+        ...require(`${root}${queries}getMatch`),
+        ...require(`${root}${queries}listMatchPatches`)
     },
 
     mutations: {

@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { umt } from '@/graphql/gql'
+import { arv, umt } from '@/graphql/gql'
 import errorNotification from '@/static/data/errorNotification.json'
 import awsconfig from '~/aws-exports'
 
@@ -248,7 +248,11 @@ const actions = {
                                 ...x,
                                 coords  : JSON.parse(x.coords),
                                 patches : JSON.parse(x.patches),
-                                reqStat : JSON.parse(x.reqStat)
+                                reqStat : JSON.parse(x.reqStat),
+                                members : {
+                                    players     : [],
+                                    nextToken   : null
+                                }
                             }
                         })
                     ]
@@ -320,7 +324,11 @@ const actions = {
                             ...x,
                             coords  : JSON.parse(x.coords),
                             patches : JSON.parse(x.patches),
-                            reqStat : JSON.parse(x.reqStat)
+                            reqStat : JSON.parse(x.reqStat),
+                            members : {
+                                players     : [],
+                                nextToken   : null
+                            }
                         }
                     })
                 ]
@@ -622,6 +630,10 @@ const actions = {
                                     chat: {
                                         messages    : [],
                                         nextToken   : null
+                                    },
+                                    members: {
+                                        players     : [],
+                                        nextToken   : null
                                     }
                                 }
                             ]
@@ -818,7 +830,7 @@ const actions = {
         const userState = ctx.rootGetters['user/get']
 
 
-        // append message to chat
+        // append message to chat for team matches
 
         matchesState.actives.teams = matchesState.actives.teams.map((team) => {
 
@@ -846,6 +858,28 @@ const actions = {
             }
 
             return team
+
+        })
+
+
+        // append message to chat for user matches
+
+        matchesState.actives.user.matches = matchesState.actives.user.matches.map((match) => {
+
+            if (match.teamId1 === data.teamId1 && match.teamId2 === data.teamId2) {
+
+                match.chat.messages.unshift({
+                    teamId1 : data.teamId1,
+                    teamId2 : data.teamId2,
+                    email   : userState.email,
+                    sentOn  : new Date().toISOString(),
+                    author  : userState.firstName,
+                    msg     : data.msg
+                })
+
+            }
+
+            return match
 
         })
 
@@ -892,6 +926,145 @@ const actions = {
 
                 })
         })
+    },
+
+
+    async fetchMembers (ctx, data) {
+
+        const matchesState = ctx.getters.get
+
+
+        // fetch each user's requests
+
+        this.$AWS.Amplify.configure(awsconfig.umt)
+
+        try {
+
+            // team 1 members
+
+            let result1 = await this.$AWS.API.graphql(
+                graphqlOperation(
+                    umt.queries.listTeamMembers,
+                    {
+                        teamId      : data.teamId1,
+                        nextToken   : null // this always should be null
+                    }
+                )
+            )
+
+            result1 = result1.data.listTeamMembers.items || []
+
+            // team 1 members
+
+            let result2 = await this.$AWS.API.graphql(
+                graphqlOperation(
+                    umt.queries.listTeamMembers,
+                    {
+                        teamId      : data.teamId2,
+                        nextToken   : null // this always should be null
+                    }
+                )
+            )
+
+            result2 = result2.data.listTeamMembers.items || []
+
+            // match patches
+
+            let result3 = await this.$AWS.API.graphql(
+                graphqlOperation(
+                    umt.queries.listMatchPatches,
+                    {
+                        teamId1     : data.teamId1,
+                        teamId2     : data.teamId2,
+                        nextToken   : null // this always should be null
+                    }
+                )
+            )
+
+            result3 = result3.data.listMatchPatches.items || []
+
+
+            const result = [...result1, ...result2, ...result3]
+
+
+            // fetch picture of each player
+
+            this.$AWS.Amplify.configure(awsconfig.arv)
+
+            for (const player of result) {
+
+                const result4 = await this.$AWS.API.graphql(
+                    graphqlOperation(
+                        arv.queries.getUser,
+                        {
+                            email: player.email
+                        }
+                    )
+                )
+
+                player.picture = result4.data.getUser.picture
+
+            }
+
+
+            // append data for team matches
+
+            matchesState.actives.teams = matchesState.actives.teams.map((team) => {
+
+                if (team.teamId === data.teamId1 || team.teamId === data.teamId2) {
+
+                    team.matches = team.matches.map((match) => {
+
+                        if (match.teamId1 === data.teamId1 && match.teamId2 === data.teamId2) {
+
+                            match.members.players = result
+
+                        }
+
+                        return match
+
+                    })
+
+                }
+
+                return team
+
+            })
+
+
+            // append message to chat for user matches
+
+            matchesState.actives.user.matches = matchesState.actives.user.matches.map((match) => {
+
+                if (match.teamId1 === data.teamId1 && match.teamId2 === data.teamId2) {
+
+                    match.members.players = result
+
+                }
+
+                return match
+
+            })
+
+
+            // update store
+
+            const params = {
+                actives: matchesState.actives
+            }
+
+            ctx.commit('setState', { params })
+
+        }
+
+        catch (err) {
+
+            const response = { ...errorNotification, err }
+
+            throw response
+
+        }
+
     }
 
 }

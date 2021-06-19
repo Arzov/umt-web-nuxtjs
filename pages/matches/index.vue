@@ -1,6 +1,15 @@
 <template>
     <div class="matches">
 
+        <!-- MODALS -->
+
+        <ModalAddPatch
+            v-model="showAddPlayer"
+        />
+
+
+        <!-- CONTENT -->
+
         <a-row>
 
 
@@ -143,14 +152,14 @@
 
                 <!-- CHAT CONTENT -->
 
-                <a-row v-if="_selectedMatch" class="chatContainer">
+                <a-row v-if="_selectedMatch && !showInfoMatch" class="chatContainer">
 
 
                     <!-- CHAT HEADER -->
 
                     <a-row
                         class="chatHeader"
-                        @click.native="showInfoMatch = !showInfoMatch"
+                        @click.native="activateMatchInfo(true)"
                     >
 
                         <a-col class="imgContainer" :span="4">
@@ -182,7 +191,16 @@
 
                             </center>
 
-                            <center>haz click aquí para más info</center>
+                            <center>
+
+                                Parches: {{ _selectedMatch.patches.CP.N }} / {{ _selectedMatch.patches.NP.N }}
+
+                                Fecha: {{ _selectedMatch.schedule }}
+
+                                Expira: {{ _selectedMatch.expireOn }}
+
+                                haz click aquí para más info
+                            </center>
 
                         </a-col>
 
@@ -257,9 +275,9 @@
                 </a-row>
 
 
-                <!-- TEAM INFORMATION -->
+                <!-- MATCH INFORMATION -->
 
-                <!-- <a-row v-else-if="_userState.teams.length">
+                <a-row v-if="showInfoMatch">
 
                     <a-row>
 
@@ -270,7 +288,7 @@
 
                             <img
                                 :src="getIcon('x-active.svg')"
-                                @click="showInfoTeam = !showInfoTeam"
+                                @click="activateMatchInfo"
                             >
 
                         </a-col>
@@ -278,7 +296,7 @@
                         <a-col class="title" :span="20">
 
                             <center>
-                                <h2>{{ _activeTeam.name }}</h2>
+                                <h2>{{ _selectedMatch.name1 }} VS {{ _selectedMatch.name2 }}</h2>
                             </center>
 
                         </a-col>
@@ -292,7 +310,13 @@
                             <a-avatar
                                 size="large"
                                 class="teamPicture"
-                                :src="_activeTeam.picture"
+                                :src="_selectedMatch.picture1"
+                            />
+
+                            <a-avatar
+                                size="large"
+                                class="teamPicture"
+                                :src="_selectedMatch.picture2"
                             />
 
                         </a-col>
@@ -307,7 +331,7 @@
                             <PrincipalBtn
                                 text="+ AGREGAR JUGADOR (3/30)"
                                 :loading="btnLoading"
-                                @click.native="showModalAddPlayer()"
+                                @click.native="showAddPlayer = !showAddPlayer"
                             />
 
                             <h3>JUGADORES</h3>
@@ -317,7 +341,7 @@
                             <a-row :gutter="[0, 0]" type="flex">
 
                                 <a-col
-                                    v-for="player in _teamMembers"
+                                    v-for="player in _selectedMatch.members.players"
                                     :key="`r${player.email}`"
                                     :span="24"
                                 >
@@ -336,11 +360,6 @@
 
                     </a-row>
 
-                </a-row> -->
-
-
-                <a-row v-else>
-                    No pertences a un equipo aún.
                 </a-row>
 
             </a-col>
@@ -362,7 +381,8 @@ export default {
             activeChat      : 0,
             showInfoMatch   : false,
             selectedMatch   : null,
-            inputMessage    : ''
+            inputMessage    : '',
+            showAddPlayer   : false
         }
     },
 
@@ -385,8 +405,12 @@ export default {
 
             }
 
+            // select a default match if exists
+
             if (this._actives.user.matches.length) {
+
                 return this._actives.user.matches[0]
+
             }
 
             else if (this._actives.teams.length) {
@@ -460,6 +484,7 @@ export default {
                     .catch((e) => {
                         this.showNotification(e.title, e.msg, e.type)
                     })
+
             }
 
         },
@@ -521,6 +546,22 @@ export default {
                     msg         : this.inputMessage,
                     expireOn    : this._selectedMatch.expireOn
                 })
+                    .catch((e) => {
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+
+            }
+
+        },
+
+
+        async activateMatchInfo (fetchMembers = false) {
+
+            this.showInfoMatch = !this.showInfoMatch
+
+            if (fetchMembers) {
+
+                await this.$store.dispatch('matches/fetchMembers', this._selectedMatch)
                     .catch((e) => {
                         this.showNotification(e.title, e.msg, e.type)
                     })
