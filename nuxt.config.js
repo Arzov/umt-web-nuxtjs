@@ -29,7 +29,8 @@ export default {
         '@/plugins/rules.js',
         '@/plugins/filters',
         '@/plugins/mixins',
-        '@/plugins/utils'
+        '@/plugins/utils',
+        '@/plugins/umt-components.js'
     ],
 
     // Auto import components (https://go.nuxtjs.dev/config-components)

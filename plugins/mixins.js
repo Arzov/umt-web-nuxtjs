@@ -29,6 +29,7 @@ const global = {
         _globalState () {
             return this.$store.getters['global/get']
         }
+
     },
 
     methods: {
@@ -80,7 +81,9 @@ const global = {
 
             return require(`@/assets/icons/${mode}-${icon}`)
         }
+
     }
+
 }
 
 Vue.mixin(global)
@@ -93,7 +96,9 @@ export const validGeoloc = {
     mounted () {
 
         if ('geolocation' in navigator) {
+
             if (this._globalState.allowGeoloc) {
+
                 navigator.geolocation.getCurrentPosition(
 
 

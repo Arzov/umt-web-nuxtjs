@@ -47,8 +47,11 @@
                         <Facebook />
                     </div>
                     <br>
-                    <b>¿No tienes cuenta?
-                        <nuxt-link to="/register"> Regístrate. </nuxt-link></b>
+                    <p>
+                        <b>¿No tienes cuenta?
+                            <nuxt-link to="/register"> Regístrate. </nuxt-link>
+                        </b>
+                    </p>
                 </center>
             </a-col>
         </a-row>
@@ -59,7 +62,7 @@
 import startImagesLayout from '../../components/startImagesLayout.vue'
 export default {
     components: { startImagesLayout },
-    layout: 'themeHeader',
+    // layout: 'themeHeader',
     data () {
         return {
             ruleForm: {
