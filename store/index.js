@@ -12,6 +12,8 @@ import optionalAttributes from './modules/optional-attributes'
 import home from './modules/home'
 import profile from './modules/profile'
 import teams from './modules/teams'
+import matches from './modules/matches'
+
 
 const store = () => {
     return new Vuex.Store({
@@ -28,7 +30,8 @@ const store = () => {
             optionalAttributes,
             home,
             profile,
-            teams
+            teams,
+            matches
         }
     })
 }

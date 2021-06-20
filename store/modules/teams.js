@@ -397,6 +397,7 @@ const actions = {
                                 {
                                     teamId  : addTeamResult.id,
                                     email   : userState.email,
+                                    name    : userState.firstName,
                                     role    : ['Admin', 'Player', 'Captain'],
                                     reqStat : JSON.stringify({ TR:{ S:'A' }, PR:{ S:'A' } })
                                 }
