@@ -767,6 +767,10 @@ const actions = {
                                         chat    : {
                                             messages    : [],
                                             nextToken   : null
+                                        },
+                                        members: {
+                                            players     : [],
+                                            nextToken   : null
                                         }
                                     }
                                 ]
@@ -1054,6 +1058,96 @@ const actions = {
             }
 
             ctx.commit('setState', { params })
+
+        }
+
+        catch (err) {
+
+            const response = { ...errorNotification, err }
+
+            throw response
+
+        }
+
+    },
+
+
+    searchPlayer (ctx, data) {
+
+        return new Promise((resolve, reject) => {
+
+            this.$AWS.Amplify.configure(awsconfig.arv)
+
+            this.$AWS.API.graphql(
+                graphqlOperation(arv.queries.getUser, {
+                    email: data.email
+                })
+            )
+
+
+                // success
+                .then((result) => {
+                    resolve(result.data.getUser)
+                })
+
+
+                // error
+                .catch((err) => {
+
+                    const response = { ...errorNotification, err }
+
+                    reject(response)
+
+                })
+
+        })
+
+    },
+
+
+    async addPlayer (ctx, data) {
+
+        try {
+
+            if (!data.players.includes(data.email)) {
+
+                this.$AWS.Amplify.configure(awsconfig.umt)
+
+                await this.$AWS.API.graphql(
+                    graphqlOperation(umt.mutations.addMatchPatch, {
+                        teamId1 : data.teamId1,
+                        teamId2 : data.teamId2,
+                        email   : data.email,
+                        name    : data.firstName,
+                        expireOn: data.expireOn,
+                        reqStat : JSON.stringify({
+                            MR: { S: 'A' },
+                            PR: { S: 'P' }
+                        })
+                    })
+                )
+
+                const response = {
+                    type    : 'success',
+                    title   : '¡Solicitud enviada!',
+                    msg     : 'La solicitud al jugador fue enviada.'
+                }
+
+                return response
+
+            }
+
+            else {
+
+                const response = {
+                    type    : 'success',
+                    title   : '¡Jugador existente!',
+                    msg     : 'El jugador ya participa del partido.'
+                }
+
+                return response
+
+            }
 
         }
 

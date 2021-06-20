@@ -5,6 +5,7 @@
 
         <ModalAddPatch
             v-model="showAddPlayer"
+            :match="_selectedMatch"
         />
 
 

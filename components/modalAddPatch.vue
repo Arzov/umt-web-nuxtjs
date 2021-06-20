@@ -17,8 +17,7 @@
         </center>
         <br>
         <h2 style="color: white">
-            Invita a tus amigos o jugadores individuales a ser parte de tu
-            equipo.
+            Invita a tus amigos o jugadores individuales a parchar en e partido.
         </h2>
         <br>
         <a-row style="display: flex">
@@ -54,7 +53,7 @@
 export default {
     props: {
         value   : { type: Boolean, required: true },
-        teamId  : { type: String, required: true }
+        match   : { type: Object, default: () => {} }
     },
 
     data () {
@@ -66,28 +65,34 @@ export default {
     },
 
     methods: {
+
         onCancel () {
             this.$emit('input', false)
         },
 
         searchPlayer () {
 
-            this.$store.dispatch('teams/searchPlayer', { email: this.email })
+            this.$store.dispatch('matches/searchPlayer', { email: this.email })
                 .then((e) => {
-                    this.playerFound = e.email ? 'y' : 'n'
 
+                    this.playerFound = e.email ? 'y' : 'n'
                     this.player = e
 
                 })
                 .catch((e) => {
                     this.showNotification(e.title, e.msg, e.type)
                 })
+
         },
 
-        addPlayer () {
-            this.$store.dispatch('teams/addPlayer', {
+        async addPlayer () {
+
+            await this.$store.dispatch('matches/addPlayer', {
                 ...this.player,
-                teamId: this.teamId
+                teamId1     : this.match.teamId1,
+                teamId2     : this.match.teamId2,
+                expireOn    : this.match.expireOn,
+                players     : this.match.members.players.map((player) => { return player.email })
             })
                 .then((e) => {
                     this.showNotification(e.title, e.msg, e.type)
@@ -95,7 +100,9 @@ export default {
                 .catch((e) => {
                     this.showNotification(e.title, e.msg, e.type)
                 })
+
         }
+
     }
 }
 </script>
