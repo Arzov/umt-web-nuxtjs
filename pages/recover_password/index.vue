@@ -1,86 +1,131 @@
 <template>
-    <div class="recoverPassword">
+
+    <div class="recover-password">
+
         <a-row>
-            <a-col class="leftContent" :span="12">
+
+
+            <!-- LEFT CONTENT -->
+
+            <a-col class="left-content" :span="12">
+
                 <div class="image">
-                    <img class="key" src="../../assets/images/key.svg">
+                    <img src="@/assets/images/key.svg">
                 </div>
+
                 <center>
-                    Ingresa tu email registrado en <b>Arzov</b>. Te enviaremos
-                    un código de seguridad para poder restablecer tu contraseña.
-                    <br><br>
-                    Si recordaste tu contraseña puedes volver al inicio de
-                    sesión.
+                    <p>
+                        Ingresa tu email registrado en <b>Arzov</b>. Te enviaremos
+                        un código de seguridad para poder restablecer tu contraseña.
+                    </p>
+
+                    <p>
+                        Si recordaste tu contraseña puedes volver al inicio de
+                        sesión.
+                    </p>
                 </center>
+
             </a-col>
-            <a-col class="rightContent" :span="12">
-                <BackBtn />
+
+
+            <!-- RIGHT CONTENT -->
+
+            <a-col class="right-content" :span="12">
+
+                <back-btn />
+
                 <h1>Recupera tu contraseña</h1>
+
                 <br>
+
                 <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
-                    <a-form-model-item :prop="this.$RULES.email.name">
-                        <PrincipalInput
+
+                    <a-form-model-item :prop="$RULES.email.name">
+                        <umt-input
                             v-model="ruleForm.email"
-                            :placeholder="this.$RULES.email.placeholder"
                             name="email"
-                            :type="this.$RULES.email.type"
                             autocomplete="email"
+                            :type="$RULES.email.type"
+                            :placeholder="$RULES.email.placeholder"
+                            :mode="_themePrefix"
                         />
                     </a-form-model-item>
-                    <br>
+
                     <center>
-                        Te enviaremos un código a tu correo <br>
-                        electrónico para recuperar la contraseña.
+                        <p>
+                            Te enviaremos un código a tu correo <br>
+                            electrónico para recuperar la contraseña.
+                        </p>
                     </center>
-                    <br>
+
                     <a-form-model-item>
-                        <PrincipalBtn
-                            text="RECUPERAR CONTRASEÑA"
-                            :loading="btnLoading"
-                            @click.native="recoverPassword('ruleForm')"
-                        />
+                        <umt-button @click="submitForm('ruleForm')">
+                            RECUPERAR CONTRASEÑA
+                        </umt-button>
                     </a-form-model-item>
+
                 </a-form-model>
+
             </a-col>
+
         </a-row>
+
     </div>
+
 </template>
+
 
 <script>
 export default {
+
     layout: 'corners',
+
+
     data () {
         return {
+
             ruleForm: {
                 email: ''
             },
+
             rules: {
                 email: this.$RULES.email.rules
             }
+
         }
     },
+
+
     methods: {
-        recoverPassword (formName) {
+        submitForm (formName) {
+
             this.$refs[formName].validate((valid) => {
+
                 if (valid) {
+
                     this.btnLoading = true
-                    this.$store
-                        .dispatch('recoverPassword/recover', {
-                            email: this.ruleForm.email.toLowerCase()
-                        })
+
+                    this.$store.dispatch('recoverPassword/recover', {
+                        email: this.ruleForm.email.toLowerCase()
+                    })
                         .then(() => {
                             this.btnLoading = false
                         })
                         .catch((e) => {
-                            this.showNotification(e.title, e.msg, e.type)
                             this.btnLoading = false
+                            this.showNotification(e.title, e.msg, e.type)
                         })
+
                 }
+
                 else {
                     return false
                 }
+
             })
+
         }
     }
+
 }
 </script>

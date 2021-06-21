@@ -1,20 +1,17 @@
 <template>
-    <div
-        :class="_globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'"
-    >
+
+    <umt-theme-provider :theme="_globalState.themePreference">
+
         <div class="header">
-            <ThemeToggle />
+            <theme-toggle />
             <img
-                class="cornerTopRight"
-                src="../assets/images/corner-top-right.svg"
+                class="corner-top-right"
+                src="@/assets/images/corner-top-right.svg"
             >
         </div>
+
         <Nuxt class="page" />
-        <div class="footer">
-            <img
-                class="cornerBottomLeft"
-                src="../assets/images/corner-bottom-left.svg"
-            >
-        </div>
-    </div>
+
+    </umt-theme-provider>
+
 </template>

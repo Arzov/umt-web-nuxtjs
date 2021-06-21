@@ -1,4 +1,5 @@
 <template>
+
     <umt-theme-provider :theme="_globalState.themePreference">
 
         <div class="header">
