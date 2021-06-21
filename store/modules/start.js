@@ -6,7 +6,6 @@ import errorNotification from '@/static/data/errorNotification.json'
 const actions = {
 
     signIn (ctx, data) {
-
         return new Promise((resolve, reject) => {
 
             this.$AWS.Auth.signIn({
@@ -70,8 +69,10 @@ const actions = {
                     response = { ...response, err }
                     reject(response)
                 })
+
         })
     }
+
 }
 
 

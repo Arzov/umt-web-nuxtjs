@@ -29,6 +29,7 @@ const getters = {
         })
 
         return parseState
+
     }
 
 }
@@ -58,6 +59,7 @@ const actions = {
             params.themePreference = 'light'
             ctx.commit('setState', { params })
         }
+
     },
 
 
@@ -99,8 +101,11 @@ const actions = {
 
                     reject(response)
                 })
+
         })
+
     }
+
 }
 
 
@@ -122,13 +127,16 @@ const mutations = {
             // save to store
 
             state[key] = JSON.stringify(params[key])
+
         }
+
     },
 
 
     resetStates (state) {
         Object.assign(state, getDefaultState())
     }
+
 }
 
 

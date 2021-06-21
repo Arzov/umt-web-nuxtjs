@@ -28,6 +28,11 @@ const global = {
 
         _globalState () {
             return this.$store.getters['global/get']
+        },
+
+
+        _themePrefix () {
+            return this._globalState.themePreference === 'dark' ? 'dm' : 'lm'
         }
 
     },

@@ -1,9 +1,10 @@
 .start {
-    .socialLogin {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+
+    .social-login {
+        display         : flex;
+        flex-direction  : row;
+        justify-content : center;
+        align-items     : center;
     }
 
     .google {
@@ -13,4 +14,5 @@
     .facebook {
         margin-left: 5%;
     }
+
 }

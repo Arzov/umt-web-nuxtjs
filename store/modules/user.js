@@ -8,7 +8,6 @@ import awsconfig from '~/aws-exports'
 
 const getDefaultState = () => ({
 
-
     // dynamoDB
 
     email           : localStorage.getItem('email') || null,
@@ -343,6 +342,7 @@ const actions = {
     resetStates (ctx) {
         ctx.commit('resetStates')
     }
+
 }
 
 
@@ -365,6 +365,7 @@ const mutations = {
 
             state[key] = JSON.stringify(params[key])
         }
+
     },
 
 
@@ -381,7 +382,9 @@ const mutations = {
 
             Object.assign(state, getDefaultState())
         }
+
     }
+
 }
 
 

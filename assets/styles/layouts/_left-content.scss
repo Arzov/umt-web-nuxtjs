@@ -1,0 +1,24 @@
+.left-content {
+
+    height          : 100%;
+    display         : flex;
+    flex-direction  : column;
+    justify-content : center;
+    padding-left    : 50px;
+    padding-right   : 50px;
+
+    .image {
+
+        display         : flex;
+        flex-direction  : row;
+        justify-content : center;
+        align-items     : center;
+
+        img {
+            max-width       : 300px;
+            margin-bottom   : 24px;
+        }
+
+    }
+
+}

@@ -1,27 +1,26 @@
 <template>
-    <div class="startImagesLayout">
+
+    <div class="start-images-layout">
+
         <img
-            :src="
-                _globalState.themePreference === 'light'
-                    ? require('../static/lm-logo.svg')
-                    : require('../static/dm-logo.svg')
-            "
+            :src="require(`@/assets/images/${_themePrefix}-logo.svg`)"
             class="logo"
         >
 
         <br>
 
-        <img class="footballShoes" src="@/assets/images/football-shoes.svg">
+        <img
+            src="@/assets/images/football-shoes.svg"
+            class="football-shoes"
+        >
 
         <br>
 
         <img
-            :src="
-                _globalState.themePreference === 'light'
-                    ? require('@/assets/images/lm-points.svg')
-                    : require('@/assets/images/dm-points.svg')
-            "
+            :src="require(`@/assets/images/${_themePrefix}-points.svg`)"
             class="points"
         >
+
     </div>
+
 </template>
