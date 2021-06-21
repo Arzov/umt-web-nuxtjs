@@ -94,8 +94,11 @@ const actions = {
 
                     response = { ...response, err }
                     reject(response)
+
                 })
+
         })
+
     },
 
 
@@ -162,9 +165,13 @@ const actions = {
 
                     response = { ...response, err }
                     reject(response)
+
                 })
+
         })
+
     }
+
 }
 
 

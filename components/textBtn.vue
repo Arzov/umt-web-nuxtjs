@@ -1,8 +1,11 @@
 <template>
-    <p class="textBtn">
+
+    <p class="text-btn">
         {{ text }}
     </p>
+
 </template>
+
 
 <script>
 export default {

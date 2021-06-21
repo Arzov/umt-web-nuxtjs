@@ -1,8 +1,9 @@
-.textBtn {
-    cursor: pointer;
-    font-weight: 700;
+.text-btn {
 
-    .dmBody & {
+    cursor      : pointer;
+    font-weight : 700;
+
+    [umt-theme=dark] & {
         color: $color-cian;
 
         &:active {
@@ -10,11 +11,12 @@
         }
     }
 
-    .lmBody & {
+    [umt-theme=light] & {
         color: $color-purple;
 
         &:active {
             color: rgba($color-purple, 0.6);
         }
     }
+
 }
