@@ -31,48 +31,56 @@
                             :placeholder="$RULES.firstName.placeholder"
                             :mode="_themePrefix"
                         />
-                        <PrincipalInput
-                            v-model="ruleForm.firstName"
-                            :placeholder="this.$RULES.firstName.placeholder"
-                            name="fname"
-                            autocomplete="given-name"
-                        />
                     </a-form-model-item>
 
-                    <a-form-model-item :prop="this.$RULES.email.name">
-                        <PrincipalInput
+                    <a-form-model-item :prop="$RULES.email.name">
+                        <umt-input
                             v-model="ruleForm.email"
-                            :placeholder="this.$RULES.email.placeholder"
                             name="email"
-                            :type="this.$RULES.email.type"
                             autocomplete="email"
+                            :type="$RULES.email.type"
+                            :placeholder="$RULES.email.placeholder"
+                            :mode="_themePrefix"
                         />
                     </a-form-model-item>
 
-                    <a-form-model-item :prop="this.$RULES.password.name">
-                        <PrincipalInput
+                    <a-form-model-item :prop="$RULES.password.name">
+                        <umt-input
                             v-model="ruleForm.password"
-                            :placeholder="this.$RULES.password.placeholder"
-                            :type="this.$RULES.password.type"
-                            :autocomplete="this.$RULES.password.autocomplete"
+                            :type="$RULES.password.type"
+                            :placeholder="$RULES.password.placeholder"
+                            :mode="_themePrefix"
                         />
                     </a-form-model-item>
 
-                    <a-form-model-item :prop="this.$RULES.birthdate.name">
-                        <DateSelector
+                    <a-form-model-item :prop="$RULES.birthdate.name">
+                        <date-selector
                             v-model="ruleForm.birthdate"
                             label="FECHA DE NACIMIENTO*"
                         />
                     </a-form-model-item>
 
                     <a-form-model-item>
-                        <OptionSelector
+                        <umt-radio-group
                             v-model="ruleForm.gender"
+                            name="gender"
                             label="SEXO*"
-                            :options="
-                                require('../../static/data/genderOptions.json')
-                            "
-                        />
+                        >
+
+                            <a-row type="flex" :gutter="12" class="radio-group-row">
+                                <a-col
+                                    v-for="gender in genderOptions"
+                                    :key="gender.key"
+                                    :span="24/genderOptions.length"
+                                    :flex="1"
+                                >
+                                    <umt-radio :value="gender.value">
+                                        {{ gender.key }}
+                                    </umt-radio>
+                                </a-col>
+                            </a-row>
+
+                        </umt-radio-group>
                     </a-form-model-item>
 
                     <center>
@@ -83,11 +91,9 @@
                     <br>
 
                     <a-form-model-item>
-                        <PrincipalBtn
-                            text="REGISTRAR"
-                            :loading="btnLoading"
-                            @click.native="submitForm('ruleForm')"
-                        />
+                        <umt-button @click="submitForm('ruleForm')">
+                            REGISTRAR
+                        </umt-button>
                     </a-form-model-item>
 
                 </a-form-model>
@@ -109,6 +115,9 @@
 
 <script>
 
+const genderOptions = require('@/static/data/genderOptions.json')
+
+
 export default {
 
     layout: 'theme-header',
@@ -116,6 +125,8 @@ export default {
 
     data () {
         return {
+
+            genderOptions,
 
             ruleForm: {
                 firstName   : '',
