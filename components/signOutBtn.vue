@@ -1,12 +1,17 @@
 <template>
-    <TextBtn :text="text" @click.native="signOut()" />
+
+    <text-btn :text="text" @click.native="signOut()" />
+
 </template>
+
 
 <script>
 export default {
+
     props: {
         text: { type: String, default: 'Cerrar sesión' }
     },
+
 
     mounted () {
         this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
@@ -18,15 +23,16 @@ export default {
         })
     },
 
+
     methods: {
         signOut () {
-            this.$store
-                .dispatch('global/signOut')
+            this.$store.dispatch('global/signOut')
                 .then(() => {})
                 .catch((e) => {
                     this.showNotification(e.title, e.msg, e.type)
                 })
         }
     }
+
 }
 </script>

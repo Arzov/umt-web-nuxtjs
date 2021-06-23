@@ -66,6 +66,7 @@ export default ({ app, route, store, redirect }) => {
                     redirect('/optional_filters')
                 }
             }
+
         })
 
 
@@ -87,5 +88,6 @@ export default ({ app, route, store, redirect }) => {
             ) {
                 redirect('/start')
             }
+
         })
 }

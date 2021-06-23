@@ -66,7 +66,6 @@
                             name="gender"
                             label="SEXO*"
                         >
-
                             <a-row type="flex" :gutter="12" class="radio-group-row">
                                 <a-col
                                     v-for="gender in genderOptions"
@@ -79,7 +78,6 @@
                                     </umt-radio>
                                 </a-col>
                             </a-row>
-
                         </umt-radio-group>
                     </a-form-model-item>
 
