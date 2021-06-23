@@ -34,9 +34,9 @@ const actions = {
 
                     case 'NotAuthorizedException': {
                         response = {
-                            type: 'warning',
-                            title: '¡Correo válido!',
-                            msg: `
+                            type    : 'warning',
+                            title   : '¡Correo válido!',
+                            msg     : `
                                 El correo ya se encuentra validado.
                                 Intenta iniciar sesión.
                             `
@@ -74,9 +74,9 @@ const actions = {
 
                     case 'LimitExceededException': {
                         response = {
-                            type: 'warning',
-                            title: '¡Límite excedido!',
-                            msg: `
+                            type    : 'warning',
+                            title   : '¡Límite excedido!',
+                            msg     : `
                                 Has excedido el límite de solicitudes por día.
                                 Inténtalo más tarde.
                             `
@@ -95,8 +95,11 @@ const actions = {
 
                     response = { ...response, err }
                     reject(response)
+
                 })
+
         })
+
     },
 
 
@@ -110,9 +113,9 @@ const actions = {
                 // success resend code
                 .then(() => {
                     const response = {
-                        type: 'success',
-                        title: '¡Código enviado!',
-                        msg: `
+                        type    : 'success',
+                        title   : '¡Código enviado!',
+                        msg     : `
                             Un nuevo código de verificación fue enviado a
                             ${data.email}.
                         `
@@ -146,9 +149,9 @@ const actions = {
 
                     case 'InvalidParameterException': {
                         response = {
-                            type: 'warning',
-                            title: '¡Correo válido!',
-                            msg: `
+                            type    : 'warning',
+                            title   : '¡Correo válido!',
+                            msg     : `
                                 El correo ya se encuentra validado.
                                 Intenta iniciar sesión.
                             `
@@ -161,9 +164,9 @@ const actions = {
 
                     case 'LimitExceededException': {
                         response = {
-                            type: 'warning',
-                            title: '¡Límite excedido!',
-                            msg: `
+                            type    : 'warning',
+                            title   : '¡Límite excedido!',
+                            msg     : `
                                 Has excedido el límite de solicitudes por día.
                                 Inténtalo más tarde.
                             `
@@ -182,9 +185,13 @@ const actions = {
 
                     response = { ...response, err }
                     reject(response)
+
                 })
+
         })
+
     }
+
 }
 
 
