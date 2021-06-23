@@ -78,13 +78,7 @@ const global = {
         // get icon from assets
 
         getIcon (icon) {
-
-            const mode =
-                this._globalState.themePreference === 'light'
-                    ? 'lm'
-                    : 'dm'
-
-            return require(`@/assets/icons/${mode}-${icon}`)
+            return require(`@/assets/icons/${this._themePrefix}-${icon}`)
         }
 
     }
@@ -185,6 +179,7 @@ export const validGeoloc = {
                             this.showNotification({ ...errorNotification })
                             break
                         }
+
                     }
                 )
             }
@@ -201,4 +196,5 @@ export const validGeoloc = {
             )
         }
     }
+
 }
