@@ -1,129 +1,184 @@
 <template>
-    <div class="optionalAttributes">
+
+    <div class="optional-attributes">
+
         <a-row>
-            <a-col class="leftContent" :span="12">
+
+
+            <!-- LEFT CONTENT -->
+
+            <a-col class="left-content" :span="12">
+
                 <div class="image">
-                    <img
-                        class="footballCircle"
-                        load="lazy"
-                        src="@/assets/images/football-circle.svg"
-                    >
+                    <img src="@/assets/images/football-circle.svg">
                 </div>
+
                 <center>
-                    Tus habilidades nos permitirán conocerte mejor y también te
-                    darás a conocer frente a otros jugadores.
+                    <p>
+                        Tus habilidades nos permitirán conocerte mejor y también te
+                        darás a conocer frente a otros jugadores.
+                    </p>
                 </center>
-                <br>
-                <div class="positionsDescriptions">
-                    <div
-                        v-for="k in require('@/static/data/positionOptions.json')"
-                        :key="`ci${k.value}`"
-                    >
-                        <PositionBtn
-                            :key="`pi${k.value}`"
-                            :text="k.text"
-                            :color="k.color"
-                            :value="k.value"
-                            style="margin-right: 10px"
-                            disabled
-                        />
-                        {{ k.desc }}
-                    </div>
-                </div>
+
+                <!-- TODO: Complete with image -->
+
             </a-col>
-            <a-col class="rightContent" :span="12">
+
+
+            <!-- RIGHT CONTENT -->
+
+            <a-col class="right-content" :span="12">
+
                 <h1>Habilidades y características</h1>
+
                 <br>
+
                 <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+
                     <a-form-model-item>
-                        <PositionSelector v-model="ruleForm.positions" />
+                        <umt-position-group v-model="ruleForm.positions" :show-more-info="false" />
                     </a-form-model-item>
+
                     <a-form-model-item>
-                        <OptionSelector
-                            v-model="ruleForm.foot"
-                            label="PIE HÁBIL"
-                            :options="require('@/static/data/footOptions.json')"
-                        />
+                        <a-form-model-item>
+                            <umt-radio-group
+                                v-model="ruleForm.foot"
+                                name="foot"
+                                label="PIE HÁBIL"
+                            >
+                                <a-row type="flex" :gutter="12" class="radio-group-row">
+                                    <a-col
+                                        v-for="foot in footOptions"
+                                        :key="foot.key"
+                                        :span="24/footOptions.length"
+                                        :flex="1"
+                                    >
+                                        <umt-radio :value="foot.value">
+                                            {{ foot.key }}
+                                        </umt-radio>
+                                    </a-col>
+                                </a-row>
+                            </umt-radio-group>
+                        </a-form-model-item>
                     </a-form-model-item>
+
                     <a-row :gutter="16" type="flex">
-                        <a-col :span="12">
+
+                        <a-col :span="12" :flex="1">
                             <a-form-model-item :prop="$RULES.height.name">
-                                <MetricInput
+
+                                <label>
+                                    <h4>ESTATURA</h4>
+                                </label>
+
+                                <umt-input
                                     v-model="ruleForm.height"
-                                    label="ESTATURA"
+                                    placeholder="0"
+                                    type="number"
                                     suffix="cm"
                                 />
+
                             </a-form-model-item>
                         </a-col>
-                        <a-col :span="12">
+
+                        <a-col :span="12" :flex="1">
                             <a-form-model-item :prop="$RULES.weight.name">
-                                <MetricInput
+
+                                <label>
+                                    <h4>PESO</h4>
+                                </label>
+
+                                <umt-input
                                     v-model="ruleForm.weight"
-                                    label="PESO"
+                                    placeholder="0"
+                                    type="number"
                                     suffix="kg"
                                 />
+
                             </a-form-model-item>
                         </a-col>
+
                     </a-row>
+
                     <a-form-model-item>
-                        <PrincipalBtn
-                            text="CONTINUAR"
-                            :loading="btnLoading"
-                            @click.native="submitForm('ruleForm', false)"
-                        />
+                        <umt-button @click="submitForm('ruleForm', false)">
+                            CONTINUAR
+                        </umt-button>
                     </a-form-model-item>
+
                 </a-form-model>
+
                 <center>
-                    <TextBtn
+                    <text-btn
                         text="Omitir"
                         @click.native="submitForm('ruleForm', true)"
                     />
                 </center>
+
             </a-col>
         </a-row>
     </div>
 </template>
 
+
 <script>
+
+const footOptions = require('@/static/data/footOptions.json')
+
+
 export default {
+
     layout: 'corners',
+
 
     data () {
         return {
+
+            footOptions,
+
             ruleForm: {
-                foot: 'R',
-                positions: [''],
-                weight: 0,
-                height: 0
+                foot        : 'R',
+                positions   : [],
+                weight      : 0,
+                height      : 0
             },
+
             rules: {
                 height: this.$RULES.height.rules,
                 weight: this.$RULES.weight.rules
             }
+
         }
     },
+
 
     methods: {
         submitForm (formName, isSkip) {
             this.$refs[formName].validate((valid) => {
+
                 if (valid) {
+
                     if (!isSkip) {
                         this.btnLoading = true
                     }
+
                     this.$store.dispatch('optionalAttributes/save', {
-                        foot: this.ruleForm.foot,
-                        positions: this.ruleForm.positions,
-                        weight: this.ruleForm.weight,
-                        height: this.ruleForm.height
+                        foot        : this.ruleForm.foot,
+                        positions   : this.ruleForm.positions,
+                        weight      : this.ruleForm.weight,
+                        height      : this.ruleForm.height
                     })
 
                     this.btnLoading = false
                 }
+
                 else {
                     return false
                 }
+
             })
         }
     }
+
 }
 </script>
