@@ -197,11 +197,11 @@ $p-size: 16px;
             text-transform: map-get($value, "text-transform");
             margin-bottom: 0;
 
-            .dmBody & {
+            [umt-theme=dark] & {
                 color: $color-white;
             }
 
-            .lmBody & {
+            [umt-theme=light] & {
                 color: $color-black;
             }
         }

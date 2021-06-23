@@ -3,7 +3,7 @@
     height: 100%;
 }
 
-.dmBody {
+[umt-theme=dark] {
     @extend %font-props;
     background-color: $color-black;
     color: $color-white;
@@ -15,7 +15,7 @@
     }
 }
 
-.lmBody {
+[umt-theme=light] {
     @extend %font-props;
     background-color: $color-light-grey;
     color: $color-black;
@@ -58,8 +58,8 @@ html {
             @extend %dom-full-size;
         }
 
-        .dmBody,
-        .lmBody {
+        [umt-theme=dark],
+        [umt-theme=light] {
             display: flex;
             flex-flow: column;
             @extend %dom-full-size;
@@ -72,11 +72,11 @@ html {
     display: flex;
     width: 100%;
 
-    .dmBody & {
+    [umt-theme=dark] & {
         background-color: $color-black;
     }
 
-    .lmBody & {
+    [umt-theme=light] & {
         background-color: $color-light-grey;
     }
 
@@ -94,22 +94,22 @@ html {
     backdrop-filter: blur(12px);
 }
 
-.ant-modal-wrap.lmBody {
+[umt-theme=light] .ant-modal-wrap {
     background-color: rgba($color: $color-light-grey, $alpha: 0.5);
 }
 
-.ant-modal-wrap.dmBody {
+[umt-theme=dark] .ant-modal-wrap {
     background-color: rgba($color: $color-black, $alpha: 0.5);
 }
 
-.dmBody {
+[umt-theme=dark] {
     .ant-modal-content {
         background-color: $color-dark-grey;
         color: $color-white;
     }
 }
 
-.lmBody {
+[umt-theme=light] {
     .ant-modal-content {
         background-color: $color-white;
         color: $color-black;
@@ -125,11 +125,11 @@ a:hover,
 a:active {
     font-weight: 700;
 
-    .dmBody & {
+    [umt-theme=dark] & {
         color: $color-cian;
     }
 
-    .lmBody & {
+    [umt-theme=light] & {
         color: $color-purple;
     }
 }

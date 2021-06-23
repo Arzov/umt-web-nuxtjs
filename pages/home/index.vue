@@ -116,7 +116,7 @@
                 </ScrollContainer>
             </a-col>
         </a-row>
-        <Geoloc />
+        <geoloc />
     </div>
 </template>
 

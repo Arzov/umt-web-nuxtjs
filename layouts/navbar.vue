@@ -1,8 +1,11 @@
 <template>
-    <div
-        :class="_globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'"
-    >
-        <Navbar />
+
+    <umt-theme-provider :theme="_globalState.themePreference">
+
+        <navbar />
+
         <Nuxt class="page" />
-    </div>
+
+    </umt-theme-provider>
+
 </template>
