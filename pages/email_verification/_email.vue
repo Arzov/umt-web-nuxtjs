@@ -2,72 +2,61 @@
 
     <div class="email-verification">
 
-        <a-row>
+        <!-- LEFT CONTENT -->
+
+        <div class="left-content">
+
+            <div class="image">
+                <img src="@/assets/images/mailbox.svg">
+            </div>
+
+            <center>
+                <p>
+                    Ingresa tu código secreto enviado a tu email registrado en
+                    <b>Arzov</b> para validar y poder iniciar sesión en la app.
+                </p>
+            </center>
+
+        </div>
 
 
-            <!-- LEFT CONTENT -->
+        <!-- RIGHT CONTENT -->
 
-            <a-col class="left-content" :span="12">
+        <div class="right-content">
 
-                <div class="image">
-                    <img src="@/assets/images/mailbox.svg">
-                </div>
+            <back-btn />
+
+            <h1>Verifica tu email</h1>
+
+            <br>
+
+            <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
 
                 <center>
                     <p>
-                        Ingresa tu código secreto enviado a tu email registrado en
-                        <b>Arzov</b> para validar y poder iniciar sesión en la app.
+                        Ingresa tu código de verificación enviado a <nuxt-link to=""><i>{{ email }}</i></nuxt-link>
                     </p>
                 </center>
 
-            </a-col>
-
-
-            <!-- RIGHT CONTENT -->
-
-            <a-col class="right-content" :span="12">
-
-                <back-btn />
-
-                <h1>Verifica tu email</h1>
+                <a-form-model-item :prop="$RULES.code.name">
+                    <umt-code-input @change="setCode" />
+                </a-form-model-item>
 
                 <br>
 
-                <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+                <a-form-model-item>
+                    <umt-button @click="submitForm('ruleForm')">
+                        ENVIAR
+                    </umt-button>
+                </a-form-model-item>
 
-                    <center>
-                        Ingresa tu código de verificación enviado a
-                        <nuxt-link to="">
-                            <i>{{ email }}</i>
-                        </nuxt-link>
-                    </center>
+            </a-form-model>
 
-                    <br>
+            <center>
+                <nuxt-link to="" @click.native="resendCode">Reenviar código</nuxt-link>
+            </center>
 
-                    <a-form-model-item :prop="$RULES.code.name">
-                        <umt-code-input @change="setCode" />
-                    </a-form-model-item>
-
-                    <br>
-
-                    <a-form-model-item>
-                        <umt-button @click="submitForm('ruleForm')">
-                            ENVIAR
-                        </umt-button>
-                    </a-form-model-item>
-
-                </a-form-model>
-
-                <center>
-                    <text-btn
-                        text="Reenviar código"
-                        @click.native="resendCode"
-                    />
-                </center>
-
-            </a-col>
-
-        </a-row>
+        </div>
 
     </div>
 
