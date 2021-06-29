@@ -2,82 +2,75 @@
 
     <div class="reset-password">
 
-        <a-row>
+        <!-- LEFT CONTENT -->
+
+        <div class="left-content">
+
+            <div class="image">
+                <img src="@/assets/images/lock.svg">
+            </div>
+
+            <center>
+                <p>
+                    Ingresa tu código de seguridad enviado a tu email registrado
+                    en <b>Arzov</b>, luego ingresa tu nueva contraseña.
+                </p>
+
+                <p>
+                    Si recordaste tu antigua contraseña y no la quieres cambiar,
+                    sólo debes volver e ingresar a la app.
+                </p>
+            </center>
+
+        </div>
 
 
-            <!-- LEFT CONTENT -->
+        <!-- RIGHT CONTENT -->
 
-            <a-col class="left-content" :span="12">
+        <div class="right-content">
 
-                <div class="image">
-                    <img src="@/assets/images/lock.svg">
-                </div>
+            <back-btn />
+
+            <h1>Cambia tu contraseña</h1>
+
+            <br>
+
+            <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
 
                 <center>
                     <p>
-                        Ingresa tu código de seguridad enviado a tu email registrado
-                        en <b>Arzov</b>, luego ingresa tu nueva contraseña. Si
-                        recordaste tu antigua contraseña y no la quieres cambiar,
-                        sólo debes volver e ingresar a la app.
+                        Ingresa tu código enviado a <nuxt-link to=""><i>{{ email }}</i></nuxt-link>
                     </p>
                 </center>
 
-            </a-col>
-
-
-            <!-- RIGHT CONTENT -->
-
-            <a-col class="right-content" :span="12">
-
-                <back-btn />
-
-                <h1>Cambia tu contraseña</h1>
+                <a-form-model-item :prop="$RULES.code.name">
+                    <umt-code-input @change="setCode" />
+                </a-form-model-item>
 
                 <br>
 
-                <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
-
-                    <center>
-                        <p>
-                            Ingresa tu código enviado a
-                            <nuxt-link to="">
-                                <i>{{ email }}</i>
-                            </nuxt-link>
-                        </p>
-                    </center>
-
-                    <br>
-
-                    <a-form-model-item :prop="$RULES.code.name">
-                        <umt-code-input @change="setCode" />
-                    </a-form-model-item>
-
-                    <a-form-model-item :prop="$RULES.password.name">
-                        <umt-input
-                            v-model="ruleForm.password"
-                            placeholder="Ingresa tu nueva contraseña"
-                            :type="$RULES.password.type"
-                            :mode="_themePrefix"
-                        />
-                    </a-form-model-item>
-
-                    <a-form-model-item>
-                        <umt-button @click="submitForm('ruleForm')">
-                            CAMBIAR CONTRASEÑA
-                        </umt-button>
-                    </a-form-model-item>
-
-                </a-form-model>
-
-                <center>
-                    <text-btn
-                        text="Reenviar código"
-                        @click.native="resendCode"
+                <a-form-model-item :prop="$RULES.password.name">
+                    <umt-input
+                        v-model="ruleForm.password"
+                        placeholder="Ingresa tu nueva contraseña"
+                        type="password"
                     />
-                </center>
+                </a-form-model-item>
 
-            </a-col>
-        </a-row>
+                <a-form-model-item>
+                    <umt-button @click="submitForm('ruleForm')">
+                        CAMBIAR CONTRASEÑA
+                    </umt-button>
+                </a-form-model-item>
+
+            </a-form-model>
+
+            <center>
+                <nuxt-link to="" @click.native="resendCode">Reenviar código</nuxt-link>
+            </center>
+
+        </div>
+
     </div>
 
 </template>
