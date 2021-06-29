@@ -2,109 +2,86 @@
 
     <div class="register">
 
-        <a-row>
+        <!-- LEFT CONTENT -->
 
-            <!-- LEFT CONTENT -->
-
-            <a-col class="left-content" :span="12">
-                <start-images-layout />
-            </a-col>
+        <div class="left-content">
+            <start-images-layout />
+        </div>
 
 
-            <!-- RIGHT CONTENT -->
+        <!-- RIGHT CONTENT -->
 
-            <a-col class="right-content" :span="12">
+        <div class="right-content">
 
-                <back-btn />
+            <back-btn />
 
-                <h1>Registro</h1>
+            <h1>Registro</h1>
 
-                <br>
+            <br>
 
-                <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+            <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
 
-                    <a-form-model-item :prop="$RULES.firstName.name">
-                        <umt-input
-                            v-model="ruleForm.firstName"
-                            name="fname"
-                            autocomplete="given-name"
-                            :placeholder="$RULES.firstName.placeholder"
-                            :mode="_themePrefix"
-                        />
-                    </a-form-model-item>
+                <a-form-model-item :prop="$RULES.firstName.name">
+                    <umt-input
+                        v-model="ruleForm.firstName"
+                        name="fname"
+                        autocomplete="given-name"
+                        :placeholder="$RULES.firstName.placeholder"
+                    />
+                </a-form-model-item>
 
-                    <a-form-model-item :prop="$RULES.email.name">
-                        <umt-input
-                            v-model="ruleForm.email"
-                            name="email"
-                            autocomplete="email"
-                            :type="$RULES.email.type"
-                            :placeholder="$RULES.email.placeholder"
-                            :mode="_themePrefix"
-                        />
-                    </a-form-model-item>
+                <a-form-model-item :prop="$RULES.email.name">
+                    <umt-input
+                        v-model="ruleForm.email"
+                        name="email"
+                        autocomplete="email"
+                        type="email"
+                        :placeholder="$RULES.email.placeholder"
+                    />
+                </a-form-model-item>
 
-                    <a-form-model-item :prop="$RULES.password.name">
-                        <umt-input
-                            v-model="ruleForm.password"
-                            :type="$RULES.password.type"
-                            :placeholder="$RULES.password.placeholder"
-                            :mode="_themePrefix"
-                        />
-                    </a-form-model-item>
+                <a-form-model-item :prop="$RULES.password.name">
+                    <umt-input
+                        v-model="ruleForm.password"
+                        type="password"
+                        :placeholder="$RULES.password.placeholder"
+                    />
+                </a-form-model-item>
 
-                    <a-form-model-item :prop="$RULES.birthdate.name">
-                        <date-selector
-                            v-model="ruleForm.birthdate"
-                            label="FECHA DE NACIMIENTO*"
-                        />
-                    </a-form-model-item>
+                <a-form-model-item :prop="$RULES.birthdate.name">
+                    <label>
+                        <h3>FECHA DE NACIMIENTO*</h3>
+                    </label>
+                    <umt-date-picker v-model="ruleForm.birthdate" />
+                </a-form-model-item>
 
-                    <a-form-model-item>
-                        <umt-radio-group
-                            v-model="ruleForm.gender"
-                            name="gender"
-                            label="SEXO*"
-                        >
-                            <a-row type="flex" :gutter="12" class="radio-group-row">
-                                <a-col
-                                    v-for="gender in genderOptions"
-                                    :key="gender.key"
-                                    :span="24/genderOptions.length"
-                                    :flex="1"
-                                >
-                                    <umt-radio :value="gender.value">
-                                        {{ gender.key }}
-                                    </umt-radio>
-                                </a-col>
-                            </a-row>
-                        </umt-radio-group>
-                    </a-form-model-item>
-
-                    <center>
-                        *Tu edad y sexo permitirán a otros rivales encontrarte y
-                        desafiarte en un match.
-                    </center>
-
-                    <br>
-
-                    <a-form-model-item>
-                        <umt-button @click="submitForm('ruleForm')">
-                            REGISTRAR
-                        </umt-button>
-                    </a-form-model-item>
-
-                </a-form-model>
+                <a-form-model-item>
+                    <label>
+                        <h3>SEXO*</h3>
+                    </label>
+                    <umt-radio-selector v-model="ruleForm.gender" :options="genderOptions" />
+                </a-form-model-item>
 
                 <center>
-                    <nuxt-link to="/">
-                        Términos y condiciones
-                    </nuxt-link>
+                    <p>
+                        *Tu edad y sexo permitirán a otros rivales encontrarte y
+                        desafiarte en un match.
+                    </p>
                 </center>
 
-            </a-col>
+                <a-form-model-item>
+                    <umt-button @click="submitForm('ruleForm')">
+                        REGISTRAR
+                    </umt-button>
+                </a-form-model-item>
 
-        </a-row>
+            </a-form-model>
+
+            <center>
+                <nuxt-link to="/"> Términos y condiciones </nuxt-link>
+            </center>
+
+        </div>
 
     </div>
 

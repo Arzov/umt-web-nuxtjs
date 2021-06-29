@@ -1,9 +1,7 @@
 <template>
 
-    <nuxt-link class="back-btn" :to="path">
-        <img
-            :src="require(`@/assets/icons/${_themePrefix}-arrow-left.svg`)"
-        >
+    <nuxt-link :to="path">
+        <umt-button type="icon" color="green" icon="arrow-left" />
     </nuxt-link>
 
 </template>

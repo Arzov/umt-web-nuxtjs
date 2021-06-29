@@ -73,7 +73,6 @@
 
 
 <script>
-
 export default {
 
     layout: 'theme-header',
@@ -156,5 +155,4 @@ export default {
     }
 
 }
-
 </script>
