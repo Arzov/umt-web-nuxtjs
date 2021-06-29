@@ -1,90 +1,71 @@
 <template>
 
-    <div class="requiredAttributes">
+    <div class="required-attributes">
 
-        <a-row>
+        <!-- LEFT CONTENT -->
+
+        <div class="left-content">
+
+            <div class="image">
+                <img src="@/assets/images/cup-triangle.svg">
+            </div>
+
+            <center>
+                <p>
+                    Necesitamos estos datos para que otros rivales te puedan
+                    desafiar. De lo contrario, no podrás utilizar la app.
+                </p>
+            </center>
+
+        </div>
 
 
-            <!-- LEFT CONTENT -->
+        <!-- RIGHT CONTENT -->
 
-            <a-col class="left-content" :span="12">
+        <div class="right-content">
 
-                <div class="image">
-                    <img src="@/assets/images/cup-triangle.svg">
-                </div>
+            <h1>Datos necesarios</h1>
+
+            <br>
+
+            <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+
+                <a-form-model-item :prop="$RULES.birthdate.name">
+                    <label>
+                        <h3>FECHA DE NACIMIENTO*</h3>
+                    </label>
+                    <umt-date-picker v-model="ruleForm.birthdate" />
+                </a-form-model-item>
+
+                <a-form-model-item>
+                    <label>
+                        <h3>SEXO*</h3>
+                    </label>
+                    <umt-radio-selector v-model="ruleForm.gender" :options="genderOptions" />
+                </a-form-model-item>
 
                 <center>
                     <p>
-                        Necesitamos estos datos para que otros rivales te puedan
-                        desafiar. De lo contrario, no podrás utilizar la app.
+                        *Tu edad y sexo permitirán a otros rivales encontrarte y
+                        desafiarte en un match.
                     </p>
                 </center>
 
-            </a-col>
-
-
-            <!-- RIGHT CONTENT -->
-
-            <a-col class="rightContent" :span="12">
-
-                <h1>Datos necesarios</h1>
-
                 <br>
 
-                <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+                <a-form-model-item>
+                    <umt-button @click="submitForm('ruleForm')">
+                        CONTINUAR
+                    </umt-button>
+                </a-form-model-item>
 
-                    <a-form-model-item :prop="$RULES.birthdate.name">
-                        <date-selector
-                            v-model="ruleForm.birthdate"
-                            label="FECHA DE NACIMIENTO*"
-                        />
-                    </a-form-model-item>
+            </a-form-model>
 
-                    <a-form-model-item>
-                        <umt-radio-group
-                            v-model="ruleForm.gender"
-                            name="gender"
-                            label="SEXO*"
-                        >
-                            <a-row type="flex" :gutter="12" class="radio-group-row">
-                                <a-col
-                                    v-for="gender in genderOptions"
-                                    :key="gender.key"
-                                    :span="24/genderOptions.length"
-                                    :flex="1"
-                                >
-                                    <umt-radio :value="gender.value">
-                                        {{ gender.key }}
-                                    </umt-radio>
-                                </a-col>
-                            </a-row>
-                        </umt-radio-group>
-                    </a-form-model-item>
+            <center>
+                <signout-btn />
+            </center>
 
-                    <center>
-                        <p>
-                            *Tu edad y sexo permitirán a otros rivales encontrarte y
-                            desafiarte en un match.
-                        </p>
-                    </center>
-
-                    <br>
-
-                    <a-form-model-item>
-                        <umt-button @click="submitForm('ruleForm')">
-                            CONTINUAR
-                        </umt-button>
-                    </a-form-model-item>
-
-                </a-form-model>
-
-                <center>
-                    <signout-btn />
-                </center>
-
-            </a-col>
-
-        </a-row>
+        </div>
 
     </div>
 

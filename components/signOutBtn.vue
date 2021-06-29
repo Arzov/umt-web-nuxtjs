@@ -1,6 +1,6 @@
 <template>
 
-    <text-btn :text="text" @click.native="signOut()" />
+    <nuxt-link to="" @click.native="signOut()">{{ text }}</nuxt-link>
 
 </template>
 
