@@ -2,68 +2,62 @@
 
     <div class="optional-filters">
 
-        <a-row>
+        <!-- LEFT CONTENT -->
+
+        <div class="left-content">
+            <div class="image">
+                <img src="@/assets/images/whistle.svg">
+            </div>
+
+            <center>
+                <p>
+                    Ingresa tus <b>filtros</b> para encontrar partidos cercanos
+                    a ti a los cuales quieras <b>parchar</b> o simplemente para
+                    buscar equipos a los cuales quieras <b>unirte</b>. Puedes
+                    omitir estas opciones y configurarlas más adelante desde tu
+                    perfil.
+                </p>
+            </center>
+        </div>
 
 
-            <!-- LEFT CONTENT -->
+        <!-- RIGHT CONTENT -->
 
-            <a-col class="left-content" :span="12">
-                <div class="image">
-                    <img src="@/assets/images/whistle.svg">
-                </div>
+        <div class="right-content">
 
-                <center>
-                    <P>
-                        Ingresa tus <b>filtros</b> para encontrar partidos cercanos
-                        a ti a los cuales quieras <b>parchar</b> o simplemente para
-                        buscar equipos a los cuales quieras <b>unirte</b>. Puedes
-                        omitir estas opciones y configurarlas más adelante desde tu
-                        perfil.
-                    </P>
-                </center>
-            </a-col>
+            <h1>¿A qué rivales o equipos buscas?</h1>
 
+            <br>
 
-            <!-- RIGHT CONTENT -->
+            <a-form-model ref="ruleForm" :model="ruleForm">
 
-            <a-col class="right-content" :span="12">
-
-                <h1>¿A qué rivales o equipos buscas?</h1>
-
-                <br>
-
-                <a-form-model ref="ruleForm" :model="ruleForm">
-
-                    <a-form-model-item>
-                        <multi-selector
-                            v-model="ruleForm.matchFilter"
-                            label="TIPO DE JUEGO (SELECCIONA 1 O MÁS)"
-                            :options="matchFilterOptions"
-                        />
-                    </a-form-model-item>
-
-                    <a-form-model-item>
-                        <umt-range v-model="ruleForm.ageFilter" label="RANGO DE EDAD" :min="18" :max="60" />
-                    </a-form-model-item>
-
-                    <a-form-model-item>
-                        <umt-button @click="submitForm('ruleForm', false)">
-                            CONTINUAR
-                        </umt-button>
-                    </a-form-model-item>
-
-                </a-form-model>
-
-                <center>
-                    <text-btn
-                        text="Omitir"
-                        @click.native="submitForm('ruleForm', true)"
+                <a-form-model-item>
+                    <label>
+                        <h3>TIPO DE JUEGO (SELECCIONA 1 O MÁS)</h3>
+                    </label>
+                    <umt-multi-selector
+                        v-model="ruleForm.matchFilter"
+                        :options="matchFilterOptions"
                     />
-                </center>
+                </a-form-model-item>
 
-            </a-col>
+                <a-form-model-item>
+                    <umt-range v-model="ruleForm.ageFilter" label="RANGO DE EDAD" :min="18" :max="60" />
+                </a-form-model-item>
 
-        </a-row>
+                <a-form-model-item>
+                    <umt-button @click="submitForm('ruleForm', false)">
+                        CONTINUAR
+                    </umt-button>
+                </a-form-model-item>
+
+            </a-form-model>
+
+            <center>
+                <nuxt-link to="" @click.native="submitForm('ruleForm', true)">Omitir</nuxt-link>
+            </center>
+
+        </div>
 
     </div>
 
