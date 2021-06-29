@@ -1,10 +1,6 @@
 <template>
 
-    <a class="facebook" @click="toFacebookLogin">
-        <img
-            :src="require(`@/assets/icons/${_themePrefix}-facebook.svg`)"
-        >
-    </a>
+    <umt-button type="icon" color="green" icon="facebook" @click="toFacebookLogin" />
 
 </template>
 

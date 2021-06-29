@@ -1,18 +1,22 @@
 .start {
 
+    height  : calc(100% - 70px);
+
     .social-login {
+
         display         : flex;
         flex-direction  : row;
         justify-content : center;
         align-items     : center;
-    }
 
-    .google {
-        margin-right: 5%;
-    }
+        .google {
+            margin-right: 1.5rem;
+        }
 
-    .facebook {
-        margin-left: 5%;
+        .facebook {
+            margin-left: 1.5rem;
+        }
+
     }
 
 }

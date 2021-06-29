@@ -1,10 +1,6 @@
 <template>
 
-    <a class="google" @click="toGoogleLogin">
-        <img
-            :src="require(`@/assets/icons/${_themePrefix}-google.svg`)"
-        >
-    </a>
+    <umt-button type="icon" color="green" icon="google" @click="toGoogleLogin" />
 
 </template>
 

@@ -1,43 +1,17 @@
-@import "global/colors";
-@import "global/fonts";
+@import "../../node_modules/@arzov/umt-components/src/assets/styles/globals/colors";
 @import "global/dom";
 
-@import "components/facebook";
-@import "components/google";
+
 @import "components/theme-toggle";
-@import "components/principalBtn";
-@import "components/principalInput";
-@import "components/date-selector";
-@import "components/optionSelector";
-@import "components/back-btn";
-@import "components/notification";
-@import "components/codeInput";
-@import "components/text-btn";
-@import "components/ageSlider";
-@import "components/geoloc";
-@import "components/positionBtn";
-@import "components/metricInput";
-@import "components/navbar";
-@import "components/card-btn";
-@import "components/listDisplay";
-@import "components/roundedTextBtn";
 @import "components/start-images-layout";
-@import "components/multi-selector";
-@import "components/loadingAvatar";
-@import "components/loadingText";
-@import "components/tabDisplay";
-@import "components/collapseDisplay";
-@import "components/requestCard";
-@import "components/listBtn";
-@import "components/profileDisplay";
-@import "components/primaryTeamSelector";
-@import "components/scroll-container";
+
 
 @import "layouts/corners";
 @import "layouts/header";
 @import "layouts/footer";
 @import "layouts/right-content";
 @import "layouts/left-content";
+
 
 @import "pages/page";
 @import "pages/start";
@@ -49,6 +23,3 @@
 @import "pages/recover-password";
 @import "pages/reset-password";
 @import "pages/requiredAttributes";
-@import "pages/profile";
-@import "pages/teams";
-@import "pages/matches";

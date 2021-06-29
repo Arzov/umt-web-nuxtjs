@@ -2,84 +2,70 @@
 
     <div class="start">
 
-        <a-row>
+        <!-- LEFT CONTENT -->
 
-            <!-- LEFT CONTENT -->
-
-            <a-col class="left-content" :span="12">
-                <start-images-layout />
-            </a-col>
+        <div class="left-content">
+            <start-images-layout />
+        </div>
 
 
-            <!-- RIGHT CONTENT -->
+        <!-- RIGHT CONTENT -->
 
-            <a-col class="right-content" :span="12">
+        <div class="right-content">
 
-                <h1>Inicio de sesión</h1>
+            <h1>Inicio de sesión</h1>
 
-                <p>
-                    ¿Olvidaste tu contraseña?
-                    <nuxt-link to="/recover_password">
-                        Recupérala.
-                    </nuxt-link>
-                </p>
+            <p>
+                ¿Olvidaste tu contraseña?
+                <nuxt-link to="/recover_password">
+                    Recupérala.
+                </nuxt-link>
+            </p>
 
-                <br>
+            <br>
 
-                <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+            <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
 
-                    <a-form-model-item :prop="$RULES.email.name">
-                        <umt-input
-                            v-model="ruleForm.email"
-                            name="email"
-                            autocomplete="email"
-                            :type="$RULES.email.type"
-                            :placeholder="$RULES.email.placeholder"
-                            :mode="_themePrefix"
-                        />
-                    </a-form-model-item>
+                <a-form-model-item :prop="$RULES.email.name">
+                    <umt-input
+                        v-model="ruleForm.email"
+                        name="email"
+                        autocomplete="email"
+                        type="email"
+                        :placeholder="$RULES.email.placeholder"
+                    />
+                </a-form-model-item>
 
-                    <a-form-model-item :prop="$RULES.password.name">
-                        <umt-input
-                            v-model="ruleForm.password"
-                            :placeholder="$RULES.password.placeholder"
-                            :type="$RULES.password.type"
-                            :mode="_themePrefix"
-                        />
-                    </a-form-model-item>
+                <a-form-model-item :prop="$RULES.password.name">
+                    <umt-input
+                        v-model="ruleForm.password"
+                        type="password"
+                        :placeholder="$RULES.password.placeholder"
+                    />
+                </a-form-model-item>
 
-                    <a-form-model-item>
-                        <umt-button @click="submitForm('ruleForm')">
-                            INICIAR SESIÓN
-                        </umt-button>
-                    </a-form-model-item>
+                <a-form-model-item>
+                    <umt-button @click="submitForm('ruleForm')">
+                        INICIAR SESIÓN
+                    </umt-button>
+                </a-form-model-item>
 
-                </a-form-model>
+            </a-form-model>
 
-                <center>
+            <center>
 
-                    <p>
-                        - O ingresa con tus redes sociales -
-                    </p>
+                <p>- O ingresa con tus redes sociales -</p>
 
-                    <div class="social-login">
-                        <google />
-                        <facebook />
-                    </div>
+                <div class="social-login">
+                    <google class="google" />
+                    <facebook class="facebook" />
+                </div>
 
-                    <br>
+                <p>¿No tienes cuenta? <nuxt-link to="/register">Regístrate.</nuxt-link></p>
 
-                    <p>
-                        ¿No tienes cuenta? <nuxt-link to="/register">
-                            Regístrate.
-                        </nuxt-link>
-                    </p>
+            </center>
 
-                </center>
-
-            </a-col>
-
-        </a-row>
+        </div>
 
     </div>
 

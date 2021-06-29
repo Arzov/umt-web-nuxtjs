@@ -1,8 +1,6 @@
 <template>
 
-    <a class="theme-toggle" @click="switchTheme">
-        <img :src="require(`@/assets/icons/${_themePrefix}-theme.svg`)">
-    </a>
+    <umt-button class="theme-toggle" type="icon" color="transparent" :icon="`${_themePrefix}-theme`" @click="switchTheme" />
 
 </template>
 
