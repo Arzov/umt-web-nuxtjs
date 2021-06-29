@@ -2,19 +2,21 @@
 
     .logo {
         margin-bottom   : 50px;
-        max-width       : 300px;
+        min-width       : 200px;
+        max-width       : 50%;
     }
 
     .football-shoes {
         margin-left     : -50px;
-        margin-bottom   : 50px;
-        max-width       : 600px;
+        margin-bottom   : 25px;
+        min-width       : 300px;
+        max-width       : calc(90% + 50px);
     }
 
     .points {
-        max-width       : 300px;
         margin-left     : -50px;
-        margin-bottom   : 50px;
+        min-width       : 200px;
+        max-width       : 50%;
     }
 
 }

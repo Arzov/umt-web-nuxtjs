@@ -4,10 +4,7 @@
 
         <div class="header">
             <theme-toggle />
-            <img
-                class="corner-top-right"
-                src="@/assets/images/corner-top-right.svg"
-            >
+            <img class="corner-top-right" src="@/assets/images/corner-top-right.svg">
         </div>
 
         <Nuxt class="page" />
