@@ -3,99 +3,48 @@
     <div class="home">
 
         <img class="home-top-left" src="@/assets/images/home-top-left.svg">
-
         <img class="home-bottom-right" src="@/assets/images/home-bottom-right.svg">
 
 
-        <a-row>
+        <!-- LEFT CONTENT -->
+
+        <div class="left-content">
+
+            <h1>¡Hola {{ _userState.firstName }}!</h1>
+
+            <h1 style="font-weight: 400; margin-bottom: 48px">
+                Busca nuevos desafíos.
+            </h1>
+
+            <div v-for="menu in options" :key="menu.key">
+                <card-btn
+                    :key="menu.key"
+                    :title="menu.title"
+                    :icon="menu.icon"
+                    :desc="menu.desc"
+                    :active="menu.active"
+                    :value="menu.key"
+                    @change="selectOption($event)"
+                />
+            </div>
+
+        </div>
 
 
-            <!-- LEFT CONTENT -->
+        <!-- RIGHT CONTENT -->
 
-            <a-col class="left-content" :span="12">
+        <div class="right-content">
 
-                <h1>¡Hola {{ _userState.firstName }}!</h1>
-
-                <h1 style="font-weight: 400; margin-bottom: 48px">
-                    Busca nuevos desafíos.
-                </h1>
-
-                <div v-for="menu in options" :key="menu.key">
-                    <card-btn
-                        :key="menu.key"
-                        :title="menu.title"
-                        :icon="menu.icon"
-                        :desc="menu.desc"
-                        :active="menu.active"
-                        :value="menu.key"
-                        @change="selectOption($event)"
-                    />
-                </div>
-
-            </a-col>
+            <scroll-container @bottomScroll="callStore(_activeOption, true)">
 
 
-            <!-- RIGHT CONTENT -->
+                <!-- CHALLENGE -->
 
-            <a-col class="right-content" :span="12">
+                <div v-if="_activeOption === 'challenge'">
 
-                <scroll-container @bottomScroll="callStore(_activeOption, true)">
+                    <h3>DESAFIAR</h3>
 
-
-                    <!-- CHALLENGE -->
-
-                    <div v-if="_activeOption === 'challenge'">
-
-                        <h3>DESAFIAR</h3>
-
-                        <div v-if="_userState.primaryTeam">
-
-                            <div v-if="loading">
-                                <umt-skeleton v-for="index in 3" :key="index" />
-                            </div>
-
-                            <div v-if="!loading">
-
-                                <div v-if="_nearTeams.length">
-
-                                    <umt-request-cell
-                                        v-for="(team, index) in _nearTeams"
-                                        :key="index"
-                                        :team="team"
-                                        button-label="desafiar"
-                                        @click="sendMatchRequest(team)"
-                                    />
-
-                                </div>
-
-                                <div v-else>
-                                    <!-- TODO: Put image -->
-                                    <p>
-                                        <b>¡Lo sentimos!.</b> No encontramos equipos
-                                        rivales cercanos. Intenta más tarde.
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div v-else>
-                            <!-- TODO: Put image -->
-                            <p>
-                                <b>¡Lo sentimos!.</b> Debes tener un equipo para
-                                poder buscar equipos rivales.
-                            </p>
-                        </div>
-
-                    </div>
-
-
-                    <!-- PATCH -->
-
-                    <div v-else-if="_activeOption === 'patch'">
-
-                        <h3>PARCHAR</h3>
+                    <div v-if="_userState.primaryTeam">
 
                         <div v-if="loading">
                             <umt-skeleton v-for="index in 3" :key="index" />
@@ -103,51 +52,14 @@
 
                         <div v-if="!loading">
 
-                            <div v-if="_nearMatches.length">
-
-                                <!-- FIXME: Object structure for match is not correct -->
-                                <umt-patch-cell
-                                    v-for="(match, index) in _nearMatches"
-                                    :key="index"
-                                    :match="match"
-                                    @click="sendMatchPatchRequest(match)"
-                                />
-
-                            </div>
-
-                            <div v-else>
-                                <!-- TODO: Put image -->
-                                <p>
-                                    <b>¡Lo sentimos!.</b> No encontramos partidos
-                                    cercanos. Intenta más tarde.
-                                </p>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- JOIN TEAM -->
-
-                    <div v-else>
-
-                        <h3>EQUIPOS</h3>
-
-                        <div v-if="loading">
-                            <umt-skeleton v-for="index in 3" :key="index" />
-                        </div>
-
-                        <div v-if="!loading">
-
-                            <div v-if="_nearTeamsForJoin.length">
+                            <div v-if="_nearTeams.length">
 
                                 <umt-request-cell
-                                    v-for="(team, index) in _nearTeamsForJoin"
+                                    v-for="(team, index) in _nearTeams"
                                     :key="index"
                                     :team="team"
-                                    button-label="solicitar"
-                                    @click="sendTeamMemberRequest(team)"
+                                    button-label="desafiar"
+                                    @click="sendMatchRequest(team)"
                                 />
 
                             </div>
@@ -156,7 +68,7 @@
                                 <!-- TODO: Put image -->
                                 <p>
                                     <b>¡Lo sentimos!.</b> No encontramos equipos
-                                    cercanos. Intenta más tarde.
+                                    rivales cercanos. Intenta más tarde.
                                 </p>
                             </div>
 
@@ -164,11 +76,93 @@
 
                     </div>
 
-                </scroll-container>
+                    <div v-else>
+                        <!-- TODO: Put image -->
+                        <p>
+                            <b>¡Lo sentimos!.</b> Debes tener un equipo para
+                            poder buscar equipos rivales.
+                        </p>
+                    </div>
 
-            </a-col>
+                </div>
 
-        </a-row>
+
+                <!-- PATCH -->
+
+                <div v-else-if="_activeOption === 'patch'">
+
+                    <h3>PARCHAR</h3>
+
+                    <div v-if="loading">
+                        <umt-skeleton v-for="index in 3" :key="index" />
+                    </div>
+
+                    <div v-if="!loading">
+
+                        <div v-if="_nearMatches.length">
+
+                            <!-- FIXME: Object structure for match is not correct -->
+                            <umt-patch-cell
+                                v-for="(match, index) in _nearMatches"
+                                :key="index"
+                                :match="match"
+                                @click="sendMatchPatchRequest(match)"
+                            />
+
+                        </div>
+
+                        <div v-else>
+                            <!-- TODO: Put image -->
+                            <p>
+                                <b>¡Lo sentimos!.</b> No encontramos partidos
+                                cercanos. Intenta más tarde.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- JOIN TEAM -->
+
+                <div v-else>
+
+                    <h3>EQUIPOS</h3>
+
+                    <div v-if="loading">
+                        <umt-skeleton v-for="index in 3" :key="index" />
+                    </div>
+
+                    <div v-if="!loading">
+
+                        <div v-if="_nearTeamsForJoin.length">
+
+                            <umt-request-cell
+                                v-for="(team, index) in _nearTeamsForJoin"
+                                :key="index"
+                                :team="team"
+                                button-label="solicitar"
+                                @click="sendTeamMemberRequest(team)"
+                            />
+
+                        </div>
+
+                        <div v-else>
+                            <!-- TODO: Put image -->
+                            <p>
+                                <b>¡Lo sentimos!.</b> No encontramos equipos
+                                cercanos. Intenta más tarde.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </scroll-container>
+
+        </div>
 
         <geoloc />
 

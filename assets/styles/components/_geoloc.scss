@@ -1,60 +1,8 @@
-%geoloc-aspects {
-
-    border-radius: 0px;
-
-    .image {
-
-        display         : flex;
-        flex-direction  : row;
-        justify-content : center;
-        align-items     : center;
-
-        .pin {
-            width: 38px;
-        }
-
-    }
-
-}
-
 .geoloc {
 
-    &[umt-theme=dark] {
-
-        .ant-modal-content,
-        .ant-modal-body {
-
-            @extend %font-props;
-            @extend %geoloc-aspects;
-
-            background  : $color-dark-grey;
-            color       : $color-white;
-
-        }
-
-        .ant-modal-wrap {
-            display: block;
-        }
-
-    }
-
-    &[umt-theme=light] {
-
-        .ant-modal-content,
-        .ant-modal-body {
-
-            @extend %font-props;
-            @extend %geoloc-aspects;
-
-            background  : $color-white;
-            color       : $color-black;
-
-        }
-
-        .ant-modal-wrap {
-            display: block;
-        }
-
+    img {
+        width           : 3rem;
+        margin-bottom   : 20px;
     }
 
 }

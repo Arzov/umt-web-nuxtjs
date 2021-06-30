@@ -1,81 +1,56 @@
 <template>
 
-    <a-modal
-        v-model="visible"
-        centered
-        class="geoloc"
-        :umt-theme="_themePrefix === 'dm' ? 'dark' : 'light'"
-        :mask-closable="false"
-        :closable="false"
-        :footer="false"
-    >
+    <umt-modal v-if="!_globalState.allowGeoloc" class="geoloc" :closable="false">
 
         <div v-if="isDenied">
 
-            <div class="image">
-                <img
-                    class="pin"
-                    :src="require(`@/assets/icons/${_themePrefix}-pin.svg`)"
-                >
-            </div>
+            <center>
+                <img :src="require(`@/assets/icons/${_themePrefix}-pin.svg`)">
+                <h2>¡Ubicación denegada!</h2>
+            </center>
 
             <br>
 
-            <a-row type="flex" justify="center" align="top">
+            <p>
+                Necesitas habilitar la ubicación para utilizar la
+                aplicación. Debes configurar tu navegador.
+            </p>
 
-                <p><b>¡Ubicación denegada!</b></p>
+            <!--TODO: Falta implementar accion-->
 
-                <p>
-                    Necesitas habilitar la ubicación para utilizar la
-                    aplicación. Debes configurar tu navegador.
-                </p>
+            <umt-button @click="back">
+                CONFIGURAR
+            </umt-button>
 
-                <!--TODO: Falta implementar accion-->
-
-                <umt-button @click="back">
-                    CONFIGURAR
-                </umt-button>
-
-                <text-btn text="Atrás" @click.native="back" />
-
-            </a-row>
+            <center><nuxt-link to="" @click.native="back">Atrás</nuxt-link></center>
 
         </div>
 
 
         <div v-else>
 
-            <div class="image">
-                <img
-                    class="pin"
-                    :src="require(`@/assets/icons/${_themePrefix}-pin.svg`)"
-                >
-            </div>
+            <center>
+                <img :src="require(`@/assets/icons/${_themePrefix}-pin.svg`)">
+                <h2>Comparte tu ubicación</h2>
+            </center>
 
             <br>
 
-            <a-row type="flex" justify="center" align="top">
+            <p>
+                <b>Umatch</b> utiliza tu ubicación para encontrar rivales cercanos.
+                Presiona el botón <b>"Aceptar"</b> y luego debes permitir el acceso
+                a la ubicación, de lo contrario no podrás usar la aplicación.
+            </p>
 
-                <p><b>Comparte tu ubicación</b></p>
+            <umt-button @click="getPosition">
+                ACEPTAR
+            </umt-button>
 
-                <p>
-                    Umatch utiliza tu ubicación para encontrar rivales cercanos.
-                    Presiona el botón "Aceptar" y luego debes permitir el acceso
-                    a la ubicación, de lo contrario no podrás usar la
-                    aplicación.
-                </p>
-
-                <umt-button @click="getPosition">
-                    ACEPTAR
-                </umt-button>
-
-                <signout-btn />
-
-            </a-row>
+            <center><signout-btn /></center>
 
         </div>
 
-    </a-modal>
+    </umt-modal>
 
 </template>
 
@@ -90,13 +65,6 @@ export default {
     data () {
         return {
             isDenied: false
-        }
-    },
-
-
-    computed: {
-        visible () {
-            return !this._globalState.allowGeoloc
         }
     },
 

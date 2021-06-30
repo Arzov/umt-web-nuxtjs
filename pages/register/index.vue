@@ -78,7 +78,7 @@
             </a-form-model>
 
             <center>
-                <nuxt-link to="/"> Términos y condiciones </nuxt-link>
+                <nuxt-link to="/">Términos y condiciones</nuxt-link>
             </center>
 
         </div>
