@@ -1,9 +1,11 @@
-.right-content {
+.center-content {
+
     display         : flex;
     flex-direction  : column;
-    justify-content : center;
+    padding-top     : 50px;
     padding-left    : 50px;
     padding-right   : 50px;
-    width           : 50%;
+    width           : 80%;
     z-index         : 1;
+
 }

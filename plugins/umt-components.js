@@ -7,6 +7,7 @@ export default ({ store }) => {
 
     Vue.use(UmtComponents, {
         mode: 'desktop',
+        defaultTheme: 'dark',
         store
     })
 

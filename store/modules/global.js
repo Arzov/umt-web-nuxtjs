@@ -50,6 +50,7 @@ const actions = {
 
         if (ctx.getters.get.themePreference === 'light') {
             ctx.commit('setState', { params })
+            ctx.commit('umt-components/setTheme', 'dark', { root: true })
         }
 
 
@@ -58,6 +59,7 @@ const actions = {
         else {
             params.themePreference = 'light'
             ctx.commit('setState', { params })
+            ctx.commit('umt-components/setTheme', 'light', { root: true })
         }
 
     },

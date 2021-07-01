@@ -1,29 +1,20 @@
 [
     {
         "key": "home",
-        "label": "Inicio",
-        "icon": {
-            "normal": "football.svg",
-            "active": "football-active.svg"
-        },
+        "name": "Inicio",
+        "icon": "football",
         "url": "/home"
     },
     {
         "key": "teams",
-        "label": "Equipos",
-        "icon": {
-            "normal": "shield.svg",
-            "active": "shield-active.svg"
-        },
+        "name": "Equipos",
+        "icon": "shield",
         "url": "/teams"
     },
     {
         "key": "matches",
-        "label": "Partidos",
-        "icon": {
-            "normal": "whistle.svg",
-            "active": "whistle-active.svg"
-        },
+        "name": "Partidos",
+        "icon": "whistle",
         "url": "/matches"
     }
 ]

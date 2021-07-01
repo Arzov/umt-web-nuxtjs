@@ -37,6 +37,12 @@ const global = {
 
     },
 
+    mounted () {
+
+        this.$store.commit('umt-components/setTheme', this._globalState.themePreference)
+
+    },
+
     methods: {
 
         // show notification component from ant-design

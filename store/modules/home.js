@@ -52,21 +52,10 @@ const actions = {
         const homeState = ctx.getters.get
 
 
-        // if is not inifinite scroll, it's mean a new fresh request
-
-        if (!data.isInfiniteScroll) {
-
-            // refresh states
-
-            ctx.commit('resetStates')
-        }
-
-
         const ownTeams = userState.teams.length
             ? userState.teams.map((team) => {
                 return team.id
             })
-
             : null
 
 
@@ -118,6 +107,10 @@ const actions = {
                         ? homeState.nearTeamsForJoin
                         : homeState.nearTeams
 
+                    const stateNextToken = data.forJoin
+                        ? homeState.nearTeamsForJoinNextToken
+                        : homeState.nearTeamsNextToken
+
                     const nearTeamsResult = result.data.nearTeams
 
                     // format new teams
@@ -160,7 +153,7 @@ const actions = {
 
                     // set nextToken
 
-                    const nextToken = nearTeamsResult.nextToken
+                    const nextToken = nearTeamsResult.nextToken || stateNextToken
 
                     const params = data.forJoin
                         ? {
@@ -178,6 +171,7 @@ const actions = {
 
                     ctx.commit('setState', { params })
                     resolve()
+
                 })
 
 
@@ -189,6 +183,7 @@ const actions = {
                 })
 
         })
+
     },
 
 
@@ -200,20 +195,10 @@ const actions = {
         const homeState = ctx.getters.get
 
 
-        // if is not inifinite scroll, it's mean a new fresh request
-
-        if (!data.isInfiniteScroll) {
-
-            // refresh states
-
-            ctx.commit('resetStates')
-        }
-
         const ownTeams = userState.teams.length
             ? userState.teams.map((team) => {
                 return team.id
             })
-
             : null
 
 
@@ -310,7 +295,7 @@ const actions = {
 
                     // nextToken
 
-                    const nearMatchesNextToken = nearMatchesResult.nextToken
+                    const nearMatchesNextToken = nearMatchesResult.nextToken || homeState.nearMatchesNextToken
 
 
                     // save into store
@@ -322,6 +307,7 @@ const actions = {
 
                     ctx.commit('setState', { params })
                     resolve()
+
                 })
 
 
@@ -333,6 +319,7 @@ const actions = {
                 })
 
         })
+
     },
 
 
@@ -392,7 +379,9 @@ const actions = {
 
                     reject(response)
                 })
+
         })
+
     },
 
 
@@ -456,7 +445,9 @@ const actions = {
 
                     reject(response)
                 })
+
         })
+
     },
 
 
@@ -516,8 +507,11 @@ const actions = {
 
                     reject(response)
                 })
+
         })
+
     }
+
 }
 
 
@@ -534,12 +528,15 @@ const mutations = {
             // save to store
 
             state[key] = JSON.stringify(params[key])
+
         }
+
     },
 
     resetStates (state) {
         Object.assign(state, getDefaultState())
     }
+
 }
 
 

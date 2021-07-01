@@ -6,161 +6,157 @@
         <img class="home-bottom-right" src="@/assets/images/home-bottom-right.svg">
 
 
-        <!-- LEFT CONTENT -->
+        <!-- CENTER CONTENT -->
 
-        <div class="left-content">
+        <div class="center-content">
 
             <h1>¡Hola {{ _userState.firstName }}!</h1>
 
-            <h1 style="font-weight: 400; margin-bottom: 48px">
+            <h1 style="font-weight: 400;">
                 Busca nuevos desafíos.
             </h1>
 
-            <div v-for="menu in options" :key="menu.key">
-                <card-btn
-                    :key="menu.key"
-                    :title="menu.title"
-                    :icon="menu.icon"
-                    :desc="menu.desc"
-                    :active="menu.active"
-                    :value="menu.key"
-                    @change="selectOption($event)"
-                />
-            </div>
+            <br>
 
-        </div>
+            <umt-tabs>
 
+                <!-- CHALLENGES -->
 
-        <!-- RIGHT CONTENT -->
+                <umt-tab-panel tab="1" label="desafiar">
 
-        <div class="right-content">
-
-            <scroll-container @bottomScroll="callStore(_activeOption, true)">
-
-
-                <!-- CHALLENGE -->
-
-                <div v-if="_activeOption === 'challenge'">
-
-                    <h3>DESAFIAR</h3>
+                    <p>
+                        Puedes desafiar a otros equipos sólo si tienes o perteneces a un equipo.
+                    </p>
 
                     <div v-if="_userState.primaryTeam">
+
+                        <div v-if="_nearTeams.length">
+
+                            <umt-request-cell
+                                v-for="(team, index) in _nearTeams"
+                                :key="index"
+                                :team="team"
+                                @click="sendMatchRequest(team)"
+                            />
+
+                        </div>
+
+                        <div v-else>
+                            <!-- TODO: Put image -->
+                            <center v-if="!loading">
+                                <p>
+                                    <b>¡Lo sentimos!.</b> No encontramos equipos
+                                    rivales cercanos. Intenta más tarde.
+                                </p>
+                            </center>
+                        </div>
 
                         <div v-if="loading">
                             <umt-skeleton v-for="index in 3" :key="index" />
                         </div>
 
-                        <div v-if="!loading">
-
-                            <div v-if="_nearTeams.length">
-
-                                <umt-request-cell
-                                    v-for="(team, index) in _nearTeams"
-                                    :key="index"
-                                    :team="team"
-                                    button-label="desafiar"
-                                    @click="sendMatchRequest(team)"
-                                />
-
-                            </div>
-
-                            <div v-else>
-                                <!-- TODO: Put image -->
-                                <p>
-                                    <b>¡Lo sentimos!.</b> No encontramos equipos
-                                    rivales cercanos. Intenta más tarde.
-                                </p>
-                            </div>
-
-                        </div>
+                        <umt-button @click="callStore('challenge')">
+                            SEGUIR BUSCANDO
+                        </umt-button>
 
                     </div>
 
                     <div v-else>
                         <!-- TODO: Put image -->
-                        <p>
-                            <b>¡Lo sentimos!.</b> Debes tener un equipo para
-                            poder buscar equipos rivales.
-                        </p>
+                        <center>
+                            <p>
+                                <b>¡Lo sentimos!.</b> Debes tener un equipo para
+                                poder buscar equipos rivales.
+                            </p>
+                        </center>
                     </div>
 
-                </div>
+                </umt-tab-panel>
 
 
                 <!-- PATCH -->
 
-                <div v-else-if="_activeOption === 'patch'">
+                <umt-tab-panel tab="2" label="parchar">
 
-                    <h3>PARCHAR</h3>
+                    <p>
+                        Únete a partidos cercanos a ti.
+                        Puedes parchar de manera individual a equipos que requieran de jugadores.
+                    </p>
 
-                    <div v-if="loading">
-                        <umt-skeleton v-for="index in 3" :key="index" />
+                    <div v-if="_nearMatches.length">
+
+                        <!-- FIXME: Object structure for match is not correct -->
+                        <umt-patch-cell
+                            v-for="(match, index) in _nearMatches"
+                            :key="index"
+                            :match="match"
+                            @click="sendMatchPatchRequest(match)"
+                        />
+
                     </div>
 
-                    <div v-if="!loading">
-
-                        <div v-if="_nearMatches.length">
-
-                            <!-- FIXME: Object structure for match is not correct -->
-                            <umt-patch-cell
-                                v-for="(match, index) in _nearMatches"
-                                :key="index"
-                                :match="match"
-                                @click="sendMatchPatchRequest(match)"
-                            />
-
-                        </div>
-
-                        <div v-else>
-                            <!-- TODO: Put image -->
+                    <div v-else>
+                        <!-- TODO: Put image -->
+                        <center v-if="!loading">
                             <p>
                                 <b>¡Lo sentimos!.</b> No encontramos partidos
                                 cercanos. Intenta más tarde.
                             </p>
-                        </div>
-
+                        </center>
                     </div>
-
-                </div>
-
-
-                <!-- JOIN TEAM -->
-
-                <div v-else>
-
-                    <h3>EQUIPOS</h3>
 
                     <div v-if="loading">
                         <umt-skeleton v-for="index in 3" :key="index" />
                     </div>
 
-                    <div v-if="!loading">
+                    <umt-button @click="callStore('patch')">
+                        SEGUIR BUSCANDO
+                    </umt-button>
 
-                        <div v-if="_nearTeamsForJoin.length">
+                </umt-tab-panel>
 
-                            <umt-request-cell
-                                v-for="(team, index) in _nearTeamsForJoin"
-                                :key="index"
-                                :team="team"
-                                button-label="solicitar"
-                                @click="sendTeamMemberRequest(team)"
-                            />
 
-                        </div>
+                <!-- TEAMS -->
 
-                        <div v-else>
-                            <!-- TODO: Put image -->
+                <umt-tab-panel tab="3" label="equipos">
+
+                    <p>
+                        ¿No tienes equipo?
+                        Busca uno cercano a ti o encuentra alguno por su nombre.
+                    </p>
+
+                    <div v-if="_nearTeamsForJoin.length">
+
+                        <umt-request-cell
+                            v-for="(team, index) in _nearTeamsForJoin"
+                            :key="index"
+                            :team="team"
+                            @click="sendTeamMemberRequest(team)"
+                        />
+
+                    </div>
+
+                    <div v-else>
+                        <!-- TODO: Put image -->
+                        <center v-if="!loading">
                             <p>
                                 <b>¡Lo sentimos!.</b> No encontramos equipos
                                 cercanos. Intenta más tarde.
                             </p>
-                        </div>
-
+                        </center>
                     </div>
 
-                </div>
+                    <div v-if="loading">
+                        <umt-skeleton v-for="index in 3" :key="index" />
+                    </div>
 
-            </scroll-container>
+                    <umt-button @click="callStore('search')">
+                        SEGUIR BUSCANDO
+                    </umt-button>
+
+                </umt-tab-panel>
+
+            </umt-tabs>
 
         </div>
 
@@ -186,32 +182,42 @@ export default {
 
     data () {
         return {
-            loading: true,
-            options: require('@/static/data/homeOptions.json')
+            loading: true
         }
     },
 
 
     computed: {
-        _activeOption () {
-            return this.options.filter(m => m.active === true)[0].key
-        },
+
         _nearTeams () {
             return this.$store.getters['home/get'].nearTeams
         },
+
         _nearTeamsForJoin () {
             return this.$store.getters['home/get'].nearTeamsForJoin
         },
+
         _nearMatches () {
             return this.$store.getters['home/get'].nearMatches
         }
+
     },
 
 
     mounted () {
         this.$store.dispatch('user/listTeams')
-            .then(() => {
-                this.callStore(this._activeOption)
+            .then(async () => {
+
+                try {
+                    await this.callStore('challenge')
+                    await this.callStore('patch')
+                    await this.callStore('search')
+                }
+
+                catch (e) {
+                    this.showNotification(e.title, e.msg, e.type)
+                }
+
             })
             .catch((e) => {
                 this.showNotification(e.title, e.msg, e.type)
@@ -221,7 +227,7 @@ export default {
 
     methods: {
 
-        callStore (action, isInfiniteScroll) {
+        callStore (action) {
 
             this.loading = true
 
@@ -229,10 +235,7 @@ export default {
 
             case 'challenge': {
                 if (this._userState.primaryTeam) {
-                    this.$store.dispatch('home/nearTeams', {
-                        forJoin: false,
-                        isInfiniteScroll
-                    })
+                    this.$store.dispatch('home/nearTeams', { forJoin: false })
                         .then(() => {
                             this.loading = false
                         })
@@ -245,10 +248,7 @@ export default {
 
 
             case 'patch': {
-                this.$store.dispatch('home/nearMatches', {
-                    forJoin: false,
-                    isInfiniteScroll
-                })
+                this.$store.dispatch('home/nearMatches')
                     .then(() => {
                         this.loading = false
                     })
@@ -260,10 +260,7 @@ export default {
 
 
             case 'search': {
-                this.$store.dispatch('home/nearTeams', {
-                    forJoin: true,
-                    isInfiniteScroll
-                })
+                this.$store.dispatch('home/nearTeams', { forJoin: true })
                     .then(() => {
                         this.loading = false
                     })
@@ -275,29 +272,6 @@ export default {
 
             }
 
-        },
-
-
-        selectOption (e) {
-            // Avoid reload when action is already selected
-            if (e !== this._activeOption) {
-                this.options = this.options.map((m) => {
-
-                    let active = false
-
-                    if (m.key === e) {
-                        active = true
-                    }
-
-                    return {
-                        ...m,
-                        active
-                    }
-
-                })
-
-                this.callStore(e)
-            }
         },
 
 
@@ -336,4 +310,5 @@ export default {
     }
 
 }
+
 </script>
