@@ -278,7 +278,7 @@ export default {
         sendMatchRequest (team) {
             this.$store.dispatch('home/sendMatchRequest', team)
                 .then((e) => {
-                    this.showNotification(e.title, e.msg, e.type)
+                    // this.showNotification(e.title, e.msg, e.type)
                 })
                 .catch((e) => {
                     this.showNotification(e.title, e.msg, e.type)
@@ -289,7 +289,7 @@ export default {
         sendMatchPatchRequest (match) {
             this.$store.dispatch('home/sendMatchPatchRequest', match)
                 .then((e) => {
-                    this.showNotification(e.title, e.msg, e.type)
+                    // this.showNotification(e.title, e.msg, e.type)
                 })
                 .catch((e) => {
                     this.showNotification(e.title, e.msg, e.type)
@@ -300,7 +300,7 @@ export default {
         sendTeamMemberRequest (team) {
             this.$store.dispatch('home/sendTeamMemberRequest', team)
                 .then((e) => {
-                    this.showNotification(e.title, e.msg, e.type)
+                    // this.showNotification(e.title, e.msg, e.type)
                 })
                 .catch((e) => {
                     this.showNotification(e.title, e.msg, e.type)

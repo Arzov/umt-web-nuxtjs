@@ -1,65 +1,48 @@
 .navbar {
 
-    height                  : 70px;
-    display                 : grid;
-    justify-items           : center;
-    grid-template-columns   : 70px auto 70px;
-    box-shadow              : 0px 0px 10px 0px rgba($color-black, 0.1);
-    padding-left            : 50px;
-    padding-right           : 50px;
+    max-height              : 5rem;
+    display                 : flex;
+    justify-content         : space-between;
+    align-items             : center;
+    padding                 : 0 50px;
+    background              : $color-main-1;
+    box-shadow              : 0 5px 5px rgba($color-main-3, 0.1);
 
-    [umt-theme=dark] & {
-        color       : $color-white;
-        background  : $color-dark-grey;
-    }
 
     [umt-theme=light] & {
-        color       : $color-black;
-        background  : $color-white;
+        background  : $color-main-1;
     }
 
-    .menu,
-    .picture,
-    .toggle {
 
-        place-self: center;
+    [umt-theme=dark] & {
+        background  : $color-main-4;
+    }
 
-        .theme-toggle {
-            img {
-                width: 24px;
+
+    .menu {
+
+        .umt-navigation-bar {
+
+            margin          : 0;
+            box-shadow      : none;
+
+            .tab {
+                margin: 0 5rem;
             }
+
         }
 
     }
 
-    .menu > div {
-
-        display         : inline-block;
-        margin-left     : 5rem;
-        margin-right    : 5rem;
-
-        img {
-            width: 24px;
-        }
-
-    }
 
     .team-picture {
 
         position            : absolute;
         top                 : 0;
         right               : 0;
-        transform           : translate(-400%, 132%);
+        transform           : translate(-350%, 124%);
         transform-origin    : 100% 0%;
-        z-index             : 10;
-
-        [umt-theme=dark] & {
-            box-shadow: 0 0 0 1px $color-dark-grey;
-        }
-
-        [umt-theme=light] & {
-            box-shadow: 0 0 0 1px $color-white;
-        }
+        z-index             : 1;
 
     }
 

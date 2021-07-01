@@ -3,40 +3,32 @@
     <div class="navbar">
 
         <div class="toggle">
-            <theme-toggle />
+            <theme-toggle size="small" />
         </div>
+
 
         <div class="menu">
-            <div v-for="menu in options" :key="menu.key">
-                <a-tooltip placement="bottom">
-
-                    <template slot="title">
-                        <span>{{ menu.label }}</span>
-                    </template>
-
-                    <nuxt-link :to="menu.url">
-                        <img
-                            v-if="menu.key != current"
-                            :src="getIcon(menu.icon.normal)"
-                            alt=""
-                        >
-                        <img
-                            v-if="menu.key == current"
-                            :src="getIcon(menu.icon.active)"
-                            alt=""
-                        >
-                    </nuxt-link>
-
-                </a-tooltip>
-            </div>
+            <umt-navigation-bar
+                position="top"
+                :tabs="navbarOptions"
+                :active-tab="navbarValue"
+                @click="(e) => redirect(e)"
+            />
         </div>
+
 
         <div class="picture">
 
-            <a-avatar size="small" class="team-picture" :src="teamPicture" />
+            <umt-avatar
+                class="team-picture"
+                icon="team-profile"
+                size="small"
+                color="purple"
+                :src="_userState.primaryTeam.picture"
+            />
 
             <nuxt-link to="profile">
-                <a-avatar size="large" :src="userPicture" />
+                <umt-avatar size="large" :src="_userState.picture" />
             </nuxt-link>
 
         </div>
@@ -47,50 +39,27 @@
 
 
 <script>
+
+const navbarOptions = require('@/static/data/navbarOptions.json')
+
+
 export default {
 
     data () {
         return {
-            options: require('@/static/data/navbarOptions.json')
+
+            navbarOptions,
+            navbarValue: 'home'
+
         }
     },
 
 
-    computed: {
-
-        current () {
-            return this.$route.name
-        },
-
-
-        teamPicture () {
-
-            if (
-                this._userState.primaryTeam &&
-                this._userState.primaryTeam.picture
-            ) {
-                return this._userState.primaryTeam.picture
-            }
-
-            else {
-                return this.getIcon('team-profile.svg')
-            }
-
-        },
-
-
-        userPicture () {
-
-            if (this._userState.picture) {
-                return this._userState.picture
-            }
-
-            else {
-                return this.getIcon('avatar.svg')
-            }
-
+    methods: {
+        redirect (e) {
+            this.navbarValue = e
+            this.$router.push(e)
         }
-
     }
 
 }

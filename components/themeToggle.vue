@@ -4,6 +4,7 @@
         class="theme-toggle"
         type="icon"
         color="transparent"
+        :size="size"
         :icon="`${_themePrefix}-theme`"
         @click="switchTheme"
     />
@@ -14,6 +15,13 @@
 <script>
 
 export default {
+
+    props: {
+        size: {
+            type    : String,
+            default : 'large'
+        }
+    },
 
     methods: {
         switchTheme () {

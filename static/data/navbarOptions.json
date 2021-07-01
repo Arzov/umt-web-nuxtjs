@@ -2,19 +2,16 @@
     {
         "key": "home",
         "name": "Inicio",
-        "icon": "football",
-        "url": "/home"
+        "icon": "football"
     },
     {
         "key": "teams",
         "name": "Equipos",
-        "icon": "shield",
-        "url": "/teams"
+        "icon": "shield"
     },
     {
         "key": "matches",
         "name": "Partidos",
-        "icon": "whistle",
-        "url": "/matches"
+        "icon": "whistle"
     }
 ]
