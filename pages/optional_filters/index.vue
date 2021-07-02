@@ -33,7 +33,7 @@
 
                 <a-form-model-item>
                     <label>
-                        <h3>TIPO DE JUEGO (SELECCIONA 1 O MÁS)</h3>
+                        <h3>TIPO DE JUEGO</h3>
                     </label>
                     <umt-multi-selector
                         v-model="ruleForm.matchFilter"

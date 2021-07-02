@@ -20,6 +20,7 @@
         <div class="picture">
 
             <umt-avatar
+                v-if="_userState.primaryTeam"
                 class="team-picture"
                 icon="team-profile"
                 size="small"

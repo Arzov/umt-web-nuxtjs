@@ -4,6 +4,7 @@
         class="theme-toggle"
         type="icon"
         color="transparent"
+        shape="square"
         :size="size"
         :icon="`${_themePrefix}-theme`"
         @click="switchTheme"

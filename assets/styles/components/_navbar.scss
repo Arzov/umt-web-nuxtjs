@@ -20,14 +20,12 @@
 
     .menu {
 
+        flex-grow: 1;
+
         .umt-navigation-bar {
 
             margin          : 0;
             box-shadow      : none;
-
-            .tab {
-                margin: 0 5rem;
-            }
 
         }
 
