@@ -31,6 +31,9 @@
             <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
 
                 <a-form-model-item>
+                    <label>
+                        <h3>POSICIONES DE JUEGO</h3>
+                    </label>
                     <umt-badge-group v-model="ruleForm.positions" :options="positionOptions" />
                 </a-form-model-item>
 
