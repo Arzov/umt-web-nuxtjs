@@ -32,8 +32,8 @@
             <a-form-model ref="ruleForm" :model="ruleForm">
 
                 <a-form-model-item>
-                    <label>
-                        <h3>TIPO DE JUEGO</h3>
+                    <label class="umt-label">
+                        TIPO DE JUEGO
                     </label>
                     <umt-multi-selector
                         v-model="ruleForm.matchFilter"
@@ -46,7 +46,7 @@
                 </a-form-model-item>
 
                 <a-form-model-item>
-                    <umt-button @click="submitForm('ruleForm', false)">
+                    <umt-button @click="submitForm('ruleForm')">
                         CONTINUAR
                     </umt-button>
                 </a-form-model-item>
@@ -54,10 +54,12 @@
             </a-form-model>
 
             <center>
-                <nuxt-link to="" @click.native="submitForm('ruleForm', true)">Omitir</nuxt-link>
+                <nuxt-link to="" @click.native="submitForm('ruleForm')">Omitir</nuxt-link>
             </center>
 
         </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -89,14 +91,12 @@ export default {
 
 
     methods: {
-        submitForm (formName, isSkip) {
+        submitForm (formName) {
             this.$refs[formName].validate((valid) => {
 
                 if (valid) {
 
-                    if (!isSkip) {
-                        this.btnLoading = true
-                    }
+                    this.handleTopProgress('start')
 
                     this.$store.dispatch('optionalFilters/save', {
                         email       : this._userState.email,
@@ -109,10 +109,11 @@ export default {
                         height      : this._userState.height
                     })
                         .then(() => {
-                            this.btnLoading = false
+                            this.handleTopProgress('done')
+                            this.$router.push('/home')
                         })
                         .catch((e) => {
-                            this.btnLoading = false
+                            this.handleTopProgress('fail')
                             this.showNotification(e.title, e.msg, e.type)
                         })
 

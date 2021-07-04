@@ -34,7 +34,9 @@
 
                 <center>
                     <p>
-                        Ingresa tu código de verificación enviado a <nuxt-link to=""><i>{{ email }}</i></nuxt-link>
+                        Ingresa tu código de verificación enviado a <nuxt-link to="">
+                            <i>{{ email }}</i>
+                        </nuxt-link>
                     </p>
                 </center>
 
@@ -53,10 +55,14 @@
             </a-form-model>
 
             <center>
-                <nuxt-link to="" @click.native="resendCode">Reenviar código</nuxt-link>
+                <nuxt-link to="" @click.native="resendCode">
+                    Reenviar código
+                </nuxt-link>
             </center>
 
         </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -111,18 +117,22 @@ export default {
             this.$refs[formName].validate((valid) => {
 
                 if (valid) {
-                    this.btnLoading = true
+
+                    this.handleTopProgress('start')
+
                     this.$store.dispatch('emailVerification/verify', {
                         email   : this.email.toLowerCase(),
                         code    : this.ruleForm.code
                     })
                         .then(() => {
-                            this.btnLoading = false
+                            this.handleTopProgress('done')
+                            this.$router.push('/start')
                         })
                         .catch((e) => {
-                            this.btnLoading = false
+                            this.handleTopProgress('fail')
                             this.showNotification(e.title, e.msg, e.type)
                         })
+
                 }
 
                 else {
@@ -134,16 +144,22 @@ export default {
 
 
         resendCode () {
+
+            this.handleTopProgress('start')
+
             this.$store
                 .dispatch('emailVerification/resendCode', {
                     email: this.email.toLowerCase()
                 })
                 .then((r) => {
+                    this.handleTopProgress('done')
                     this.showNotification(r.title, r.msg, r.type)
                 })
                 .catch((e) => {
+                    this.handleTopProgress('fail')
                     this.showNotification(e.title, e.msg, e.type)
                 })
+
         }
 
     }

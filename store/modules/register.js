@@ -31,8 +31,6 @@ const actions = {
 
                 // success
                 .then(() => {
-                    this.$router.push(`/email_verification/${data.email}`)
-
                     resolve()
                 })
 

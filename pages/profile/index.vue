@@ -69,31 +69,31 @@
                         </p>
                     </center>
 
-                    <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+                    <a-form-model ref="ruleFormAttributes" :model="ruleFormAttributes" :rules="rules">
 
                         <a-form-model-item :prop="$RULES.birthdate.name">
-                            <label>
-                                <h3>FECHA DE NACIMIENTO</h3>
+                            <label class="umt-label">
+                                FECHA DE NACIMIENTO
                             </label>
-                            <umt-date-picker v-model="ruleForm.birthdate" />
+                            <umt-date-picker v-model="ruleFormAttributes.birthdate" />
                         </a-form-model-item>
 
                         <a-form-model-item>
-                            <label>
-                                <h3>SEXO</h3>
+                            <label class="umt-label">
+                                SEXO
                             </label>
-                            <umt-radio-selector v-model="ruleForm.gender" :options="genderOptions" />
+                            <umt-radio-selector v-model="ruleFormAttributes.gender" :options="genderOptions" />
                         </a-form-model-item>
 
                         <a-row :gutter="12" type="flex">
 
                             <a-col :span="12" :flex="1">
                                 <a-form-model-item :prop="$RULES.height.name">
-                                    <label>
-                                        <h3>ESTATURA</h3>
+                                    <label class="umt-label">
+                                        ESTATURA
                                     </label>
                                     <umt-input
-                                        v-model="ruleForm.height"
+                                        v-model="ruleFormAttributes.height"
                                         placeholder="0"
                                         type="number"
                                         suffix="cm"
@@ -103,11 +103,11 @@
 
                             <a-col :span="12" :flex="1">
                                 <a-form-model-item :prop="$RULES.weight.name">
-                                    <label>
-                                        <h3>PESO</h3>
+                                    <label class="umt-label">
+                                        PESO
                                     </label>
                                     <umt-input
-                                        v-model="ruleForm.weight"
+                                        v-model="ruleFormAttributes.weight"
                                         placeholder="0"
                                         type="number"
                                         suffix="kg"
@@ -133,20 +133,20 @@
                         </p>
                     </center>
 
-                    <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+                    <a-form-model ref="ruleFormSkills" :model="ruleFormSkills" :rules="rules">
 
                         <a-form-model-item>
-                            <label>
-                                <h3>POSICIONES DE JUEGO</h3>
+                            <label class="umt-label">
+                                POSICIONES DE JUEGO
                             </label>
-                            <umt-badge-group v-model="ruleForm.positions" :options="positionOptions" />
+                            <umt-badge-group v-model="ruleFormSkills.positions" :options="positionOptions" />
                         </a-form-model-item>
 
                         <a-form-model-item>
-                            <label>
-                                <h3>PIE HÁBIL</h3>
+                            <label class="umt-label">
+                                PIE HÁBIL
                             </label>
-                            <umt-radio-selector v-model="ruleForm.foot" :options="footOptions" />
+                            <umt-radio-selector v-model="ruleFormSkills.foot" :options="footOptions" />
                         </a-form-model-item>
 
                     </a-form-model>
@@ -168,21 +168,21 @@
                         </p>
                     </center>
 
-                    <a-form-model ref="ruleForm" :model="ruleForm">
+                    <a-form-model ref="ruleFormFilters" :model="ruleFormFilters">
 
                         <a-form-model-item>
-                            <label>
-                                <h3>TIPO DE JUEGO</h3>
+                            <label class="umt-label">
+                                TIPO DE JUEGO
                             </label>
                             <umt-multi-selector
-                                v-model="ruleForm.matchFilter"
+                                v-model="ruleFormFilters.matchFilter"
                                 :options="matchFilterOptions"
                             />
                         </a-form-model-item>
 
                         <a-form-model-item>
                             <umt-range
-                                v-model="ruleForm.ageFilter"
+                                v-model="ruleFormFilters.ageFilter"
                                 label="RANGO DE EDAD"
                                 :min="18"
                                 :max="60"
@@ -195,7 +195,7 @@
 
             </umt-tabs>
 
-            <umt-button @click="submitForm('ruleForm')">
+            <umt-button @click="submitForm">
                 GUARDAR
             </umt-button>
 
@@ -204,6 +204,8 @@
             </center>
 
         </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -216,6 +218,7 @@ const matchFilterOptions = require('@/static/data/matchFilterOptions.json')
 const footOptions = require('@/static/data/footOptions.json')
 const positionOptions = require('@/static/data/positionOptions.json')
 const genderOptions = require('@/static/data/genderOptions.json')
+
 
 export default {
 
@@ -230,7 +233,7 @@ export default {
 
             genderOptions,
 
-            ruleForm: {
+            ruleFormAttributes: {
 
                 birthdate: {
                     day     : undefined,
@@ -238,10 +241,20 @@ export default {
                     year    : undefined
                 },
                 gender      : 'M',
-                foot        : 'R',
-                positions   : [''],
                 weight      : 0,
-                height      : 0,
+                height      : 0
+
+            },
+
+            ruleFormSkills: {
+
+                foot        : 'R',
+                positions   : ['']
+
+            },
+
+            ruleFormFilters: {
+
                 matchFilter : ['5v5'],
                 ageFilter   : [18, 22]
 
@@ -258,45 +271,56 @@ export default {
 
 
     mounted () {
-        // Init data from store
-        this.ruleForm.birthdate.day = this._userState.birthdate.split('-')[2]
-        this.ruleForm.birthdate.month = this._userState.birthdate.split('-')[1]
-        this.ruleForm.birthdate.year = this._userState.birthdate.split('-')[0]
-        this.ruleForm.gender = this._userState.gender
-        this.ruleForm.weight = this._userState.weight
-        this.ruleForm.height = this._userState.height
-        this.ruleForm.positions = this._userState.positions
-        this.ruleForm.foot = this._userState.foot
-        this.ruleForm.matchFilter = this._userState.matchFilter
-        this.ruleForm.ageFilter = [
+
+        // init data from store
+
+        this.ruleFormAttributes.birthdate.day = this._userState.birthdate.split('-')[2]
+        this.ruleFormAttributes.birthdate.month = this._userState.birthdate.split('-')[1]
+        this.ruleFormAttributes.birthdate.year = this._userState.birthdate.split('-')[0]
+        this.ruleFormAttributes.gender = this._userState.gender
+        this.ruleFormAttributes.weight = this._userState.weight
+        this.ruleFormAttributes.height = this._userState.height
+        this.ruleFormSkills.positions = this._userState.positions
+        this.ruleFormSkills.foot = this._userState.foot
+        this.ruleFormFilters.matchFilter = this._userState.matchFilter
+        this.ruleFormFilters.ageFilter = [
             this._userState.ageMinFilter,
             this._userState.ageMaxFilter
         ]
+
     },
 
 
     methods: {
 
-        submitForm (formName) {
-            this.$refs[formName].validate((valid) => {
+        submitForm () {
+
+            // just attributes needed to validate
+
+            this.$refs.ruleFormAttributes.validate((valid) => {
 
                 if (valid) {
-                    this.btnLoading = true
 
-                    this.$store
-                        .dispatch('profile/update', this.ruleForm)
+                    this.handleTopProgress('start')
+
+                    this.$store.dispatch('profile/update', {
+                        ...this.ruleFormAttributes,
+                        ...this.ruleFormSkills,
+                        ...this.ruleFormFilters
+                    })
                         .then(() => {
-                            // this.showNotification(
-                            //     '¡Cambios guardados!',
-                            //     'Tus cambios fueron guardados exitósamente.',
-                            //     'success'
-                            // )
-                            this.btnLoading = false
+                            this.handleTopProgress('done')
+                            this.showNotification(
+                                '¡Cambios guardados!',
+                                'Tus cambios fueron guardados exitósamente.',
+                                'success'
+                            )
                         })
                         .catch((e) => {
+                            this.handleTopProgress('fail')
                             this.showNotification(e.title, e.msg, e.type)
-                            this.btnLoading = false
                         })
+
                 }
 
                 else {
@@ -304,6 +328,7 @@ export default {
                 }
 
             })
+
         },
 
 

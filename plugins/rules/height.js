@@ -1,11 +1,19 @@
 const checkHeight = (rule, value, callback) => {
 
-    const error = 'Ingresa una estatura menor a 300 cm.'
+    let error = 'Ingresa una estatura menor a 300 cm.'
 
 
     // max. height 300 allowed
 
     if (value >= 300) {
+        callback(error)
+    }
+
+
+    // positive values allowed
+
+    if (value < 0) {
+        error = 'Ingresa una estatura mayor o igual a 0 cm.'
         callback(error)
     }
 

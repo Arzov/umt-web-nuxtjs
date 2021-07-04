@@ -31,15 +31,15 @@
             <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
 
                 <a-form-model-item :prop="$RULES.birthdate.name">
-                    <label>
-                        <h3>FECHA DE NACIMIENTO*</h3>
+                    <label class="umt-label">
+                        FECHA DE NACIMIENTO*
                     </label>
                     <umt-date-picker v-model="ruleForm.birthdate" />
                 </a-form-model-item>
 
                 <a-form-model-item>
-                    <label>
-                        <h3>SEXO*</h3>
+                    <label class="umt-label">
+                        SEXO*
                     </label>
                     <umt-radio-selector v-model="ruleForm.gender" :options="genderOptions" />
                 </a-form-model-item>
@@ -66,6 +66,8 @@
             </center>
 
         </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -112,7 +114,9 @@ export default {
             this.$refs[formName].validate((valid) => {
 
                 if (valid) {
-                    this.btnLoading = true
+
+                    this.handleTopProgress('start')
+
                     this.$store.dispatch('requiredAttributes/save', {
                         email       : this._userState.email,
                         firstName   : this._userState.firstName,
@@ -122,12 +126,14 @@ export default {
                         gender      : this.ruleForm.gender
                     })
                         .then(() => {
-                            this.btnLoading = false
+                            this.handleTopProgress('done')
+                            this.$router.push('/home')
                         })
                         .catch((e) => {
-                            this.btnLoading = false
+                            this.handleTopProgress('fail')
                             this.showNotification(e.title, e.msg, e.type)
                         })
+
                 }
 
                 else {

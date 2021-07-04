@@ -16,3 +16,28 @@
 ::-webkit-scrollbar-thumb:hover {
     background: $color-main-8;
 }
+
+
+// links fitted
+
+.nuxt-link-active {
+    width: fit-content;
+}
+
+
+.has-error {
+    .umt-input,  .ant-select-selection {
+        margin: 0 !important;
+        box-shadow: 0 0 0 2px #E6206B !important;
+    }
+    .umt-code-input {
+        margin: 0 !important;
+    }
+}
+
+
+.ant-form-explain {
+    // margin-bottom: 20px !important;
+    -webkit-text-fill-color: #E6206B !important;
+    color: #E6206B !important;
+}

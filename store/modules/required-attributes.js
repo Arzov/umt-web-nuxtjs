@@ -25,8 +25,6 @@ const actions = {
 
                 // success
                 .then(() => {
-                    this.$router.push('/home')
-
                     resolve()
                 })
 

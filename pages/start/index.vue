@@ -61,11 +61,15 @@
                     <facebook class="facebook" />
                 </div>
 
-                <p>¿No tienes cuenta? <nuxt-link to="/register">Regístrate.</nuxt-link></p>
+                <p>¿No tienes cuenta? <nuxt-link to="/register">
+                    Regístrate.
+                </nuxt-link></p>
 
             </center>
 
         </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -106,11 +110,11 @@ export default {
 
                 this.$store.dispatch('user/fetch', { email })
                     .then(() => {
-                        this.btnLoading = false
+                        this.handleTopProgress('done')
                         this.$router.push('/home')
                     })
                     .catch((e) => {
-                        this.btnLoading = false
+                        this.handleTopProgress('fail')
                         this.showNotification(e.title, e.msg, e.type)
                     })
 
@@ -131,16 +135,31 @@ export default {
 
                 if (valid) {
 
-                    this.btnLoading = true
+                    this.handleTopProgress('start')
+
+                    const email = this.ruleForm.email.toLowerCase()
 
                     this.$store.dispatch('start/signIn', {
-                        email       : this.ruleForm.email.toLowerCase(),
-                        password    : this.ruleForm.password
+                        email,
+                        password: this.ruleForm.password
                     })
                         .then(() => {})
                         .catch((e) => {
-                            this.btnLoading = false
-                            this.showNotification(e.title, e.msg, e.type)
+
+                            // email not verified yet
+
+                            if (e.code === 'UserNotConfirmedException') {
+                                this.handleTopProgress('done')
+                                this.$router.push(`/email_verification/${email}`)
+                            }
+
+                            // any other it's an error
+
+                            else {
+                                this.handleTopProgress('fail')
+                                this.showNotification(e.title, e.msg, e.type)
+                            }
+
                         })
 
                 }

@@ -12,17 +12,31 @@
             <br>
 
             <p>
-                Necesitas habilitar la ubicación para utilizar la
-                aplicación. Debes configurar tu navegador.
+                Necesitas habilitar la ubicación para utilizar la aplicación.
+                Debes configurar tu navegador.
             </p>
 
-            <!--TODO: Falta implementar accion-->
+            <p>
+                <b>Chrome:</b> En la parte superior izquierda, haz clic en el
+                ícono de información al lado de la URL del sitio web. Aquí,
+                podrás permitir o bloquear tu ubicación.
+            </p>
+
+            <p>
+                <b>Safari:</b> Haz clic en Safari en la parte superior de la
+                pantalla > Preferencias > selecciona la pestaña Privacidad > Uso
+                del sitio web de los servicios de ubicación > asegúrate de que
+                esté seleccionado "Preguntar por cada sitio web una vez al día".
+            </p>
+
+            <p>
+                <b>Firefox:</b> Toca el ícono de información junto al URL del
+                sitio web > Permisos > Ubicación.
+            </p>
 
             <umt-button @click="back">
-                CONFIGURAR
+                Atrás
             </umt-button>
-
-            <center><nuxt-link to="" @click.native="back">Atrás</nuxt-link></center>
 
         </div>
 
@@ -49,6 +63,8 @@
             <center><signout-btn /></center>
 
         </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </umt-modal>
 
@@ -78,7 +94,7 @@ export default {
 
         getPosition () {
 
-            this.btnLoading = true
+            this.handleTopProgress('start')
 
             navigator.geolocation.getCurrentPosition((position) => {
 
@@ -104,13 +120,12 @@ export default {
                             allowGeoloc: true
                         }
 
-                        this.btnLoading = false
+                        this.handleTopProgress('done')
                         this.$store.dispatch('global/setState', params)
 
                     })
                     .catch((e) => {
-                        // FIXME: Fix notification style
-                        this.btnLoading = false
+                        this.handleTopProgress('fail')
                         this.showNotification(e.title, e.msg, e.type)
                     })
 
@@ -118,7 +133,7 @@ export default {
 
             (err) => {
 
-                this.btnLoading = false
+                this.handleTopProgress('fail')
 
                 switch (err.code) {
                 case err.PERMISSION_DENIED:
@@ -126,7 +141,6 @@ export default {
                     break
 
                 default:
-                    // FIXME: Fix notification style
                     this.showNotification(
                         errorNotification.title,
                         errorNotification.msg,

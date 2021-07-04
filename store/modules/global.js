@@ -4,8 +4,12 @@ import errorNotification from '@/static/data/errorNotification.json'
 // get default states values
 
 const getDefaultState = () => ({
-    themePreference : localStorage.getItem('themePreference') || '"dark"',
-    allowGeoloc     : localStorage.getItem('allowGeoloc') || false
+    themePreference     : localStorage.getItem('themePreference') || '"dark"',
+    allowGeoloc         : localStorage.getItem('allowGeoloc') || false,
+    notificationStatus  : false,
+    notificationType    : '"success"',
+    notificationTitle   : '"title"',
+    notificationMsg     : '"msg"'
 })
 
 

@@ -31,15 +31,15 @@
             <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
 
                 <a-form-model-item>
-                    <label>
-                        <h3>POSICIONES DE JUEGO</h3>
+                    <label class="umt-label">
+                        POSICIONES DE JUEGO
                     </label>
                     <umt-badge-group v-model="ruleForm.positions" :options="positionOptions" />
                 </a-form-model-item>
 
                 <a-form-model-item>
-                    <label>
-                        <h3>PIE HÁBIL</h3>
+                    <label class="umt-label">
+                        PIE HÁBIL
                     </label>
                     <umt-radio-selector v-model="ruleForm.foot" :options="footOptions" />
                 </a-form-model-item>
@@ -48,8 +48,8 @@
 
                     <a-col :span="12" :flex="1">
                         <a-form-model-item :prop="$RULES.height.name">
-                            <label>
-                                <h3>ESTATURA</h3>
+                            <label class="umt-label">
+                                ESTATURA
                             </label>
                             <umt-input
                                 v-model="ruleForm.height"
@@ -62,8 +62,8 @@
 
                     <a-col :span="12" :flex="1">
                         <a-form-model-item :prop="$RULES.weight.name">
-                            <label>
-                                <h3>PESO</h3>
+                            <label class="umt-label">
+                                PESO
                             </label>
                             <umt-input
                                 v-model="ruleForm.weight"
@@ -77,7 +77,7 @@
                 </a-row>
 
                 <a-form-model-item>
-                    <umt-button @click="submitForm('ruleForm', false)">
+                    <umt-button @click="submitForm('ruleForm')">
                         CONTINUAR
                     </umt-button>
                 </a-form-model-item>
@@ -85,10 +85,14 @@
             </a-form-model>
 
             <center>
-                <nuxt-link to="" @click.native="submitForm('ruleForm', true)">Omitir</nuxt-link>
+                <nuxt-link to="" @click.native="submitForm('ruleForm')">
+                    Omitir
+                </nuxt-link>
             </center>
 
         </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -130,14 +134,12 @@ export default {
 
 
     methods: {
-        submitForm (formName, isSkip) {
-            this.$refs[formName].validate((valid) => {
+        submitForm (formName) {
+            this.$refs[formName].validate(async (valid) => {
 
                 if (valid) {
 
-                    if (!isSkip) {
-                        this.btnLoading = true
-                    }
+                    this.handleTopProgress('start')
 
                     this.$store.dispatch('optionalAttributes/save', {
                         foot        : this.ruleForm.foot,
@@ -146,7 +148,12 @@ export default {
                         height      : this.ruleForm.height
                     })
 
-                    this.btnLoading = false
+                    await new Promise(resolve => setTimeout(resolve, 2000))
+
+                    this.handleTopProgress('done')
+
+                    this.$router.push('/optional_filters')
+
                 }
 
                 else {

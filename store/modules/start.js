@@ -54,7 +54,6 @@ const actions = {
                     // email unverified
 
                     case 'UserNotConfirmedException': {
-                        this.$router.push(`/email_verification/${data.email}`)
                         break
                     }
 
@@ -64,6 +63,7 @@ const actions = {
                         response = errorNotification
                         break
                     }
+
                     }
 
                     response = { ...response, err }

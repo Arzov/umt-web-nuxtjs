@@ -1,6 +1,6 @@
 const checkWeight = (rule, value, callback) => {
 
-    const error = 'Ingresa un peso menor a 300 kg.'
+    let error = 'Ingresa un peso menor a 300 kg.'
 
 
     // max. weight 300 allowed
@@ -10,11 +10,20 @@ const checkWeight = (rule, value, callback) => {
     }
 
 
+    // positive values allowed
+
+    if (value < 0) {
+        error = 'Ingresa un peso mayor o igual a 0 kg.'
+        callback(error)
+    }
+
+
     // no error
 
     else {
         callback()
     }
+
 }
 
 

@@ -15,10 +15,6 @@ const actions = {
 
                 // success validation
                 .then(() => {
-
-                    // TODO: should show a success notification before redirect
-                    this.$router.push('/start')
-
                     resolve()
                 })
 

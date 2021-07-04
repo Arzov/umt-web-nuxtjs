@@ -13,8 +13,6 @@ const actions = {
 
                 // success
                 .then(() => {
-                    this.$router.push(`/reset_password/${data.email}`)
-
                     resolve()
                 })
 

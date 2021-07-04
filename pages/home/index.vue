@@ -42,8 +42,8 @@
                         </div>
 
                         <div v-else>
-                            <!-- TODO: Put image -->
                             <center v-if="!loading">
+                                <img src="@/assets/images/football-circle.svg" style="width: 250px">
                                 <p>
                                     <b>¡Lo sentimos!.</b> No encontramos equipos
                                     rivales cercanos. Intenta más tarde.
@@ -62,8 +62,8 @@
                     </div>
 
                     <div v-else>
-                        <!-- TODO: Put image -->
                         <center>
+                            <img src="@/assets/images/football-circle.svg" style="width: 250px">
                             <p>
                                 <b>¡Lo sentimos!.</b> Debes tener un equipo para
                                 poder buscar equipos rivales.
@@ -84,20 +84,17 @@
                     </p>
 
                     <div v-if="_nearMatches.length">
-
-                        <!-- FIXME: Object structure for match is not correct -->
                         <umt-patch-cell
                             v-for="(match, index) in _nearMatches"
                             :key="index"
                             :match="match"
                             @click="sendMatchPatchRequest(match)"
                         />
-
                     </div>
 
                     <div v-else>
-                        <!-- TODO: Put image -->
                         <center v-if="!loading">
+                            <img src="@/assets/images/football-circle.svg" style="width: 250px">
                             <p>
                                 <b>¡Lo sentimos!.</b> No encontramos partidos
                                 cercanos. Intenta más tarde.
@@ -137,8 +134,8 @@
                     </div>
 
                     <div v-else>
-                        <!-- TODO: Put image -->
                         <center v-if="!loading">
+                            <img src="@/assets/images/football-circle.svg" style="width: 250px">
                             <p>
                                 <b>¡Lo sentimos!.</b> No encontramos equipos
                                 cercanos. Intenta más tarde.
@@ -161,6 +158,8 @@
         </div>
 
         <geoloc />
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -276,35 +275,53 @@ export default {
 
 
         sendMatchRequest (team) {
+
+            this.handleTopProgress('start')
+
             this.$store.dispatch('home/sendMatchRequest', team)
                 .then((e) => {
-                    // this.showNotification(e.title, e.msg, e.type)
-                })
-                .catch((e) => {
+                    this.handleTopProgress('done')
                     this.showNotification(e.title, e.msg, e.type)
                 })
+                .catch((e) => {
+                    this.handleTopProgress('fail')
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+
         },
 
 
         sendMatchPatchRequest (match) {
+
+            this.handleTopProgress('start')
+
             this.$store.dispatch('home/sendMatchPatchRequest', match)
                 .then((e) => {
-                    // this.showNotification(e.title, e.msg, e.type)
-                })
-                .catch((e) => {
+                    this.handleTopProgress('done')
                     this.showNotification(e.title, e.msg, e.type)
                 })
+                .catch((e) => {
+                    this.handleTopProgress('fail')
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+
         },
 
 
         sendTeamMemberRequest (team) {
+
+            this.handleTopProgress('start')
+
             this.$store.dispatch('home/sendTeamMemberRequest', team)
                 .then((e) => {
-                    // this.showNotification(e.title, e.msg, e.type)
-                })
-                .catch((e) => {
+                    this.handleTopProgress('done')
                     this.showNotification(e.title, e.msg, e.type)
                 })
+                .catch((e) => {
+                    this.handleTopProgress('fail')
+                    this.showNotification(e.title, e.msg, e.type)
+                })
+
         }
 
     }

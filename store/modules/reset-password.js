@@ -17,7 +17,6 @@ const actions = {
 
                 // success
                 .then(() => {
-                    this.$router.push('/start')
                     resolve()
                 })
 

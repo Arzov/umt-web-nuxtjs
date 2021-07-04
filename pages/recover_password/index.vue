@@ -65,6 +65,8 @@
 
         </div>
 
+        <umt-top-progress ref="topProgress" />
+
     </div>
 
 </template>
@@ -98,16 +100,17 @@ export default {
 
                 if (valid) {
 
-                    this.btnLoading = true
+                    this.handleTopProgress('start')
 
-                    this.$store.dispatch('recoverPassword/recover', {
-                        email: this.ruleForm.email.toLowerCase()
-                    })
+                    const email = this.ruleForm.email.toLowerCase()
+
+                    this.$store.dispatch('recoverPassword/recover', { email })
                         .then(() => {
-                            this.btnLoading = false
+                            this.handleTopProgress('done')
+                            this.$router.push(`/reset_password/${email}`)
                         })
                         .catch((e) => {
-                            this.btnLoading = false
+                            this.handleTopProgress('fail')
                             this.showNotification(e.title, e.msg, e.type)
                         })
 
