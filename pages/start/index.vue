@@ -57,8 +57,8 @@
                 <p>- O ingresa con tus redes sociales -</p>
 
                 <div class="social-login">
-                    <google class="google" />
-                    <facebook class="facebook" />
+                    <google class="google" @click.native="handleTopProgress('start')" />
+                    <facebook class="facebook" @click.native="handleTopProgress('start')" />
                 </div>
 
                 <p>¿No tienes cuenta? <nuxt-link to="/register">
@@ -105,6 +105,8 @@ export default {
             switch (event) {
 
             case 'signIn': {
+
+                this.handleTopProgress('start')
 
                 const email = data.signInUserSession.idToken.payload.email
 

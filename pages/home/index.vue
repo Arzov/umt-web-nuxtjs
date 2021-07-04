@@ -204,6 +204,7 @@ export default {
 
 
     mounted () {
+
         this.$store.dispatch('user/listTeams')
             .then(async () => {
 
@@ -221,6 +222,7 @@ export default {
             .catch((e) => {
                 this.showNotification(e.title, e.msg, e.type)
             })
+
     },
 
 

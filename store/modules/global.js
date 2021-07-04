@@ -9,7 +9,8 @@ const getDefaultState = () => ({
     notificationStatus  : false,
     notificationType    : '"success"',
     notificationTitle   : '"title"',
-    notificationMsg     : '"msg"'
+    notificationMsg     : '"msg"',
+    loadingModal        : false
 })
 
 
@@ -83,21 +84,22 @@ const actions = {
 
     signOut (ctx, data) {
 
-        // reset states
-
-        ctx.commit('resetStates')
-        ctx.commit('user/resetStates', {}, { root: true })
-
-
-        // trigger signout event
-
         return new Promise((resolve, reject) => {
+
+            // reset states
+
+            ctx.commit('resetStates')
+            ctx.commit('user/resetStates', {}, { root: true })
+
+            // trigger signout event
 
             this.$AWS.Auth.signOut()
 
                 // success
                 .then(() => {
+
                     resolve()
+
                 })
 
 

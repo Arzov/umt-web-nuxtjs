@@ -1,6 +1,14 @@
 <template>
 
-    <nuxt-link to="" @click.native="signOut()">{{ text }}</nuxt-link>
+    <div>
+
+        <nuxt-link to="" @click.native="signOut">
+            {{ text }}
+        </nuxt-link>
+
+        <umt-top-progress ref="topProgress" />
+
+    </div>
 
 </template>
 
@@ -15,22 +23,35 @@ export default {
 
     mounted () {
         this.$AWS.Hub.listen('auth', ({ payload: { event, data } }) => {
+
             switch (event) {
-            case 'signOut':
+
+            case 'signOut': {
+
+                this.handleTopProgress('done')
                 this.$router.push('/start')
                 break
+
             }
+
+            }
+
         })
     },
 
 
     methods: {
         signOut () {
+
+            this.handleTopProgress('start')
+
             this.$store.dispatch('global/signOut')
-                .then(() => {})
+                .then(() => this.handleTopProgress('done'))
                 .catch((e) => {
+                    this.handleTopProgress('fail')
                     this.showNotification(e.title, e.msg, e.type)
                 })
+
         }
     }
 
