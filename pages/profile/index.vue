@@ -32,7 +32,7 @@
                     class="team-picture"
                     icon="team-profile"
                     size="large"
-                    color="purple"
+                    color="violet"
                     :src="_userState.primaryTeam.picture"
                 />
                 <umt-button

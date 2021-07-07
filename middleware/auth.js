@@ -90,4 +90,5 @@ export default ({ app, route, store, redirect }) => {
             }
 
         })
+
 }

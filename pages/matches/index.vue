@@ -1,4 +1,5 @@
 <template>
+
     <div class="matches">
 
         <!-- MODALS -->
@@ -9,363 +10,351 @@
         />
 
 
-        <!-- CONTENT -->
+        <!-- LEFT CONTENT -->
 
-        <a-row>
+        <div class="left-content">
+
+            <img class="cup" src="@/assets/images/cup.svg">
+
+            <umt-tabs>
+
+                <!-- ACTIVES -->
+
+                <umt-tab-panel tab="1" label="activos">
+
+                    <!-- TEAMS -->
+
+                    <umt-collapsible v-for="(team, i) in _userState.teams" :key="`a${i}`">
+
+                        <umt-collapsible-request-header
+                            slot="header"
+                            :name="team.name"
+                            :picture="team.picture"
+                            :request-count="_actives.teams[i] ? _actives.teams[i].matches.length : 0"
+                        />
+
+                        <div v-if="_actives.teams[i]" slot="body">
+                            <umt-chat-list
+                                v-for="match in _actives.teams[i].matches"
+                                :key="`tm${match.teamId1}${match.teamId2}`"
+                                :team="{
+                                    name: team.id === match.teamId1 ? match.name2 : match.name1,
+                                    picture: team.id === match.teamId1 ? match.picture2 : match.picture1,
+                                    chat: match.chat
+                                }"
+                                :active="isActive (match)"
+                                type="team"
+                                @click="setChat(match)"
+                            />
+                        </div>
+
+                    </umt-collapsible>
 
 
-            <!-- LEFT CONTENT -->
+                    <!-- USER -->
 
-            <a-col class="leftContent" :span="8">
+                    <umt-collapsible>
 
-                <a-row class="cup">
+                        <umt-collapsible-request-header
+                            slot="header"
+                            type="user"
+                            :name="_userState.firstName"
+                            :picture="_userState.picture"
+                            :request-count="_actives.user.matches.length"
+                        />
 
-                    <img src="@/assets/images/cup.svg" alt="">
+                        <div slot="body">
+                            <umt-chat-list
+                                v-for="match in _actives.user.matches"
+                                :key="`tm${match.teamId1}${match.teamId2}`"
+                                :match="match"
+                                :active="isActive (match)"
+                                type="match"
+                                @click="setChat(match)"
+                            />
+                        </div>
+
+                    </umt-collapsible>
+
+                </umt-tab-panel>
+
+
+                <!-- REQUEST -->
+
+                <umt-tab-panel tab="2" label="solicitudes">
+
+                    <!-- TEAMS -->
+
+                    <umt-collapsible v-for="(team, i) in _userState.teams" :key="`r${i}`">
+
+                        <umt-collapsible-request-header
+                            slot="header"
+                            :name="team.name"
+                            :picture="team.picture"
+                            :request-count="_requests.teams[i] ? _requests.teams[i].matches.length : 0"
+                        />
+
+                        <div v-if="_requests.teams[i]" slot="body">
+                            <umt-request-list
+                                v-for="(match, j) in _requests.teams[i].matches"
+                                :key="`tm${j}`"
+                                :team="{
+                                    name: team.id === match.teamId1 ? match.name2 : match.name1,
+                                    picture: team.id === match.teamId1 ? match.picture2 : match.picture1
+                                }"
+                                :inbound="team.id != match.teamId1"
+                                type="team"
+                                @accept="acceptRequest(match, null)"
+                                @reject="rejectRequest(match, null)"
+                            />
+                        </div>
+
+                    </umt-collapsible>
+
+
+                    <!-- USER -->
+
+                    <umt-collapsible>
+
+                        <umt-collapsible-request-header
+                            slot="header"
+                            type="user"
+                            :name="_userState.firstName"
+                            :picture="_userState.picture"
+                            :request-count="_requests.user.matches.length"
+                        />
+
+                        <div slot="body">
+                            <umt-request-list
+                                v-for="(match, j) in _requests.user.matches"
+                                :key="`tm${j}`"
+                                :match="match"
+                                :inbound="true"
+                                type="match"
+                                @accept="acceptRequest(null, match)"
+                                @reject="rejectRequest(null, match)"
+                            />
+                        </div>
+
+                    </umt-collapsible>
+
+                </umt-tab-panel>
+
+            </umt-tabs>
+
+        </div>
+
+
+        <!-- RIGHT CONTENT -->
+
+        <div class="right-content">
+
+
+            <!-- CHAT -->
+
+            <div v-if="_selectedMatch && !showInfoMatch" class="chat-container">
+
+
+                <!-- CHAT HEADER -->
+
+                <div class="chat-header" @click="activateMatchInfo(true)">
+
+                    <div class="title">
+
+                        <center class="team-1">
+                            <umt-avatar
+                                class="team-picture"
+                                icon="team-profile"
+                                color="violet"
+                                :src="_selectedMatch.picture1"
+                            />
+                        </center>
+
+                        <center>
+                            <h2>{{ _selectedMatch.name1 }} VS {{ _selectedMatch.name2 }}</h2>
+                            <p>haz click aquí para más info</p>
+                        </center>
+
+                        <center class="team-2">
+                            <umt-avatar
+                                class="team-picture"
+                                icon="team-profile"
+                                color="violet"
+                                :src="_selectedMatch.picture2"
+                            />
+                        </center>
+
+                    </div>
+
+                    <center class="info">
+
+                        <div class="patch">
+                            <img :src="require(`@/assets/icons/${_themePrefix}-patch.svg`)">
+                            <h3>{{ _selectedMatch.patches.CP.N }}/{{ _selectedMatch.patches.NP.N }}</h3>
+                        </div>
+
+                        <div class="expire">
+                            <img :src="require(`@/assets/icons/${_themePrefix}-expire.svg`)">
+                            <div>
+                                <span><h3>{{ getDate(_selectedMatch.expireOn) }}</h3></span>
+                                <span><h3>{{ getTime(_selectedMatch.expireOn) }}</h3></span>
+                            </div>
+                        </div>
+
+                    </center>
+
+
+                </div>
+
+
+                <!-- CHAT BODY -->
+
+                <div class="chat-body">
+
+                    <div
+                        v-for="message in [..._selectedMatch.chat.messages].reverse()"
+                        :key="`message${message.email}${message.sentOn}`"
+                        :class="message.email == _userState.email ? 'right-message' : 'left-message'"
+                    >
+                        <p><b>{{ message.author }}</b> {{ getDate(message.sentOn) }} {{ getTime(message.sentOn) }}</p>
+                        <p>{{ message.msg }}</p>
+                    </div>
+
+                </div>
+
+
+                <!-- CHAT FOOTER -->
+
+                <div class="chat-footer">
+
+                    <div class="emoticon">
+                        <img src="@/assets/icons/emoticon.svg">
+                    </div>
+
+                    <div class="input-text">
+                        <umt-input
+                            v-model="inputMessage"
+                            placeholder="Escribe un mensaje"
+                        />
+                    </div>
+
+                    <div class="send" @click="sendMessage">
+                        <img src="@/assets/icons/send.svg">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MATCH INFORMATION -->
+
+            <div v-if="showInfoMatch">
+
+                <a-row>
+
+                    <a-col
+                        class="iconContainer"
+                        :span="4"
+                    >
+
+                        <img
+                            :src="getIcon('x-active.svg')"
+                            @click="activateMatchInfo"
+                        >
+
+                    </a-col>
+
+                    <a-col class="title" :span="20">
+
+                        <center>
+                            <h2>{{ _selectedMatch.name1 }} VS {{ _selectedMatch.name2 }}</h2>
+                        </center>
+
+                    </a-col>
+
+                    <a-col class="imgContainer" :span="4">
+
+                        <img
+                            src="@/assets/images/corner-top-right.svg"
+                        >
+
+                        <a-avatar
+                            size="large"
+                            class="teamPicture"
+                            :src="_selectedMatch.picture1"
+                        />
+
+                        <a-avatar
+                            size="large"
+                            class="teamPicture"
+                            :src="_selectedMatch.picture2"
+                        />
+
+                    </a-col>
 
                 </a-row>
 
-                <a-tabs
-                    class="tabDisplay tabPane"
-                    size="large"
-                    :default-active-key="1"
-                >
 
-                    <!-- ACTIVE MATCHES -->
+                <a-row>
 
-                    <a-tabPane :key="1" tab="ACTIVOS">
+                    <ScrollContainer>
 
-                        <ScrollContainer>
+                        <PrincipalBtn
+                            text="+ AGREGAR JUGADOR (3/30)"
+                            :loading="btnLoading"
+                            @click.native="showAddPlayer = !showAddPlayer"
+                        />
 
-                            <CollapseDisplay
-                                v-for="(team, i) in _userState.teams"
-                                :key="`a${i}`"
-                                :label="`${team.name} (${_actives.teams[i] ? _actives.teams[i].matches.length : 0})`"
-                                icon="team-profile.svg"
-                            >
+                        <h3>JUGADORES</h3>
 
-                                <div v-if="_actives.teams[i]">
+                        <br>
 
-                                    <ListBtn
-                                        v-for="match in _actives.teams[i].matches"
-                                        :key="`tm${match.teamId1}${match.teamId2}`"
-                                        :title="team.id === match.teamId1 ? match.name2 : match.name1"
-                                        :pictures="team.id === match.teamId1 ? [match.picture2] : [match.picture1]"
-                                        :is-active="`${_selectedMatch.teamId1}${_selectedMatch.teamId2}` === `${match.teamId1}${match.teamId2}` ? true : false"
-                                        :desc="match.chat.messages.length ? `${match.chat.messages[0].author}: ${match.chat.messages[0].msg}` : 'No hay mensajes'"
-                                        :time="match.chat.messages.length ? match.chat.messages[0].sentOn : ''"
-                                        type="team"
-                                        @click.native="setChat(match)"
-                                    />
+                        <a-row :gutter="[0, 0]" type="flex">
 
-                                </div>
-
-                            </CollapseDisplay>
-
-                            <CollapseDisplay
-                                icon="avatar.svg"
-                                :image="_userState.picture"
-                                :label="`${_userState.firstName} (${_actives.user.matches.length})`"
+                            <a-col
+                                v-for="player in _selectedMatch.members.players"
+                                :key="`r${player.email}`"
+                                :span="24"
                             >
 
                                 <ListBtn
-                                    v-for="match in _actives.user.matches"
-                                    :key="`tm${match.teamId1}${match.teamId2}`"
-                                    :title="`${match.name1} - ${match.name2}`"
-                                    :pictures="[match.picture1, match.picture2]"
-                                    :is-active="`${_selectedMatch.teamId1}${_selectedMatch.teamId2}` === `${match.teamId1}${match.teamId2}` ? true : false"
-                                    :desc="match.chat.messages.length ? `${match.chat.messages[0].author}: ${match.chat.messages[0].msg}` : 'No hay mensajes'"
-                                    :time="match.chat.messages.length ? match.chat.messages[0].sentOn : ''"
-                                    type="team"
-                                    @click.native="setChat(match)"
+                                    :key="`l${player.email}`"
+                                    :desc="player.name"
+                                    :pictures="[player.picture]"
                                 />
 
-                            </CollapseDisplay>
+                            </a-col>
 
-                        </ScrollContainer>
+                        </a-row>
 
-                    </a-tabPane>
-
-
-                    <!-- PENDING REQUESTS -->
-
-                    <a-tabPane :key="2" tab="SOLICITUDES">
-
-                        <ScrollContainer>
-
-                            <CollapseDisplay
-                                v-for="(team, i) in _userState.teams"
-                                :key="`r${i}`"
-                                :label="`${team.name} (${_requests.teams[i] ? _requests.teams[i].matches.length : 0})`"
-                                icon="team-profile.svg"
-                            >
-
-                                <div v-if="_requests.teams[i]">
-
-                                    <RequestCard
-                                        v-for="(match, j) in _requests.teams[i].matches"
-                                        :key="`tm${j}`"
-                                        :title="team.id === match.teamId1 ? match.name2 : match.name1"
-                                        :pictures="team.id === match.teamId1 ? [match.picture2] : [match.picture1]"
-                                        :desc="team.id === match.teamId1 ? 'Solicitud enviada' : 'Aceptar solicitud'"
-                                        :action="team.id === match.teamId1 ? 'out' : 'in'"
-                                        type="team"
-                                        @accept="acceptRequest(match, null)"
-                                        @reject="rejectRequest(match, null)"
-                                    />
-
-                                </div>
-
-                            </CollapseDisplay>
-
-                            <CollapseDisplay
-                                icon="avatar.svg"
-                                :image="_userState.picture"
-                                :label="`${_userState.firstName} (${_requests.user.matches.length})`"
-                            >
-
-                                <RequestCard
-                                    v-for="(match, j) in _requests.user.matches"
-                                    :key="`tm${j}`"
-                                    :title="`${match.name1} - ${match.name2}`"
-                                    :pictures="[match.picture1, match.picture2]"
-                                    desc="Aceptar solicitud"
-                                    action="in"
-                                    type="team"
-                                    @accept="acceptRequest(null, match)"
-                                    @reject="rejectRequest(null, match)"
-                                />
-
-                            </CollapseDisplay>
-
-                        </ScrollContainer>
-
-                    </a-tabPane>
-
-                </a-tabs>
-
-            </a-col>
-
-
-            <!-- RIGHT CONTENT -->
-
-            <a-col class="rightContent" :span="16">
-
-
-                <!-- CHAT CONTENT -->
-
-                <a-row v-if="_selectedMatch && !showInfoMatch" class="chatContainer">
-
-
-                    <!-- CHAT HEADER -->
-
-                    <a-row
-                        class="chatHeader"
-                        @click.native="activateMatchInfo(true)"
-                    >
-
-                        <a-col class="imgContainer" :span="4">
-
-                            <img
-                                src="@/assets/images/corner-top-right.svg"
-                                style="width: 24px"
-                            >
-
-                            <a-avatar
-                                size="large"
-                                class="teamPicture"
-                                :src="_selectedMatch.picture1"
-                            />
-
-                            <a-avatar
-                                size="large"
-                                class="teamPicture"
-                                :src="_selectedMatch.picture2"
-                            />
-
-                        </a-col>
-
-                        <a-col class="content" :span="20">
-
-                            <center>
-
-                                <h2>{{ _selectedMatch.name1 }} VS {{ _selectedMatch.name2 }}</h2>
-
-                            </center>
-
-                            <center>
-
-                                Parches: {{ _selectedMatch.patches.CP.N }} / {{ _selectedMatch.patches.NP.N }}
-
-                                Fecha: {{ _selectedMatch.schedule }}
-
-                                Expira: {{ _selectedMatch.expireOn }}
-
-                                haz click aquí para más info
-                            </center>
-
-                        </a-col>
-
-                    </a-row>
-
-
-                    <!-- CHAT BODY -->
-
-                    <a-row class="chatBody">
-
-                        <ScrollContainer>
-
-                            <div v-if="_selectedMatch.chat.messages.length">
-
-                                <div
-                                    v-for="message in [..._selectedMatch.chat.messages].reverse()"
-                                    :key="`message${message.email}${message.sentOn}`"
-                                    :class="message.email == _userState.email ? 'rightMessage' : 'leftMessage'"
-                                >
-                                    {{ message.author }} - {{ message.sentOn }}:
-                                    {{ message.msg }}
-                                </div>
-
-                            </div>
-
-                        </ScrollContainer>
-
-                    </a-row>
-
-
-                    <!-- CHAT FOOTER -->
-
-                    <a-row class="chatFooter">
-
-                        <div class="inputChat">
-
-                            <div class="emoticonContainer">
-
-                                <img
-                                    src="@/assets/icons/emoticon.svg"
-                                    style="width: 24px"
-                                >
-
-                            </div>
-
-                            <div class="inputText">
-
-                                <PrincipalInput
-                                    v-model="inputMessage"
-                                    class="principalInput"
-                                    placeholder="Escribe un mensaje"
-                                />
-
-                            </div>
-
-                            <div
-                                class="iconContainer"
-                                @click="sendMessage"
-                            >
-
-                                <img
-                                    src="@/assets/icons/send.svg"
-                                    style="width: 24px; cursor: pointer;"
-                                >
-
-                            </div>
-
-                        </div>
-
-                    </a-row>
+                    </ScrollContainer>
 
                 </a-row>
 
-
-                <!-- MATCH INFORMATION -->
-
-                <a-row v-if="showInfoMatch">
-
-                    <a-row>
-
-                        <a-col
-                            class="iconContainer"
-                            :span="4"
-                        >
-
-                            <img
-                                :src="getIcon('x-active.svg')"
-                                @click="activateMatchInfo"
-                            >
-
-                        </a-col>
-
-                        <a-col class="title" :span="20">
-
-                            <center>
-                                <h2>{{ _selectedMatch.name1 }} VS {{ _selectedMatch.name2 }}</h2>
-                            </center>
-
-                        </a-col>
-
-                        <a-col class="imgContainer" :span="4">
-
-                            <img
-                                src="@/assets/images/corner-top-right.svg"
-                            >
-
-                            <a-avatar
-                                size="large"
-                                class="teamPicture"
-                                :src="_selectedMatch.picture1"
-                            />
-
-                            <a-avatar
-                                size="large"
-                                class="teamPicture"
-                                :src="_selectedMatch.picture2"
-                            />
-
-                        </a-col>
-
-                    </a-row>
+            </div>
 
 
-                    <a-row>
+            <!-- DEFAULT NON MATCH SELECTED -->
 
-                        <ScrollContainer>
+            <div v-if="!_selectedMatch">
+                <center>
 
-                            <PrincipalBtn
-                                text="+ AGREGAR JUGADOR (3/30)"
-                                :loading="btnLoading"
-                                @click.native="showAddPlayer = !showAddPlayer"
-                            />
+                    <img src="@/assets/images/football-circle.svg" style="width: 250px">
 
-                            <h3>JUGADORES</h3>
+                    <h2>PARTIDO NO SELECCIONADO</h2>
 
-                            <br>
+                    <br>
 
-                            <a-row :gutter="[0, 0]" type="flex">
+                    <p>
+                        Selecciona un partido para acceder al chat e interactuar
+                        con tus amigo(a)s y rivales.
+                    </p>
 
-                                <a-col
-                                    v-for="player in _selectedMatch.members.players"
-                                    :key="`r${player.email}`"
-                                    :span="24"
-                                >
+                </center>
+            </div>
 
-                                    <ListBtn
-                                        :key="`l${player.email}`"
-                                        :desc="player.name"
-                                        :pictures="[player.picture]"
-                                    />
-
-                                </a-col>
-
-                            </a-row>
-
-                        </ScrollContainer>
-
-                    </a-row>
-
-                </a-row>
-
-            </a-col>
-
-        </a-row>
+        </div>
 
     </div>
 
@@ -430,6 +419,14 @@ export default {
 
             return null
 
+        },
+
+        _date () {
+            return `${this.$UTILS.getDayDD(this._selectedMatch.expireOn)}/${this.$UTILS.getMonthMM(this._selectedMatch.expireOn)}`
+        },
+
+        _time () {
+            return `${this.$UTILS.getHourHH(this._selectedMatch.expireOn)}:${this.$UTILS.getMinutesMM(this._selectedMatch.expireOn)}`
         }
 
     },
@@ -551,6 +548,8 @@ export default {
                         this.showNotification(e.title, e.msg, e.type)
                     })
 
+                this.inputMessage = ''
+
             }
 
         },
@@ -568,6 +567,27 @@ export default {
                     })
 
             }
+
+        },
+
+
+        isActive (match) {
+
+            return `${this._selectedMatch.teamId1}${this._selectedMatch.teamId2}` === `${match.teamId1}${match.teamId2}`
+
+        },
+
+
+        getDate (datetime) {
+
+            return `${this.$UTILS.getDayDD(datetime)}/${this.$UTILS.getMonthMM(datetime)}`
+
+        },
+
+
+        getTime (datetime) {
+
+            return `${this.$UTILS.getHourHH(datetime)}:${this.$UTILS.getMinutesMM(datetime)}`
 
         }
 

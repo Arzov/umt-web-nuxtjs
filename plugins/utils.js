@@ -142,6 +142,44 @@ const getDayDD = (currDate) => {
 
 
 /**
+ * Get hour from date in `HH` format
+ * @param {String} currDate Date to parse
+ */
+const getHourHH = (currDate) => {
+
+    let currentHour = getLocalFromUTC(currDate).getHours()
+
+    // left padding 0 to day less than 10
+
+    if (currentHour < 10) {
+        currentHour = '0' + currentHour
+    }
+
+    return currentHour
+
+}
+
+
+/**
+ * Get minuntes from date in `MM` format
+ * @param {String} currDate Date to parse
+ */
+const getMinutesMM = (currDate) => {
+
+    let currentMinutes = getLocalFromUTC(currDate).getMinutes()
+
+    // left padding 0 to day less than 10
+
+    if (currentMinutes < 10) {
+        currentMinutes = '0' + currentMinutes
+    }
+
+    return currentMinutes
+
+}
+
+
+/**
  * Get age from birthdate
  * @param {String} birthdate Birthdate in `YYYY-MM-DD` format
  */
@@ -164,6 +202,8 @@ export default (ctx, inject) => {
         getLocalFromUTC,
         getMonthMM,
         getDayDD,
+        getHourHH,
+        getMinutesMM,
         getAgeFromDate
     }
 

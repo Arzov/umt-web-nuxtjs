@@ -24,7 +24,7 @@
                 class="team-picture"
                 icon="team-profile"
                 size="small"
-                color="purple"
+                color="violet"
                 :src="_userState.primaryTeam.picture"
             />
 
@@ -53,6 +53,11 @@ export default {
             navbarValue: 'home'
 
         }
+    },
+
+
+    mounted () {
+        this.navbarValue = this.$router.currentRoute.name
     },
 
 
