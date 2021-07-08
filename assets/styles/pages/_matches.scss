@@ -15,6 +15,7 @@
 
     justify-content: space-between;
 
+
     .left-content {
 
         justify-content : flex-start;
@@ -29,6 +30,7 @@
 
     }
 
+
     .right-content {
 
         padding : 0;
@@ -39,6 +41,7 @@
             min-height      : 100%;
             display         : flex;
             flex-direction  : column;
+            overflow        : hidden;
 
             .chat-header {
 
@@ -133,12 +136,9 @@
                 background-image: url("../images/chat-background.svg");
                 background-size : 30%;
                 padding         : 24px;
-                display         : flex;
-                height          : 100%;
-                flex-direction  : column;
                 box-shadow      : inset 2px 0px 5px 5px rgba($color-main-3, 0.1);
                 justify-content : flex-end;
-                overflow-y      : auto;
+                overflow        : auto;
 
                 [umt-theme="light"] & {
                     background-color: $color-main-1;
@@ -148,33 +148,67 @@
                     background-color: $color-main-4;
                 }
 
-                .left-message,
-                .right-message {
+                .messages {
 
-                    margin-bottom   : 24px;
-                    padding         : 8px;
-                    border-radius   : 8px;
-                    box-shadow      : 1px 1px 1px 2px rgba($color-main-4, 0.1);
+                    display         : flex;
+                    flex-direction  : column;
 
-                    p {
-                        color: $color-main-3;
+                    .left-message,
+                    .right-message {
+
+                        margin-bottom   : 24px;
+                        padding         : 8px;
+                        border-radius   : 8px;
+                        max-width       : 90%;
+                        box-shadow      : 1px 1px 1px 2px rgba($color-main-4, 0.1);
+
+                        p {
+                            color: $color-main-3;
+                        }
+
                     }
 
-                }
+                    .left-message {
 
-                .left-message {
+                        background  : linear-gradient(90deg, $color-main-8 0%, $color-main-7 250%);
+                        align-self  : flex-start;
+                        position    : relative;
 
-                    background                  : linear-gradient(90deg, $color-main-8 0%, $color-main-6 250%);
-                    border-bottom-left-radius   : 0px;
-                    align-self                  : flex-start;
+                        img {
 
-                }
+                            height  : 20px;
+                            position: absolute;
+                            bottom  : 0;
 
-                .right-message {
+                            &.msg-corner-image {
+                                left        : 0;
+                                transform   : translateX(-7px);
+                            }
 
-                    background                  : linear-gradient(90deg, $color-main-5 -20%, $color-main-10 180%);
-                    border-bottom-right-radius  : 0px;
-                    align-self                  : flex-end;
+                        }
+
+                    }
+
+                    .right-message {
+
+                        background  : linear-gradient(90deg, $color-main-5 -20%, $color-main-10 180%);
+                        align-self  : flex-end;
+                        position    : relative;
+
+                        img {
+
+                            height  : 20px;
+                            position: absolute;
+                            bottom  : 0;
+
+                            &.msg-corner-image {
+                                right       : 0;
+                                transform   : translateX(7px);
+                            }
+
+                        }
+
+                    }
 
                 }
 
@@ -213,66 +247,86 @@
 
         }
 
-        .bannerInfoTeam {
-            height: 150px;
-            display: flex;
-            flex-direction: row;
+        .match-info {
 
-            .iconContainer {
-                @extend %matches-full-width;
-                align-items: center;
-                justify-content: center;
-                width: 15%;
+            min-height      : 100%;
+            display         : flex;
+            flex-direction  : column;
+            padding         : 40px 24px;
 
-                img {
-                    width: 35%;
-                    height: 35%;
-                    cursor: pointer;
-                }
-            }
+            .header {
 
-            .title {
-                @extend %matches-full-width;
-                justify-content: center;
-                width: 70%;
-            }
+                display: inline-table;
+                padding: 0;
 
-            .imgContainer {
-                @extend %matches-full-width;
-                width: 15%;
-
-                img {
-                    width: 75%;
-                    height: 100%;
+                .corner-top-right {
+                    top     : 64px;
+                    z-index : 0;
                 }
 
-                .teamPicture {
-                    position: absolute;
-                    top: 45%;
-                    right: 0;
-                    left: 10%;
-                    bottom: 0;
-                    z-index: 1;
-
-                    // .dmBody & {
-                    //     box-shadow: 0 0 0 1px $color-dark-grey;
-                    // }
-
-                    // .lmBody & {
-                    //     box-shadow: 0 0 0 1px $color-white;
-                    // }
+                .umt-button {
+                    align-self: flex-start;
                 }
+
+                .title {
+
+                    display         : flex;
+                    justify-content : space-between;
+                    align-items     : center;
+                    width           : 100%;
+                    padding-bottom  : 24px;
+
+                    .team-1,
+                    .team-2 {
+
+                        padding     : 12px 7%;
+                        transform   : skewx(-15deg);
+
+                        .umt-avatar {
+                            transform: skewx(15deg);
+                        }
+
+                    }
+
+                    .team-1 {
+                        background: linear-gradient(45deg, $color-main-6, $color-main-7);
+                    }
+
+                    .team-2 {
+                        background: linear-gradient(45deg, $color-main-10, $color-main-5);
+                    }
+
+
+                    .team1-name {
+                        margin-right: 3rem;
+                    }
+
+                    .team2-name {
+                        margin-left: 3rem;
+                    }
+
+                }
+
             }
+
+            .content {
+
+                .title {
+
+                    display         : flex;
+                    justify-content : space-between;
+                    align-items     : center;
+
+                    .umt-button {
+                        margin: 0;
+                    }
+
+                }
+
+            }
+
         }
 
-        .infoTeam {
-            height: 65vh;
-            overflow-y: scroll;
-            overflow-x: none;
-            justify-content: center;
-            align-self: center;
-            padding-right: 25%;
-            padding-left: 25%;
-        }
     }
+
 }

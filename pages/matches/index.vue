@@ -4,9 +4,10 @@
 
         <!-- MODALS -->
 
-        <ModalAddPatch
-            v-model="showAddPlayer"
+        <modal-add-patch
+            v-if="showAddPlayer"
             :match="_selectedMatch"
+            @close="showAddPlayer = !showAddPlayer"
         />
 
 
@@ -211,13 +212,25 @@
 
                 <div class="chat-body">
 
-                    <div
-                        v-for="message in [..._selectedMatch.chat.messages].reverse()"
-                        :key="`message${message.email}${message.sentOn}`"
-                        :class="message.email == _userState.email ? 'right-message' : 'left-message'"
-                    >
-                        <p><b>{{ message.author }}</b> {{ getDate(message.sentOn) }} {{ getTime(message.sentOn) }}</p>
-                        <p>{{ message.msg }}</p>
+                    <div class="messages">
+                        <div
+                            v-for="message in [..._selectedMatch.chat.messages].reverse()"
+                            :key="`message${message.email}${message.sentOn}`"
+                            :class="message.email == _userState.email ? 'right-message' : 'left-message'"
+                        >
+                            <p><b>{{ message.author }}</b> {{ getDate(message.sentOn) }} {{ getTime(message.sentOn) }}</p>
+                            <p>{{ message.msg }}</p>
+                            <img
+                                v-if="message.email == _userState.email"
+                                class="msg-corner-image"
+                                src="@/assets/images/chat-corner-right.svg"
+                            >
+                            <img
+                                v-else
+                                class="msg-corner-image"
+                                src="@/assets/images/chat-corner-left.svg"
+                            >
+                        </div>
                     </div>
 
                 </div>
@@ -249,88 +262,80 @@
 
             <!-- MATCH INFORMATION -->
 
-            <div v-if="showInfoMatch">
+            <div v-if="showInfoMatch" class="match-info">
 
-                <a-row>
+                <div class="header">
 
-                    <a-col
-                        class="iconContainer"
-                        :span="4"
-                    >
+                    <img class="corner-top-right" src="@/assets/images/corner-top-right.svg">
 
-                        <img
-                            :src="getIcon('x-active.svg')"
-                            @click="activateMatchInfo"
-                        >
+                    <umt-button
+                        type="icon"
+                        color="green"
+                        icon="x"
+                        @click="activateMatchInfo"
+                    />
 
-                    </a-col>
+                    <div class="title">
 
-                    <a-col class="title" :span="20">
-
-                        <center>
-                            <h2>{{ _selectedMatch.name1 }} VS {{ _selectedMatch.name2 }}</h2>
+                        <center class="team-1">
+                            <umt-avatar
+                                class="team-picture"
+                                icon="team-profile"
+                                color="violet"
+                                :src="_selectedMatch.picture1"
+                            />
                         </center>
 
-                    </a-col>
+                        <center>
+                            <h2 class="team1-name">
+                                {{ _selectedMatch.name1 }}
+                            </h2>
+                            <h2 class="team2-name">
+                                {{ _selectedMatch.name2 }}
+                            </h2>
+                        </center>
 
-                    <a-col class="imgContainer" :span="4">
+                        <center class="team-2">
+                            <umt-avatar
+                                class="team-picture"
+                                icon="team-profile"
+                                color="violet"
+                                :src="_selectedMatch.picture2"
+                            />
+                        </center>
 
-                        <img
-                            src="@/assets/images/corner-top-right.svg"
-                        >
+                    </div>
 
-                        <a-avatar
-                            size="large"
-                            class="teamPicture"
-                            :src="_selectedMatch.picture1"
+                </div>
+
+                <div class="content">
+
+                    <div class="title">
+
+                        <h2>JUGADORES</h2>
+
+                        <umt-button
+                            type="icon"
+                            color="violet"
+                            size="small"
+                            icon="plus"
+                            @click="showAddPlayer = !showAddPlayer"
                         />
 
-                        <a-avatar
-                            size="large"
-                            class="teamPicture"
-                            :src="_selectedMatch.picture2"
-                        />
+                    </div>
 
-                    </a-col>
+                    <umt-chat-list
+                        v-for="player in _selectedMatch.members.players"
+                        :key="`r${player.email}`"
+                        :team="{
+                            name: player.name,
+                            picture: player.picture,
+                            chat: { messages: [] }
+                        }"
+                        type="team"
+                    />
 
-                </a-row>
-
-
-                <a-row>
-
-                    <ScrollContainer>
-
-                        <PrincipalBtn
-                            text="+ AGREGAR JUGADOR (3/30)"
-                            :loading="btnLoading"
-                            @click.native="showAddPlayer = !showAddPlayer"
-                        />
-
-                        <h3>JUGADORES</h3>
-
-                        <br>
-
-                        <a-row :gutter="[0, 0]" type="flex">
-
-                            <a-col
-                                v-for="player in _selectedMatch.members.players"
-                                :key="`r${player.email}`"
-                                :span="24"
-                            >
-
-                                <ListBtn
-                                    :key="`l${player.email}`"
-                                    :desc="player.name"
-                                    :pictures="[player.picture]"
-                                />
-
-                            </a-col>
-
-                        </a-row>
-
-                    </ScrollContainer>
-
-                </a-row>
+                </div>
 
             </div>
 
@@ -355,6 +360,8 @@
             </div>
 
         </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -434,15 +441,21 @@ export default {
 
     async mounted () {
 
-        await this.$store.dispatch('matches/listMatches')
-            .catch((e) => {
-                this.showNotification(e.title, e.msg, e.type)
-            })
+        this.handleTopProgress('start')
 
-        await this.$store.dispatch('matches/listRequests')
-            .catch((e) => {
-                this.showNotification(e.title, e.msg, e.type)
-            })
+        try {
+
+            await this.$store.dispatch('matches/listMatches')
+            await this.$store.dispatch('matches/listRequests')
+
+            this.handleTopProgress('done')
+
+        }
+
+        catch (e) {
+            this.handleTopProgress('fail')
+            this.showNotification(e.title, e.msg, e.type)
+        }
 
     },
 
@@ -451,18 +464,21 @@ export default {
 
         acceptRequest (match, matchPatch) {
 
+            this.handleTopProgress('start')
+
             if (match) {
 
-                this.$store
-                    .dispatch('matches/updateMatch', {
-                        ...match,
-                        action  : 'accept',
-                        reqStat : { AR: { S: 'A' }, RR : { S : 'A' } }
-                    })
+                this.$store.dispatch('matches/updateMatch', {
+                    ...match,
+                    action  : 'accept',
+                    reqStat : { AR: { S: 'A' }, RR : { S : 'A' } }
+                })
                     .then((e) => {
+                        this.handleTopProgress('done')
                         this.showNotification(e.title, e.msg, e.type)
                     })
                     .catch((e) => {
+                        this.handleTopProgress('fail')
                         this.showNotification(e.title, e.msg, e.type)
                     })
 
@@ -470,16 +486,17 @@ export default {
 
             else {
 
-                this.$store
-                    .dispatch('matches/updateMatchPatch', {
-                        ...matchPatch,
-                        action  : 'accept',
-                        reqStat : { MR: { S: 'A' }, PR : { S : 'A' } }
-                    })
+                this.$store.dispatch('matches/updateMatchPatch', {
+                    ...matchPatch,
+                    action  : 'accept',
+                    reqStat : { MR: { S: 'A' }, PR : { S : 'A' } }
+                })
                     .then((e) => {
+                        this.handleTopProgress('done')
                         this.showNotification(e.title, e.msg, e.type)
                     })
                     .catch((e) => {
+                        this.handleTopProgress('fail')
                         this.showNotification(e.title, e.msg, e.type)
                     })
 
@@ -490,19 +507,21 @@ export default {
 
         rejectRequest (match, matchPatch) {
 
+            this.handleTopProgress('start')
 
             if (match) {
 
-                this.$store
-                    .dispatch('matches/updateMatch', {
-                        ...match,
-                        action  : 'reject',
-                        reqStat : { AR: { S: 'C' }, RR : { S : 'C' } }
-                    })
+                this.$store.dispatch('matches/updateMatch', {
+                    ...match,
+                    action  : 'reject',
+                    reqStat : { AR: { S: 'C' }, RR : { S : 'C' } }
+                })
                     .then((e) => {
+                        this.handleTopProgress('done')
                         this.showNotification(e.title, e.msg, e.type)
                     })
                     .catch((e) => {
+                        this.handleTopProgress('fail')
                         this.showNotification(e.title, e.msg, e.type)
                     })
 
@@ -510,16 +529,17 @@ export default {
 
             else {
 
-                this.$store
-                    .dispatch('matches/updateMatchPatch', {
-                        ...matchPatch,
-                        action  : 'reject',
-                        reqStat : { MR: { S: 'C' }, PR : { S : 'C' } }
-                    })
+                this.$store.dispatch('matches/updateMatchPatch', {
+                    ...matchPatch,
+                    action  : 'reject',
+                    reqStat : { MR: { S: 'C' }, PR : { S : 'C' } }
+                })
                     .then((e) => {
+                        this.handleTopProgress('done')
                         this.showNotification(e.title, e.msg, e.type)
                     })
                     .catch((e) => {
+                        this.handleTopProgress('fail')
                         this.showNotification(e.title, e.msg, e.type)
                     })
             }
@@ -528,9 +548,7 @@ export default {
 
 
         setChat (match) {
-
             this.selectedMatch = match
-
         },
 
 
@@ -561,10 +579,17 @@ export default {
 
             if (fetchMembers) {
 
-                await this.$store.dispatch('matches/fetchMembers', this._selectedMatch)
-                    .catch((e) => {
-                        this.showNotification(e.title, e.msg, e.type)
-                    })
+                this.handleTopProgress('start')
+
+                try {
+                    await this.$store.dispatch('matches/fetchMembers', this._selectedMatch)
+                    this.handleTopProgress('done')
+                }
+
+                catch (e) {
+                    this.handleTopProgress('fail')
+                    this.showNotification(e.title, e.msg, e.type)
+                }
 
             }
 
@@ -572,23 +597,17 @@ export default {
 
 
         isActive (match) {
-
             return `${this._selectedMatch.teamId1}${this._selectedMatch.teamId2}` === `${match.teamId1}${match.teamId2}`
-
         },
 
 
         getDate (datetime) {
-
             return `${this.$UTILS.getDayDD(datetime)}/${this.$UTILS.getMonthMM(datetime)}`
-
         },
 
 
         getTime (datetime) {
-
             return `${this.$UTILS.getHourHH(datetime)}:${this.$UTILS.getMinutesMM(datetime)}`
-
         }
 
     }

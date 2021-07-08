@@ -1140,7 +1140,7 @@ const actions = {
             else {
 
                 const response = {
-                    type    : 'success',
+                    type    : 'warning',
                     title   : '¡Jugador existente!',
                     msg     : 'El jugador ya participa del partido.'
                 }
