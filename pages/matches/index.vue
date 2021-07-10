@@ -4,11 +4,7 @@
 
         <!-- MODALS -->
 
-        <modal-add-patch
-            v-if="showAddPlayer"
-            :match="_selectedMatch"
-            @close="showAddPlayer = !showAddPlayer"
-        />
+        <modal-add-patch v-if="showAddPlayer" :match="_selectedMatch" @close="showAddPlayer = !showAddPlayer" />
 
 
         <!-- LEFT CONTENT -->
@@ -324,15 +320,14 @@
 
                     </div>
 
-                    <umt-chat-list
+                    <umt-list
                         v-for="player in _selectedMatch.members.players"
                         :key="`r${player.email}`"
-                        :team="{
-                            name: player.name,
-                            picture: player.picture,
-                            chat: { messages: [] }
+                        :user="{
+                            firstName: player.name,
+                            picture: player.picture
                         }"
-                        type="team"
+                        type="user"
                     />
 
                 </div>

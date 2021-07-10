@@ -89,13 +89,6 @@ const global = {
                 this.$refs.topProgress.done()
             }
 
-        },
-
-
-        // get icon from assets
-
-        getIcon (icon) {
-            return require(`@/assets/icons/${this._themePrefix}-${icon}`)
         }
 
     }

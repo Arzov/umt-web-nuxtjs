@@ -2,345 +2,292 @@
 
     <div class="teams">
 
-
         <!-- MODALS -->
 
-        <ModalAddTeam v-model="showAddTeam" />
-        <ModalAddPlayer v-model="showAddPlayer" :team-id="_activeTeam ? _activeTeam.id : ''" />
+        <!-- <ModalAddTeam v-model="showAddTeam" />
+        <ModalAddPlayer v-model="showAddPlayer" :team-id="_activeTeam ? _activeTeam.id : ''" /> -->
 
 
-        <!-- CONTENT -->
+        <!-- LEFT SIDE MENU -->
 
-        <a-row>
+        <div class="left-content">
 
+            <img class="shield" src="@/assets/images/shield.svg">
 
-            <!-- LEFT SIDE MENU -->
+            <umt-tabs>
 
-            <a-col class="leftContent" :span="8">
+                <!-- ACTIVE -->
 
-                <a-row class="shield">
+                <umt-tab-panel tab="1" label="activos">
 
-                    <img src="@/assets/images/shield.svg" alt="">
+                    <div v-if="_userState.teams.length">
 
-                </a-row>
-
-
-                <a-tabs
-                    class="tabDisplay tabPane"
-                    size="large"
-                    :default-active-key="1"
-                >
-
-
-                    <!-- ACTIVE REQUESTS -->
-
-                    <a-tabPane :key="1" tab="ACTIVOS">
-
-                        <ScrollContainer v-if="_teamsChatMessages.length">
-
-                            <ListBtn
-                                v-for="(team, i) in _userState.teams"
-                                :key="`t${team.id}`"
-                                :title="team.name"
-                                :desc="_teamsChatMessages[i].messages.length
-                                    ? `${_teamsChatMessages[i].messages[0].author}: ${_teamsChatMessages[i].messages[0].msg}`
-                                    : 'No hay mensajes'
-                                "
-                                :time="_teamsChatMessages[i].messages.length
-                                    ? _teamsChatMessages[i].messages[0].sentOn
-                                    : ''
-                                "
-                                :pictures="[team.picture]"
-                                :is-active="activeTeamChat == i ? true : false"
-                                type="team"
-                                @click.native="setChat(i)"
-                            />
-
-                        </ScrollContainer>
-
-                        <center v-else>
-                            No perteneces a ningún equipo aún.
-                        </center>
-
-                        <br>
-
-                        <PrincipalBtn
-                            text="+ CREAR EQUIPO (1/3)"
-                            :loading="btnLoading"
-                            @click.native="showModalAddTeam()"
+                        <umt-chat-cell
+                            v-for="(team, i) in _userState.teams"
+                            :key="`t${team.id}`"
+                            :team="{
+                                name: team.name,
+                                picture: team.picture,
+                                chat: _actives.teams[i].chat
+                            }"
+                            :active="activeTeamChat == i"
+                            @click="setChat(i)"
                         />
 
-                    </a-tabPane>
+                    </div>
+
+                    <center v-else>
+                        <img src="@/assets/images/football-circle.svg" style="width: 250px">
+                        <p>No perteneces a ningún equipo aún.</p>
+                    </center>
+
+                    <umt-button @click="showModalAddTeam()">
+                        + CREAR EQUIPO (1/3)
+                    </umt-button>
+
+                </umt-tab-panel>
 
 
-                    <!-- PENDING REQUESTS -->
+                <!-- REQUESTS -->
 
-                    <a-tabPane :key="2" tab="SOLICITUDES">
+                <umt-tab-panel tab="2" label="solicitudes">
 
-                        <ScrollContainer>
+                    <umt-collapsible v-for="(team, i) in _userState.teams" :key="`r${team.id}`">
 
-                            <CollapseDisplay
-                                v-for="(team, i) in _userState.teams"
-                                :key="`r${team.id}`"
-                                :label="`${team.name} (${_teamsRequests[i] ? _teamsRequests[i].requests.length : 0})`"
-                                icon="team-profile.svg"
-                            >
+                        <umt-collapsible-request-header
+                            slot="header"
+                            :name="team.name"
+                            :picture="team.picture"
+                            :request-count="_requests.teams[i] ? _requests.teams[i].requests.length : 0"
+                        />
 
-                                <div v-if="_teamsRequests[i]">
-
-                                    <RequestCard
-                                        v-for="teamMember in _teamsRequests[i].requests"
-                                        :key="`tm${teamMember.teamId}${teamMember.email}`"
-                                        :title="teamMember.name"
-                                        :desc="teamMember.reqStat.TR.S == 'A' ? 'Solicitud enviada' : 'Aceptar solicitud'"
-                                        :pictures="[teamMember.picture]"
-                                        :action="teamMember.reqStat.TR.S == 'A' ? 'out' : 'in'"
-                                        type="user"
-                                        @accept="acceptRequest(teamMember)"
-                                        @reject="rejectRequest(teamMember)"
-                                    />
-
-                                </div>
-
-                            </CollapseDisplay>
-
-                            <CollapseDisplay
-                                icon="avatar.svg"
-                                :label="`${_userState.firstName} (${_teamMemberRequests.requests.length})`"
-                            >
-
-                                <RequestCard
-                                    v-for="teamMember in _teamMemberRequests.requests"
-                                    :key="`tm${teamMember.teamId}${teamMember.email}`"
-                                    :title="teamMember.name"
-                                    :desc="teamMember.reqStat.TR.S == 'A' ? 'Aceptar solicitud' : 'Solicitud enviada'"
-                                    :pictures="[teamMember.picture]"
-                                    :action="teamMember.reqStat.TR.S == 'A' ? 'in' : 'out'"
-                                    type="team"
-                                    @accept="acceptRequest({
-                                        ...teamMember,
-                                        name: _userState.firstName
-                                    })"
-                                    @reject="rejectRequest({
-                                        ...teamMember,
-                                        name: _userState.firstName
-                                    })"
-                                />
-
-                            </CollapseDisplay>
-
-                        </ScrollContainer>
-
-                    </a-tabPane>
-
-                </a-tabs>
-
-            </a-col>
-
-
-            <!-- RIGHT CONTENT -->
-
-            <a-col class="rightContent" :span="16">
-
-
-                <!-- CHAT CONTENT -->
-
-                <a-row v-if="!showInfoTeam && _userState.teams.length" class="chatContainer">
-
-
-                    <!-- CHAT HEADER -->
-
-                    <a-row
-                        class="chatHeader"
-                        @click.native="showInfoTeam = !showInfoTeam"
-                    >
-
-                        <a-col class="imgContainer" :span="4">
-
-                            <img
-                                src="@/assets/images/corner-top-right.svg"
-                                style="width: 24px"
-                            >
-
-                            <a-avatar
-                                size="large"
-                                class="teamPicture"
-                                :src="_activeTeam.picture"
+                        <div v-if="_requests.teams[i]" slot="body">
+                            <umt-request-list
+                                v-for="teamMember in _requests.teams[i].requests"
+                                :key="`tr${teamMember.teamId}${teamMember.email}`"
+                                :user="{
+                                    firstName: teamMember.name,
+                                    picture: teamMember.picture
+                                }"
+                                :inbound="teamMember.reqStat.TR.S != 'A'"
+                                type="user"
+                                @accept="acceptRequest(teamMember)"
+                                @reject="rejectRequest(teamMember)"
                             />
-
-                        </a-col>
-
-                        <a-col class="content" :span="20">
-
-                            <center>
-
-                                <h2>{{ _activeTeam.name }}</h2>
-
-                            </center>
-
-                            <center>haz click aquí para más info</center>
-
-                        </a-col>
-                    </a-row>
-
-
-                    <!-- CHAT BODY -->
-
-                    <a-row class="chatBody">
-
-                        <ScrollContainer>
-
-                            <div v-if="_teamsChatMessages.length">
-
-                                <div
-                                    v-for="message in [..._teamsChatMessages[activeTeamChat].messages].reverse()"
-                                    :key="`message${message.email}${message.sentOn}`"
-                                    :class="message.email == _userState.email ? 'rightMessage' : 'leftMessage'"
-                                >
-                                    {{ message.author }} - {{ message.sentOn }}:
-                                    {{ message.msg }}
-                                </div>
-
-                            </div>
-
-                        </ScrollContainer>
-
-                    </a-row>
-
-
-                    <!-- CHAT FOOTER -->
-
-                    <a-row class="chatFooter">
-
-                        <div class="inputChat">
-
-                            <div class="emoticonContainer">
-
-                                <img
-                                    src="@/assets/icons/emoticon.svg"
-                                    style="width: 24px"
-                                >
-
-                            </div>
-
-                            <div class="inputText">
-
-                                <PrincipalInput
-                                    v-model="inputMessage"
-                                    class="principalInput"
-                                    placeholder="Escribe un mensaje"
-                                />
-
-                            </div>
-
-                            <div
-                                class="iconContainer"
-                                @click="sendMessage"
-                            >
-
-                                <img
-                                    src="@/assets/icons/send.svg"
-                                    style="width: 24px; cursor: pointer;"
-                                >
-
-                            </div>
-
                         </div>
 
-                    </a-row>
+                    </umt-collapsible>
 
-                </a-row>
+                    <umt-collapsible>
+
+                        <umt-collapsible-request-header
+                            slot="header"
+                            type="user"
+                            :name="_userState.firstName"
+                            :picture="_userState.picture"
+                            :request-count="_requests.user.requests.length"
+                        />
+
+                        <div slot="body">
+                            <umt-request-list
+                                v-for="teamMember in _requests.user.requests"
+                                :key="`ur${teamMember.teamId}${teamMember.email}`"
+                                :user="teamMember"
+                                :inbound="teamMember.reqStat.TR.S == 'A'"
+                                type="user"
+                                @accept="acceptRequest({
+                                    ...teamMember,
+                                    name: _userState.firstName
+                                })"
+                                @reject="rejectRequest({
+                                    ...teamMember,
+                                    name: _userState.firstName
+                                })"
+                            />
+                        </div>
+
+                    </umt-collapsible>
+
+                </umt-tab-panel>
+
+            </umt-tabs>
+
+        </div>
 
 
-                <!-- TEAM INFORMATION -->
+        <!-- RIGHT CONTENT -->
 
-                <a-row v-else-if="_userState.teams.length">
+        <div class="right-content">
 
-                    <a-row>
+            <!-- CHAT CONTENT -->
 
-                        <a-col
-                            class="iconContainer"
-                            :span="4"
-                        >
+            <div v-if="!showInfoTeam && _userState.teams.length" class="chat-container">
 
-                            <img
-                                :src="getIcon('x-active.svg')"
-                                @click="showInfoTeam = !showInfoTeam"
-                            >
+                <!-- CHAT HEADER -->
 
-                        </a-col>
+                <div class="chat-header" @click="showInfoTeam = !showInfoTeam">
 
-                        <a-col class="title" :span="20">
+                    <div class="title">
 
-                            <center>
-                                <h2>{{ _activeTeam.name }}</h2>
-                            </center>
+                        <center>
+                            <h2>{{ _activeTeam.name }}</h2>
+                            <p>haz click aquí para más info</p>
+                        </center>
 
-                        </a-col>
-
-                        <a-col class="imgContainer" :span="4">
-
-                            <img
-                                src="@/assets/images/corner-top-right.svg"
-                            >
-
-                            <a-avatar
-                                size="large"
-                                class="teamPicture"
+                        <center class="team">
+                            <umt-avatar
+                                class="team-picture"
+                                icon="team-profile"
+                                color="violet"
                                 :src="_activeTeam.picture"
                             />
+                        </center>
 
-                        </a-col>
+                    </div>
 
-                    </a-row>
+                </div>
 
 
-                    <a-row>
+                <!-- CHAT BODY -->
 
-                        <ScrollContainer>
+                <div class="chat-body">
 
-                            <PrincipalBtn
-                                text="+ AGREGAR JUGADOR (3/30)"
-                                :loading="btnLoading"
-                                @click.native="showModalAddPlayer()"
+                    <div class="messages">
+                        <div
+                            v-for="message in [..._activeTeam.chat.messages].reverse()"
+                            :key="`message${message.email}${message.sentOn}`"
+                            :class="message.email == _userState.email ? 'right-message' : 'left-message'"
+                        >
+                            <p><b>{{ message.author }}</b> {{ getDate(message.sentOn) }} {{ getTime(message.sentOn) }}</p>
+                            <p>{{ message.msg }}</p>
+                            <img
+                                v-if="message.email == _userState.email"
+                                class="msg-corner-image"
+                                src="@/assets/images/chat-corner-right.svg"
+                            >
+                            <img
+                                v-else
+                                class="msg-corner-image"
+                                src="@/assets/images/chat-corner-left.svg"
+                            >
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- CHAT FOOTER -->
+
+                <div class="chat-footer">
+
+                    <div class="emoticon">
+                        <img src="@/assets/icons/emoticon.svg">
+                    </div>
+
+                    <div class="input-text">
+                        <umt-input
+                            v-model="inputMessage"
+                            placeholder="Escribe un mensaje"
+                        />
+                    </div>
+
+                    <div class="send" @click="sendMessage">
+                        <img src="@/assets/icons/send.svg">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TEAM INFORMATION -->
+
+            <div v-else-if="_userState.teams.length" class="team-info">
+
+                <div class="header">
+
+                    <img class="corner-top-right" src="@/assets/images/corner-top-right.svg">
+
+                    <umt-button
+                        type="icon"
+                        color="green"
+                        icon="x"
+                        @click="showInfoTeam = !showInfoTeam"
+                    />
+
+                    <div class="title">
+
+                        <center>
+                            <h2 class="team-name">
+                                {{ _activeTeam.name }}
+                            </h2>
+                        </center>
+
+                        <center class="team">
+                            <umt-avatar
+                                class="team-picture"
+                                icon="team-profile"
+                                color="violet"
+                                :src="_activeTeam.picture"
                             />
+                        </center>
 
-                            <h3>JUGADORES</h3>
+                    </div>
 
-                            <br>
+                </div>
 
-                            <a-row :gutter="[0, 0]" type="flex">
+                <div class="content">
 
-                                <a-col
-                                    v-for="player in _teamMembers"
-                                    :key="`r${player.email}`"
-                                    :span="24"
-                                >
+                    <div class="title">
 
-                                    <ListBtn
-                                        :key="`l${player.email}`"
-                                        :desc="player.name"
-                                        :pictures="[player.picture]"
-                                    />
+                        <h2>JUGADORES (3/30)</h2>
 
-                                </a-col>
+                        <umt-button
+                            type="icon"
+                            color="violet"
+                            size="small"
+                            icon="plus"
+                            @click="showModalAddPlayer"
+                        />
 
-                            </a-row>
+                    </div>
 
-                        </ScrollContainer>
+                    <umt-list
+                        v-for="player in _teamMembers"
+                        :key="`r${player.email}`"
+                        :user="{
+                            firstName: player.name,
+                            picture: player.picture
+                        }"
+                        type="user"
+                    />
 
-                    </a-row>
+                </div>
 
-                </a-row>
+            </div>
 
 
-                <a-row v-else>
-                    No pertences a un equipo aún.
-                </a-row>
+            <!-- DEFAULT -->
 
-            </a-col>
+            <div v-else>
+                <center>
 
-        </a-row>
+                    <img src="@/assets/images/football-circle.svg" style="width: 250px">
+
+                    <h2>NO TIENES EQUIPO</h2>
+
+                    <br>
+
+                    <p>
+                        No pertences a un equipo aún.
+                    </p>
+
+                </center>
+            </div>
+
+        </div>
+
+        <umt-top-progress ref="topProgress" />
 
     </div>
 
@@ -348,9 +295,7 @@
 
 
 <script>
-
 export default {
-
 
     layout: 'navbar',
 
@@ -368,39 +313,26 @@ export default {
 
     computed: {
 
+        _actives () {
+            return this.$store.getters['teams/get'].actives
+        },
+
+        _requests () {
+            return this.$store.getters['teams/get'].requests
+        },
 
         _activeTeam () {
 
             if (this._userState.teams.length) {
 
-                const team = this._userState.teams[this.activeTeamChat]
-
-                // set default team picture if empty
-
-                team.picture = team.picture || this.getIcon('team-profile.svg')
-
+                const team = this._actives.teams[this.activeTeamChat]
                 return team
 
             }
 
             else { return null }
+
         },
-
-
-        _teamsChatMessages () {
-            return this.$store.getters['teams/get'].teamsChatMessages
-        },
-
-
-        _teamsRequests () {
-            return this.$store.getters['teams/get'].teamsRequests
-        },
-
-
-        _teamMemberRequests () {
-            return this.$store.getters['teams/get'].teamMemberRequests
-        },
-
 
         _teamMembers () {
             return this.$store.getters['teams/get'].teamMembers
@@ -411,25 +343,15 @@ export default {
 
     async mounted () {
 
-        await this.$store.dispatch('teams/listTeamChats')
-            .catch((e) => {
-                this.showNotification(e.title, e.msg, e.type)
-            })
+        try {
+            await this.$store.dispatch('teams/listTeamChats')
+            await this.$store.dispatch('teams/listRequests')
+            await this.setChat(0)
+        }
 
-
-        await this.$store.dispatch('teams/teamRequests')
-            .catch((e) => {
-                this.showNotification(e.title, e.msg, e.type)
-            })
-
-
-        await this.$store.dispatch('teams/teamMemberRequests')
-            .catch((e) => {
-                this.showNotification(e.title, e.msg, e.type)
-            })
-
-
-        await this.setChat(0)
+        catch (e) {
+            this.showNotification(e.title, e.msg, e.type)
+        }
 
     },
 
@@ -448,12 +370,11 @@ export default {
 
         acceptRequest (teamMember) {
 
-            this.$store
-                .dispatch('teams/updateTeamMember', {
-                    ...teamMember,
-                    action  : 'accept',
-                    reqStat : { PR: { S: 'A' }, TR : { S : 'A' } }
-                })
+            this.$store.dispatch('teams/updateRequest', {
+                ...teamMember,
+                action  : 'accept',
+                reqStat : { PR: { S: 'A' }, TR : { S : 'A' } }
+            })
                 .then((e) => {
                     this.showNotification(e.title, e.msg, e.type)
                 })
@@ -466,12 +387,11 @@ export default {
 
         rejectRequest (teamMember) {
 
-            this.$store
-                .dispatch('teams/updateTeamMember', {
-                    ...teamMember,
-                    action  : 'reject',
-                    reqStat : { PR: { S: 'C' }, TR : { S : 'C' } }
-                })
+            this.$store.dispatch('teams/updateRequest', {
+                ...teamMember,
+                action  : 'reject',
+                reqStat : { PR: { S: 'C' }, TR : { S : 'C' } }
+            })
                 .then((e) => {
                     this.showNotification(e.title, e.msg, e.type)
                 })
@@ -484,12 +404,34 @@ export default {
 
         async setChat (i) {
 
-            this.activeTeamChat = i
+            try {
 
-            if (this._activeTeam) {
+                this.activeTeamChat = i
 
-                await this.$store.dispatch('teams/listTeamMembers', {
-                    teamId: this._activeTeam.id
+                if (this._activeTeam) {
+
+                    await this.$store.dispatch('teams/listTeamMembers', {
+                        teamId: this._activeTeam.teamId
+                    })
+
+                }
+
+            }
+
+            catch (e) {
+                this.showNotification(e.title, e.msg, e.type)
+            }
+
+        },
+
+
+        sendMessage () {
+
+            if (this.inputMessage !== '') {
+
+                this.$store.dispatch('teams/sendMessage', {
+                    teamId  : this._activeTeam.id,
+                    msg     : this.inputMessage
                 })
                     .catch((e) => {
                         this.showNotification(e.title, e.msg, e.type)
@@ -500,24 +442,16 @@ export default {
         },
 
 
-        sendMessage () {
+        getDate (datetime) {
+            return `${this.$UTILS.getDayDD(datetime)}/${this.$UTILS.getMonthMM(datetime)}`
+        },
 
-            if (this.inputMessage !== '') {
 
-                this.$store.dispatch('teams/addTeamChat', {
-                    teamId  : this._activeTeam.id,
-                    msg     : this.inputMessage
-                })
-                    .catch((e) => {
-                        this.showNotification(e.title, e.msg, e.type)
-                    })
-
-            }
-
+        getTime (datetime) {
+            return `${this.$UTILS.getHourHH(datetime)}:${this.$UTILS.getMinutesMM(datetime)}`
         }
 
     }
 
 }
-
 </script>

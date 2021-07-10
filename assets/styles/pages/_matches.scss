@@ -1,16 +1,3 @@
-%matches-full-width {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-}
-
-@mixin background-msg($color-ini, $color-end) {
-    background: $color-ini;
-    background: -moz-linear-gradient(90deg, $color-ini 50%, $color-end 150%);
-    background: -webkit-linear-gradient(90deg, $color-ini 50%, $color-end 150%);
-    background: linear-gradient(90deg, $color-ini 50%, $color-end 150%);
-}
-
 .matches {
 
     justify-content: space-between;

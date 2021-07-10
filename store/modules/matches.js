@@ -417,8 +417,6 @@ const actions = {
                 )
 
                 result = result.data.matchRequests
-
-
                 team.nextToken = result.nextToken
 
 
@@ -714,8 +712,6 @@ const actions = {
                         }
 
                         ctx.commit('setState', { params })
-
-
                         resolve(response)
 
                     }
@@ -740,15 +736,13 @@ const actions = {
 
                         try {
 
-                            let result = await this.$AWS.API.graphql(
-                                graphqlOperation(
-                                    umt.queries.getMatch,
-                                    {
-                                        teamId1: data.teamId1,
-                                        teamId2: data.teamId2
-                                    }
-                                )
-                            )
+                            let result = await this.$AWS.API.graphql(graphqlOperation(
+                                umt.queries.getMatch,
+                                {
+                                    teamId1: data.teamId1,
+                                    teamId2: data.teamId2
+                                }
+                            ))
 
                             result = result.data.getMatch
 
@@ -789,11 +783,8 @@ const actions = {
                         }
 
                         catch (err) {
-
                             const response = { ...errorNotification, err }
-
                             throw response
-
                         }
 
 
@@ -805,8 +796,6 @@ const actions = {
                         }
 
                         ctx.commit('setState', { params })
-
-
                         resolve(response)
 
                     }
@@ -946,44 +935,38 @@ const actions = {
 
             // team 1 members
 
-            let result1 = await this.$AWS.API.graphql(
-                graphqlOperation(
-                    umt.queries.listTeamMembers,
-                    {
-                        teamId      : data.teamId1,
-                        nextToken   : null // this always should be null
-                    }
-                )
-            )
+            let result1 = await this.$AWS.API.graphql(graphqlOperation(
+                umt.queries.listTeamMembers,
+                {
+                    teamId      : data.teamId1,
+                    nextToken   : null // this always should be null
+                }
+            ))
 
             result1 = result1.data.listTeamMembers.items || []
 
-            // team 1 members
+            // team 2 members
 
-            let result2 = await this.$AWS.API.graphql(
-                graphqlOperation(
-                    umt.queries.listTeamMembers,
-                    {
-                        teamId      : data.teamId2,
-                        nextToken   : null // this always should be null
-                    }
-                )
-            )
+            let result2 = await this.$AWS.API.graphql(graphqlOperation(
+                umt.queries.listTeamMembers,
+                {
+                    teamId      : data.teamId2,
+                    nextToken   : null // this always should be null
+                }
+            ))
 
             result2 = result2.data.listTeamMembers.items || []
 
             // match patches
 
-            let result3 = await this.$AWS.API.graphql(
-                graphqlOperation(
-                    umt.queries.listMatchPatches,
-                    {
-                        teamId1     : data.teamId1,
-                        teamId2     : data.teamId2,
-                        nextToken   : null // this always should be null
-                    }
-                )
-            )
+            let result3 = await this.$AWS.API.graphql(graphqlOperation(
+                umt.queries.listMatchPatches,
+                {
+                    teamId1     : data.teamId1,
+                    teamId2     : data.teamId2,
+                    nextToken   : null // this always should be null
+                }
+            ))
 
             result3 = result3.data.listMatchPatches.items || []
 
