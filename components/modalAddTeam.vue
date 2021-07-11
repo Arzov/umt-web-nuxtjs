@@ -1,77 +1,79 @@
 <template>
-    <a-modal
-        v-model="value"
-        class="geoloc"
-        centered
-        :wrap-class-name="
-            _globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'
-        "
-        :mask-closable="false"
-        :footer="false"
-        @cancel="onCancel"
-    >
+
+    <umt-modal @click="onClick">
+
         <center>
-            <h1 style="color: white">
-                Agrega un equipo
-            </h1>
+
+            <umt-avatar
+                class="team-picture"
+                icon="team-profile"
+                color="violet"
+                size="large"
+            />
+
+            <br>
+
+            <h2>Agrega un equipo</h2>
+
+            <p>
+                Crea tu equipo para invitar a tus amigos.
+            </p>
+
         </center>
+
         <br>
-        <h2 style="color: white">
-            Crear equipo
-        </h2>
-        <br>
-        <a-row style="display: flex">
-            <PrincipalInput
-                v-model="teamName"
-                placeholder="Ingresa el nombre del equipo"
-            />
-        </a-row>
-        <br>
-        <a-row>
-            <PrincipalBtn
-                text="CREAR"
-                :loading="btnLoading"
-                @click.native="createTeam()"
-            />
-        </a-row>
-    </a-modal>
+
+        <umt-input
+            v-model="teamName"
+            placeholder="Ingresa el nombre del equipo"
+            style="width: 100%;"
+        />
+
+        <umt-button @click="createTeam">
+            CREAR
+        </umt-button>
+
+        <umt-top-progress ref="topProgress" />
+
+    </umt-modal>
+
 </template>
+
 
 <script>
 export default {
-    props: {
-        value: { type: Boolean, required: true }
-    },
 
     data () {
         return {
-            teamName: null,
-            showAddTeam: false,
-            showAddPlayer: false
+            teamName: ''
         }
     },
 
+
     methods: {
-        onCancel () {
-            this.$emit('input', false)
-            this.$emit('change', false)
+
+        onClick () {
+            this.$emit('close')
         },
 
         createTeam () {
-            this.btnLoading = true
+
+            this.handleTopProgress('start')
 
             // TODO: complete picture logic
-            this.$store
-                .dispatch('teams/createTeam', { name: this.teamName, picture: '' })
+            this.$store.dispatch('teams/createTeam', { name: this.teamName.toUpperCase(), picture: '' })
                 .then((e) => {
+                    this.handleTopProgress('done')
                     this.showNotification(e.title, e.msg, e.type)
-                    this.btnLoading = false
                 })
                 .catch((e) => {
+                    this.handleTopProgress('fail')
                     this.showNotification(e.title, e.msg, e.type)
-                    this.btnLoading = false
                 })
+
         }
+
     }
+
 }
 </script>

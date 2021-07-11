@@ -17,26 +17,39 @@ const getDefaultState = () => ({
     requests: JSON.stringify({
         teams   : [],
         user    : { requests: [], nextToken: null }
-    }),
-
-    teamMembers: '[]'
+    })
 
 })
 
 
-// deduplicate results from api by keys
-// ref: https://dev.to/marinamosti/removing-duplicates-in-an-array-of-objects-in-js-with-sets-3fep
+// check if an object is included in an array
 
-const deduplicate = (acc, current, key1, key2) => {
+const objectInArray = (obj, array, keys) => {
 
-    const x = acc.find(item => `${item[key1]}${item[key2]}` === `${current[key1]}${current[key2]}`)
+    const filteredObj = Object.keys(obj)
+        .filter(key => keys.includes(key))
+        .reduce((o, key) => {
+            o[key] = obj[key]
+            return o
+        }, {})
 
-    if (!x) {
-        return acc.concat([current])
-    }
+    for (const e of array) {
 
-    else {
-        return acc
+        const filteredE = Object.keys(e)
+            .filter(key => keys.includes(key))
+            .reduce((o, key) => {
+                o[key] = e[key]
+                return o
+            }, {})
+
+        if (JSON.stringify(filteredE) === JSON.stringify(filteredObj)) {
+            return true
+        }
+
+        else {
+            return false
+        }
+
     }
 
 }
@@ -70,7 +83,9 @@ const getters = {
 
 const actions = {
 
-    async listTeamChats (ctx, data) {
+    async listActives (ctx, data) {
+
+        // TODO: review why this functions is called twice in mounted
 
         this.$AWS.Amplify.configure(awsconfig.umt)
 
@@ -97,8 +112,9 @@ const actions = {
             actives.teams = userState.teams.map((team) => {
 
                 return {
-                    teamId  : team.id,
-                    chat    : { messages: [], nextToken: null }
+                    ...team,
+                    chat    : { messages: [], nextToken: null },
+                    members : { members: [], nextToken: null }
                 }
 
             })
@@ -112,15 +128,13 @@ const actions = {
 
             try {
 
-                let result = await this.$AWS.API.graphql(
-                    graphqlOperation(
-                        umt.queries.listTeamChats,
-                        {
-                            id          : team.teamId,
-                            nextToken   : team.nextToken
-                        }
-                    )
-                )
+                let result = await this.$AWS.API.graphql(graphqlOperation(
+                    umt.queries.listTeamChats,
+                    {
+                        id          : team.id,
+                        nextToken   : team.chat.nextToken
+                    }
+                ))
 
                 result = result.data.listTeamChats
                 team.chat.nextToken = result.nextToken
@@ -130,21 +144,30 @@ const actions = {
 
                 if (result.items) {
 
-                    team.chat.messages = [
-                        ...team.chat.messages,
-                        ...result.items
-                    ]
+                    // check if new messages exist in current loaded messages.
+                    // if yes, it means that we scan all dynamodb data. So, we
+                    // don't should append it to avoid duplicates.
+
+                    let exist = false
+
+                    if (team.chat.messages.length) {
+
+                        const check = result.items[0]
+
+                        exist = objectInArray(check, team.chat.messages, ['teamId', 'email', 'sentOn', 'msg'])
+
+                    }
+
+                    if (!exist || !team.chat.messages.length) {
+
+                        team.chat.messages = [
+                            ...team.chat.messages,
+                            ...result.items
+                        ]
+
+                    }
 
                 }
-
-
-                // deduplicate
-
-                team.chat.messages = team.chat.messages.reduce((acc, current) => {
-
-                    return deduplicate(acc, current, 'email', 'sentOn')
-
-                }, [])
 
             }
 
@@ -163,9 +186,6 @@ const actions = {
 
     async listRequests (ctx, data) {
 
-        this.$AWS.Amplify.configure(awsconfig.umt)
-
-
         // init states
 
         const userState = ctx.rootGetters['user/get']
@@ -181,9 +201,8 @@ const actions = {
             requests.teams = userState.teams.map((team) => {
 
                 return {
-                    teamId      : team.id,
-                    requests    : [],
-                    nextToken   : null
+                    ...team,
+                    requests: { requests: [], nextToken: null }
                 }
 
             })
@@ -197,63 +216,76 @@ const actions = {
 
             try {
 
+                this.$AWS.Amplify.configure(awsconfig.umt)
+
                 let result = await this.$AWS.API.graphql(graphqlOperation(
                     umt.queries.teamRequests,
                     {
-                        id          : team.teamId,
-                        nextToken   : team.nextToken
+                        id          : team.id,
+                        nextToken   : team.requests.nextToken
                     }
                 ))
 
                 result = result.data.teamRequests
-                team.nextToken = result.nextToken
+                team.requests.nextToken = result.nextToken
 
 
                 // add data
 
                 if (result.items) {
 
-                    for (const teamMember of result.items) {
 
-                        // fetch user picture
+                    // check if new requests exist in current loaded requests.
+                    // if yes, it means that we scan all dynamodb data. So, we
+                    // don't should append it to avoid duplicates.
 
-                        this.$AWS.Amplify.configure(awsconfig.arv)
+                    let exist = false
 
-                        try {
+                    if (team.requests.requests.length) {
 
-                            const userInfo = await this.$AWS.API.graphql(
-                                graphqlOperation(arv.queries.getUser, {
-                                    email: teamMember.email
-                                })
-                            )
+                        const check = result.items[0]
 
-                            team.requests = [
-                                ...team.requests,
-                                {
-                                    ...teamMember,
-                                    picture     : userInfo.data.getUser.picture,
-                                    reqStat     : JSON.parse(teamMember.reqStat),
-                                    position    : JSON.parse(teamMember.position)
-                                }
-                            ]
-
-                        }
-
-                        catch (err) {
-                            const response = { ...errorNotification, err }
-                            throw response
-                        }
+                        exist = objectInArray(check, team.requests.requests, ['teamId', 'email', 'joinedOn'])
 
                     }
 
+                    if (!exist || !team.requests.requests.length) {
 
-                    // deduplicate
+                        // fetch each user request picture
 
-                    team.requests = team.requests.reduce((acc, current) => {
+                        for (const teamMember of result.items) {
 
-                        return deduplicate(acc, current, 'teamId', 'email')
+                            this.$AWS.Amplify.configure(awsconfig.arv)
 
-                    }, [])
+                            try {
+
+                                const userInfo = await this.$AWS.API.graphql(graphqlOperation(
+                                    arv.queries.getUser,
+                                    {
+                                        email: teamMember.email
+                                    })
+                                )
+
+                                team.requests.requests = [
+                                    ...team.requests.requests,
+                                    {
+                                        ...teamMember,
+                                        picture : userInfo.data.getUser.picture,
+                                        reqStat : JSON.parse(teamMember.reqStat),
+                                        position: JSON.parse(teamMember.position)
+                                    }
+                                ]
+
+                            }
+
+                            catch (err) {
+                                const response = { ...errorNotification, err }
+                                throw response
+                            }
+
+                        }
+
+                    }
 
                 }
 
@@ -271,6 +303,8 @@ const actions = {
 
         try {
 
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
             let result = await this.$AWS.API.graphql(graphqlOperation(
                 umt.queries.teamMemberRequests,
                 {
@@ -287,49 +321,59 @@ const actions = {
 
             if (result.items) {
 
-                for (const teamMember of result.items) {
+                // check if new requests exist in current loaded requests.
+                // if yes, it means that we scan all dynamodb data. So, we
+                // should not append it to avoid duplicates.
 
-                    // fetch team picture
+                let exist = false
 
-                    try {
+                if (requests.user.requests.length) {
 
-                        const teamInfo = await this.$AWS.API.graphql(
-                            graphqlOperation(umt.queries.getTeam, {
-                                id: teamMember.teamId
-                            })
-                        )
+                    const check = result.items[0]
 
-
-                        // append to state
-
-                        requests.user.requests = [
-                            ...requests.user.requests,
-                            {
-                                ...teamMember,
-                                name        : teamInfo.data.getTeam.name,
-                                picture     : teamInfo.data.getTeam.picture,
-                                reqStat     : JSON.parse(teamMember.reqStat),
-                                position    : JSON.parse(teamMember.position)
-                            }
-                        ]
-
-                    }
-
-                    catch (err) {
-                        const response = { ...errorNotification, err }
-                        throw response
-                    }
+                    exist = objectInArray(check, requests.user.requests, ['teamId', 'email', 'joinedOn'])
 
                 }
 
+                if (!exist || !requests.user.requests.length) {
 
-                // deduplicate
+                    for (const teamMember of result.items) {
 
-                requests.user.requests = requests.user.requests.reduce((acc, current) => {
+                        // fetch team picture
 
-                    return deduplicate(acc, current, 'teamId', 'email')
+                        try {
 
-                }, [])
+                            const teamInfo = await this.$AWS.API.graphql(graphqlOperation(
+                                umt.queries.getTeam,
+                                {
+                                    id: teamMember.teamId
+                                })
+                            )
+
+
+                            // append to state
+
+                            requests.user.requests = [
+                                ...requests.user.requests,
+                                {
+                                    ...teamMember,
+                                    name        : teamInfo.data.getTeam.name,
+                                    picture     : teamInfo.data.getTeam.picture,
+                                    reqStat     : JSON.parse(teamMember.reqStat),
+                                    position    : JSON.parse(teamMember.position)
+                                }
+                            ]
+
+                        }
+
+                        catch (err) {
+                            const response = { ...errorNotification, err }
+                            throw response
+                        }
+
+                    }
+
+                }
 
             }
 
@@ -373,22 +417,25 @@ const actions = {
                 matchFilter     : userState.matchFilter
             }
 
-            this.$AWS.API.graphql(
-                graphqlOperation(umt.mutations.addTeam, params)
-            )
+            this.$AWS.API.graphql(graphqlOperation(umt.mutations.addTeam, params))
 
                 // success
                 .then(async (result) => {
 
-                    const addTeamResult = result.data.addTeam
+                    const addTeamResult = {
+                        ...result.data.addTeam,
+                        formation   : JSON.parse(result.data.addTeam.formation),
+                        coords      : JSON.parse(result.data.addTeam.coords)
+                    }
+
                     const userTeams = userState.teams || []
 
 
-                    // set team in chat list
+                    // set team in actives
 
                     teamsState.actives.teams.push({
-                        teamId  : addTeamResult.id,
-                        chat    : { messages: [], nextToken: null }
+                        ...addTeamResult,
+                        chat: { messages: [], nextToken: null }
                     })
 
 
@@ -398,18 +445,7 @@ const actions = {
 
                     // set teams in user store
 
-                    userTeams.push({
-                        id              : addTeamResult.id,
-                        name            : addTeamResult.name,
-                        picture         : addTeamResult.picture,
-                        formation       : JSON.parse(addTeamResult.formation),
-                        geohash         : addTeamResult.geohash,
-                        coords          : JSON.parse(addTeamResult.coords),
-                        genderFilter    : addTeamResult.genderFilter,
-                        ageMinFilter    : addTeamResult.ageMinFilter,
-                        ageMaxFilter    : addTeamResult.ageMaxFilter,
-                        matchFilter     : addTeamResult.matchFilter
-                    })
+                    userTeams.push(addTeamResult)
 
 
                     params = { teams: userTeams }
@@ -488,7 +524,9 @@ const actions = {
                     reject(response)
 
                 })
+
         })
+
     },
 
 
@@ -504,8 +542,9 @@ const actions = {
 
             this.$AWS.Amplify.configure(awsconfig.umt)
 
-            this.$AWS.API.graphql(
-                graphqlOperation(umt.mutations.updateTeamMember, {
+            this.$AWS.API.graphql(graphqlOperation(
+                umt.mutations.updateTeamMember,
+                {
                     teamId      : data.teamId,
                     email       : data.email,
                     name        : data.name,
@@ -528,14 +567,13 @@ const actions = {
                         }
 
 
-                        // remove request from store
+                        // remove request from store for both (teams and user)
 
                         for (const team of teamsState.requests.teams) {
-                            team.requests = team.requests.filter(
+                            team.requests.requests = team.requests.requests.filter(
                                 request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
                             )
                         }
-
 
                         teamsState.requests.user.requests = teamsState.requests.user.requests.filter(
                             request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
@@ -562,14 +600,13 @@ const actions = {
                         }
 
 
-                        // remove request from store
+                        // remove request from store for both (teams and user)
 
                         for (const team of teamsState.requests.teams) {
-                            team.requests = team.requests.filter(
+                            team.requests.requests = team.requests.requests.filter(
                                 request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
                             )
                         }
-
 
                         teamsState.requests.user.requests = teamsState.requests.user.requests.filter(
                             request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
@@ -583,31 +620,27 @@ const actions = {
                             const userTeams = userState.teams || []
 
 
-                            // fetc team information
+                            // fetch team information
 
                             try {
 
-                                const result = await this.$AWS.API.graphql(graphqlOperation(
+                                let result = await this.$AWS.API.graphql(graphqlOperation(
                                     umt.mutations.getTeam,
                                     {
                                         id: data.teamId
                                     }
                                 ))
 
+
                                 // set teams in user store
 
-                                userTeams.push({
-                                    id              : result.id,
-                                    name            : result.name,
-                                    picture         : result.picture,
-                                    formation       : JSON.parse(result.formation),
-                                    geohash         : result.geohash,
-                                    coords          : JSON.parse(result.coords),
-                                    genderFilter    : result.genderFilter,
-                                    ageMinFilter    : result.ageMinFilter,
-                                    ageMaxFilter    : result.ageMaxFilter,
-                                    matchFilter     : result.matchFilter
-                                })
+                                result = {
+                                    ...result,
+                                    formation   : JSON.parse(result.formation),
+                                    coords      : JSON.parse(result.coords)
+                                }
+
+                                userTeams.push(result)
 
 
                                 const params = { teams: userTeams }
@@ -625,8 +658,8 @@ const actions = {
                                 // add team to actives
 
                                 teamsState.actives.teams.push({
-                                    teamId  : result.id,
-                                    chat    : { messages: [], nextToken: null }
+                                    ...result,
+                                    chat: { messages: [], nextToken: null }
                                 })
 
                             }
@@ -677,7 +710,7 @@ const actions = {
 
         teamsState.actives.teams = teamsState.actives.teams.map((team) => {
 
-            if (team.teamId === data.teamId) {
+            if (team.id === data.teamId) {
 
                 team.chat.messages.unshift({
                     teamId  : data.teamId,
@@ -693,12 +726,10 @@ const actions = {
 
         })
 
+
         // update store
 
-        const params = {
-            actives: teamsState.actives
-        }
-
+        const params = { actives: teamsState.actives }
         ctx.commit('setState', { params })
 
 
@@ -708,8 +739,9 @@ const actions = {
 
             this.$AWS.Amplify.configure(awsconfig.umt)
 
-            this.$AWS.API.graphql(
-                graphqlOperation(umt.mutations.addTeamChat, {
+            this.$AWS.API.graphql(graphqlOperation(
+                umt.mutations.addTeamChat,
+                {
                     teamId  : data.teamId,
                     email   : userState.email,
                     author  : userState.firstName,
@@ -736,9 +768,12 @@ const actions = {
 
     async listTeamMembers (ctx, data) {
 
-        // TODO: Make nextToken logic!
-
         this.$AWS.Amplify.configure(awsconfig.umt)
+
+
+        // load states
+
+        const teamsState = ctx.getters.get
 
 
         try {
@@ -746,51 +781,89 @@ const actions = {
             let result = await this.$AWS.API.graphql(graphqlOperation(
                 umt.queries.listTeamMembers,
                 {
-                    teamId      : data.teamId,
+                    teamId      : data.id,
                     nextToken   : null
                 }
             ))
 
-            result = result.data.listTeamMembers.items
-            // TODO: Fix this! teamsChatMessages[i].nextToken = result.data.listTeamChats.nextToken
+            result = result.data.listTeamMembers
 
 
-            for (const i in result) {
+            // add team members to the team
 
-                const teamMember = result[i]
+            for (const team of teamsState.actives.teams) {
 
+                if (team.id === data.id) {
 
-                // fetch player picture
-
-                try {
-
-                    this.$AWS.Amplify.configure(awsconfig.arv)
-
-                    const playerInfo = await this.$AWS.API.graphql(
-                        graphqlOperation(arv.queries.getUser, {
-                            email: teamMember.email
-                        })
-                    )
-
-
-                    // append to state
-
-                    result[i] = {
-                        ...teamMember,
-                        picture: playerInfo.data.getUser.picture
+                    if (!team.members) {
+                        team.members = { members: [], nextToken: null }
                     }
 
-                }
+                    team.members.nextToken = result.nextToken
 
-                catch (err) {
-                    const response = { ...errorNotification, err }
-                    throw response
+                    if (result.items) {
+
+                        // check if new members exist in current loaded members.
+                        // if yes, it means that we scan all dynamodb data. So, we
+                        // should not append it to avoid duplicates.
+
+                        let exist = false
+
+                        if (team.members.members.length) {
+
+                            const check = result.items[0]
+
+                            exist = objectInArray(check, team.members.members, ['email'])
+
+                        }
+
+                        if (!exist || !team.members.members.length) {
+
+                            // fetch player picture
+
+                            for (const player of result.items) {
+
+                                try {
+
+                                    this.$AWS.Amplify.configure(awsconfig.arv)
+
+                                    const playerInfo = await this.$AWS.API.graphql(graphqlOperation(
+                                        arv.queries.getUser,
+                                        {
+                                            email: player.email
+                                        })
+                                    )
+
+
+                                    // append to state
+
+                                    team.members.members = [
+                                        ...team.members.members,
+                                        {
+                                            ...player,
+                                            picture: playerInfo.data.getUser.picture
+                                        }
+                                    ]
+
+                                }
+
+                                catch (err) {
+                                    const response = { ...errorNotification, err }
+                                    throw response
+                                }
+
+                            }
+
+                        }
+
+                    }
+
                 }
 
             }
 
 
-            const params = { teamMembers: result }
+            const params = { actives: teamsState.actives }
             ctx.commit('setState', { params })
 
         }
@@ -809,8 +882,8 @@ const actions = {
 
             this.$AWS.Amplify.configure(awsconfig.arv)
 
-            this.$AWS.API.graphql(
-                graphqlOperation(arv.queries.getUser, {
+            this.$AWS.API.graphql(graphqlOperation(arv.queries.getUser,
+                {
                     email: data.email
                 })
             )
@@ -819,7 +892,6 @@ const actions = {
                 .then((result) => {
                     resolve(result.data.getUser)
                 })
-
 
                 // error
                 .catch((err) => {
