@@ -27,16 +27,16 @@
                 placeholder="Ingresa el email del jugador"
                 style="width: 100%"
             />
-            <img
+            <!-- <img
                 src="@/assets/icons/dm-search.svg"
                 alt=""
                 style="position: absolute; right: 10px; top: 5px; width: 20px"
                 @click="searchPlayer"
-            >
+            > -->
         </a-row>
         <br>
         <a-row v-if="playerFound == 'y'">
-            <a-avatar size="large" :src="player.picture || getIcon('avatar.svg')" />
+            <!-- <a-avatar size="large" :src="player.picture || getIcon('avatar.svg')" /> -->
             <h4 style="color: white">
                 {{ player.firstName }}
             </h4>
