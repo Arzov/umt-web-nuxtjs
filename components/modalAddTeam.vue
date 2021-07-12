@@ -15,13 +15,13 @@
 
             <h2>Agrega un equipo</h2>
 
+            <br>
+
             <p>
                 Crea tu equipo para invitar a tus amigos.
             </p>
 
         </center>
-
-        <br>
 
         <umt-input
             v-model="teamName"
@@ -58,18 +58,22 @@ export default {
 
         createTeam () {
 
-            this.handleTopProgress('start')
+            if (this.teamName) {
 
-            // TODO: complete picture logic
-            this.$store.dispatch('teams/createTeam', { name: this.teamName.toUpperCase(), picture: '' })
-                .then((e) => {
-                    this.handleTopProgress('done')
-                    this.showNotification(e.title, e.msg, e.type)
-                })
-                .catch((e) => {
-                    this.handleTopProgress('fail')
-                    this.showNotification(e.title, e.msg, e.type)
-                })
+                this.handleTopProgress('start')
+
+                // TODO: complete picture logic
+                this.$store.dispatch('teams/createTeam', { name: this.teamName.toUpperCase(), picture: '' })
+                    .then((e) => {
+                        this.handleTopProgress('done')
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+                    .catch((e) => {
+                        this.handleTopProgress('fail')
+                        this.showNotification(e.title, e.msg, e.type)
+                    })
+
+            }
 
         }
 

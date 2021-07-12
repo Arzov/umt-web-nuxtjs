@@ -140,6 +140,7 @@
                 <div class="chat-body">
 
                     <div class="messages">
+
                         <div
                             v-for="message in [...activeTeam.chat.messages].reverse()"
                             :key="`message${message.email}${message.sentOn}`"
@@ -158,6 +159,7 @@
                                 src="@/assets/images/chat-corner-left.svg"
                             >
                         </div>
+
                     </div>
 
                 </div>

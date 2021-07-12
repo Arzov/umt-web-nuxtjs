@@ -937,8 +937,36 @@ const actions = {
 
                 // error
                 .catch((err) => {
-                    const response = { ...errorNotification, err }
+
+                    const errorCode = JSON.parse(err.errors[0].message)
+
+                    let response = {}
+
+                    switch (errorCode.code) {
+
+                    // player already join team
+
+                    case 'TeamMemberExistException': {
+                        response = {
+                            type    : 'error',
+                            title   : '¡Jugador en el equipo!',
+                            msg     : errorCode.message
+                        }
+                        break
+                    }
+
+                    // unknown error
+
+                    default: {
+                        response = errorNotification
+                        break
+                    }
+
+                    }
+
+                    response = { ...response, err }
                     reject(response)
+
                 })
 
         })
