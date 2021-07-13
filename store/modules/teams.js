@@ -46,11 +46,9 @@ const objectInArray = (obj, array, keys) => {
             return true
         }
 
-        else {
-            return false
-        }
-
     }
+
+    return false
 
 }
 
@@ -158,7 +156,7 @@ const actions = {
 
                     }
 
-                    if (!exist || !team.chat.messages.length) {
+                    if (!exist) {
 
                         team.chat.messages = [
                             ...team.chat.messages,
@@ -249,7 +247,7 @@ const actions = {
 
                     }
 
-                    if (!exist || !team.requests.requests.length) {
+                    if (!exist) {
 
                         // fetch each user request picture
 
@@ -335,7 +333,7 @@ const actions = {
 
                 }
 
-                if (!exist || !requests.user.requests.length) {
+                if (!exist) {
 
                     for (const teamMember of result.items) {
 
@@ -435,7 +433,8 @@ const actions = {
 
                     teamsState.actives.teams.push({
                         ...addTeamResult,
-                        chat: { messages: [], nextToken: null }
+                        chat    : { messages: [], nextToken: null },
+                        members : { members: [], nextToken: null }
                     })
 
 
@@ -558,6 +557,19 @@ const actions = {
                 // success
                 .then(async () => {
 
+                    // remove request from store for both (teams and user)
+
+                    for (const team of teamsState.requests.teams) {
+                        team.requests.requests = team.requests.requests.filter(
+                            request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
+                        )
+                    }
+
+                    teamsState.requests.user.requests = teamsState.requests.user.requests.filter(
+                        request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
+                    )
+
+
                     if (data.action === 'reject') {
 
                         const response = {
@@ -565,19 +577,6 @@ const actions = {
                             title   : '¡Solicitud cancelada!',
                             msg     : 'La solicitud ha sido cancelada.'
                         }
-
-
-                        // remove request from store for both (teams and user)
-
-                        for (const team of teamsState.requests.teams) {
-                            team.requests.requests = team.requests.requests.filter(
-                                request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
-                            )
-                        }
-
-                        teamsState.requests.user.requests = teamsState.requests.user.requests.filter(
-                            request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
-                        )
 
 
                         // update store
@@ -598,19 +597,6 @@ const actions = {
                             title   : '¡Solicitud aceptada!',
                             msg     : 'La solicitud ha sido aceptada.'
                         }
-
-
-                        // remove request from store for both (teams and user)
-
-                        for (const team of teamsState.requests.teams) {
-                            team.requests.requests = team.requests.requests.filter(
-                                request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
-                            )
-                        }
-
-                        teamsState.requests.user.requests = teamsState.requests.user.requests.filter(
-                            request => `${request.teamId}${request.email}` !== `${data.teamId}${data.email}`
-                        )
 
 
                         // add team to list of user's teams
@@ -659,7 +645,8 @@ const actions = {
 
                                 teamsState.actives.teams.push({
                                     ...result,
-                                    chat: { messages: [], nextToken: null }
+                                    chat    : { messages: [], nextToken: null },
+                                    members : { members: [], nextToken: null }
                                 })
 
                             }
@@ -782,7 +769,7 @@ const actions = {
                 umt.queries.listTeamMembers,
                 {
                     teamId      : data.id,
-                    nextToken   : null
+                    nextToken   : data.members.nextToken
                 }
             ))
 
@@ -794,10 +781,6 @@ const actions = {
             for (const team of teamsState.actives.teams) {
 
                 if (team.id === data.id) {
-
-                    if (!team.members) {
-                        team.members = { members: [], nextToken: null }
-                    }
 
                     team.members.nextToken = result.nextToken
 
@@ -817,7 +800,7 @@ const actions = {
 
                         }
 
-                        if (!exist || !team.members.members.length) {
+                        if (!exist) {
 
                             // fetch player picture
 

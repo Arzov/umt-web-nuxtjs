@@ -405,7 +405,7 @@ export default {
 
                 this.activeTeam = team
 
-                await this.$store.dispatch('teams/listTeamMembers', { id: team.id })
+                await this.$store.dispatch('teams/listTeamMembers', team)
 
                 this.handleTopProgress('done')
 

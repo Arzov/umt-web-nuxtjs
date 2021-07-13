@@ -4,7 +4,7 @@
 
         <!-- MODALS -->
 
-        <modal-add-patch v-if="showAddPlayer" :match="_selectedMatch" @close="showAddPlayer = !showAddPlayer" />
+        <modal-add-patch v-if="showAddPlayer" :match="activeMatch" @close="showAddPlayer = !showAddPlayer" />
 
 
         <!-- LEFT CONTENT -->
@@ -21,28 +21,30 @@
 
                     <!-- TEAMS -->
 
-                    <umt-collapsible v-for="(team, i) in _userState.teams" :key="`a${i}`">
+                    <umt-collapsible v-for="team in _actives.teams" :key="`active-team-${team.id}`">
 
                         <umt-collapsible-request-header
                             slot="header"
                             :name="team.name"
                             :picture="team.picture"
-                            :request-count="_actives.teams[i] ? _actives.teams[i].matches.length : 0"
+                            :request-count="team.matches.matches.length"
                         />
 
-                        <div v-if="_actives.teams[i]" slot="body">
+                        <div slot="body">
+
                             <umt-chat-list
-                                v-for="match in _actives.teams[i].matches"
-                                :key="`tm${match.teamId1}${match.teamId2}`"
+                                v-for="match in team.matches.matches"
+                                :key="`match-chat-${match.teamId1}${match.teamId2}`"
                                 :team="{
                                     name: team.id === match.teamId1 ? match.name2 : match.name1,
                                     picture: team.id === match.teamId1 ? match.picture2 : match.picture1,
                                     chat: match.chat
                                 }"
-                                :active="isActive (match)"
+                                :active="isActive(match)"
                                 type="team"
                                 @click="setChat(match)"
                             />
+
                         </div>
 
                     </umt-collapsible>
@@ -61,14 +63,16 @@
                         />
 
                         <div slot="body">
+
                             <umt-chat-list
                                 v-for="match in _actives.user.matches"
-                                :key="`tm${match.teamId1}${match.teamId2}`"
+                                :key="`match-chat-${match.teamId1}${match.teamId2}`"
                                 :match="match"
-                                :active="isActive (match)"
+                                :active="isActive(match)"
                                 type="match"
                                 @click="setChat(match)"
                             />
+
                         </div>
 
                     </umt-collapsible>
@@ -82,19 +86,19 @@
 
                     <!-- TEAMS -->
 
-                    <umt-collapsible v-for="(team, i) in _userState.teams" :key="`r${i}`">
+                    <umt-collapsible v-for="team in _requests.teams" :key="`request-team-${team.id}`">
 
                         <umt-collapsible-request-header
                             slot="header"
                             :name="team.name"
                             :picture="team.picture"
-                            :request-count="_requests.teams[i] ? _requests.teams[i].matches.length : 0"
+                            :request-count="team.requests.requests.length"
                         />
 
-                        <div v-if="_requests.teams[i]" slot="body">
+                        <div slot="body">
                             <umt-request-list
-                                v-for="(match, j) in _requests.teams[i].matches"
-                                :key="`tm${j}`"
+                                v-for="match in team.requests.requests"
+                                :key="`match-request-${match.teamId1}${match.teamId2}`"
                                 :team="{
                                     name: team.id === match.teamId1 ? match.name2 : match.name1,
                                     picture: team.id === match.teamId1 ? match.picture2 : match.picture1
@@ -118,13 +122,13 @@
                             type="user"
                             :name="_userState.firstName"
                             :picture="_userState.picture"
-                            :request-count="_requests.user.matches.length"
+                            :request-count="_requests.user.requests.length"
                         />
 
                         <div slot="body">
                             <umt-request-list
-                                v-for="(match, j) in _requests.user.matches"
-                                :key="`tm${j}`"
+                                v-for="match in _requests.user.requests"
+                                :key="`user-request-${match.teamId1}${match.teamId2}`"
                                 :match="match"
                                 :inbound="true"
                                 type="match"
@@ -149,12 +153,12 @@
 
             <!-- CHAT -->
 
-            <div v-if="_selectedMatch && !showInfoMatch" class="chat-container">
+            <div v-if="activeMatch.teamId1 && !showInfoMatch" class="chat-container">
 
 
                 <!-- CHAT HEADER -->
 
-                <div class="chat-header" @click="activateMatchInfo(true)">
+                <div class="chat-header" @click="showInfoMatch = !showInfoMatch">
 
                     <div class="title">
 
@@ -163,12 +167,12 @@
                                 class="team-picture"
                                 icon="team-profile"
                                 color="violet"
-                                :src="_selectedMatch.picture1"
+                                :src="activeMatch.picture1"
                             />
                         </center>
 
                         <center>
-                            <h2>{{ _selectedMatch.name1 }} VS {{ _selectedMatch.name2 }}</h2>
+                            <h2>{{ activeMatch.name1 }} VS {{ activeMatch.name2 }}</h2>
                             <p>haz click aquí para más info</p>
                         </center>
 
@@ -177,7 +181,7 @@
                                 class="team-picture"
                                 icon="team-profile"
                                 color="violet"
-                                :src="_selectedMatch.picture2"
+                                :src="activeMatch.picture2"
                             />
                         </center>
 
@@ -187,14 +191,14 @@
 
                         <div class="patch">
                             <img :src="require(`@/assets/icons/${_themePrefix}-patch.svg`)">
-                            <h3>{{ _selectedMatch.patches.CP.N }}/{{ _selectedMatch.patches.NP.N }}</h3>
+                            <h3>{{ activeMatch.patches.CP.N }}/{{ activeMatch.patches.NP.N }}</h3>
                         </div>
 
                         <div class="expire">
                             <img :src="require(`@/assets/icons/${_themePrefix}-expire.svg`)">
                             <div>
-                                <span><h3>{{ getDate(_selectedMatch.expireOn) }}</h3></span>
-                                <span><h3>{{ getTime(_selectedMatch.expireOn) }}</h3></span>
+                                <span><h3>{{ getDate(activeMatch.expireOn) }}</h3></span>
+                                <span><h3>{{ getTime(activeMatch.expireOn) }}</h3></span>
                             </div>
                         </div>
 
@@ -210,7 +214,7 @@
 
                     <div class="messages">
                         <div
-                            v-for="message in [..._selectedMatch.chat.messages].reverse()"
+                            v-for="message in [...activeMatch.chat.messages].reverse()"
                             :key="`message${message.email}${message.sentOn}`"
                             :class="message.email == _userState.email ? 'right-message' : 'left-message'"
                         >
@@ -268,35 +272,32 @@
                         type="icon"
                         color="green"
                         icon="x"
-                        @click="activateMatchInfo"
+                        @click="showInfoMatch = !showInfoMatch"
                     />
 
                     <div class="title">
 
-                        <center class="team-1">
+                        <center>
                             <umt-avatar
-                                class="team-picture"
                                 icon="team-profile"
                                 color="violet"
-                                :src="_selectedMatch.picture1"
+                                size="large"
+                                :src="activeMatch.picture1"
                             />
                         </center>
 
                         <center>
-                            <h2 class="team1-name">
-                                {{ _selectedMatch.name1 }}
-                            </h2>
-                            <h2 class="team2-name">
-                                {{ _selectedMatch.name2 }}
+                            <h2>
+                                {{ activeMatch.name1 }} VS {{ activeMatch.name2 }}
                             </h2>
                         </center>
 
-                        <center class="team-2">
+                        <center>
                             <umt-avatar
-                                class="team-picture"
                                 icon="team-profile"
                                 color="violet"
-                                :src="_selectedMatch.picture2"
+                                size="large"
+                                :src="activeMatch.picture2"
                             />
                         </center>
 
@@ -304,32 +305,31 @@
 
                 </div>
 
-                <div class="content">
 
-                    <div class="title">
+                <div class="title">
 
-                        <h2>JUGADORES</h2>
+                    <h2>JUGADORES</h2>
 
-                        <umt-button
-                            type="icon"
-                            color="violet"
-                            size="small"
-                            icon="plus"
-                            @click="showAddPlayer = !showAddPlayer"
-                        />
+                    <umt-button
+                        type="icon"
+                        color="violet"
+                        size="small"
+                        icon="plus"
+                        @click="showAddPlayer = !showAddPlayer"
+                    />
 
-                    </div>
+                </div>
 
+                <div class="members">
                     <umt-list
-                        v-for="player in _selectedMatch.members.players"
-                        :key="`r${player.email}`"
+                        v-for="player in activeMatch.members.members"
+                        :key="`teammember-${player.teamId}${player.email}`"
                         :user="{
                             firstName: player.name,
                             picture: player.picture
                         }"
                         type="user"
                     />
-
                 </div>
 
             </div>
@@ -337,7 +337,7 @@
 
             <!-- DEFAULT NON MATCH SELECTED -->
 
-            <div v-if="!_selectedMatch">
+            <div v-if="!activeMatch.teamId1">
                 <center>
 
                     <img src="@/assets/images/football-circle.svg" style="width: 250px">
@@ -348,7 +348,7 @@
 
                     <p>
                         Selecciona un partido para acceder al chat e interactuar
-                        con tus amigo(a)s y rivales.
+                        con tus amigos y rivales.
                     </p>
 
                 </center>
@@ -370,11 +370,10 @@ export default {
 
     data () {
         return {
-            activeChat      : 0,
+            activeMatch     : { teamId1: null, teamId2: null },
+            showAddPlayer   : false,
             showInfoMatch   : false,
-            selectedMatch   : null,
-            inputMessage    : '',
-            showAddPlayer   : false
+            inputMessage    : ''
         }
     },
 
@@ -387,48 +386,6 @@ export default {
 
         _requests () {
             return this.$store.getters['matches/get'].requests
-        },
-
-        _selectedMatch () {
-
-            if (this.selectedMatch) {
-
-                return this.selectedMatch
-
-            }
-
-            // select a default match if exists
-
-            if (this._actives.user.matches.length) {
-
-                return this._actives.user.matches[0]
-
-            }
-
-            else if (this._actives.teams.length) {
-
-                for (const team of this._actives.teams) {
-
-                    if (team.matches.length) {
-
-                        return team.matches[0]
-
-                    }
-
-                }
-
-            }
-
-            return null
-
-        },
-
-        _date () {
-            return `${this.$UTILS.getDayDD(this._selectedMatch.expireOn)}/${this.$UTILS.getMonthMM(this._selectedMatch.expireOn)}`
-        },
-
-        _time () {
-            return `${this.$UTILS.getHourHH(this._selectedMatch.expireOn)}:${this.$UTILS.getMinutesMM(this._selectedMatch.expireOn)}`
         }
 
     },
@@ -440,7 +397,7 @@ export default {
 
         try {
 
-            await this.$store.dispatch('matches/listMatches')
+            await this.$store.dispatch('matches/listActives')
             await this.$store.dispatch('matches/listRequests')
 
             this.handleTopProgress('done')
@@ -542,8 +499,25 @@ export default {
         },
 
 
-        setChat (match) {
-            this.selectedMatch = match
+        async setChat (match) {
+
+            this.handleTopProgress('start')
+
+            try {
+
+                this.activeMatch = match
+
+                await this.$store.dispatch('matches/listTeamMembers', match)
+
+                this.handleTopProgress('done')
+
+            }
+
+            catch (e) {
+                this.handleTopProgress('fail')
+                this.showNotification(e.title, e.msg, e.type)
+            }
+
         },
 
 
@@ -552,10 +526,10 @@ export default {
             if (this.inputMessage !== '') {
 
                 this.$store.dispatch('matches/sendMessage', {
-                    teamId1     : this._selectedMatch.teamId1,
-                    teamId2     : this._selectedMatch.teamId2,
+                    teamId1     : this.activeMatch.teamId1,
+                    teamId2     : this.activeMatch.teamId2,
                     msg         : this.inputMessage,
-                    expireOn    : this._selectedMatch.expireOn
+                    expireOn    : this.activeMatch.expireOn
                 })
                     .catch((e) => {
                         this.showNotification(e.title, e.msg, e.type)
@@ -568,31 +542,8 @@ export default {
         },
 
 
-        async activateMatchInfo (fetchMembers = false) {
-
-            this.showInfoMatch = !this.showInfoMatch
-
-            if (fetchMembers) {
-
-                this.handleTopProgress('start')
-
-                try {
-                    await this.$store.dispatch('matches/fetchMembers', this._selectedMatch)
-                    this.handleTopProgress('done')
-                }
-
-                catch (e) {
-                    this.handleTopProgress('fail')
-                    this.showNotification(e.title, e.msg, e.type)
-                }
-
-            }
-
-        },
-
-
         isActive (match) {
-            return `${this._selectedMatch.teamId1}${this._selectedMatch.teamId2}` === `${match.teamId1}${match.teamId2}`
+            return `${this.activeMatch.teamId1}${this.activeMatch.teamId2}` === `${match.teamId1}${match.teamId2}`
         },
 
 

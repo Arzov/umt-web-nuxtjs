@@ -117,8 +117,7 @@ export default {
                     ...this.player,
                     teamId1 : this.match.teamId1,
                     teamId2 : this.match.teamId2,
-                    expireOn: this.match.expireOn,
-                    players : this.match.members.players.map((player) => { return player.email })
+                    expireOn: this.match.expireOn
                 })
 
                 this.handleTopProgress('done')

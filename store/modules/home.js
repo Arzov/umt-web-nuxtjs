@@ -441,9 +441,74 @@ const actions = {
 
                 // error
                 .catch((err) => {
-                    const response = { ...errorNotification, err }
 
+                    const errorCode = JSON.parse(err.errors[0].message)
+
+                    let response = {}
+
+                    switch (errorCode.code) {
+
+
+                    // player already into the match
+
+                    case 'MatchPatchExistException': {
+                        response = {
+                            type    : 'error',
+                            title   : '¡Jugador existente!',
+                            msg     : errorCode.message
+                        }
+                        break
+                    }
+
+
+                    // the match is expired
+
+                    case 'MatchExpiredException': {
+                        response = {
+                            type    : 'error',
+                            title   : '¡Partido expirado!',
+                            msg     : errorCode.message
+                        }
+                        break
+                    }
+
+
+                    // user already has a request for the match
+
+                    case 'MatchPatchRequestException': {
+                        response = {
+                            type    : 'error',
+                            title   : '¡Solicitud existente!',
+                            msg     : errorCode.message
+                        }
+                        break
+                    }
+
+
+                    // match is full
+
+                    case 'MatchPatchFullException': {
+                        response = {
+                            type    : 'error',
+                            title   : '¡Cupos completos!',
+                            msg     : errorCode.message
+                        }
+                        break
+                    }
+
+
+                    // unknown error
+
+                    default: {
+                        response = errorNotification
+                        break
+                    }
+
+                    }
+
+                    response = { ...response, err }
                     reject(response)
+
                 })
 
         })

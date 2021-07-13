@@ -17,26 +17,39 @@ const getDefaultState = () => ({
 
     requests: JSON.stringify({
         teams   : [],
-        user    : { matches: [], nextToken: null }
+        user    : { requests: [], nextToken: null }
     })
 
 })
 
 
-// deduplicate results from api by keys
-// ref: https://dev.to/marinamosti/removing-duplicates-in-an-array-of-objects-in-js-with-sets-3fep
+// check if an object is included in an array
 
-const deduplicate = (acc, current, key1, key2) => {
+const objectInArray = (obj, array, keys) => {
 
-    const x = acc.find(item => `${item[key1]}${item[key2]}` === `${current[key1]}${current[key2]}`)
+    const filteredObj = Object.keys(obj)
+        .filter(key => keys.includes(key))
+        .reduce((o, key) => {
+            o[key] = obj[key]
+            return o
+        }, {})
 
-    if (!x) {
-        return acc.concat([current])
+    for (const e of array) {
+
+        const filteredE = Object.keys(e)
+            .filter(key => keys.includes(key))
+            .reduce((o, key) => {
+                o[key] = e[key]
+                return o
+            }, {})
+
+        if (JSON.stringify(filteredE) === JSON.stringify(filteredObj)) {
+            return true
+        }
+
     }
 
-    else {
-        return acc
-    }
+    return false
 
 }
 
@@ -50,29 +63,20 @@ const fetchMessages = async (ctx, match) => {
         // init match chat if not exist
 
         if (!('chat' in match)) {
-
-            match.chat = {
-                messages    : [],
-                nextToken   : null
-            }
-
+            match.chat = { messages: [], nextToken: null }
         }
 
 
-        let result = await ctx.$AWS.API.graphql(
-            graphqlOperation(
-                umt.queries.listMatchChats,
-                {
-                    teamId1     : match.teamId1,
-                    teamId2     : match.teamId2,
-                    nextToken   : match.chat.nextToken
-                }
-            )
-        )
+        let result = await ctx.$AWS.API.graphql(graphqlOperation(
+            umt.queries.listMatchChats,
+            {
+                teamId1     : match.teamId1,
+                teamId2     : match.teamId2,
+                nextToken   : match.chat.nextToken
+            }
+        ))
 
         result = result.data.listMatchChats
-
-
         match.chat.nextToken = result.nextToken
 
 
@@ -80,30 +84,36 @@ const fetchMessages = async (ctx, match) => {
 
         if (result.items) {
 
-            match.chat.messages = [
-                ...match.chat.messages,
-                ...result.items
-            ]
+            // check if new messages exist in current loaded messages.
+            // if yes, it means that we scan all dynamodb data. So, we
+            // don't should append it to avoid duplicates.
+
+            let exist = false
+
+            if (match.chat.messages.length) {
+
+                const check = result.items[0]
+
+                exist = objectInArray(check, match.chat.messages, ['email', 'sentOn', 'msg'])
+
+            }
+
+            if (!exist) {
+
+                match.chat.messages = [
+                    ...match.chat.messages,
+                    ...result.items
+                ]
+
+            }
 
         }
-
-
-        // deduplicate
-
-        match.chat.messages = match.chat.messages.reduce((acc, current) => {
-
-            return deduplicate(acc, current, 'sentOn', 'email')
-
-        }, [])
 
     }
 
     catch (err) {
-
         const response = { ...errorNotification, err }
-
         throw response
-
     }
 
 }
@@ -115,14 +125,12 @@ const fetchTeamInfo = async (ctx, id) => {
 
     try {
 
-        let result = await ctx.$AWS.API.graphql(
-            graphqlOperation(
-                umt.queries.getTeam,
-                {
-                    id
-                }
-            )
-        )
+        let result = await ctx.$AWS.API.graphql(graphqlOperation(
+            umt.queries.getTeam,
+            {
+                id
+            }
+        ))
 
         result = result.data.getTeam
 
@@ -131,11 +139,8 @@ const fetchTeamInfo = async (ctx, id) => {
     }
 
     catch (err) {
-
         const response = { ...errorNotification, err }
-
         throw response
-
     }
 
 }
@@ -185,7 +190,7 @@ const getters = {
 
 const actions = {
 
-    async listMatches (ctx, data) {
+    async listActives (ctx, data) {
 
         this.$AWS.Amplify.configure(awsconfig.umt)
 
@@ -203,9 +208,8 @@ const actions = {
             actives.teams = userState.teams.map((team) => {
 
                 return {
-                    teamId      : team.id,
-                    matches     : [],
-                    nextToken   : null
+                    ...team,
+                    matches: { matches: [], nextToken: null }
                 }
 
             })
@@ -219,59 +223,64 @@ const actions = {
 
             try {
 
-                let result = await this.$AWS.API.graphql(
-                    graphqlOperation(
-                        umt.queries.listMatches,
-                        {
-                            id          : team.teamId,
-                            nextToken   : team.nextToken
-                        }
-                    )
-                )
+                let result = await this.$AWS.API.graphql(graphqlOperation(
+                    umt.queries.listMatches,
+                    {
+                        id          : team.id,
+                        nextToken   : team.nextToken
+                    }
+                ))
 
                 result = result.data.listMatches
-
-
-                team.nextToken = result.nextToken
+                team.matches.nextToken = result.nextToken
 
 
                 // append data to state
 
                 if (result.items) {
 
-                    // convert into object some elements
+                    // check if new matches exist in current loaded matches.
+                    // if yes, it means that we scan all dynamodb data. So, we
+                    // don't should append it to avoid duplicates.
 
-                    team.matches = [
-                        ...team.matches,
-                        ...result.items.map((x) => {
-                            return {
-                                ...x,
-                                coords  : JSON.parse(x.coords),
-                                patches : JSON.parse(x.patches),
-                                reqStat : JSON.parse(x.reqStat),
-                                members : {
-                                    players     : [],
-                                    nextToken   : null
+                    let exist = false
+
+                    if (team.matches.matches.length) {
+
+                        const check = result.items[0]
+
+                        exist = objectInArray(check, team.matches.matches, ['teamId1', 'teamId2'])
+
+                    }
+
+                    if (!exist) {
+
+                        team.matches.matches = [
+                            ...team.matches.matches,
+                            ...result.items.map((x) => {
+                                return {
+                                    ...x,
+                                    coords  : JSON.parse(x.coords),
+                                    patches : JSON.parse(x.patches),
+                                    reqStat : JSON.parse(x.reqStat),
+                                    members : {
+                                        members     : [],
+                                        nextToken1  : null,
+                                        nextToken2  : null,
+                                        nextToken   : null
+                                    }
                                 }
-                            }
-                        })
-                    ]
+                            })
+                        ]
+
+                    }
 
                 }
 
 
-                // deduplicate
-
-                team.matches = team.matches.reduce((acc, current) => {
-
-                    return deduplicate(acc, current, 'teamId1', 'teamId2')
-
-                }, [])
-
-
                 // fetch each match's messages and opponent info
 
-                for (const match of team.matches) {
+                for (const match of team.matches.matches) {
 
                     await fetchMessages(this, match)
                     await setTeamsInfo(this, match)
@@ -281,11 +290,8 @@ const actions = {
             }
 
             catch (err) {
-
                 const response = { ...errorNotification, err }
-
                 throw response
-
             }
 
         }
@@ -295,19 +301,15 @@ const actions = {
 
         try {
 
-            let result = await this.$AWS.API.graphql(
-                graphqlOperation(
-                    umt.queries.listMatches,
-                    {
-                        email       : userState.email,
-                        nextToken   : actives.user.nextToken
-                    }
-                )
-            )
+            let result = await this.$AWS.API.graphql(graphqlOperation(
+                umt.queries.listMatches,
+                {
+                    email       : userState.email,
+                    nextToken   : actives.user.nextToken
+                }
+            ))
 
             result = result.data.listMatches
-
-
             actives.user.nextToken = result.nextToken
 
 
@@ -315,34 +317,43 @@ const actions = {
 
             if (result.items) {
 
-                // convert into object some elements
+                // check if new matches exist in current loaded matches.
+                // if yes, it means that we scan all dynamodb data. So, we
+                // don't should append it to avoid duplicates.
 
-                actives.user.matches = [
-                    ...actives.user.matches,
-                    ...result.items.map((x) => {
-                        return {
-                            ...x,
-                            coords  : JSON.parse(x.coords),
-                            patches : JSON.parse(x.patches),
-                            reqStat : JSON.parse(x.reqStat),
-                            members : {
-                                players     : [],
-                                nextToken   : null
+                let exist = false
+
+                if (actives.user.matches.length) {
+
+                    const check = result.items[0]
+
+                    exist = objectInArray(check, actives.user.matches, ['teamId1', 'teamId2'])
+
+                }
+
+                if (!exist) {
+
+                    actives.user.matches = [
+                        ...actives.user.matches,
+                        ...result.items.map((x) => {
+                            return {
+                                ...x,
+                                coords  : JSON.parse(x.coords),
+                                patches : JSON.parse(x.patches),
+                                reqStat : JSON.parse(x.reqStat),
+                                members : {
+                                    members     : [],
+                                    nextToken1  : null,
+                                    nextToken2  : null,
+                                    nextToken   : null
+                                }
                             }
-                        }
-                    })
-                ]
+                        })
+                    ]
+
+                }
 
             }
-
-
-            // deduplicate
-
-            actives.user.matches = actives.user.matches.reduce((acc, current) => {
-
-                return deduplicate(acc, current, 'teamId1', 'teamId2')
-
-            }, [])
 
 
             // fetch each match's messages and teams info
@@ -357,25 +368,18 @@ const actions = {
         }
 
         catch (err) {
-
             const response = { ...errorNotification, err }
-
             throw response
-
         }
 
 
         const params = { actives }
-
         ctx.commit('setState', { params })
 
     },
 
 
     async listRequests (ctx, data) {
-
-        this.$AWS.Amplify.configure(awsconfig.umt)
-
 
         // init states
 
@@ -390,9 +394,8 @@ const actions = {
             requests.teams = userState.teams.map((team) => {
 
                 return {
-                    teamId      : team.id,
-                    matches     : [],
-                    nextToken   : null
+                    ...team,
+                    requests: { requests: [], nextToken: null }
                 }
 
             })
@@ -406,51 +409,60 @@ const actions = {
 
             try {
 
-                let result = await this.$AWS.API.graphql(
-                    graphqlOperation(
-                        umt.queries.matchRequests,
-                        {
-                            id          : team.teamId,
-                            nextToken   : team.nextToken
-                        }
-                    )
-                )
+                this.$AWS.Amplify.configure(awsconfig.umt)
+
+                let result = await this.$AWS.API.graphql(graphqlOperation(
+                    umt.queries.matchRequests,
+                    {
+                        id          : team.id,
+                        nextToken   : team.nextToken
+                    }
+                ))
 
                 result = result.data.matchRequests
-                team.nextToken = result.nextToken
+                team.requests.nextToken = result.nextToken
 
 
                 // append data to state
 
                 if (result.items) {
 
-                    team.matches = [
-                        ...team.matches,
-                        ...result.items.map((x) => {
-                            return {
-                                ...x,
-                                coords  : JSON.parse(x.coords),
-                                patches : JSON.parse(x.patches),
-                                reqStat : JSON.parse(x.reqStat)
-                            }
-                        })
-                    ]
+                    // check if new requests exist in current loaded requests.
+                    // if yes, it means that we scan all dynamodb data. So, we
+                    // don't should append it to avoid duplicates.
+
+                    let exist = false
+
+                    if (team.requests.requests.length) {
+
+                        const check = result.items[0]
+
+                        exist = objectInArray(check, team.requests.requests, ['teamId1', 'teamId2'])
+
+                    }
+
+                    if (!exist) {
+
+                        team.requests.requests = [
+                            ...team.requests.requests,
+                            ...result.items.map((x) => {
+                                return {
+                                    ...x,
+                                    coords  : JSON.parse(x.coords),
+                                    patches : JSON.parse(x.patches),
+                                    reqStat : JSON.parse(x.reqStat)
+                                }
+                            })
+                        ]
+
+                    }
 
                 }
 
 
-                // deduplicate
-
-                team.matches = team.matches.reduce((acc, current) => {
-
-                    return deduplicate(acc, current, 'teamId1', 'teamId2')
-
-                }, [])
-
-
                 // fetch each match's opponent info
 
-                for (const match of team.matches) {
+                for (const match of team.requests.requests) {
 
                     await setTeamsInfo(this, match)
 
@@ -459,11 +471,8 @@ const actions = {
             }
 
             catch (err) {
-
                 const response = { ...errorNotification, err }
-
                 throw response
-
             }
 
         }
@@ -473,19 +482,17 @@ const actions = {
 
         try {
 
-            let result = await this.$AWS.API.graphql(
-                graphqlOperation(
-                    umt.queries.matchPatchRequests,
-                    {
-                        email       : userState.email,
-                        nextToken   : requests.user.nextToken
-                    }
-                )
-            )
+            this.$AWS.Amplify.configure(awsconfig.umt)
+
+            let result = await this.$AWS.API.graphql(graphqlOperation(
+                umt.queries.matchPatchRequests,
+                {
+                    email       : userState.email,
+                    nextToken   : requests.user.nextToken
+                }
+            ))
 
             result = result.data.matchPatchRequests
-
-
             requests.user.nextToken = result.nextToken
 
 
@@ -493,31 +500,40 @@ const actions = {
 
             if (result.items) {
 
-                requests.user.matches = [
-                    ...requests.user.matches,
-                    ...result.items.map((x) => {
-                        return {
-                            ...x,
-                            reqStat : JSON.parse(x.reqStat)
-                        }
-                    })
-                ]
+                // check if new requests exist in current loaded requests.
+                // if yes, it means that we scan all dynamodb data. So, we
+                // don't should append it to avoid duplicates.
+
+                let exist = false
+
+                if (requests.user.requests.length) {
+
+                    const check = result.items[0]
+
+                    exist = objectInArray(check, requests.user.requests, ['teamId1', 'teamId2'])
+
+                }
+
+                if (!exist) {
+
+                    requests.user.requests = [
+                        ...requests.user.requests,
+                        ...result.items.map((x) => {
+                            return {
+                                ...x,
+                                reqStat : JSON.parse(x.reqStat)
+                            }
+                        })
+                    ]
+
+                }
 
             }
 
 
-            // deduplicate
-
-            requests.user.matches = requests.user.matches.reduce((acc, current) => {
-
-                return deduplicate(acc, current, 'teamId1', 'teamId2')
-
-            }, [])
-
-
             // fetch each match's teams info
 
-            for (const match of requests.user.matches) {
+            for (const match of requests.user.requests) {
 
                 await setTeamsInfo(this, match)
 
@@ -526,16 +542,12 @@ const actions = {
         }
 
         catch (err) {
-
             const response = { ...errorNotification, err }
-
             throw response
-
         }
 
 
         const params = { requests }
-
         ctx.commit('setState', { params })
 
     },
@@ -549,8 +561,9 @@ const actions = {
 
             this.$AWS.Amplify.configure(awsconfig.umt)
 
-            this.$AWS.API.graphql(
-                graphqlOperation(umt.mutations.updateMatch, {
+            this.$AWS.API.graphql(graphqlOperation(
+                umt.mutations.updateMatch,
+                {
                     ...data,
                     coords  : JSON.stringify(data.coords),
                     patches : JSON.stringify(data.patches),
@@ -558,9 +571,16 @@ const actions = {
                 })
             )
 
-
                 // success
                 .then(() => {
+
+                    // remove request from requests
+
+                    for (const team of matchesState.requests.teams) {
+                        team.requests.requests = team.requests.requests.filter(
+                            request => `${request.teamId1}${request.teamId2}` !== `${data.teamId1}${data.teamId2}`
+                        )
+                    }
 
                     // build response message
 
@@ -573,17 +593,6 @@ const actions = {
                         }
 
 
-                        // remove request from requests
-
-                        for (const team of matchesState.requests.teams) {
-
-                            team.matches = team.matches.filter(
-                                match => `${match.teamId1}${match.teamId2}` !== `${data.teamId1}${data.teamId2}`
-                            )
-
-                        }
-
-
                         // update store
 
                         const params = {
@@ -591,8 +600,6 @@ const actions = {
                         }
 
                         ctx.commit('setState', { params })
-
-
                         resolve(response)
 
                     }
@@ -606,23 +613,12 @@ const actions = {
                         }
 
 
-                        // remove request from requests
-
-                        for (const team of matchesState.requests.teams) {
-
-                            team.matches = team.matches.filter(
-                                match => `${match.teamId1}${match.teamId2}` !== `${data.teamId1}${data.teamId2}`
-                            )
-
-                        }
-
-
                         // add request to actives
 
                         for (const team of matchesState.actives.teams) {
 
-                            team.matches = [
-                                ...team.matches,
+                            team.matches.matches = [
+                                ...team.matches.matches,
                                 {
                                     ...data,
                                     chat: {
@@ -630,7 +626,9 @@ const actions = {
                                         nextToken   : null
                                     },
                                     members: {
-                                        players     : [],
+                                        members     : [],
+                                        nextToken1  : null,
+                                        nextToken2  : null,
                                         nextToken   : null
                                     }
                                 }
@@ -642,13 +640,11 @@ const actions = {
                         // update store
 
                         const params = {
-                            requests    : matchesState.requests,
-                            actives     : matchesState.actives
+                            requests: matchesState.requests,
+                            actives : matchesState.actives
                         }
 
                         ctx.commit('setState', { params })
-
-
                         resolve(response)
 
                     }
@@ -658,13 +654,12 @@ const actions = {
 
                 // error
                 .catch((err) => {
-
                     const response = { ...errorNotification, err }
-
                     reject(response)
-
                 })
+
         })
+
     },
 
 
@@ -676,16 +671,23 @@ const actions = {
 
             this.$AWS.Amplify.configure(awsconfig.umt)
 
-            this.$AWS.API.graphql(
-                graphqlOperation(umt.mutations.updateMatchPatch, {
+            this.$AWS.API.graphql(graphqlOperation(
+                umt.mutations.updateMatchPatch,
+                {
                     ...data,
-                    reqStat : JSON.stringify(data.reqStat)
+                    reqStat: JSON.stringify(data.reqStat)
                 })
             )
 
-
                 // success
                 .then(async () => {
+
+                    // remove request from requests
+
+                    matchesState.requests.user.requests = matchesState.requests.user.requests.filter(
+                        request => `${request.teamId1}${request.teamId2}` !== `${data.teamId1}${data.teamId2}`
+                    )
+
 
                     // build response message
 
@@ -696,14 +698,6 @@ const actions = {
                             title   : '¡Solicitud cancelada!',
                             msg     : 'La solicitud ha sido cancelada.'
                         }
-
-
-                        // remove request from requests
-
-                        matchesState.requests.user.matches = matchesState.requests.user.matches.filter(
-                            match => `${match.teamId1}${match.teamId2}` !== `${data.teamId1}${data.teamId2}`
-                        )
-
 
                         // update store
 
@@ -723,14 +717,6 @@ const actions = {
                             title   : '¡Solicitud aceptada!',
                             msg     : 'La solicitud ha sido aceptada.'
                         }
-
-
-                        // remove request from requests
-
-                        matchesState.requests.user.matches = matchesState.requests.user.matches.filter(
-                            match => `${match.teamId1}${match.teamId2}` !== `${data.teamId1}${data.teamId2}`
-                        )
-
 
                         // fetch match's info to add to actives later
 
@@ -763,7 +749,9 @@ const actions = {
                                             nextToken   : null
                                         },
                                         members: {
-                                            players     : [],
+                                            members     : [],
+                                            nextToken1  : null,
+                                            nextToken2  : null,
                                             nextToken   : null
                                         }
                                     }
@@ -805,13 +793,12 @@ const actions = {
 
                 // error
                 .catch((err) => {
-
                     const response = { ...errorNotification, err }
-
                     reject(response)
-
                 })
+
         })
+
     },
 
 
@@ -827,9 +814,9 @@ const actions = {
 
         matchesState.actives.teams = matchesState.actives.teams.map((team) => {
 
-            if (team.teamId === data.teamId1 || team.teamId === data.teamId2) {
+            if (team.id === data.teamId1 || team.id === data.teamId2) {
 
-                team.matches = team.matches.map((match) => {
+                team.matches.matches = team.matches.matches.map((match) => {
 
                     if (match.teamId1 === data.teamId1 && match.teamId2 === data.teamId2) {
 
@@ -892,8 +879,9 @@ const actions = {
 
             this.$AWS.Amplify.configure(awsconfig.umt)
 
-            this.$AWS.API.graphql(
-                graphqlOperation(umt.mutations.addMatchChat, {
+            this.$AWS.API.graphql(graphqlOperation(
+                umt.mutations.addMatchChat,
+                {
                     teamId1 : data.teamId1,
                     teamId2 : data.teamId2,
                     email   : userState.email,
@@ -903,26 +891,23 @@ const actions = {
                 })
             )
 
-
                 // success
                 .then(() => {
                     resolve()
                 })
 
-
                 // error
                 .catch((err) => {
-
                     const response = { ...errorNotification, err }
-
                     reject(response)
-
                 })
+
         })
+
     },
 
 
-    async fetchMembers (ctx, data) {
+    async listTeamMembers (ctx, data) {
 
         const matchesState = ctx.getters.get
 
@@ -939,10 +924,11 @@ const actions = {
                 umt.queries.listTeamMembers,
                 {
                     teamId      : data.teamId1,
-                    nextToken   : null // this always should be null
+                    nextToken   : data.members.nextToken1
                 }
             ))
 
+            const nextToken1 = result1.data.listTeamMembers.nextToken
             result1 = result1.data.listTeamMembers.items || []
 
             // team 2 members
@@ -951,10 +937,11 @@ const actions = {
                 umt.queries.listTeamMembers,
                 {
                     teamId      : data.teamId2,
-                    nextToken   : null // this always should be null
+                    nextToken   : data.members.nextToken2
                 }
             ))
 
+            const nextToken2 = result2.data.listTeamMembers.nextToken
             result2 = result2.data.listTeamMembers.items || []
 
             // match patches
@@ -964,47 +951,145 @@ const actions = {
                 {
                     teamId1     : data.teamId1,
                     teamId2     : data.teamId2,
-                    nextToken   : null // this always should be null
+                    nextToken   : data.members.nextToken
                 }
             ))
 
+            const nextToken = result3.data.listMatchPatches.nextToken
             result3 = result3.data.listMatchPatches.items || []
 
 
-            const result = [...result1, ...result2, ...result3]
+            if (result1.length + result2.length + result3.length) {
+
+                let exist1 = false
+                let exist2 = false
+                let exist3 = false
+
+                if (data.members.members.length) {
+
+                    const check1 = result1[0]
+                    const check2 = result2[0]
+                    const check3 = result3[0]
+
+                    exist1 = result1.length ? objectInArray(check1, data.members.members, ['email']) : false
+                    exist2 = result2.length ? objectInArray(check2, data.members.members, ['email']) : false
+                    exist3 = result3.length ? objectInArray(check3, data.members.members, ['email']) : false
+
+                }
+
+                if (!exist1 || !exist2 || !exist3) {
+
+                    let result = []
+
+                    // fetch picture of each player
+
+                    this.$AWS.Amplify.configure(awsconfig.arv)
 
 
-            // fetch picture of each player
+                    if (!exist1) {
 
-            this.$AWS.Amplify.configure(awsconfig.arv)
+                        for (const player of result1) {
 
-            for (const player of result) {
+                            const user = await this.$AWS.API.graphql(graphqlOperation(
+                                arv.queries.getUser,
+                                {
+                                    email: player.email
+                                }
+                            ))
 
-                const result4 = await this.$AWS.API.graphql(
-                    graphqlOperation(
-                        arv.queries.getUser,
-                        {
-                            email: player.email
+                            player.picture = user.data.getUser.picture
+
                         }
-                    )
-                )
 
-                player.picture = result4.data.getUser.picture
+                        result = [...result, ...result1]
 
-            }
+                    }
 
 
-            // append data for team matches
+                    if (!exist2) {
 
-            matchesState.actives.teams = matchesState.actives.teams.map((team) => {
+                        for (const player of result2) {
 
-                if (team.teamId === data.teamId1 || team.teamId === data.teamId2) {
+                            const user = await this.$AWS.API.graphql(graphqlOperation(
+                                arv.queries.getUser,
+                                {
+                                    email: player.email
+                                }
+                            ))
 
-                    team.matches = team.matches.map((match) => {
+                            player.picture = user.data.getUser.picture
+
+                        }
+
+                        result = [...result, ...result2]
+
+                    }
+
+
+                    if (!exist3) {
+
+                        for (const player of result3) {
+
+                            const user = await this.$AWS.API.graphql(graphqlOperation(
+                                arv.queries.getUser,
+                                {
+                                    email: player.email
+                                }
+                            ))
+
+                            player.picture = user.data.getUser.picture
+
+                        }
+
+                        result = [...result, ...result3]
+
+                    }
+
+
+                    // append data for team matches
+
+                    matchesState.actives.teams = matchesState.actives.teams.map((team) => {
+
+                        if (team.id === data.teamId1 || team.id === data.teamId2) {
+
+                            team.matches.matches = team.matches.matches.map((match) => {
+
+                                if (match.teamId1 === data.teamId1 && match.teamId2 === data.teamId2) {
+
+                                    match.members.members = [
+                                        ...match.members.members,
+                                        ...result
+                                    ]
+                                    match.members.nextToken1 = nextToken1
+                                    match.members.nextToken2 = nextToken2
+                                    match.members.nextToken = nextToken
+
+                                }
+
+                                return match
+
+                            })
+
+                        }
+
+                        return team
+
+                    })
+
+
+                    // append message to chat for user matches
+
+                    matchesState.actives.user.matches = matchesState.actives.user.matches.map((match) => {
 
                         if (match.teamId1 === data.teamId1 && match.teamId2 === data.teamId2) {
 
-                            match.members.players = result
+                            match.members.members = [
+                                ...match.members.members,
+                                ...result
+                            ]
+                            match.members.nextToken1 = nextToken1
+                            match.members.nextToken2 = nextToken2
+                            match.members.nextToken = nextToken
 
                         }
 
@@ -1014,42 +1099,19 @@ const actions = {
 
                 }
 
-                return team
-
-            })
-
-
-            // append message to chat for user matches
-
-            matchesState.actives.user.matches = matchesState.actives.user.matches.map((match) => {
-
-                if (match.teamId1 === data.teamId1 && match.teamId2 === data.teamId2) {
-
-                    match.members.players = result
-
-                }
-
-                return match
-
-            })
+            }
 
 
             // update store
 
-            const params = {
-                actives: matchesState.actives
-            }
-
+            const params = { actives: matchesState.actives }
             ctx.commit('setState', { params })
 
         }
 
         catch (err) {
-
             const response = { ...errorNotification, err }
-
             throw response
-
         }
 
     },
@@ -1061,26 +1123,21 @@ const actions = {
 
             this.$AWS.Amplify.configure(awsconfig.arv)
 
-            this.$AWS.API.graphql(
-                graphqlOperation(arv.queries.getUser, {
+            this.$AWS.API.graphql(graphqlOperation(arv.queries.getUser,
+                {
                     email: data.email
                 })
             )
-
 
                 // success
                 .then((result) => {
                     resolve(result.data.getUser)
                 })
 
-
                 // error
                 .catch((err) => {
-
                     const response = { ...errorNotification, err }
-
                     reject(response)
-
                 })
 
         })
@@ -1092,52 +1149,100 @@ const actions = {
 
         try {
 
-            if (!data.players.includes(data.email)) {
+            this.$AWS.Amplify.configure(awsconfig.umt)
 
-                this.$AWS.Amplify.configure(awsconfig.umt)
-
-                await this.$AWS.API.graphql(
-                    graphqlOperation(umt.mutations.addMatchPatch, {
-                        teamId1 : data.teamId1,
-                        teamId2 : data.teamId2,
-                        email   : data.email,
-                        name    : data.firstName,
-                        expireOn: data.expireOn,
-                        reqStat : JSON.stringify({
-                            MR: { S: 'A' },
-                            PR: { S: 'P' }
-                        })
+            await this.$AWS.API.graphql(graphqlOperation(
+                umt.mutations.addMatchPatch,
+                {
+                    teamId1 : data.teamId1,
+                    teamId2 : data.teamId2,
+                    email   : data.email,
+                    name    : data.firstName,
+                    expireOn: data.expireOn,
+                    reqStat : JSON.stringify({
+                        MR: { S: 'A' },
+                        PR: { S: 'P' }
                     })
-                )
+                })
+            )
 
-                const response = {
-                    type    : 'success',
-                    title   : '¡Solicitud enviada!',
-                    msg     : 'La solicitud al jugador fue enviada.'
-                }
-
-                return response
-
+            const response = {
+                type    : 'success',
+                title   : '¡Solicitud enviada!',
+                msg     : 'La solicitud al jugador fue enviada.'
             }
 
-            else {
-
-                const response = {
-                    type    : 'warning',
-                    title   : '¡Jugador existente!',
-                    msg     : 'El jugador ya participa del partido.'
-                }
-
-                return response
-
-            }
+            return response
 
         }
 
         catch (err) {
 
-            const response = { ...errorNotification, err }
+            const errorCode = JSON.parse(err.errors[0].message)
 
+            let response = {}
+
+            switch (errorCode.code) {
+
+
+            // player already into the match
+
+            case 'MatchPatchExistException': {
+                response = {
+                    type    : 'error',
+                    title   : '¡Jugador existente!',
+                    msg     : errorCode.message
+                }
+                break
+            }
+
+
+            // the match is expired
+
+            case 'MatchExpiredException': {
+                response = {
+                    type    : 'error',
+                    title   : '¡Partido expirado!',
+                    msg     : errorCode.message
+                }
+                break
+            }
+
+
+            // user already has a request for the match
+
+            case 'MatchPatchRequestException': {
+                response = {
+                    type    : 'error',
+                    title   : '¡Solicitud existente!',
+                    msg     : errorCode.message
+                }
+                break
+            }
+
+
+            // match is full
+
+            case 'MatchPatchFullException': {
+                response = {
+                    type    : 'error',
+                    title   : '¡Cupos completos!',
+                    msg     : errorCode.message
+                }
+                break
+            }
+
+
+            // unknown error
+
+            default: {
+                response = errorNotification
+                break
+            }
+
+            }
+
+            response = { ...response, err }
             throw response
 
         }

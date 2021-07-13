@@ -240,6 +240,7 @@
             display         : flex;
             flex-direction  : column;
             padding         : 40px 24px;
+            overflow        : hidden;
 
             .header {
 
@@ -263,53 +264,34 @@
                     width           : 100%;
                     padding-bottom  : 24px;
 
-                    .team-1,
-                    .team-2 {
-
-                        padding     : 12px 7%;
-                        transform   : skewx(-15deg);
-
-                        .umt-avatar {
-                            transform: skewx(15deg);
-                        }
-
+                    [umt-theme="light"] & {
+                        border-bottom: solid 1px rgba($color-main-4, 0.2);
                     }
 
-                    .team-1 {
-                        background: linear-gradient(45deg, $color-main-6, $color-main-7);
-                    }
-
-                    .team-2 {
-                        background: linear-gradient(45deg, $color-main-10, $color-main-5);
-                    }
-
-
-                    .team1-name {
-                        margin-right: 3rem;
-                    }
-
-                    .team2-name {
-                        margin-left: 3rem;
+                    [umt-theme="dark"] & {
+                        border-bottom: solid 1px rgba($color-main-2, 0.2);
                     }
 
                 }
 
             }
 
-            .content {
 
-                .title {
+            .title {
 
-                    display         : flex;
-                    justify-content : space-between;
-                    align-items     : center;
+                display         : flex;
+                justify-content : space-between;
+                align-items     : center;
+                padding         : 24px 0;
 
-                    .umt-button {
-                        margin: 0;
-                    }
-
+                .umt-button {
+                    margin: 0;
                 }
 
+            }
+
+            .members {
+                overflow: auto;
             }
 
         }
