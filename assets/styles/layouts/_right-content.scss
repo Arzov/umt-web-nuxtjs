@@ -1,0 +1,9 @@
+.right-content {
+    display         : flex;
+    flex-direction  : column;
+    justify-content : center;
+    padding-left    : 50px;
+    padding-right   : 50px;
+    width           : 50%;
+    z-index         : 1;
+}

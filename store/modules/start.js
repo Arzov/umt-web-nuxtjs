@@ -6,7 +6,6 @@ import errorNotification from '@/static/data/errorNotification.json'
 const actions = {
 
     signIn (ctx, data) {
-
         return new Promise((resolve, reject) => {
 
             this.$AWS.Auth.signIn({
@@ -55,7 +54,6 @@ const actions = {
                     // email unverified
 
                     case 'UserNotConfirmedException': {
-                        this.$router.push(`/email_verification/${data.email}`)
                         break
                     }
 
@@ -65,13 +63,17 @@ const actions = {
                         response = errorNotification
                         break
                     }
+
                     }
 
                     response = { ...response, err }
                     reject(response)
+
                 })
+
         })
     }
+
 }
 
 

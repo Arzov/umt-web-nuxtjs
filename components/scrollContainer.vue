@@ -1,14 +1,18 @@
 <template>
-    <div class="scrollContainer">
+
+    <div class="scroll-container">
         <slot />
     </div>
+
 </template>
+
 
 <script>
 export default {
+
     mounted () {
         // Reference: https://github.com/fjbarrientosg/infinite-scroll
-        const listElm = document.querySelector('.scrollContainer')
+        const listElm = document.querySelector('.scroll-container')
 
         listElm.addEventListener('scroll', (e) => {
             if (
@@ -20,10 +24,12 @@ export default {
         })
     },
 
+
     methods: {
         emitInfiniteScroll () {
             this.$emit('bottomScroll')
         }
     }
+
 }
 </script>

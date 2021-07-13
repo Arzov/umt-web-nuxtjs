@@ -9,11 +9,11 @@ const global = {
     data () {
         return {
 
-            // button loading indicator
-
             btnLoading: false
+
         }
     },
+
 
     computed: {
 
@@ -28,59 +28,71 @@ const global = {
 
         _globalState () {
             return this.$store.getters['global/get']
-        }
-    },
-
-    methods: {
-
-        // show notification component from ant-design
-
-        showNotification (title, msg, type) {
-
-            let icon = <a-icon type="close-circle" />
-
-            switch (type) {
-
-            // success
-            case 'success':
-                icon = <a-icon type="check-circle" />
-                break
-
-            // warning
-            case 'warning':
-                icon = <a-icon type="warning" />
-                break
-
-            // info
-            case 'info':
-                icon = <a-icon type="info-circle" />
-                break
-            }
-
-            this.$notification.destroy()
-
-            this.$notification.open({
-                message         : title,
-                description     : msg,
-                class           : 'notification',
-                getContainer    : () => this.$el,
-                icon
-            })
         },
 
 
-        // get icon from assets
-
-        getIcon (icon) {
-
-            const mode =
-                this._globalState.themePreference === 'light'
-                    ? 'lm'
-                    : 'dm'
-
-            return require(`@/assets/icons/${mode}-${icon}`)
+        _themePrefix () {
+            return this._globalState.themePreference === 'dark' ? 'dm' : 'lm'
         }
+
+    },
+
+
+    mounted () {
+
+        this.$store.commit('umt-components/setTheme', this._globalState.themePreference)
+
+    },
+
+
+    methods: {
+
+        // show notification component
+
+        async showNotification (title, msg, type) {
+
+            const params = {
+                notificationStatus  : true,
+                notificationType    : type,
+                notificationTitle   : title,
+                notificationMsg     : msg
+            }
+
+            this.$store.dispatch('global/setState', params)
+
+            await new Promise(resolve => setTimeout(resolve, 3000))
+
+            params.notificationStatus = false
+
+            this.$store.dispatch('global/setState', params)
+
+        },
+
+
+        // handle top progress
+
+        handleTopProgress (e) {
+
+            if (e === 'start') {
+                this.$refs.topProgress.start()
+            }
+
+            else if (e === 'done') {
+                this.$refs.topProgress.done()
+            }
+
+            else if (e === 'fail') {
+                this.$refs.topProgress.fail()
+            }
+
+            else {
+                this.$refs.topProgress.done()
+            }
+
+        }
+
     }
+
 }
 
 Vue.mixin(global)
@@ -93,7 +105,9 @@ export const validGeoloc = {
     mounted () {
 
         if ('geolocation' in navigator) {
+
             if (this._globalState.allowGeoloc) {
+
                 navigator.geolocation.getCurrentPosition(
 
 
@@ -129,8 +143,7 @@ export const validGeoloc = {
                                 height          : this._userState.height
                             }
 
-                            this.$store
-                                .dispatch('user/update', params)
+                            this.$store.dispatch('user/update', params)
 
                                 // update location
                                 .then(() => {
@@ -169,12 +182,13 @@ export const validGeoloc = {
                         case err.PERMISSION_DENIED:
                             break
 
-
                         // unknown error
                         default:
                             this.showNotification({ ...errorNotification })
                             break
+
                         }
+
                     }
                 )
             }
@@ -191,4 +205,5 @@ export const validGeoloc = {
             )
         }
     }
+
 }

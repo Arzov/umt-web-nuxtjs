@@ -1,21 +1,35 @@
 <template>
-    <a class="themeToggle" block @click="switchTheme">
-        <img
-            :src="
-                _globalState.themePreference === 'light'
-                    ? require('../assets/icons/lm-theme.svg')
-                    : require('../assets/icons/dm-theme.svg')
-            "
-        >
-    </a>
+
+    <umt-button
+        class="theme-toggle"
+        type="icon"
+        color="transparent"
+        shape="square"
+        :size="size"
+        :icon="`${_themePrefix}-theme`"
+        @click="switchTheme"
+    />
+
 </template>
 
+
 <script>
+
 export default {
+
+    props: {
+        size: {
+            type    : String,
+            default : 'large'
+        }
+    },
+
     methods: {
         switchTheme () {
             this.$store.dispatch('global/setTheme')
         }
     }
+
 }
+
 </script>

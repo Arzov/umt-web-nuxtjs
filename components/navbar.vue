@@ -1,71 +1,72 @@
 <template>
+
     <div class="navbar">
-        <div class="navbarToggle">
-            <ThemeToggle />
+
+        <div class="toggle">
+            <theme-toggle size="small" />
         </div>
 
-        <div class="navbarMenu">
-            <div v-for="menu in options" :key="menu.key">
-                <a-tooltip placement="bottom">
-                    <template slot="title">
-                        <span>{{ menu.label }}</span>
-                    </template>
-                    <nuxt-link :to="menu.url">
-                        <img
-                            v-if="menu.key != current"
-                            :src="getIcon(menu.icon.normal)"
-                            alt=""
-                        >
-                        <img
-                            v-if="menu.key == current"
-                            :src="getIcon(menu.icon.active)"
-                            alt=""
-                        >
-                    </nuxt-link>
-                </a-tooltip>
-            </div>
+
+        <div class="menu">
+            <umt-navigation-bar
+                position="top"
+                :tabs="navbarOptions"
+                :active-tab="navbarValue"
+                @click="(e) => redirect(e)"
+            />
         </div>
 
-        <div class="navbarPicture">
-            <a-avatar size="small" class="teamPicture" :src="teamPicture" />
+
+        <div class="picture">
+
+            <umt-avatar
+                v-if="_userState.primaryTeam"
+                class="team-picture"
+                icon="team-profile"
+                size="small"
+                color="violet"
+                :src="_userState.primaryTeam.picture"
+            />
 
             <nuxt-link to="profile">
-                <a-avatar size="large" :src="userPicture" />
+                <umt-avatar size="large" :src="_userState.picture" />
             </nuxt-link>
+
         </div>
+
     </div>
+
 </template>
 
+
 <script>
+
+const navbarOptions = require('@/static/data/navbarOptions.json')
+
+
 export default {
+
     data () {
         return {
-            options: require('@/static/data/navbarOptions.json')
+
+            navbarOptions,
+            navbarValue: 'home'
+
         }
     },
-    computed: {
-        current () {
-            return this.$route.name
-        },
-        teamPicture () {
-            if (
-                this._userState.primaryTeam &&
-                this._userState.primaryTeam.picture
-            ) {
-                return this._userState.primaryTeam.picture
-            }
-            else {
-                return this.getIcon('team-profile.svg')
-            }
-        },
-        userPicture () {
-            if (this._userState.picture) {
-                return this._userState.picture
-            }
-            else {
-                return this.getIcon('avatar.svg')
-            }
+
+
+    mounted () {
+        this.navbarValue = this.$router.currentRoute.name
+    },
+
+
+    methods: {
+        redirect (e) {
+            this.navbarValue = e
+            this.$router.push(e)
         }
     }
+
 }
 </script>

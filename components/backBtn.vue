@@ -1,19 +1,18 @@
 <template>
-    <nuxt-link class="backBtn" :to="path">
-        <img
-            :src="
-                _globalState.themePreference === 'light'
-                    ? require('../assets/icons/lm-arrow-left.svg')
-                    : require('../assets/icons/dm-arrow-left.svg')
-            "
-        >
+
+    <nuxt-link :to="path">
+        <umt-button type="icon" color="green" icon="arrow-left" />
     </nuxt-link>
+
 </template>
 
+
 <script>
+
 export default {
     props: {
         path: { type: String, default: '/' }
     }
 }
+
 </script>

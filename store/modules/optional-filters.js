@@ -52,10 +52,8 @@ const actions = {
                     }
 
                     ctx.commit('user/setState', { params }, { root: true })
-
-                    this.$router.push('/home')
-
                     resolve()
+
                 })
 
 
@@ -65,8 +63,11 @@ const actions = {
 
                     reject(response)
                 })
+
         })
+
     }
+
 }
 
 

@@ -1,20 +1,22 @@
 <template>
-    <div
-        :class="_globalState.themePreference === 'light' ? 'lmBody' : 'dmBody'"
-    >
+
+    <umt-theme-provider :theme="_globalState.themePreference">
+
         <div class="header">
-            <ThemeToggle />
-            <img
-                class="cornerTopRight"
-                src="../assets/images/corner-top-right.svg"
-            >
+            <theme-toggle />
+            <img class="corner-top-right" src="@/assets/images/corner-top-right.svg">
         </div>
+
         <Nuxt class="page" />
-        <div class="footer">
-            <img
-                class="cornerBottomLeft"
-                src="../assets/images/corner-bottom-left.svg"
-            >
-        </div>
-    </div>
+
+        <umt-notification
+            v-if="_globalState.notificationStatus"
+            :type="_globalState.notificationType"
+            :title="_globalState.notificationTitle"
+            :msg="_globalState.notificationMsg"
+            @click="$store.dispatch('global/setState', { notificationStatus: false })"
+        />
+
+    </umt-theme-provider>
+
 </template>

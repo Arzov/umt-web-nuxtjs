@@ -1,5 +1,5 @@
 [
-    { "key": "5v5", "value": "5v5", "stat": "on" },
-    { "key": "7v7", "value": "7v7", "stat": "off" },
-    { "key": "11v11", "value": "11v11", "stat": "off" }
+    { "key": "5v5", "value": "5v5" },
+    { "key": "7v7", "value": "7v7" },
+    { "key": "11v11", "value": "11v11" }
 ]

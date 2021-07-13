@@ -1,229 +1,352 @@
 <template>
+
     <div class="profile">
-        <!-- <div class="header">
-            <ThemeToggle />
-        </div> -->
 
-        <a-row>
-            <a-col class="leftContent" :span="8">
-                <BackBtn />
+        <!-- HEADER -->
 
-                <ProfileDisplay :user="_userState" />
+        <div class="header">
 
-                <br>
+            <div class="toggle">
+                <theme-toggle size="small" />
+            </div>
 
-                <PrimaryTeamSelector
-                    :teams="_userState.teams"
-                    :primary-team="_userState.primaryTeam"
+
+            <div class="user">
+                <umt-avatar size="large" :src="_userState.picture" />
+            </div>
+
+
+            <div class="labels">
+                <h2 class="user-name">
+                    {{ _userState.firstName }}
+                </h2>
+                <h2 v-if="_userState.teams.length" class="team-name">
+                    {{ _userState.primaryTeam.name }}
+                </h2>
+            </div>
+
+
+            <div class="team">
+                <umt-avatar
+                    v-if="_userState.teams.length"
+                    class="team-picture"
+                    icon="team-profile"
+                    size="large"
+                    color="violet"
+                    :src="_userState.primaryTeam.picture"
+                />
+                <umt-button
+                    v-if="_userState.teams.length > 1"
+                    type="icon"
+                    shape="square"
+                    color="transparent"
+                    icon="arrow-right"
                     @click="setPrimaryTeam"
                 />
+            </div>
 
-                <br>
 
-                <PrincipalBtn
-                    text="GUARDAR"
-                    :loading="btnLoading"
-                    @click.native="submitForm('ruleForm')"
-                />
+            <div class="button">
+                <back-btn />
+            </div>
 
-                <br>
+        </div>
 
-                <center>
-                    <SignOutBtn />
-                </center>
-            </a-col>
 
-            <a-col class="rightContent" :span="16">
-                <ScrollContainer>
+        <!-- CONTENT -->
+
+        <div class="center-content">
+
+            <umt-tabs>
+
+                <!-- ATTRIBUTES -->
+
+                <umt-tab-panel tab="1" label="atributos">
+
                     <center>
-                        <label><h3>ATRIBUTOS</h3></label>
+                        <p>
+                            Tu edad y sexo permitirán a otros rivales encontrarte y desafiarte en un match.
+                        </p>
                     </center>
 
-                    <br>
+                    <a-form-model ref="ruleFormAttributes" :model="ruleFormAttributes" :rules="rules">
 
-                    <a-form-model
-                        ref="ruleForm"
-                        :model="ruleForm"
-                        :rules="rules"
-                    >
                         <a-form-model-item :prop="$RULES.birthdate.name">
-                            <DateSelector
-                                v-model="ruleForm.birthdate"
-                                label="FECHA DE NACIMIENTO*"
-                            />
+                            <label class="umt-label">
+                                FECHA DE NACIMIENTO
+                            </label>
+                            <umt-date-picker v-model="ruleFormAttributes.birthdate" />
                         </a-form-model-item>
 
                         <a-form-model-item>
-                            <OptionSelector
-                                v-model="ruleForm.gender"
-                                label="SEXO*"
-                                :options="
-                                    require('@/static/data/genderOptions.json')
-                                "
-                            />
+                            <label class="umt-label">
+                                SEXO
+                            </label>
+                            <umt-radio-selector v-model="ruleFormAttributes.gender" :options="genderOptions" />
                         </a-form-model-item>
 
-                        <a-row :gutter="16" type="flex">
-                            <a-col :span="12">
+                        <a-row :gutter="12" type="flex">
+
+                            <a-col :span="12" :flex="1">
                                 <a-form-model-item :prop="$RULES.height.name">
-                                    <MetricInput
-                                        v-model="ruleForm.height"
-                                        label="ESTATURA"
+                                    <label class="umt-label">
+                                        ESTATURA
+                                    </label>
+                                    <umt-input
+                                        v-model="ruleFormAttributes.height"
+                                        placeholder="0"
+                                        type="number"
                                         suffix="cm"
                                     />
                                 </a-form-model-item>
                             </a-col>
 
-                            <a-col :span="12">
+                            <a-col :span="12" :flex="1">
                                 <a-form-model-item :prop="$RULES.weight.name">
-                                    <MetricInput
-                                        v-model="ruleForm.weight"
-                                        label="PESO"
+                                    <label class="umt-label">
+                                        PESO
+                                    </label>
+                                    <umt-input
+                                        v-model="ruleFormAttributes.weight"
+                                        placeholder="0"
+                                        type="number"
                                         suffix="kg"
                                     />
                                 </a-form-model-item>
                             </a-col>
+
                         </a-row>
 
-                        <center>
-                            *Tu edad y sexo permitirán a otros rivales
-                            encontrarte y desafiarte en un match.
-                        </center>
                     </a-form-model>
 
-                    <br>
-                    <br>
+                </umt-tab-panel>
+
+
+                <!-- SKILLS -->
+
+                <umt-tab-panel tab="2" label="habilidades">
 
                     <center>
-                        <label><h3>HABILIDADES</h3></label>
+                        <p>
+                            Tus habilidades nos permitirán conocerte mejor y también te
+                            darás a conocer frente a otros jugadores.
+                        </p>
                     </center>
 
-                    <br>
+                    <a-form-model ref="ruleFormSkills" :model="ruleFormSkills" :rules="rules">
 
-                    <a-form-model
-                        ref="ruleForm"
-                        :model="ruleForm"
-                        :rules="rules"
-                    >
                         <a-form-model-item>
-                            <PositionSelector v-model="ruleForm.positions" />
+                            <label class="umt-label">
+                                POSICIONES DE JUEGO
+                            </label>
+                            <umt-badge-group v-model="ruleFormSkills.positions" :options="positionOptions" />
                         </a-form-model-item>
+
                         <a-form-model-item>
-                            <OptionSelector
-                                v-model="ruleForm.foot"
-                                label="PIE HÁBIL"
-                                :options="
-                                    require('@/static/data/footOptions.json')
-                                "
-                            />
+                            <label class="umt-label">
+                                PIE HÁBIL
+                            </label>
+                            <umt-radio-selector v-model="ruleFormSkills.foot" :options="footOptions" />
                         </a-form-model-item>
+
                     </a-form-model>
 
-                    <br>
-                    <br>
+                </umt-tab-panel>
+
+
+                <!-- FILTERS -->
+
+                <umt-tab-panel tab="3" label="filtros">
 
                     <center>
-                        <label><h3>FILTROS</h3></label>
+                        <p>
+                            Ingresa tus <b>filtros</b> para encontrar partidos cercanos
+                            a ti a los cuales quieras <b>parchar</b> o simplemente para
+                            buscar equipos a los cuales quieras <b>unirte</b>. Puedes
+                            omitir estas opciones y configurarlas más adelante desde tu
+                            perfil.
+                        </p>
                     </center>
 
-                    <br>
+                    <a-form-model ref="ruleFormFilters" :model="ruleFormFilters">
 
-                    <a-form-model ref="ruleForm" :model="ruleForm">
                         <a-form-model-item>
-                            <MultiSelector
-                                v-model="ruleForm.matchFilter"
-                                label="TIPO DE JUEGO (SELECCIONA 1 O MÁS)"
-                                :options="
-                                    require('@/static/data/matchFilterOptions.json')
-                                "
+                            <label class="umt-label">
+                                TIPO DE JUEGO
+                            </label>
+                            <umt-multi-selector
+                                v-model="ruleFormFilters.matchFilter"
+                                :options="matchFilterOptions"
                             />
                         </a-form-model-item>
+
                         <a-form-model-item>
-                            <AgeSlider
-                                v-model="ruleForm.ageFilter"
+                            <umt-range
+                                v-model="ruleFormFilters.ageFilter"
                                 label="RANGO DE EDAD"
+                                :min="18"
+                                :max="60"
                             />
                         </a-form-model-item>
+
                     </a-form-model>
-                </ScrollContainer>
-            </a-col>
-        </a-row>
+
+                </umt-tab-panel>
+
+            </umt-tabs>
+
+            <umt-button @click="submitForm">
+                GUARDAR
+            </umt-button>
+
+            <center>
+                <signout-btn />
+            </center>
+
+        </div>
+
+        <umt-top-progress ref="topProgress" />
+
     </div>
+
 </template>
 
+
 <script>
+
+const matchFilterOptions = require('@/static/data/matchFilterOptions.json')
+const footOptions = require('@/static/data/footOptions.json')
+const positionOptions = require('@/static/data/positionOptions.json')
+const genderOptions = require('@/static/data/genderOptions.json')
+
+
 export default {
+
     data () {
         return {
-            ruleForm: {
+
+            matchFilterOptions,
+
+            footOptions,
+
+            positionOptions,
+
+            genderOptions,
+
+            ruleFormAttributes: {
+
                 birthdate: {
-                    day: undefined,
-                    month: undefined,
-                    year: undefined
+                    day     : undefined,
+                    month   : undefined,
+                    year    : undefined
                 },
-                gender: 'M',
-                foot: 'R',
-                positions: [''],
-                weight: 0,
-                height: 0,
-                matchFilter: ['5v5'],
-                ageFilter: [18, 22]
+                gender      : 'M',
+                weight      : 0,
+                height      : 0
+
+            },
+
+            ruleFormSkills: {
+
+                foot        : 'R',
+                positions   : ['']
+
+            },
+
+            ruleFormFilters: {
+
+                matchFilter : ['5v5'],
+                ageFilter   : [18, 22]
+
             },
 
             rules: {
-                birthdate: this.$RULES.birthdate.rules,
-                height: this.$RULES.height.rules,
-                weight: this.$RULES.weight.rules
+                birthdate   : this.$RULES.birthdate.rules,
+                height      : this.$RULES.height.rules,
+                weight      : this.$RULES.weight.rules
             }
+
         }
     },
 
+
     mounted () {
-        // Init data from store
-        this.ruleForm.birthdate.day = this._userState.birthdate.split('-')[2]
-        this.ruleForm.birthdate.month = this._userState.birthdate.split('-')[1]
-        this.ruleForm.birthdate.year = this._userState.birthdate.split('-')[0]
-        this.ruleForm.gender = this._userState.gender
-        this.ruleForm.weight = this._userState.weight
-        this.ruleForm.height = this._userState.height
-        this.ruleForm.positions = this._userState.positions
-        this.ruleForm.foot = this._userState.foot
-        this.ruleForm.matchFilter = this._userState.matchFilter
-        this.ruleForm.ageFilter = [
+
+        // init data from store
+
+        this.ruleFormAttributes.birthdate.day = this._userState.birthdate.split('-')[2]
+        this.ruleFormAttributes.birthdate.month = this._userState.birthdate.split('-')[1]
+        this.ruleFormAttributes.birthdate.year = this._userState.birthdate.split('-')[0]
+        this.ruleFormAttributes.gender = this._userState.gender
+        this.ruleFormAttributes.weight = this._userState.weight
+        this.ruleFormAttributes.height = this._userState.height
+        this.ruleFormSkills.positions = this._userState.positions
+        this.ruleFormSkills.foot = this._userState.foot
+        this.ruleFormFilters.matchFilter = this._userState.matchFilter
+        this.ruleFormFilters.ageFilter = [
             this._userState.ageMinFilter,
             this._userState.ageMaxFilter
         ]
+
     },
 
-    methods: {
-        submitForm (formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    this.btnLoading = true
 
-                    this.$store
-                        .dispatch('profile/update', this.ruleForm)
+    methods: {
+
+        submitForm () {
+
+            // just attributes needed to validate
+
+            this.$refs.ruleFormAttributes.validate((valid) => {
+
+                if (valid) {
+
+                    this.handleTopProgress('start')
+
+                    this.$store.dispatch('profile/update', {
+                        ...this.ruleFormAttributes,
+                        ...this.ruleFormSkills,
+                        ...this.ruleFormFilters
+                    })
                         .then(() => {
+                            this.handleTopProgress('done')
                             this.showNotification(
                                 '¡Cambios guardados!',
                                 'Tus cambios fueron guardados exitósamente.',
                                 'success'
                             )
-                            this.btnLoading = false
                         })
                         .catch((e) => {
+                            this.handleTopProgress('fail')
                             this.showNotification(e.title, e.msg, e.type)
-                            this.btnLoading = false
                         })
+
                 }
+
                 else {
                     return false
                 }
+
             })
+
         },
-        setPrimaryTeam (team) {
-            this.$store.dispatch('profile/setPrimaryTeam', team)
+
+
+        setPrimaryTeam () {
+
+            const idx = this._userState.teams.map(t => t.id).indexOf(this._userState.primaryTeam.id)
+
+            if (idx + 1 === this._userState.teams.length) {
+                this.$store.dispatch('profile/setPrimaryTeam', this._userState.teams[0])
+            }
+
+            else {
+                this.$store.dispatch('profile/setPrimaryTeam', this._userState.teams[idx + 1])
+            }
+
         }
+
     }
+
 }
 </script>

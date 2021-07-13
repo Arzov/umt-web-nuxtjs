@@ -1,105 +1,148 @@
 <template>
-    <div class="requiredAttributes">
-        <a-row>
-            <a-col class="leftContent" :span="12">
-                <div class="image">
-                    <img
-                        class="cupTriangle"
-                        src="../../assets/images/cup-triangle.svg"
-                    >
-                </div>
-                <center>
+
+    <div class="required-attributes">
+
+        <!-- LEFT CONTENT -->
+
+        <div class="left-content">
+
+            <div class="image">
+                <img src="@/assets/images/cup-triangle.svg">
+            </div>
+
+            <center>
+                <p>
                     Necesitamos estos datos para que otros rivales te puedan
                     desafiar. De lo contrario, no podrás utilizar la app.
-                </center>
-            </a-col>
-            <a-col class="rightContent" :span="12">
-                <h1>Datos necesarios</h1>
-                <br>
-                <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
-                    <a-form-model-item :prop="this.$RULES.birthdate.name">
-                        <DateSelector
-                            v-model="ruleForm.birthdate"
-                            label="FECHA DE NACIMIENTO*"
-                        />
-                    </a-form-model-item>
-                    <a-form-model-item>
-                        <OptionSelector
-                            v-model="ruleForm.gender"
-                            label="SEXO*"
-                            :options="
-                                require('../../static/data/genderOptions.json')
-                            "
-                        />
-                    </a-form-model-item>
-                    <center>
+                </p>
+            </center>
+
+        </div>
+
+
+        <!-- RIGHT CONTENT -->
+
+        <div class="right-content">
+
+            <h1>Datos necesarios</h1>
+
+            <br>
+
+            <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules">
+
+                <a-form-model-item :prop="$RULES.birthdate.name">
+                    <label class="umt-label">
+                        FECHA DE NACIMIENTO*
+                    </label>
+                    <umt-date-picker v-model="ruleForm.birthdate" />
+                </a-form-model-item>
+
+                <a-form-model-item>
+                    <label class="umt-label">
+                        SEXO*
+                    </label>
+                    <umt-radio-selector v-model="ruleForm.gender" :options="genderOptions" />
+                </a-form-model-item>
+
+                <center>
+                    <p>
                         *Tu edad y sexo permitirán a otros rivales encontrarte y
                         desafiarte en un match.
-                    </center>
-                    <br>
-                    <a-form-model-item>
-                        <PrincipalBtn
-                            text="CONTINUAR"
-                            :loading="btnLoading"
-                            @click.native="submitForm('ruleForm')"
-                        />
-                    </a-form-model-item>
-                </a-form-model>
-                <center>
-                    <SignOutBtn />
+                    </p>
                 </center>
-            </a-col>
-        </a-row>
+
+                <br>
+
+                <a-form-model-item>
+                    <umt-button @click="submitForm('ruleForm')">
+                        CONTINUAR
+                    </umt-button>
+                </a-form-model-item>
+
+            </a-form-model>
+
+            <center>
+                <signout-btn />
+            </center>
+
+        </div>
+
+        <umt-top-progress ref="topProgress" />
+
     </div>
+
 </template>
 
+
 <script>
+
+const genderOptions = require('@/static/data/genderOptions.json')
+
+
 export default {
+
     layout: 'corners',
+
 
     data () {
         return {
+
+            genderOptions,
+
             ruleForm: {
+
                 birthdate: {
-                    day: undefined,
-                    month: undefined,
-                    year: undefined
+                    day     : undefined,
+                    month   : undefined,
+                    year    : undefined
                 },
+
                 gender: 'M'
+
             },
+
             rules: {
                 birthdate: this.$RULES.birthdate.rules
             }
+
         }
     },
+
 
     methods: {
         submitForm (formName) {
             this.$refs[formName].validate((valid) => {
+
                 if (valid) {
-                    this.btnLoading = true
-                    this.$store
-                        .dispatch('requiredAttributes/save', {
-                            email: this._userState.email,
-                            firstName: this._userState.firstName,
-                            lastName: this._userState.lastName,
-                            picture: this._userState.picture,
-                            birthdate: this.ruleForm.birthdate,
-                            gender: this.ruleForm.gender
-                        })
+
+                    this.handleTopProgress('start')
+
+                    this.$store.dispatch('requiredAttributes/save', {
+                        email       : this._userState.email,
+                        firstName   : this._userState.firstName,
+                        lastName    : this._userState.lastName,
+                        picture     : this._userState.picture,
+                        birthdate   : this.ruleForm.birthdate,
+                        gender      : this.ruleForm.gender
+                    })
                         .then(() => {
-                            this.btnLoading = false
+                            this.handleTopProgress('done')
+                            this.$router.push('/home')
                         })
                         .catch((e) => {
+                            this.handleTopProgress('fail')
                             this.showNotification(e.title, e.msg, e.type)
-                            this.btnLoading = false
                         })
+
                 }
+
                 else {
                     return false
                 }
+
             })
         }
     }
+
 }
 </script>

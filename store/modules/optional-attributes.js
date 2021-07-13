@@ -15,7 +15,6 @@ const actions = {
 
         ctx.commit('user/setState', { params }, { root: true })
 
-        this.$router.push('/optional_filters')
     }
 }
 

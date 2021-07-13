@@ -1,3 +1,5 @@
 .page {
-    z-index: 100;
+    display         : flex;
+    justify-content : center;
+    height          : calc(100% - 5rem);
 }

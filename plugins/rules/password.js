@@ -21,7 +21,5 @@ const passwordRules = [
 export default {
     name            : 'password',
     placeholder     : 'Ingresa tu contraseña',
-    type            : 'password',
-    autocomplete    : 'off',
     rules           : passwordRules
 }

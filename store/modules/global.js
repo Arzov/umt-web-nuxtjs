@@ -4,8 +4,13 @@ import errorNotification from '@/static/data/errorNotification.json'
 // get default states values
 
 const getDefaultState = () => ({
-    themePreference : localStorage.getItem('themePreference') || '"dark"',
-    allowGeoloc     : localStorage.getItem('allowGeoloc') || false
+    themePreference     : localStorage.getItem('themePreference') || '"dark"',
+    allowGeoloc         : localStorage.getItem('allowGeoloc') || false,
+    notificationStatus  : false,
+    notificationType    : '"success"',
+    notificationTitle   : '"title"',
+    notificationMsg     : '"msg"',
+    loadingModal        : false
 })
 
 
@@ -29,7 +34,9 @@ const getters = {
         })
 
         return parseState
+
     }
+
 }
 
 
@@ -48,6 +55,7 @@ const actions = {
 
         if (ctx.getters.get.themePreference === 'light') {
             ctx.commit('setState', { params })
+            ctx.commit('umt-components/setTheme', 'dark', { root: true })
         }
 
 
@@ -56,7 +64,9 @@ const actions = {
         else {
             params.themePreference = 'light'
             ctx.commit('setState', { params })
+            ctx.commit('umt-components/setTheme', 'light', { root: true })
         }
+
     },
 
 
@@ -74,21 +84,22 @@ const actions = {
 
     signOut (ctx, data) {
 
-        // reset states
-
-        ctx.commit('resetStates')
-        ctx.commit('user/resetStates', {}, { root: true })
-
-
-        // trigger signout event
-
         return new Promise((resolve, reject) => {
+
+            // reset states
+
+            ctx.commit('resetStates')
+            ctx.commit('user/resetStates', {}, { root: true })
+
+            // trigger signout event
 
             this.$AWS.Auth.signOut()
 
                 // success
                 .then(() => {
+
                     resolve()
+
                 })
 
 
@@ -98,8 +109,11 @@ const actions = {
 
                     reject(response)
                 })
+
         })
+
     }
+
 }
 
 
@@ -121,13 +135,16 @@ const mutations = {
             // save to store
 
             state[key] = JSON.stringify(params[key])
+
         }
+
     },
 
 
     resetStates (state) {
         Object.assign(state, getDefaultState())
     }
+
 }
 
 

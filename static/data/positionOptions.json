@@ -2,71 +2,71 @@
     {
         "value": "GK",
         "text": "PO",
-        "desc": "Portero",
-        "color": "Cian",
-        "stat": "off"
+        "label": "Portero",
+        "color": "cian",
+        "status": false
     },
     {
         "value": "LB",
         "text": "DFI",
-        "desc": "Defensa izquierdo",
-        "color": "Violet",
-        "stat": "off"
+        "label": "Defensa izquierdo",
+        "color": "violet",
+        "status": false
     },
     {
         "value": "CB",
         "text": "DFC",
-        "desc": "Defensa central",
-        "color": "Violet",
-        "stat": "off"
+        "label": "Defensa central",
+        "color": "violet",
+        "status": false
     },
     {
         "value": "RB",
         "text": "DFD",
-        "desc": "Defensa derecho",
-        "color": "Violet",
-        "stat": "off"
+        "label": "Defensa derecho",
+        "color": "violet",
+        "status": false
     },
     {
         "value": "LM",
         "text": "MI",
-        "desc": "Medio campo izquierdo",
-        "color": "Pink",
-        "stat": "off"
+        "label": "Medio campo izquierdo",
+        "color": "pink",
+        "status": false
     },
     {
         "value": "CM",
         "text": "MC",
-        "desc": "Medio campo",
-        "color": "Pink",
-        "stat": "off"
+        "label": "Medio campo",
+        "color": "pink",
+        "status": false
     },
     {
         "value": "RM",
         "text": "MD",
-        "desc": "Medio campo derecho",
-        "color": "Pink",
-        "stat": "off"
+        "label": "Medio campo derecho",
+        "color": "pink",
+        "status": false
     },
     {
         "value": "LW",
         "text": "DI",
-        "desc": "Delantero izquierdo",
-        "color": "Purple",
-        "stat": "off"
+        "label": "Delantero izquierdo",
+        "color": "purple",
+        "status": false
     },
     {
         "value": "CF",
         "text": "DC",
-        "desc": "Delantero centro",
-        "color": "Purple",
-        "stat": "off"
+        "label": "Delantero centro",
+        "color": "purple",
+        "status": false
     },
     {
         "value": "RW",
         "text": "DD",
-        "desc": "Delantero derecho",
-        "color": "Purple",
-        "stat": "off"
+        "label": "Delantero derecho",
+        "color": "purple",
+        "status": false
     }
 ]

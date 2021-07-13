@@ -1,54 +1,30 @@
-@import "global/colors";
-@import "global/fonts";
+@import "../../node_modules/@arzov/umt-components/src/assets/styles/globals/colors";
 @import "global/dom";
 
-@import "components/facebook";
-@import "components/google";
-@import "components/themeToggle";
-@import "components/principalBtn";
-@import "components/principalInput";
-@import "components/dateSelector";
-@import "components/optionSelector";
-@import "components/backBtn";
-@import "components/notification";
-@import "components/codeInput";
-@import "components/textBtn";
-@import "components/ageSlider";
+
+@import "components/theme-toggle";
+@import "components/start-images-layout";
 @import "components/geoloc";
-@import "components/positionBtn";
-@import "components/metricInput";
 @import "components/navbar";
-@import "components/cardBtn";
-@import "components/listDisplay";
-@import "components/roundedTextBtn";
-@import "components/startImagesLayout";
-@import "components/multiSelector";
-@import "components/loadingAvatar";
-@import "components/loadingText";
-@import "components/tabDisplay";
-@import "components/collapseDisplay";
-@import "components/requestCard";
-@import "components/listBtn";
-@import "components/profileDisplay";
-@import "components/primaryTeamSelector";
-@import "components/scrollContainer";
+
 
 @import "layouts/corners";
 @import "layouts/header";
-@import "layouts/footer";
-@import "layouts/rightContent";
-@import "layouts/leftContent";
+@import "layouts/right-content";
+@import "layouts/left-content";
+@import "layouts/center-content";
+
 
 @import "pages/page";
 @import "pages/start";
 @import "pages/register";
-@import "pages/optionalAttributes";
-@import "pages/optionalFilters";
-@import "pages/emailVerification";
+@import "pages/optional-attributes";
+@import "pages/optional-filters";
+@import "pages/email-verification";
 @import "pages/home";
-@import "pages/recoverPassword";
-@import "pages/resetPassword";
-@import "pages/requiredAttributes";
+@import "pages/recover-password";
+@import "pages/reset-password";
+@import "pages/required-attributes";
 @import "pages/profile";
-@import "pages/teams";
 @import "pages/matches";
+@import "pages/teams";

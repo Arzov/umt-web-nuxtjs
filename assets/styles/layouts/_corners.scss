@@ -1,19 +1,11 @@
 .header {
-    .cornerTopRight {
-        max-width: 150px;
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        z-index: 200;
-    }
-}
 
-.footer {
-    .cornerBottomLeft {
-        max-width: 150px;
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        z-index: 200;
+    .corner-top-right {
+        max-width   : 150px;
+        position    : absolute;
+        top         : 0px;
+        right       : 0px;
+        z-index     : 1;
     }
+
 }

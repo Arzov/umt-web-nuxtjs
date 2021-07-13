@@ -1,0 +1,22 @@
+.start-images-layout {
+
+    .logo {
+        margin-bottom   : 50px;
+        min-width       : 250px;
+        max-width       : 40%;
+    }
+
+    .football-shoes {
+        margin-left     : -50px;
+        margin-bottom   : 25px;
+        min-width       : 350px;
+        max-width       : calc(75% + 50px);
+    }
+
+    .points {
+        margin-left     : -50px;
+        min-width       : 200px;
+        max-width       : 30%;
+    }
+
+}

@@ -1,17 +1,14 @@
 <template>
-    <a class="google" block @click="toGoogleLogin">
-        <img
-            :src="
-                _globalState.themePreference === 'light'
-                    ? require('../assets/icons/lm-google.svg')
-                    : require('../assets/icons/dm-google.svg')
-            "
-        >
-    </a>
+
+    <umt-button type="icon" color="green" icon="google" @click="toGoogleLogin" />
+
 </template>
 
+
 <script>
+
 import Auth from '@aws-amplify/auth'
+
 
 export default {
     methods: {
@@ -20,4 +17,5 @@ export default {
         }
     }
 }
+
 </script>
